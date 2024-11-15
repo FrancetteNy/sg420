@@ -1,0 +1,48 @@
+.property-text {
+    font-size: 20px;
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    max-width: 50%;
+    white-space: normal;
+}
+
+.block-header {
+    font-size: 26px;
+    -unity-text-align: upper-center;
+}
+
+.block {
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.button:hover {
+    scale: 1.5 1.5;
+    transition-property: scale;
+    transition-duration: 1s;
+}
+
+.button {
+    font-size: 45px;
+    -unity-font-style: bold;
+    -unity-text-outline-color: rgb(255, 255, 255);
+    -unity-text-outline-width: 1px;
+}

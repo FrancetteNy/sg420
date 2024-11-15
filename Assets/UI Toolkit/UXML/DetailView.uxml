@@ -1,2 +1,69 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
+    <ui:VisualElement name="background" enabled="true" style="background-color: rgb(147, 147, 147); flex-grow: 1; display: none; flex-direction: row;">
+        <ui:VisualElement name="left-column" style="width: 400px;">
+            <ui:Image name="plant-view" enabled="true" class="block" style="position: relative; -unity-background-scale-mode: scale-to-fit; height: 390px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; border-bottom-left-radius: 14px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-top: -5px; margin-right: -5px; margin-bottom: -5px; margin-left: -5px;" />
+            </ui:Image>
+            <ui:VisualElement name="soil" class="block" style="flex-grow: 1;">
+                <ui:Label text="Bodenwerte" name="title" class="block-header" />
+                <ui:VisualElement name="water" style="flex-grow: 1; flex-direction: row;">
+                    <ui:Label text="Wasser" name="name" class="property-text" />
+                    <ui:Label name="value" text="-" class="property-text" />
+                </ui:VisualElement>
+                <ui:VisualElement name="nutrients" style="flex-grow: 1; flex-direction: row;">
+                    <ui:Label text="Nährstoffe" name="name" class="property-text" />
+                    <ui:Label name="value" text="-" class="property-text" />
+                </ui:VisualElement>
+                <ui:VisualElement name="potsize" style="flex-grow: 1; flex-direction: row;">
+                    <ui:Label text="Topfgröße" name="name" class="property-text" />
+                    <ui:Label name="value" text="-" class="property-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="right-column" style="flex-grow: 2; flex-shrink: 1;">
+            <ui:VisualElement name="controls" style="height: 5%;">
+                <ui:Button text="X" name="close-button" style="align-self: flex-end;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="plant" class="block" style="flex-grow: 1; flex-shrink: 0; max-height: 47.5%;">
+                <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                    <ui:VisualElement name="left" style="flex-grow: 1; flex-direction: column; max-width: 50%;">
+                        <ui:VisualElement name="growthStage" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Phase" name="name" class="property-text" />
+                            <ui:Label name="value" text="-" class="property-text" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="strain" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Sorte" name="name" class="property-text" />
+                            <ui:Label name="value" text="-" class="property-text" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="sex" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Geschlecht" name="name" class="property-text" />
+                            <ui:Label name="value" text="-" class="property-text" style="display: none;" />
+                            <ui:Button text="Geschlecht Bestimmen" name="start-sexing" class="property-text" style="height: 50%; align-self: center;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="right" style="flex-grow: 1; max-width: 50%;">
+                        <ui:VisualElement name="age" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="Alter" name="name" class="property-text" />
+                            <ui:Label name="value" text="-" class="property-text" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="empty" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="-" name="name" class="property-text" />
+                            <ui:Label name="value" text="-" class="property-text" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="empty" style="flex-grow: 1; flex-direction: row;">
+                            <ui:Label text="-" name="name" class="property-text" />
+                            <ui:Label name="value" text="-" class="property-text" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="wiki" class="block" style="flex-grow: 1; max-height: 47.5%; flex-shrink: 0;">
+                <ui:Label text="Enzyklopädie" name="title" class="block-header" />
+                <ui:Label text="Dummy Text" name="wiki-text" style="font-size: 20px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Button text="&lt;" name="previous-plant-button" class="button" style="position: absolute; top: 45%; left: 0; height: 10%; bottom: auto; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        <ui:Button text="&gt;" name="next-plant-button" class="button" style="position: absolute; right: 0; top: 45%; height: 10%; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+    </ui:VisualElement>
 </ui:UXML>
