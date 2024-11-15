@@ -4,61 +4,68 @@ using UnityEngine;
 
 public class HighlightController : MonoBehaviour
 {
-    private List<HighlightData> highlightData = new();
-    [SerializeField]
-    private Outline.Mode outlineMode = Outline.Mode.OutlineVisible;
-    [SerializeField]
-    private Color outlineColor = Color.yellow;
-    [SerializeField, Range(0f, 10f)]
-    private float outlineWidth = 5f;
+    private readonly List<HighlightData> _highlightData = new();
 
-    public void AddHighlightObject(GameObject objectToHighlight, Action actionToInvokeOnClick)
+    [SerializeField]
+    private Outline.Mode _outlineMode = Outline.Mode.OutlineVisible;
+    [SerializeField]
+    private Color _outlineColor = Color.yellow;
+    [SerializeField, Range(0f, 10f)]
+    private float _outlineWidth = 5f;
+
+    public HighlightBuilder BeginHighlightObject(GameObject objectToHighlight)
     {
-        var outline = objectToHighlight.AddComponent<Outline>();
-        highlightData.Add(new HighlightData(objectToHighlight, outline, actionToInvokeOnClick));
-        setOutlineSettings(outline);
+        return new HighlightBuilder(this, objectToHighlight);
     }
-    public void AddHighlightObject(GameObject objectToHighlight)
+
+    private void AddHighlightData(HighlightData data)
     {
-        var outline = objectToHighlight.AddComponent<Outline>();
-        highlightData.Add(new HighlightData(objectToHighlight, outline));
-        setOutlineSettings(outline);
+        _highlightData.Add(data);
+        SetOutlineSettings(data.Outline, data.OutlineMode, data.OutlineColor, data.OutlineWidth);
     }
-    public bool RemoveHighlightObject(GameObject objectToRemove)
-    {
-        int index = highlightData.FindIndex(data => data.objectToHighlight == objectToRemove);
-        if (index < 0) return false;
-        var data = highlightData[index];
-        highlightData.RemoveAt(index);
-        Destroy(data.outline);
-        return true;
-    }
-    private void setOutlineSettings(Outline outline)
+
+    private void SetOutlineSettings(Outline outline, Outline.Mode outlineMode, Color outlineColor, float outlineWidth)
     {
         outline.OutlineWidth = outlineWidth;
         outline.OutlineMode = outlineMode;
         outline.OutlineColor = outlineColor;
     }
+
+    public bool RemoveHighlightObject(GameObject objectToRemove)
+    {
+        int index = _highlightData.FindIndex(data => data.ObjectToHighlight == objectToRemove);
+        if (index < 0)
+            return false;
+
+        var data = _highlightData[index];
+        _highlightData.RemoveAt(index);
+        Destroy(data.Outline);
+        return true;
+    }
+
     private void Update()
     {
-        foreach (var data in highlightData)
+        foreach (var data in _highlightData)
         {
-            GameObject obj = data.objectToHighlight;
-            var renderers = obj.GetComponentsInChildren<Renderer>();
-            foreach (var renderer in renderers)
+            foreach (var renderer in data.ObjectToHighlight.GetComponentsInChildren<Renderer>())
             {
                 if (IsMouseOver(renderer.gameObject))
                 {
-                    data.outline.enabled = true;
-                    if (Input.GetMouseButtonDown(0) && data.mouseClickFunction != null)
+                    data.Outline.enabled = true;
+                    if (Input.GetMouseButtonDown(0) && data.MouseClickFunction != null)
                     {
-                        data.mouseClickFunction.Invoke();
+                        data.MouseClickFunction.Invoke(data);
+                        break;
                     }
                 }
                 else
                 {
-                    data.outline.enabled = false;
+                    data.Outline.enabled = false;
                 }
+            }
+            if (!this.enabled)
+            {
+                break;
             }
         }
     }
@@ -66,30 +73,67 @@ public class HighlightController : MonoBehaviour
     private bool IsMouseOver(GameObject obj)
     {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject == obj)
-        {
-            return true;
-        }
-        return false;
+        return Physics.Raycast(ray, out var hit) && hit.collider.gameObject == obj;
     }
-#nullable enable
-    private struct HighlightData
+
+    public class HighlightBuilder
     {
-        public GameObject objectToHighlight;
-        public Outline outline;
-        public Action? mouseClickFunction;
-        public HighlightData(GameObject objectToHighlight, Outline outline)
+        private readonly HighlightController _controller;
+        private readonly HighlightData _data;
+
+        public HighlightBuilder(HighlightController controller, GameObject objectToHighlight)
         {
-            this.objectToHighlight = objectToHighlight;
-            this.outline = outline;
-            this.mouseClickFunction = null;
+            _controller = controller;
+            _data = new HighlightData
+            {
+                ObjectToHighlight = objectToHighlight,
+                Outline = objectToHighlight.AddComponent<Outline>(),
+                OutlineMode = controller._outlineMode,
+                OutlineColor = controller._outlineColor,
+                OutlineWidth = controller._outlineWidth,
+                MouseClickFunction = null
+            };
         }
-        public HighlightData(GameObject objectToHighlight, Outline outline, Action mouseClickFunction)
+
+        public HighlightBuilder WithOutlineMode(Outline.Mode mode)
         {
-            this.objectToHighlight = objectToHighlight;
-            this.outline = outline;
-            this.mouseClickFunction = mouseClickFunction;
+            _data.OutlineMode = mode;
+            return this;
         }
+
+        public HighlightBuilder WithOutlineColor(Color color)
+        {
+            _data.OutlineColor = color;
+            return this;
+        }
+
+        public HighlightBuilder WithOutlineWidth(float width)
+        {
+            _data.OutlineWidth = width;
+            return this;
+        }
+
+        public HighlightBuilder WithClickAction(Action<HighlightData> action)
+        {
+            _data.MouseClickFunction = action;
+            return this;
+        }
+
+        public void Apply()
+        {
+            _controller.AddHighlightData(_data);
+        }
+    }
+
+#nullable enable
+    public class HighlightData
+    {
+        public GameObject ObjectToHighlight;
+        public Outline Outline;
+        public Action<HighlightData>? MouseClickFunction;
+        public Outline.Mode OutlineMode;
+        public Color OutlineColor;
+        public float OutlineWidth;
     }
 #nullable disable
 }
