@@ -73,7 +73,7 @@ public class HighlightController : MonoBehaviour
         return false;
     }
 #nullable enable
-    private class HighlightData
+    private struct HighlightData
     {
         public GameObject objectToHighlight;
         public Outline outline;
@@ -82,6 +82,7 @@ public class HighlightController : MonoBehaviour
         {
             this.objectToHighlight = objectToHighlight;
             this.outline = outline;
+            this.mouseClickFunction = null;
         }
         public HighlightData(GameObject objectToHighlight, Outline outline, Action mouseClickFunction)
         {
