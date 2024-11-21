@@ -3,19 +3,54 @@
     <ui:VisualElement name="background" enabled="true" style="background-color: rgb(147, 147, 147); flex-grow: 1; display: none; flex-direction: row;">
         <ui:VisualElement name="left-column" style="width: 400px;">
             <ui:Image name="plant-view" enabled="true" class="block" style="position: relative; -unity-background-scale-mode: scale-to-fit; height: 390px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
-                <ui:VisualElement name="VisualElement" style="flex-grow: 1; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; border-bottom-left-radius: 14px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-top: -5px; margin-right: -5px; margin-bottom: -5px; margin-left: -5px;" />
+                <ui:VisualElement name="VisualElement" style="flex-grow: 1; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; border-bottom-left-radius: 14px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); margin-top: -5px; margin-right: -5px; margin-bottom: -5px; margin-left: -5px;">
+                    <ui:VisualElement name="rotate-control-buttons" style="flex-grow: 1; position: absolute; height: 90px; width: 90px; top: 288px; left: 124px;">
+                        <ui:VisualElement name="first-row" class="d-pad-row">
+                            <ui:VisualElement name="spacer" class="d-pad-button" />
+                            <ui:Button text="UP" name="rotate-up-button" class="d-pad-button" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="second-row" class="d-pad-row">
+                            <ui:Button text="LEFT" name="rotate-left-button" class="d-pad-button" />
+                            <ui:VisualElement name="spacer" class="d-pad-button" />
+                            <ui:Button text="RIGHT" name="rotate-right-button" class="d-pad-button" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="third-row" class="d-pad-row">
+                            <ui:VisualElement name="spacer" class="d-pad-button" />
+                            <ui:Button text="DOWN" name="rotate-down-button" class="d-pad-button" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="camera-control-buttons" style="flex-grow: 1; position: absolute; height: 90px; width: 90px; top: 288px; left: 238px;">
+                        <ui:VisualElement name="first-row" class="d-pad-row">
+                            <ui:VisualElement name="spacer" class="d-pad-button" />
+                            <ui:Button text="UP" name="move-up-button" class="d-pad-button" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="second-row" class="d-pad-row">
+                            <ui:Button text="LEFT" name="move-left-button" class="d-pad-button" />
+                            <ui:VisualElement name="spacer" class="d-pad-button" />
+                            <ui:Button text="RIGHT" name="move-right-button" class="d-pad-button" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="third-row" class="d-pad-row">
+                            <ui:VisualElement name="spacer" class="d-pad-button" />
+                            <ui:Button text="DOWN" name="move-down-button" class="d-pad-button" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="zoom-control-buttons" style="flex-grow: 1; position: absolute; top: 21px; left: 326px;">
+                        <ui:Button text="+" name="zoom-in-button" />
+                        <ui:Button text="-" name="zoom-out-button" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
             </ui:Image>
             <ui:VisualElement name="soil" class="block" style="flex-grow: 1;">
                 <ui:Label text="Bodenwerte" name="title" class="block-header" />
-                <ui:VisualElement name="water" style="flex-grow: 1; flex-direction: row;">
+                <ui:VisualElement name="water" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                     <ui:Label text="Wasser" name="name" class="property-text" />
                     <ui:Label name="value" text="-" class="property-text" />
                 </ui:VisualElement>
-                <ui:VisualElement name="nutrients" style="flex-grow: 1; flex-direction: row;">
+                <ui:VisualElement name="nutrients" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                     <ui:Label text="Nährstoffe" name="name" class="property-text" />
                     <ui:Label name="value" text="-" class="property-text" />
                 </ui:VisualElement>
-                <ui:VisualElement name="potsize" style="flex-grow: 1; flex-direction: row;">
+                <ui:VisualElement name="potsize" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                     <ui:Label text="Topfgröße" name="name" class="property-text" />
                     <ui:Label name="value" text="-" class="property-text" />
                 </ui:VisualElement>
@@ -28,30 +63,30 @@
             <ui:VisualElement name="plant" class="block" style="flex-grow: 1; flex-shrink: 0; max-height: 47.5%;">
                 <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
                     <ui:VisualElement name="left" style="flex-grow: 1; flex-direction: column; max-width: 50%;">
-                        <ui:VisualElement name="growthStage" style="flex-grow: 1; flex-direction: row;">
+                        <ui:VisualElement name="growthStage" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                             <ui:Label text="Phase" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="strain" style="flex-grow: 1; flex-direction: row;">
+                        <ui:VisualElement name="strain" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                             <ui:Label text="Sorte" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="sex" style="flex-grow: 1; flex-direction: row;">
+                        <ui:VisualElement name="sex" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                             <ui:Label text="Geschlecht" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" style="display: none;" />
                             <ui:Button text="Geschlecht Bestimmen" name="start-sexing" class="property-text" style="height: 50%; align-self: center;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="right" style="flex-grow: 1; max-width: 50%;">
-                        <ui:VisualElement name="age" style="flex-grow: 1; flex-direction: row;">
+                        <ui:VisualElement name="age" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                             <ui:Label text="Alter" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="empty" style="flex-grow: 1; flex-direction: row;">
+                        <ui:VisualElement name="empty" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                             <ui:Label text="-" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="empty" style="flex-grow: 1; flex-direction: row;">
+                        <ui:VisualElement name="empty" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                             <ui:Label text="-" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
@@ -63,7 +98,7 @@
                 <ui:Label text="Dummy Text" name="wiki-text" style="font-size: 20px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Button text="&lt;" name="previous-plant-button" class="button" style="position: absolute; top: 45%; left: 0; height: 10%; bottom: auto; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
-        <ui:Button text="&gt;" name="next-plant-button" class="button" style="position: absolute; right: 0; top: 45%; height: 10%; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        <ui:Button name="previous-plant-button" class="button" style="position: absolute; top: 45%; left: 0; bottom: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-image: url(&apos;project://database/Assets/Layer%20Lab/GUI-MonoRound/ResourceData/Sprites/Components/ButtonIcons/ButtonIcon_Transpar_White/btn_translucence_white_direction_left.png?fileID=2800000&amp;guid=f394bad55b6c4420b908b14f81647b80&amp;type=3#btn_translucence_white_direction_left&apos;);" />
+        <ui:Button name="next-plant-button" class="button" style="position: absolute; right: 0; top: 45%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-image: url(&apos;project://database/Assets/Layer%20Lab/GUI-MonoRound/ResourceData/Sprites/Components/ButtonIcons/ButtonIcon_Transpar_White/btn_translucence_white_direction_right.png?fileID=2800000&amp;guid=370e0af3d2b664c02902a37df89ee2bf&amp;type=3#btn_translucence_white_direction_right&apos;);" />
     </ui:VisualElement>
 </ui:UXML>

@@ -34,15 +34,41 @@
     padding-left: 10px;
 }
 
-.button:hover {
-    scale: 1.5 1.5;
-    transition-property: scale;
-    transition-duration: 1s;
-}
-
 .button {
     font-size: 45px;
     -unity-font-style: bold;
     -unity-text-outline-color: rgb(255, 255, 255);
     -unity-text-outline-width: 1px;
+    border-top-left-radius: 108px;
+    border-top-right-radius: 108px;
+    border-bottom-right-radius: 108px;
+    border-bottom-left-radius: 108px;
+    height: 10%;
+    width: 79px;
+}
+
+.name-and-value {
+    max-height: 100px;
+}
+
+.button:disabled:hover {
+    scale: 1 1;
+}
+
+.d-pad-button {
+    width: 33%;
+    height: 100%;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.d-pad-row {
+    height: 33%;
+    flex-direction: row;
 }
