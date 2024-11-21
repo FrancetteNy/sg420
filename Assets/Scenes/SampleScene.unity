@@ -240,7 +240,7 @@ Camera:
   m_Depth: -0.03
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -327,11 +327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05b522409edbb0439f83ec466666f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Plants:
-  - {fileID: 1996903438}
-  - {fileID: 221234004}
-  - {fileID: 240622223}
-  - {fileID: 40935149}
 --- !u!1 &221234004 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
@@ -979,6 +974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0561c6306dd06d84195cc21ae93a4eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlantControllers: []
   DetailViewCamera: {fileID: 110273366}
   MainCamera: {fileID: 330585545}
 --- !u!1 &1157569910
@@ -1288,11 +1284,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 25d0611b0fd66654fb0252c8810d0e65, type: 2}
     - target: {fileID: -4605749182299199558, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Name
@@ -1300,7 +1296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1590991122056738324, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Materials.Array.size
