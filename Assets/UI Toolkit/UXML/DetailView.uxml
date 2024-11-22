@@ -7,36 +7,36 @@
                     <ui:VisualElement name="rotate-control-buttons" style="flex-grow: 1; position: absolute; height: 90px; width: 90px; top: 288px; left: 124px;">
                         <ui:VisualElement name="first-row" class="d-pad-row">
                             <ui:VisualElement name="spacer" class="d-pad-button" />
-                            <ui:Button text="UP" name="rotate-up-button" class="d-pad-button" />
+                            <ui:Button name="rotate-up-button" icon-image="project://database/Assets/Art/Textures/arrow-up-bold.png?fileID=2800000&amp;guid=59c2804fd52a19240a67f773bfe16839&amp;type=3#arrow-up-bold" class="d-pad-button no-spacing no-background" />
                         </ui:VisualElement>
                         <ui:VisualElement name="second-row" class="d-pad-row">
-                            <ui:Button text="LEFT" name="rotate-left-button" class="d-pad-button" />
+                            <ui:Button name="rotate-left-button" icon-image="project://database/Assets/Art/Textures/arrow-up-left-bold.png?fileID=2800000&amp;guid=f2b885dcdf233b342ba4adeee7a552ba&amp;type=3#arrow-up-left-bold" class="d-pad-button no-spacing no-background" />
                             <ui:VisualElement name="spacer" class="d-pad-button" />
-                            <ui:Button text="RIGHT" name="rotate-right-button" class="d-pad-button" />
+                            <ui:Button name="rotate-right-button" icon-image="project://database/Assets/Art/Textures/arrow-up-right-bold.png?fileID=2800000&amp;guid=fccd706e1f105fa4db11403ada5e84d9&amp;type=3#arrow-up-right-bold" class="d-pad-button no-spacing no-background" />
                         </ui:VisualElement>
                         <ui:VisualElement name="third-row" class="d-pad-row">
                             <ui:VisualElement name="spacer" class="d-pad-button" />
-                            <ui:Button text="DOWN" name="rotate-down-button" class="d-pad-button" />
+                            <ui:Button name="rotate-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down-bold.png?fileID=2800000&amp;guid=6a9b37e4993dcdb4585ce71605c167e6&amp;type=3#arrow-down-bold" class="d-pad-button no-spacing no-background" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="camera-control-buttons" style="flex-grow: 1; position: absolute; height: 90px; width: 90px; top: 288px; left: 238px;">
                         <ui:VisualElement name="first-row" class="d-pad-row">
                             <ui:VisualElement name="spacer" class="d-pad-button" />
-                            <ui:Button text="UP" name="move-up-button" class="d-pad-button" />
+                            <ui:Button name="move-up-button" icon-image="project://database/Assets/Art/Textures/arrow-up.png?fileID=2800000&amp;guid=fa4e6ae8518742c41a3ca618f359dbcf&amp;type=3#arrow-up" class="d-pad-button no-spacing no-background" />
                         </ui:VisualElement>
                         <ui:VisualElement name="second-row" class="d-pad-row">
-                            <ui:Button text="LEFT" name="move-left-button" class="d-pad-button" />
+                            <ui:Button name="move-left-button" icon-image="project://database/Assets/Art/Textures/arrow-left.png?fileID=2800000&amp;guid=93074179b0d0d634b85df81e2b159083&amp;type=3#arrow-left" class="d-pad-button no-spacing no-background" />
                             <ui:VisualElement name="spacer" class="d-pad-button" />
-                            <ui:Button text="RIGHT" name="move-right-button" class="d-pad-button" />
+                            <ui:Button name="move-right-button" icon-image="project://database/Assets/Art/Textures/arrow-right.png?fileID=2800000&amp;guid=f3762ec4da8391d4cb5bf6e4c96bdc5b&amp;type=3#arrow-right" class="d-pad-button no-spacing no-background" />
                         </ui:VisualElement>
                         <ui:VisualElement name="third-row" class="d-pad-row">
                             <ui:VisualElement name="spacer" class="d-pad-button" />
-                            <ui:Button text="DOWN" name="move-down-button" class="d-pad-button" />
+                            <ui:Button name="move-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down.png?fileID=2800000&amp;guid=8120d92f71ff08f40a9ac0c372dc8b55&amp;type=3#arrow-down" class="d-pad-button no-spacing no-background" />
                         </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="zoom-control-buttons" style="flex-grow: 1; position: absolute; top: 21px; left: 326px;">
-                        <ui:Button text="+" name="zoom-in-button" />
-                        <ui:Button text="-" name="zoom-out-button" />
+                    <ui:VisualElement name="zoom-control-buttons" style="position: absolute; top: 35px; left: 331px; width: 40px; height: 80px;">
+                        <ui:Button name="zoom-in-button" icon-image="project://database/Assets/Art/Textures/magnify-plus.png?fileID=2800000&amp;guid=d984076e25c756941b526b134c93e334&amp;type=3#magnify-plus" class="no-spacing no-background" style="height: 50%;" />
+                        <ui:Button name="zoom-out-button" icon-image="project://database/Assets/Art/Textures/magnify-minus.png?fileID=2800000&amp;guid=c0d63cf30cab5dd4e95e9e520d1ae63c&amp;type=3#magnify-minus" class="no-spacing no-background" style="height: 50%;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:Image>
@@ -98,7 +98,7 @@
                 <ui:Label text="Dummy Text" name="wiki-text" style="font-size: 20px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Button name="previous-plant-button" class="button" style="position: absolute; top: 45%; left: 0; bottom: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-image: url(&apos;project://database/Assets/Layer%20Lab/GUI-MonoRound/ResourceData/Sprites/Components/ButtonIcons/ButtonIcon_Transpar_White/btn_translucence_white_direction_left.png?fileID=2800000&amp;guid=f394bad55b6c4420b908b14f81647b80&amp;type=3#btn_translucence_white_direction_left&apos;);" />
-        <ui:Button name="next-plant-button" class="button" style="position: absolute; right: 0; top: 45%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; background-image: url(&apos;project://database/Assets/Layer%20Lab/GUI-MonoRound/ResourceData/Sprites/Components/ButtonIcons/ButtonIcon_Transpar_White/btn_translucence_white_direction_right.png?fileID=2800000&amp;guid=370e0af3d2b664c02902a37df89ee2bf&amp;type=3#btn_translucence_white_direction_right&apos;);" />
+        <ui:Button name="previous-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-left-circle-outline.png?fileID=2800000&amp;guid=dabda778f4ff92c4792236dca892c7a3&amp;type=3#chevron-left-circle-outline" class="button switch-plant-button no-background" style="position: absolute; top: 45%; left: 0; bottom: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+        <ui:Button name="next-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-right-circle-outline.png?fileID=2800000&amp;guid=7a5c6d966bab47e45a2f621b28a31819&amp;type=3#chevron-right-circle-outline" class="switch-plant-button no-background" style="position: absolute; right: 0; top: 45%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
     </ui:VisualElement>
 </ui:UXML>
