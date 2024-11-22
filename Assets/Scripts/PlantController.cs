@@ -92,7 +92,14 @@ public class Age
         {
             case GrowthStage.Germination:
             case GrowthStage.Seedling:
-                interval = "Tage";
+                if (AgeNumber == 1)
+                {
+                    interval = "Tag";
+                }
+                else
+                {
+                    interval = "Tage";
+                }
                 break;
             case GrowthStage.VegetativeGrowth:
             case GrowthStage.Flowering:
