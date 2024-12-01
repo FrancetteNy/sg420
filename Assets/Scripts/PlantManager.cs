@@ -32,7 +32,6 @@ public class PlantManager : MonoBehaviour
         {
             SetLayerOfAllChildren(child.gameObject);
         }
-
     }
 
     private void UpdateHighlightAndDetailView()

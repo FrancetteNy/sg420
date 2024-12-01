@@ -22,6 +22,7 @@ public class HighlightController : MonoBehaviour
     {
         _highlightData.Add(data);
         SetOutlineSettings(data.Outline, data.OutlineMode, data.OutlineColor, data.OutlineWidth);
+        data.Renderers = data.ObjectToHighlight.GetComponentsInChildren<Renderer>();
     }
 
     private void SetOutlineSettings(Outline outline, Outline.Mode outlineMode, Color outlineColor, float outlineWidth)
@@ -47,9 +48,9 @@ public class HighlightController : MonoBehaviour
     {
         foreach (var data in _highlightData)
         {
-            foreach (var renderer in data.ObjectToHighlight.GetComponentsInChildren<Renderer>())
-            {
-                if (IsMouseOver(renderer.gameObject))
+            //foreach (var renderer in data.Renderers)
+            //{
+                if (IsMouseOver(data))
                 {
                     data.Outline.enabled = true;
                     if (Input.GetMouseButtonDown(0) && data.MouseClickFunction != null)
@@ -62,7 +63,7 @@ public class HighlightController : MonoBehaviour
                 {
                     data.Outline.enabled = false;
                 }
-            }
+            //}
             if (!this.enabled)
             {
                 break;
@@ -70,10 +71,23 @@ public class HighlightController : MonoBehaviour
         }
     }
 
-    private bool IsMouseOver(GameObject obj)
+    private void GetAllChildRenderers(Transform transform ,List<Renderer> list)
     {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return Physics.Raycast(ray, out var hit) && hit.collider.gameObject == obj;
+        list.AddRange(transform.gameObject.GetComponents<Renderer>());
+        foreach(Transform child in transform)
+        {
+            GetAllChildRenderers(child, list);
+        }
+    }
+
+    private bool IsMouseOver(HighlightData data)
+    {
+        foreach (var renderer in data.Renderers)
+        {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject == renderer.gameObject) return true;
+        }
+        return false;
     }
 
     public class HighlightBuilder
@@ -134,6 +148,7 @@ public class HighlightController : MonoBehaviour
         public Outline.Mode OutlineMode;
         public Color OutlineColor;
         public float OutlineWidth;
+        public Renderer[] Renderers;
     }
 #nullable disable
 }
