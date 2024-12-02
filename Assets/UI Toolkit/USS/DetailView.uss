@@ -1,0 +1,79 @@
+.property-text {
+    font-size: 20px;
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    max-width: 50%;
+    white-space: normal;
+}
+
+.block-header {
+    font-size: 26px;
+    -unity-text-align: upper-center;
+}
+
+.block {
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.name-and-value {
+    max-height: 100px;
+}
+
+.d-pad-button {
+    width: 33%;
+    height: 100%;
+}
+
+.d-pad-row {
+    height: 33%;
+    flex-direction: row;
+}
+
+.switch-plant-button {
+    height: 10%;
+    width: 79px;
+}
+
+.switch-plant-button:hover {
+    transition-property: scale;
+    transition-duration: 1s;
+    scale: 1.2 1.2;
+}
+
+.switch-plant-button:disabled:hover {
+    scale: 1 1;
+}
+
+.no-spacing {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.no-background {
+    background-color: rgba(0, 0, 0, 0);
+}
