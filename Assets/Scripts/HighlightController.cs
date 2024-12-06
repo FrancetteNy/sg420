@@ -50,19 +50,21 @@ public class HighlightController : MonoBehaviour
         {
             //foreach (var renderer in data.Renderers)
             //{
-                if (IsMouseOver(data))
+            if (IsMouseOver(data))
+            {
+
+                data.Outline.enabled = true;
+                if (Input.GetMouseButtonDown(0) && data.MouseClickFunction != null)
                 {
-                    data.Outline.enabled = true;
-                    if (Input.GetMouseButtonDown(0) && data.MouseClickFunction != null)
-                    {
-                        data.MouseClickFunction.Invoke(data);
-                        break;
-                    }
+                    SoundManagerSingleton.Instance.PlaySound("Click");
+                    data.MouseClickFunction.Invoke(data);
+                    break;
                 }
-                else
-                {
-                    data.Outline.enabled = false;
-                }
+            }
+            else
+            {
+                data.Outline.enabled = false;
+            }
             //}
             if (!this.enabled)
             {
@@ -71,10 +73,10 @@ public class HighlightController : MonoBehaviour
         }
     }
 
-    private void GetAllChildRenderers(Transform transform ,List<Renderer> list)
+    private void GetAllChildRenderers(Transform transform, List<Renderer> list)
     {
         list.AddRange(transform.gameObject.GetComponents<Renderer>());
-        foreach(Transform child in transform)
+        foreach (Transform child in transform)
         {
             GetAllChildRenderers(child, list);
         }
@@ -85,7 +87,8 @@ public class HighlightController : MonoBehaviour
         foreach (var renderer in data.Renderers)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject == renderer.gameObject) return true;
+            if (Physics.Raycast(ray, out var hit) && hit.collider.gameObject == renderer.gameObject)
+                return true;
         }
         return false;
     }

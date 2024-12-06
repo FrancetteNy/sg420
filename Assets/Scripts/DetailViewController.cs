@@ -41,68 +41,71 @@ public class DetailViewController : MonoBehaviour
         }
         //Add Button Callbacks
         _background.Q<Button>("start-sexing").clicked += () => Debug.Log("totaly starting the sexing minigame");
+        AddClickSound(_background.Q<Button>("start-sexing"));
         _background.Q<Button>("close-button").clicked += DisableView;
+        AddClickSound(_background.Q<Button>("close-button"));
+
         _rotateVector = Vector3.zero;
-        var rotate_control_buttons = _background.Q<VisualElement>("rotate-control-buttons");
-        if (rotate_control_buttons != null)
-        {
-            foreach (var (button_name, rotate_axis) in new Dictionary<string, Vector3> {
+        SetupControlButtons(
+        _background.Q<VisualElement>("rotate-control-buttons"),
+        new Dictionary<string, Vector3> {
                 { "rotate-up-button", Vector3.left },
                 { "rotate-down-button", Vector3.right },
                 { "rotate-left-button", Vector3.up },
                 { "rotate-right-button", Vector3.down },
-            })
-            {
-                var button = rotate_control_buttons.Q<Button>(button_name);
-                if (button != null)
-                {
-                    button.RegisterCallback<PointerDownEvent>((evt) => _rotateVector += (rotate_axis / 2) / (Mathf.Abs(_initialCameraPosition.z / DetailViewCamera.transform.position.z)), TrickleDown.TrickleDown);
-                    button.RegisterCallback<PointerUpEvent>((evt) => _rotateVector = Vector3.zero);
-                }
-            }
-        }
+            },
+        (axis) => _rotateVector += (axis / 2) / (Mathf.Abs(_initialCameraPosition.z / DetailViewCamera.transform.position.z)),
+        () => _rotateVector = Vector3.zero);
+
         _cameraMoveVector = Vector3.zero;
-        var camera_control_buttons = _background.Q<VisualElement>("camera-control-buttons");
-        if (camera_control_buttons != null)
-        {
-            foreach (var (button_name, rotate_axis) in new Dictionary<string, Vector3> {
+        SetupControlButtons(
+            _background.Q<VisualElement>("camera-control-buttons"), 
+            new Dictionary<string, Vector3> {
                 { "move-up-button", Vector3.up },
                 { "move-down-button", Vector3.down},
                 { "move-left-button", Vector3.left },
                 { "move-right-button", Vector3.right },
-            })
-            {
-                var button = camera_control_buttons.Q<Button>(button_name);
-                if (button != null)
-                {
-                    button.RegisterCallback<PointerDownEvent>((evt) => _cameraMoveVector += (rotate_axis / 2) / (Mathf.Abs(_initialCameraPosition.z / DetailViewCamera.transform.position.z)), TrickleDown.TrickleDown);
-                    button.RegisterCallback<PointerUpEvent>((evt) => _cameraMoveVector = Vector3.zero);
-                }
-            }
-        }
+            }, 
+            (axis) => _cameraMoveVector += (axis / 2) / (Mathf.Abs(_initialCameraPosition.z / DetailViewCamera.transform.position.z)),
+            () => _cameraMoveVector = Vector3.zero);
 
-        var zoom_control_buttons = _background.Q<VisualElement>("zoom-control-buttons");
-        if (zoom_control_buttons != null)
-        {
-            foreach (var (button_name, rotate_axis) in new Dictionary<string, Vector3> {
-                { "zoom-in-button", Vector3.forward },
-                { "zoom-out-button", Vector3.back},
-            })
-            {
-                var button = zoom_control_buttons.Q<Button>(button_name);
-                if (button != null)
-                {
-                    button.RegisterCallback<PointerDownEvent>((evt) => _cameraMoveVector += rotate_axis, TrickleDown.TrickleDown);
-                    button.RegisterCallback<PointerUpEvent>((evt) => _cameraMoveVector = Vector3.zero);
-                }
-            }
-        }
+        SetupControlButtons(
+        _background.Q<VisualElement>("zoom-control-buttons"),
+        new Dictionary<string, Vector3> {
+                    { "zoom-in-button", Vector3.forward },
+                    { "zoom-out-button", Vector3.back},
+                },
+        (axis) => _cameraMoveVector += axis,
+        () => _cameraMoveVector = Vector3.zero);
 
         _previousPlantButton = _background.Q<Button>("previous-plant-button");
         _previousPlantButton.clicked += () => ShowOtherPlant(() => _currentPlantControllerIndex--);
+        AddClickSound(_previousPlantButton);
         _nextPlantButton = _background.Q<Button>("next-plant-button");
         _nextPlantButton.clicked += () => ShowOtherPlant(() => _currentPlantControllerIndex++);
+        AddClickSound(_nextPlantButton);
     }
+    void SetupControlButtons(VisualElement container, Dictionary<string, Vector3> buttonMappings, Action<Vector3> onPointerDown, Action onPointerUp)
+    {
+        if (container == null)
+            return;
+
+        foreach (var (buttonName, actionVector) in buttonMappings)
+        {
+            var button = container.Q<Button>(buttonName);
+            if (button != null)
+            {
+                button.RegisterCallback<PointerDownEvent>((_) => onPointerDown(actionVector), TrickleDown.TrickleDown);
+                button.RegisterCallback<PointerUpEvent>((_) => onPointerUp());
+                AddClickSound(button);
+            }
+        }
+    }
+    private void AddClickSound(Button button)
+    {
+        button.RegisterCallback<PointerDownEvent>((_) => SoundManagerSingleton.Instance.PlaySound("Click"), TrickleDown.TrickleDown);
+    }
+
 
     private void ShowOtherPlant(Action indexAction)
     {
