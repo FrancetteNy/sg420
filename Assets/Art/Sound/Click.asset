@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d606667619c2f9459353cd864207f00, type: 3}
   m_Name: Click
   m_EditorClassIdentifier: 
-  AudioSource: {fileID: 0}
-  Volume: 0
+  Name: Click
+  AudioSource: {fileID: 8300000, guid: 1934e45739aa6dc4ead5b6088a401aff, type: 3}
+  Volume: 1
+  UseRandomPitch: 1
