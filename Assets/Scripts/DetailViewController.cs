@@ -5,21 +5,29 @@ using UnityEngine.UIElements;
 
 public class DetailViewController : MonoBehaviour
 {
-    public List<PlantController> PlantControllers;
-    private int _currentPlantControllerIndex = -1;
-    private Action _closeAction;
+
+    // UI Elements
     public Camera DetailViewCamera;
-    public Camera MainCamera;
     private RenderTexture _cameraView;
     private VisualElement _background;
     private Dictionary<string, Label> _labelsWithName = new();
     private Button _previousPlantButton;
     private Button _nextPlantButton;
+
+
+    // Data and Control
+    public List<PlantController> PlantControllers;
+    private int _currentPlantControllerIndex = -1;
+    private Action _closeAction;
+
+
+    // Camera Move and Animation
     private Vector3 _futureCameraPosition = Vector3.zero;
-    private Quaternion _savedPlantRotation;
     private Vector3 _rotateVector;
-    private Dictionary<int, Quaternion> _plantsToReset = new();
     private Vector3 _cameraMoveVector;
+
+    private Quaternion _savedPlantRotation;
+    private Dictionary<int, Quaternion> _plantsToReset = new();
     private void Start()
     {
         _background = GetComponent<UIDocument>().rootVisualElement.Q<VisualElement>("background");
@@ -39,7 +47,39 @@ public class DetailViewController : MonoBehaviour
             _labelsWithName[labelName] = rowOfDetailView.Q<Label>("value");
             rowOfDetailView.RegisterCallback<MouseEnterEvent>((evt) => wikiText.text = DummyWiki.GetWikiEntry(labelName));
         }
-        //Add Button Callbacks
+        AddButtonCallbacks();
+    }
+    private void Update()
+    {
+        if (_currentPlantControllerIndex < 0)
+            return;
+        var unclampedFutureCameraPosition = _futureCameraPosition + _cameraMoveVector * Time.deltaTime;
+        _futureCameraPosition = new Vector3(
+            Mathf.Clamp(unclampedFutureCameraPosition.x, _initialCameraPosition.x - 0.3f, _initialCameraPosition.x + 0.3f),
+            Mathf.Clamp(unclampedFutureCameraPosition.y, _initialCameraPosition.y - 0.3f, _initialCameraPosition.y + 0.3f),
+            Mathf.Clamp(unclampedFutureCameraPosition.z, _initialCameraPosition.z, PlantControllers[_currentPlantControllerIndex].gameObject.transform.position.z));
+        if (_futureCameraPosition != DetailViewCamera.transform.position)
+        {
+            DetailViewCamera.transform.position = Vector3.Lerp(DetailViewCamera.transform.position, _futureCameraPosition, Time.deltaTime * 5);
+        }
+        List<int> entriesToRemoveFromPlantsToReset = new();
+        foreach (var (plantIndex, savedRotation) in _plantsToReset)
+        {
+            if (PlantControllers[plantIndex].transform.rotation == savedRotation)
+            {
+                entriesToRemoveFromPlantsToReset.Add(plantIndex);
+                continue;
+            }
+            PlantControllers[plantIndex].transform.rotation = Quaternion.Lerp(PlantControllers[plantIndex].transform.rotation, savedRotation, Time.deltaTime * 5);
+        }
+        foreach (var entry in entriesToRemoveFromPlantsToReset)
+        {
+            _plantsToReset.Remove(entry);
+        }
+        PlantControllers[_currentPlantControllerIndex].transform.Rotate(_rotateVector, Space.World);
+    }
+    private void AddButtonCallbacks()
+    {
         _background.Q<Button>("start-sexing").clicked += () => Debug.Log("totaly starting the sexing minigame");
         AddClickSound(_background.Q<Button>("start-sexing"));
         _background.Q<Button>("close-button").clicked += DisableView;
@@ -59,13 +99,13 @@ public class DetailViewController : MonoBehaviour
 
         _cameraMoveVector = Vector3.zero;
         SetupControlButtons(
-            _background.Q<VisualElement>("camera-control-buttons"), 
+            _background.Q<VisualElement>("camera-control-buttons"),
             new Dictionary<string, Vector3> {
                 { "move-up-button", Vector3.up },
                 { "move-down-button", Vector3.down},
                 { "move-left-button", Vector3.left },
                 { "move-right-button", Vector3.right },
-            }, 
+            },
             (axis) => _cameraMoveVector += (axis / 2) / (Mathf.Abs(_initialCameraPosition.z / DetailViewCamera.transform.position.z)),
             () => _cameraMoveVector = Vector3.zero);
 
@@ -85,6 +125,7 @@ public class DetailViewController : MonoBehaviour
         _nextPlantButton.clicked += () => ShowOtherPlant(() => _currentPlantControllerIndex++);
         AddClickSound(_nextPlantButton);
     }
+
     void SetupControlButtons(VisualElement container, Dictionary<string, Vector3> buttonMappings, Action<Vector3> onPointerDown, Action onPointerUp)
     {
         if (container == null)
@@ -121,7 +162,6 @@ public class DetailViewController : MonoBehaviour
     {
         _currentPlantControllerIndex = plantControllerIndex;
         _background.style.display = DisplayStyle.Flex;
-        //MainCamera.enabled = false;
         DetailViewCamera.enabled = true;
         _closeAction = closeAction;
         SafeTransform();
@@ -132,7 +172,6 @@ public class DetailViewController : MonoBehaviour
     public void DisableView()
     {
         _background.style.display = DisplayStyle.None;
-        //MainCamera.enabled = true;
         DetailViewCamera.enabled = false;
         LoadTransform();
         _closeAction.Invoke();
@@ -163,35 +202,7 @@ public class DetailViewController : MonoBehaviour
             label.text = data[name].ToString();
         }
     }
-    private void Update()
-    {
-        if (_currentPlantControllerIndex < 0)
-            return;
-        var unclampedFutureCameraPosition = _futureCameraPosition + _cameraMoveVector * Time.deltaTime;
-        _futureCameraPosition = new Vector3(
-            Mathf.Clamp(unclampedFutureCameraPosition.x, _initialCameraPosition.x - 0.3f, _initialCameraPosition.x + 0.3f),
-            Mathf.Clamp(unclampedFutureCameraPosition.y, _initialCameraPosition.y - 0.3f, _initialCameraPosition.y + 0.3f),
-            Mathf.Clamp(unclampedFutureCameraPosition.z, _initialCameraPosition.z, PlantControllers[_currentPlantControllerIndex].gameObject.transform.position.z));
-        if (_futureCameraPosition != DetailViewCamera.transform.position)
-        {
-            DetailViewCamera.transform.position = Vector3.Lerp(DetailViewCamera.transform.position, _futureCameraPosition, Time.deltaTime * 5);
-        }
-        List<int> entriesToRemoveFromPlantsToReset = new();
-        foreach (var (plantIndex, savedRotation) in _plantsToReset)
-        {
-            if (PlantControllers[plantIndex].transform.rotation == savedRotation)
-            {
-                entriesToRemoveFromPlantsToReset.Add(plantIndex);
-                continue;
-            }
-            PlantControllers[plantIndex].transform.rotation = Quaternion.Lerp(PlantControllers[plantIndex].transform.rotation, savedRotation, Time.deltaTime * 5);
-        }
-        foreach (var entry in entriesToRemoveFromPlantsToReset)
-        {
-            _plantsToReset.Remove(entry);
-        }
-        PlantControllers[_currentPlantControllerIndex].transform.Rotate(_rotateVector, Space.World);
-    }
+
 }
 
 public class DummyWiki
