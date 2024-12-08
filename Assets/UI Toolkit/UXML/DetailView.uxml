@@ -78,7 +78,7 @@
                         <ui:VisualElement name="sex" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                             <ui:Label text="Geschlecht" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" style="display: none;" />
-                            <ui:Button text="Geschlecht Bestimmen" name="start-sexing" class="property-text" style="height: 50%; align-self: center;" />
+                            <ui:Button text="Geschlecht Bestimmen" name="start-sexing-button" class="property-text" style="height: 50%; align-self: center;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="right" style="flex-grow: 1; max-width: 50%;">
@@ -112,9 +112,26 @@
                 <ui:VisualElement style="flex-grow: 1;">
                     <ui:Label text="Total ein cooles Bild, was irgendwas mit gießen zu tun hat" />
                 </ui:VisualElement>
-                <ui:Slider label="Wasser" value="10" high-value="20" show-input-field="true" inverted="false" low-value="1" name="water-slider" fill="true" />
-                <ui:Slider label="Dünger" value="0" high-value="15" show-input-field="true" inverted="false" low-value="0" name="fertilizer-slider" fill="true" />
+                <ui:VisualElement name="water-slider-with-label" style="flex-direction: row;">
+                    <ui:Slider label="Wasser" value="10.12" high-value="20" inverted="false" low-value="1" name="water-slider" fill="true" style="flex-grow: 1;" />
+                    <ui:Label text="10" name="water-value-label" style="width: 50px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="fertilizer-slider-with-label" style="flex-direction: row;">
+                    <ui:Slider label="Dünger" value="0" high-value="15" inverted="false" low-value="0" name="fertilizer-slider" fill="true" style="flex-grow: 1;" />
+                    <ui:Label text="0" name="fertilizer-value-label" style="width: 50px;" />
+                </ui:VisualElement>
                 <ui:Button text="Gießen" name="water-plant-button" />
+            </ui:VisualElement>
+            <ui:VisualElement name="change-pot-submenu" style="width: 75%; align-self: center; background-color: rgb(185, 185, 185); height: 75%; display: none;">
+                <ui:VisualElement name="submenucontrols" style="flex-direction: row; justify-content: flex-end;">
+                    <ui:Button text="X" name="close-change-pot-submenu-button" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-grow: 1;">
+                    <ui:Button text="In Anzuchtstopf setzen" name="change-to-cultivation-pot-button" />
+                    <ui:Button text="In einen kleinen Topf setzen" name="change-to-small-pot-button" />
+                    <ui:Button text="In einen mittleren Topf setzen" name="change-to-medium-pot-button" />
+                    <ui:Button text="In einen großen Topf setzen" name="change-to-large-pot-button" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

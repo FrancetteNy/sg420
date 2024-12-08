@@ -39,7 +39,7 @@ public class DetailViewController : MonoBehaviour
         // Update Plant Rotation
         _plantManager.UpdateRotations(_rotateVector);
     }
-    
+
     private void OnButtonDown(UIButton buttonId)
     {
         switch (buttonId)
@@ -90,7 +90,33 @@ public class DetailViewController : MonoBehaviour
             case UIButton.ROTATEDOWN:
                 _rotateVector = Vector3.right;
                 break;
+            case UIButton.OPENWATERINGSUBMENU:
+                _uiManager.ShowSubmenu(Submenu.WATERINGSUBMENU);
+                break;
+            case UIButton.CLOSEWATERINGSUBMENU:
+                _uiManager.CloseCurrentSubmenu();
+                break;
+            case UIButton.WATERPLANTS:
+                _plantManager.AddWaterAndFertilizer(_uiManager.GetWaterValue(), _uiManager.GetFertilizerValue());
+                _uiManager.UpdatePlantData(_plantManager.GetCurrentPlantData());
+                _uiManager.CloseCurrentSubmenu();
+                break;
+            case UIButton.OPENCHANGEPOTSUBMENU:
+                _uiManager.ShowSubmenu(Submenu.CHANGEPOTSUBMENU);
+                break;
+            case UIButton.CLOSECHANGEPOTSUBMENU:
+                _uiManager.CloseCurrentSubmenu();
+                break;
+            case UIButton.CHANGETOCULTIVATION:
+            case UIButton.CHANGETOSMALL:
+            case UIButton.CHANGETOMEDIUM:
+            case UIButton.CHANGETOLARGE:
+                _plantManager.ChangePotSize(buttonId);
+                _uiManager.UpdatePlantData(_plantManager.GetCurrentPlantData());
+                _uiManager.CloseCurrentSubmenu();
+                break;
             default:
+                Debug.Log("Button without associated action pressed");
                 break;
         }
     }
@@ -171,6 +197,15 @@ public enum UIButton
     ROTATELEFT,
     ROTATEUP,
     ROTATEDOWN,
+    OPENWATERINGSUBMENU,
+    CLOSEWATERINGSUBMENU,
+    WATERPLANTS,
+    OPENCHANGEPOTSUBMENU,
+    CLOSECHANGEPOTSUBMENU,
+    CHANGETOCULTIVATION,
+    CHANGETOSMALL,
+    CHANGETOMEDIUM,
+    CHANGETOLARGE,
 }
 // Constants for readability and configurability
 public static class DetailViewConstants
@@ -201,7 +236,21 @@ public static class DetailViewConstants
         {UIButton.ROTATELEFT, "rotate-left-button"},
         {UIButton.ROTATEUP, "rotate-up-button"},
         {UIButton.ROTATEDOWN, "rotate-down-button"},
+        { UIButton.OPENWATERINGSUBMENU,"open-watering-submenu-button" },
+        { UIButton.CLOSEWATERINGSUBMENU,"close-watering-submenu-button"  },
+        { UIButton.WATERPLANTS,"water-plant-button"  },
+        { UIButton.OPENCHANGEPOTSUBMENU,"open-change-pot-submenu-button" },
+        { UIButton.CLOSECHANGEPOTSUBMENU,"close-change-pot-submenu-button" },
+        { UIButton.CHANGETOCULTIVATION,"change-to-cultivation-pot-button" },
+        { UIButton.CHANGETOSMALL,"change-to-small-pot-button" },
+        { UIButton.CHANGETOMEDIUM,"change-to-medium-pot-button" },
+        { UIButton.CHANGETOLARGE,"change-to-large-pot-button" },
     };
+    public static Dictionary<Submenu, string> NameOfSubmenues = new Dictionary<Submenu, string>() {
+        {Submenu.WATERINGSUBMENU, "watering-submenu" },
+        {Submenu.CHANGEPOTSUBMENU, "change-pot-submenu"},
+    };
+
 }
 
 public class DetailViewCameraController
@@ -249,6 +298,12 @@ public class DetailViewCameraController
     }
 }
 
+public enum Submenu
+{
+    WATERINGSUBMENU,
+    CHANGEPOTSUBMENU,
+}
+
 public class DetailViewUIManager
 {
     private VisualElement _background;
@@ -266,6 +321,17 @@ public class DetailViewUIManager
         // Collect and Configure Detail Labels
         _wikiTextLabel = _background.Q<Label>("wiki-text");
         SetupDetailLabels(onDetailHovered);
+
+        SetupSliders();
+
+    }
+
+    private void SetupSliders()
+    {
+        var waterValueLabel = _background.Q<Label>("water-value-label");
+        var fertilizerValueLabel = _background.Q<Label>("fertilizer-value-label");
+        _background.Q<Slider>("water-slider").RegisterValueChangedCallback(v => waterValueLabel.text = v.newValue.ToString());
+        _background.Q<Slider>("fertilizer-slider").RegisterValueChangedCallback(v => fertilizerValueLabel.text = v.newValue.ToString());
     }
 
     private void SetupButtons(Action<UIButton> onButtonDown, Action<UIButton> onButtonUp)
@@ -323,6 +389,39 @@ public class DetailViewUIManager
     public void HideView()
     {
         _background.style.display = DisplayStyle.None;
+    }
+    private Submenu _currentSubmenu;
+    public void ShowSubmenu(Submenu submenu)
+    {
+        switch (submenu)
+        {
+            case Submenu.WATERINGSUBMENU:
+                _background.Q<Slider>("water-slider").value = DetailViewConstants.DefaultWaterValue;
+                _background.Q<Slider>("fertilizer-slider").value = DetailViewConstants.DefaultFertilizerValue;
+                break;
+            case Submenu.CHANGEPOTSUBMENU:
+                break;
+            default:
+                break;
+        }
+        _background.Q<VisualElement>("submenues").style.display = DisplayStyle.Flex;
+        _background.Q<VisualElement>(DetailViewConstants.NameOfSubmenues[submenu]).style.display = DisplayStyle.Flex;
+        _currentSubmenu = submenu;
+    }
+    public void CloseCurrentSubmenu()
+    {
+        _background.Q<VisualElement>("submenues").style.display = DisplayStyle.None;
+        _background.Q<VisualElement>(DetailViewConstants.NameOfSubmenues[_currentSubmenu]).style.display = DisplayStyle.None;
+    }
+
+    internal float GetWaterValue()
+    {
+        return _background.Q<Slider>("water-slider").value;
+    }
+
+    internal float GetFertilizerValue()
+    {
+        return _background.Q<Slider>("fertilizer-slider").value;
     }
 }
 
@@ -427,6 +526,41 @@ public class DetailViewPlantManager
     public Dictionary<string, object> GetCurrentPlantData()
     {
         return _plants[CurrentPlantIndex].DataDictionary();
+    }
+
+    public void AddWaterAndFertilizer(float waterAmount, float fertilizerAmount)
+    {
+        if (CurrentPlantIndex < 0)
+            return;
+        var currentPlant = _plants[CurrentPlantIndex];
+        currentPlant.Soil.StoredWater += waterAmount;
+        currentPlant.Soil.StoredNutrients += fertilizerAmount;
+    }
+
+    public void ChangePotSize(UIButton buttonType)
+    {
+        Potsize potsize;
+        switch (buttonType)
+        {
+            case UIButton.CHANGETOCULTIVATION:
+                potsize = Potsize.Cultivation;
+                break;
+            case UIButton.CHANGETOSMALL:
+                potsize = Potsize.Small;
+                break;
+            case UIButton.CHANGETOMEDIUM:
+                potsize = Potsize.Medium;
+                break;
+            case UIButton.CHANGETOLARGE:
+                potsize = Potsize.Large;
+                break;
+            default:
+                potsize = Potsize.Cultivation;
+                break;
+
+        }
+        var currentPlant = _plants[CurrentPlantIndex];
+        currentPlant.Potsize = potsize;
     }
 
     private void SavePlantTransform()
