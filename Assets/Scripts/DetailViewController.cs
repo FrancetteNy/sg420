@@ -1,43 +1,65 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class DetailViewController : MonoBehaviour
 {
-    // Camera and Managers
-    public Camera DetailViewCamera;
-    public List<PlantController> PlantControllers;
+    // Events
+    public static Action PlantsChanged;
 
+
+    // Camera and Managers
+    public List<PlantController> PlantControllers;
+    private Camera _detailViewCamera;
     private DetailViewCameraController _cameraController;
     private DetailViewUIManager _uiManager;
-    private DetailViewPlantManager _plantManager;
+    private DetailViewPlantManager _detailViewplantManager;
 
     private Action _closeAction;
     private Vector3 _cameraMoveVector;
     private Vector3 _rotateVector;
 
+    private bool _isInitialized = false;
+    private PlantManager _plantManager;
     private void Start()
     {
-        // Initialize Controllers
-        _cameraController = new DetailViewCameraController(DetailViewCamera, GetComponent<UIDocument>().rootVisualElement.Q<Image>("plant-view"));
-        _plantManager = new DetailViewPlantManager(PlantControllers, OnPlantChanged);
-        _uiManager = new DetailViewUIManager(GetComponent<UIDocument>(), OnButtonDown, OnButtonUp, OnDetailHovered);
+        PlantsChanged += UpdatePlantControllers;
     }
 
+    private void UpdatePlantControllers()
+    {
+        PlantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
+    }
+
+    public void Initialize(Camera detailViewCamera, PlantManager plantManager)
+    {
+        _detailViewCamera = detailViewCamera;
+        _plantManager = plantManager;
+        UpdatePlantControllers();
+        _cameraController = new DetailViewCameraController(detailViewCamera, GetComponent<UIDocument>().rootVisualElement.Q<Image>("plant-view"));
+        _detailViewplantManager = new DetailViewPlantManager(PlantControllers, OnPlantChanged);
+        _uiManager = new DetailViewUIManager(GetComponent<UIDocument>(), OnButtonDown, OnButtonUp, OnDetailHovered);
+        _isInitialized = true;
+    }
     private void Update()
     {
-        if (_plantManager.CurrentPlantIndex < 0)
+        if ( !_isInitialized)
+        {
+            return;
+        }
+        if (_detailViewplantManager.CurrentPlantIndex < 0)
             return;
 
         // Update Camera
         _cameraController.UpdatePosition(_cameraMoveVector,
-            _plantManager.GetCurrentPlantClampMin(),
-            _plantManager.GetCurrentPlantClampMax(),
+            _detailViewplantManager.GetCurrentPlantClampMin(),
+            _detailViewplantManager.GetCurrentPlantClampMax(),
             DetailViewConstants.CameraLerpSpeed);
 
         // Update Plant Rotation
-        _plantManager.UpdateRotations(_rotateVector);
+        _detailViewplantManager.UpdateRotations(_rotateVector);
     }
 
     private void OnButtonDown(UIButton buttonId)
@@ -45,14 +67,14 @@ public class DetailViewController : MonoBehaviour
         switch (buttonId)
         {
             case UIButton.PREVIOUSPLANT:
-                _plantManager.SwitchToPreviousPlant();
-                _cameraController.SetInitialPosition(_plantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_plantManager.GetCurrentPlantData());
+                _detailViewplantManager.SwitchToPreviousPlant();
+                _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 break;
             case UIButton.NEXTPLANT:
-                _plantManager.SwitchToNextPlant();
-                _cameraController.SetInitialPosition(_plantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_plantManager.GetCurrentPlantData());
+                _detailViewplantManager.SwitchToNextPlant();
+                _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 break;
             case UIButton.STARTSEXING:
                 Debug.Log("Starting the sexing minigame...");
@@ -97,8 +119,8 @@ public class DetailViewController : MonoBehaviour
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.WATERPLANTS:
-                _plantManager.AddWaterAndFertilizer(_uiManager.GetWaterValue(), _uiManager.GetFertilizerValue());
-                _uiManager.UpdatePlantData(_plantManager.GetCurrentPlantData());
+                _detailViewplantManager.AddWaterAndFertilizer(_uiManager.GetWaterValue(), _uiManager.GetFertilizerValue());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.OPENCHANGEPOTSUBMENU:
@@ -111,8 +133,8 @@ public class DetailViewController : MonoBehaviour
             case UIButton.CHANGETOSMALL:
             case UIButton.CHANGETOMEDIUM:
             case UIButton.CHANGETOLARGE:
-                _plantManager.ChangePotSize(buttonId);
-                _uiManager.UpdatePlantData(_plantManager.GetCurrentPlantData());
+                _detailViewplantManager.ChangePotSize(buttonId);
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             default:
@@ -147,19 +169,19 @@ public class DetailViewController : MonoBehaviour
     {
         _uiManager.UpdatePlantNavigationButtons(
             currentIndex > 0,
-            currentIndex < _plantManager.Plantcount - 1
+            currentIndex < _detailViewplantManager.Plantcount - 1
         );
     }
 
     public void ActivateView(int plantControllerIndex, Action closeAction)
     {
 
-        _plantManager.SetCurrentPlant(plantControllerIndex);
-        _cameraController.SetInitialPosition(_plantManager.GetCurrentPlantPosition());
-        _uiManager.UpdatePlantData(_plantManager.GetCurrentPlantData());
+        _detailViewplantManager.SetCurrentPlant(plantControllerIndex);
+        _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
 
         _uiManager.ShowView();
-        DetailViewCamera.enabled = true;
+        _detailViewCamera.enabled = true;
 
         _closeAction = closeAction;
     }
@@ -174,8 +196,8 @@ public class DetailViewController : MonoBehaviour
     private void CloseView()
     {
         _uiManager.HideView();
-        DetailViewCamera.enabled = false;
-        _plantManager.ResetCurrentPlantTransform();
+        _detailViewCamera.enabled = false;
+        _detailViewplantManager.ResetCurrentPlantTransform();
 
         _closeAction?.Invoke();
     }
@@ -388,7 +410,7 @@ public class DetailViewUIManager
 
     public void HideView()
     {
-        _background.style.display = DisplayStyle.None;
+        UIEvents.HideDetailView.Invoke();
     }
     private Submenu _currentSubmenu;
     public void ShowSubmenu(Submenu submenu)
