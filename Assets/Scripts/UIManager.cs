@@ -1,5 +1,3 @@
-using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,6 +6,10 @@ public class UIManager : MonoBehaviour
 {
     VisualElement _root;
     List<UIView> _allUIViews = new();
+
+    DetailView _detailView;
+    HUDView _hudView;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,19 +20,25 @@ public class UIManager : MonoBehaviour
 
     private void AddAllUIViews()
     {
-        var detailView = new DetailView(_root, this);
-        var hudView = new HUDView(_root, this);
-        UIEvents.ShowDetailView += (_) => HideAllViews();
-        UIEvents.ShowDetailView += (index) => detailView.Show(index);
-        UIEvents.HideDetailView += detailView.Hide;
-        UIEvents.HideDetailView += hudView.Show;
+        _detailView = new DetailView(_root, this);
+        _hudView = new HUDView(_root, this);
+        UIEvents.ShowDetailView += (index) => { HideAllViews(); _detailView.Show(index); };
+        UIEvents.HideDetailView += () => { _detailView.Hide(); _hudView.Show(); };
 
-        UIEvents.ShowHUDView += HideAllViews;
-        UIEvents.ShowHUDView += hudView.Show;
-        UIEvents.HideHUDView += hudView.Hide;
+        UIEvents.ShowHUDView += () => { HideAllViews(); _hudView.Show(); };
+        UIEvents.HideHUDView += _hudView.Hide;
 
-        _allUIViews.Add(detailView);
-        _allUIViews.Add(hudView);
+        _allUIViews.Add(_detailView);
+        _allUIViews.Add(_hudView);
+    }
+    private void OnDestroy()
+    {
+        UIEvents.ShowDetailView -= (index) => { HideAllViews(); _detailView.Show(index); };
+        UIEvents.HideDetailView -= () => { _detailView.Hide(); _hudView.Show(); };
+        _detailView.Dispose();
+        UIEvents.ShowHUDView -= () => { HideAllViews(); _hudView.Show(); };
+        UIEvents.HideHUDView -= _hudView.Hide;
+        _hudView.Dispose();
     }
 
     private void HideAllViews()
