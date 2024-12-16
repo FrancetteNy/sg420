@@ -1,0 +1,10 @@
+﻿using System;
+
+class UIEvents
+{
+    public static Action<int> ShowDetailView;
+    public static Action HideDetailView;
+
+    public static Action ShowHUDView;
+    public static Action HideHUDView;
+}
