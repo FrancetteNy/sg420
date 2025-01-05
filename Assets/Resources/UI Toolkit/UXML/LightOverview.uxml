@@ -6,8 +6,8 @@
                 <ui:DropdownField name="light-dropdown-field" label="Lichttyp auswählen" style="flex-grow: 1;" />
             </ui:VisualElement>
             <ui:Label text="Text für die Erklärung der Lichttypen" name="light-label" />
-            <MyUILibrary.SlideToggle label="Vegetative Phase" right-label-value="Blüte Phase" style="flex-grow: 0; min-height: 16px;" />
+            <MyUILibrary.SlideToggle label="Vegetative Phase" right-label-value="Blüte Phase" name="growthphase-slidetoggle" style="flex-grow: 0; min-height: 16px;" />
         </ui:VisualElement>
-        <ui:Button text="X" name="close-button" style="position: absolute; top: 76px; left: 1232px; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; color: rgb(255, 255, 255);" />
+        <ui:Button text="X" name="close-button" style="position: absolute; top: 76px; left: 1232px; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
     </ui:VisualElement>
 </ui:UXML>
