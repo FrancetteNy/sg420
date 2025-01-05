@@ -5,13 +5,11 @@ using UnityEngine.UIElements;
 public class HUDController : MonoBehaviour
 {
     private VisualElement _root;
-    private GameState _gameState;
 
     private Label _currentDayLabel;
     public void Initialize(VisualElement root)
     {
         _root = root;
-        _gameState = new GameState();
         GameState.DayChanged += OnDayChanged;
         SetupButtons();
         SetupLabels();
@@ -32,11 +30,11 @@ public class HUDController : MonoBehaviour
 
     private void AdvanceDay()
     {
-        _gameState.AdvanceDay();
+        GameStateManagerSingleton.Instance.GameState.AdvanceDay();
     }
 
     private void OnDayChanged()
     {
-        _currentDayLabel.text = $"Tag {_gameState.CurrentDay}";
+        _currentDayLabel.text = $"Tag {GameStateManagerSingleton.Instance.GameState.CurrentDay}";
     }
 }

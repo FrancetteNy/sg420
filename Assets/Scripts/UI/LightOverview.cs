@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 class LightOverview : UIView
@@ -44,3 +45,4 @@ class LightOverview : UIView
         _highlightController.enabled = false;
     }
 }
+
