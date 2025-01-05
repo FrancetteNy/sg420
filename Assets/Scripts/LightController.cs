@@ -17,7 +17,7 @@ public class LightController : MonoBehaviour
         var highlightBuilder = _highlightController.BeginHighlightObject(this.gameObject);
         highlightBuilder.WithClickAction((data) =>
         {
-            Debug.Log("CLICKING THE LAMPS AND TOTALLY OPENING THE LIGHT EDIT MENU!!!");
+            UIEvents.ShowLightOverview.Invoke();
         });
 
         highlightBuilder.Apply();

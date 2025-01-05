@@ -4,7 +4,6 @@ using UnityEngine.UIElements;
 
 public class HUDController : MonoBehaviour
 {
-    private bool _isInitialized = false;
     private VisualElement _root;
     private GameState _gameState;
 
@@ -16,12 +15,12 @@ public class HUDController : MonoBehaviour
         GameState.DayChanged += OnDayChanged;
         SetupButtons();
         SetupLabels();
-        _isInitialized = true;
     }
     private void SetupButtons()
     {
         var advanceDayButton = _root.Q<Button>("advance-day-button");
         advanceDayButton.clicked += AdvanceDay;
+        advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
     }
 
     private void SetupLabels()
