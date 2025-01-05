@@ -1373,9 +1373,17 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 133c199890291e449b91649c13a118af, type: 2}
+    - target: {fileID: -4605749182299199558, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: plant
+      objectReference: {fileID: 0}
+    - target: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: pot
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Name
-      value: sativa_plant_fixed (1)
+      value: plant_with_pot
       objectReference: {fileID: 0}
     - target: {fileID: 1590991122056738324, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1811,9 +1819,17 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 133c199890291e449b91649c13a118af, type: 2}
+    - target: {fileID: -4605749182299199558, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: plant
+      objectReference: {fileID: 0}
+    - target: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: pot
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Name
-      value: sativa_plant_fixed (2)
+      value: plant_with_pot
       objectReference: {fileID: 0}
     - target: {fileID: 1590991122056738324, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -3534,8 +3550,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 25d0611b0fd66654fb0252c8810d0e65, type: 2}
     - target: {fileID: -4605749182299199558, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: plant
+      objectReference: {fileID: 0}
+    - target: {fileID: -4605749182299199558, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: pot
       objectReference: {fileID: 0}
     - target: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Layer
@@ -3543,7 +3567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Name
-      value: sativa_plant_fixed
+      value: plant_with_pot
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Layer
@@ -4048,9 +4072,17 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 133c199890291e449b91649c13a118af, type: 2}
+    - target: {fileID: -4605749182299199558, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: plant
+      objectReference: {fileID: 0}
+    - target: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      propertyPath: m_Name
+      value: pot
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Name
-      value: sativa_plant_fixed (3)
+      value: plant_with_pot
       objectReference: {fileID: 0}
     - target: {fileID: 1590991122056738324, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

@@ -12,21 +12,26 @@ public class PlantController : MonoBehaviour
     public Strain Strain;
     public Soil Soil;
 
+
+
+
+
+
     public Dictionary<string, object> DataDictionary()
     {
         string growthStage = string.Empty;
         switch (Age.Stage)
         {
-            case GrowthStage.Germination:
+            case GrowthStage.GERMINATION:
                 growthStage = "Keimung";
                 break;
-            case GrowthStage.Seedling:
+            case GrowthStage.SEEDLING:
                 growthStage = "Setzlingsphase";
                 break;
-            case GrowthStage.VegetativeGrowth:
+            case GrowthStage.VEGETATIVEGROWTH:
                 growthStage = "Vegetatives Wachstum";
                 break;
-            case GrowthStage.Flowering:
+            case GrowthStage.FLOWERING:
                 growthStage = "Blüte";
                 break;
         }
@@ -73,10 +78,11 @@ public class Age
 {
     public enum GrowthStage
     {
-        Germination,
-        Seedling,
-        VegetativeGrowth,
-        Flowering
+        GERMINATION,
+        SEEDLING,
+        VEGETATIVEGROWTH,
+        FLOWERING,
+        FADED
     }
     public GrowthStage Stage;
     public int AgeNumber; // The AgeNumber has, depending on the Stage, a different meaning
@@ -90,8 +96,8 @@ public class Age
         string interval = string.Empty;
         switch (Stage)
         {
-            case GrowthStage.Germination:
-            case GrowthStage.Seedling:
+            case GrowthStage.GERMINATION:
+            case GrowthStage.SEEDLING:
                 if (AgeNumber == 1)
                 {
                     interval = "Tag";
@@ -101,8 +107,8 @@ public class Age
                     interval = "Tage";
                 }
                 break;
-            case GrowthStage.VegetativeGrowth:
-            case GrowthStage.Flowering:
+            case GrowthStage.VEGETATIVEGROWTH:
+            case GrowthStage.FLOWERING:
                 if (AgeNumber == 1)
                 {
                     interval = "Woche";
@@ -113,11 +119,23 @@ public class Age
                 }
 
                 break;
+            case GrowthStage.FADED:
+                interval = " Tage zu alt";
+                break;
         }
         return $"{AgeNumber} {interval}";
     }
-}
 
+    public GrowthStage GetNextStage() => Stage switch
+    {
+        GrowthStage.GERMINATION => GrowthStage.SEEDLING,
+        GrowthStage.SEEDLING => GrowthStage.VEGETATIVEGROWTH,
+        GrowthStage.VEGETATIVEGROWTH => GrowthStage.FLOWERING,
+        GrowthStage.FLOWERING => GrowthStage.FADED,
+        GrowthStage.FADED => GrowthStage.FADED,
+        _ => throw new ArgumentOutOfRangeException(nameof(GrowthStage), $"Not expected GrowthStage value {Stage}"),
+    };
+}
 [Serializable]
 public enum Strain
 {
