@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_LocalPosition.y
@@ -102,7 +102,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5827869621770393561}
+      addedObject: {fileID: 849853829627182058}
     - targetCorrespondingSourceObject: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       insertIndex: -1
       addedObject: {fileID: 506336320118813587}
@@ -115,7 +115,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
   m_PrefabInstance: {fileID: 2198534440001426660}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5827869621770393561
+--- !u!114 &849853829627182058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,17 +124,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1316083245497084341}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f822e7a0ed27d1544980e58a94b03541, type: 3}
+  m_Script: {fileID: 11500000, guid: c5a0ec6b37b63174e8155084135d013d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Potsize: 500
-  Age:
-    Stage: 0
-    AgeNumber: 0
-  Strain: 0
-  Soil:
-    StoredWater: 0
-    StoredNutrients: 0
+  PlantData:
+    Potsize: 500
+    Age:
+      Stage: 0
+      AgeNumber: 0
+    Strain: 0
+    Soil:
+      StoredWater: 0
+      StoredNutrients: 0
 --- !u!1 &6586846443674049534 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}

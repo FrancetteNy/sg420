@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 // by @kurtdekker - to make a Unity singleton that has some
@@ -40,12 +42,43 @@ public class GameStateManagerSingleton : MonoBehaviour
                 DontDestroyOnLoad(_instance.transform.root.gameObject);
 
                 // get GameState (load if available, else create new one and save)
+                _instance._saveFilePath = Application.persistentDataPath + "/SaveData.json";
                 _instance.GameState = new GameState();
+               _instance.Load();
             }
             return _instance;
         }
     }
     public GameState GameState;
+
+    public void AdvanceDay()
+    {
+        GameState.CurrentDay++;
+        GameState.DayChanged?.Invoke();
+        Save();
+    }
+
+    private string _saveFilePath;
+
+    public void Save()
+    {
+        string writeToFile = JsonUtility.ToJson(GameState);
+        //you can do whatever after, but for checking lets create file.
+        File.WriteAllText(_saveFilePath, writeToFile);
+    }
+
+    public void Load() {
+        if (File.Exists(_saveFilePath))
+        {
+            string loadedData = File.ReadAllText(_saveFilePath);
+            GameState = JsonUtility.FromJson<GameState>(loadedData);
+
+        }
+        else
+        {
+            Debug.Log("File does not exist " + _saveFilePath);
+        }
+    }
     // NOTE: alternatively to a prefab, you could use a ScriptableObject derived asset,
     // make a reference to it here, and populated that reference at the Resources.Load
     // line above.

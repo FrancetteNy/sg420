@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Age;
@@ -15,13 +16,22 @@ public class PlantManager : MonoBehaviour
     {
         _plantLayer = LayerMask.NameToLayer("Plant");
         _highlightController = FindAnyObjectByType<HighlightController>();
-        //Collect the initial Plants
-        foreach (var plantController in gameObject.GetComponentsInChildren<PlantController>())
+        //Create the initial Plants and set the data from the GameStateManager
+        var plantContainer = GameObject.Find("Plants");
+        var plantPositions = new List<Transform>();
+        foreach (Transform plantPosition in plantContainer.transform)
         {
-            GameObject go = plantController.gameObject;
-            Plants.Add(go);
-            SetLayerOfAllChildren(go);
-            UpdateModel(go.transform.Find("plant"), plantController.Age);
+            plantPositions.Add(plantPosition);
+        }
+        var plantPrefab = Resources.Load<GameObject>("prefabs/plant_with_pot");
+        foreach (var (plantData, position) in GameStateManagerSingleton.Instance.GameState.PlantDataList.List.Zip(plantPositions, (a,b) => (a,b)))
+        {
+            var inScene = Instantiate<GameObject>(plantPrefab, position);
+            var controller = inScene.GetComponent<PlantController>();
+            controller.PlantData = plantData;
+            Plants.Add(inScene);
+            SetLayerOfAllChildren(inScene);
+            UpdateModel(inScene.transform.Find("plant"), plantData.Age);
         }
         //Make sure that everything is up to date if anything changes
         Plants.CollectionChanged += new NotifyCollectionChangedEventHandler((object sender, NotifyCollectionChangedEventArgs e) => UpdateHighlightAndDetailView());
@@ -36,11 +46,11 @@ public class PlantManager : MonoBehaviour
         foreach(var plant in Plants)
         {
             PlantController plantController = plant.GetComponent<PlantController>();
-            UpdatePlant(plant, plantController);
+            UpdatePlant(plant, plantController.PlantData);
         }
     }
 
-    private void UpdatePlant(GameObject plant, PlantController plantController)
+    private void UpdatePlant(GameObject plant, PlantData plantController)
     {
         var correctAmountOfWater = false;
         var correctAmountOfNutrients = false;
@@ -137,7 +147,7 @@ public class PlantManager : MonoBehaviour
         return min + (max - min) / numberOfSteps * currentStep;
     }
 
-    public void AgePlant(PlantController plantController)
+    public void AgePlant(PlantData plantController)
     {
 
         plantController.Age.AgeNumber += 1;

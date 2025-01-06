@@ -13,12 +13,18 @@ public class HUDController : MonoBehaviour
         GameState.DayChanged += OnDayChanged;
         SetupButtons();
         SetupLabels();
+        UpdateHUD();
     }
     private void SetupButtons()
     {
         var advanceDayButton = _root.Q<Button>("advance-day-button");
-        advanceDayButton.clicked += AdvanceDay;
+        advanceDayButton.clicked += GameStateManagerSingleton.Instance.AdvanceDay;
         advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+
+        var saveGameButton = _root.Q<Button>("save-game-button");
+        saveGameButton.clicked += GameStateManagerSingleton.Instance.Save;
+        saveGameButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+
     }
 
     private void SetupLabels()
@@ -27,11 +33,11 @@ public class HUDController : MonoBehaviour
 
     }
 
-
-    private void AdvanceDay()
+    private void UpdateHUD()
     {
-        GameStateManagerSingleton.Instance.GameState.AdvanceDay();
+        OnDayChanged();
     }
+
 
     private void OnDayChanged()
     {

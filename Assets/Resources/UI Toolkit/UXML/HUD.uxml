@@ -1,7 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:VisualElement name="HUD" style="flex-grow: 1; justify-content: flex-end;">
-        <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: flex-end;">
+        <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between;">
             <ui:Label text="Tag 1" name="current-day-label" />
+            <ui:Button text="Spiel speichern" name="save-game-button" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1;" />
         <ui:VisualElement style="flex-direction: row; justify-content: flex-end;">
