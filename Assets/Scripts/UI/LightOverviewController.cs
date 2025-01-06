@@ -11,6 +11,7 @@ public class LightOverviewController : MonoBehaviour
     private VisualElement _root;
     private Label _lightLabel;
     private DropdownField _lightDropdownField;
+    private SlideToggle _slideToggle;
     private Dictionary<GrowlightType, string> _lighttypeStrings = new Dictionary<GrowlightType, string> { { GrowlightType.NONE, "Kein Licht" }, { GrowlightType.LED, "LED Lampe" } };
     public void Initialize(VisualElement root)
     {
@@ -19,12 +20,13 @@ public class LightOverviewController : MonoBehaviour
         SetupLabels();
         SetupDropDowns();
         SetupToggles();
+        UpdateOverview();
     }
 
     private void SetupToggles()
     {
-        var toggle = _root.Q<SlideToggle>("growthphase-slidetoggle");
-        toggle.RegisterValueChangedCallback(OnGrowthPhaseChanged);
+        _slideToggle = _root.Q<SlideToggle>("growthphase-slidetoggle");
+        _slideToggle.RegisterValueChangedCallback(OnGrowthPhaseChanged);
     }
 
     private void OnGrowthPhaseChanged(ChangeEvent<bool> evt)
@@ -38,7 +40,6 @@ public class LightOverviewController : MonoBehaviour
         _lightDropdownField = _root.Q<DropdownField>("light-dropdown-field");
         _lightDropdownField.RegisterValueChangedCallback(OnLightTypeChanged);
         _lightDropdownField.choices = _lighttypeStrings.Values.ToList();
-        _lightDropdownField.value = _lighttypeStrings[GameStateManagerSingleton.Instance.GameState.Growlight.Type];
         _lightDropdownField.RegisterCallback<PointerDownEvent>(_ =>
         {
             SoundManagerSingleton.Instance.PlaySound("Click");
@@ -82,5 +83,11 @@ public class LightOverviewController : MonoBehaviour
         var close_button = _root.Q<Button>("close-button");
         close_button.clicked += () => UIEvents.HideLightOverview.Invoke();
         close_button.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+    }
+    private void UpdateOverview()
+    {
+        _lightDropdownField.value = _lighttypeStrings[GameStateManagerSingleton.Instance.GameState.Growlight.Type];
+        _slideToggle.value = GameStateManagerSingleton.Instance.GameState.Growlight.IsInFloweringGrowthMode;
+
     }
 }
