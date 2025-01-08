@@ -31,7 +31,8 @@ public class PlantManager : MonoBehaviour
             controller.PlantData = plantData;
             Plants.Add(inScene);
             SetLayerOfAllChildren(inScene);
-            UpdateModel(inScene.transform.Find("plant"), plantData.Age);
+            ManagePlantStageModel(inScene);
+            UpdateModel(GetCurrentPlantModel(inScene).transform, plantData.Age);
         }
         //Make sure that everything is up to date if anything changes
         Plants.CollectionChanged += new NotifyCollectionChangedEventHandler((object sender, NotifyCollectionChangedEventArgs e) => UpdateHighlightAndDetailView());
@@ -96,11 +97,11 @@ public class PlantManager : MonoBehaviour
         plantController.Soil.StoredNutrients = Math.Max(plantController.Soil.StoredNutrients - PlantManagerConstants.MinNutrients, 0);
         if (correctAmountOfNutrients && correctAmountOfWater)
         {
-            AgePlant(plantController);
-            var plantModel = plant.transform.Find("plant");
+            AgePlant(plant);
+            var plantModel = GetCurrentPlantModel(plant).transform;
             plantModel.localScale += new Vector3(0.1f,0.1f,0.1f);
         }
-        UpdateModel(plant.transform.Find("plant"), plantController.Age);
+        UpdateModel(GetCurrentPlantModel(plant).transform, plantController.Age);
     }
 
     private void UpdateModel(Transform transform, Age age)
@@ -147,15 +148,46 @@ public class PlantManager : MonoBehaviour
         return min + (max - min) / numberOfSteps * currentStep;
     }
 
-    public void AgePlant(PlantData plantController)
+    public void AgePlant(GameObject plant)
     {
+        PlantData plantController = plant.GetComponent<PlantController>().PlantData;
 
         plantController.Age.AgeNumber += 1;
 
         if (plantController.Age.AgeNumber > PlantManagerConstants.MaximumAgePerGrowthStage[plantController.Age.Stage])
         {
             plantController.Age.Stage = plantController.Age.GetNextStage();
+            ManagePlantStageModel(plant);
             plantController.Age.AgeNumber = 0;
+        }
+    }
+
+    private void ManagePlantStageModel(GameObject plant)
+    {
+        plant.transform.Find("Plant1").gameObject.SetActive(false);
+        plant.transform.Find("Plant2").gameObject.SetActive(false);
+        plant.transform.Find("Plant3").gameObject.SetActive(false);
+        plant.transform.Find("plant").gameObject.SetActive(false);
+
+        // Activate the current model
+        GetCurrentPlantModel(plant).SetActive(true);
+    }
+
+    public GameObject GetCurrentPlantModel(GameObject plant)
+    {
+        switch (plant.GetComponent<PlantController>().PlantData.Age.Stage)
+        {
+            case GrowthStage.GERMINATION:
+                return plant.transform.Find("Plant1").gameObject;
+            case GrowthStage.SEEDLING:
+                return plant.transform.Find("Plant2").gameObject;
+            case GrowthStage.VEGETATIVEGROWTH:
+                return plant.transform.Find("Plant3").gameObject;
+            case GrowthStage.FLOWERING:
+            case GrowthStage.FADED:
+                return plant.transform.Find("plant").gameObject;
+            default:
+                return plant.transform.Find("Plant1").gameObject;
         }
     }
 
