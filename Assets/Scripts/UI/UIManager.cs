@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
 
     DetailView _detailView;
     HUDView _hudView;
-
+    LightOverview _lightOverview;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,23 +22,48 @@ public class UIManager : MonoBehaviour
     {
         _detailView = new DetailView(_root, this);
         _hudView = new HUDView(_root, this);
-        UIEvents.ShowDetailView += (index) => { HideAllViews(); _detailView.Show(index); };
-        UIEvents.HideDetailView += () => { _detailView.Hide(); _hudView.Show(); };
+        _lightOverview = new LightOverview(_root, this);
 
-        UIEvents.ShowHUDView += () => { HideAllViews(); _hudView.Show(); };
+        UIEvents.ShowDetailView += (index) => { HideAllViews(); _detailView.Show(index); };
+        UIEvents.HideDetailView += () => ResetToHUD(_detailView);
+
+        UIEvents.ShowHUDView += () => ShowView(_hudView);
         UIEvents.HideHUDView += _hudView.Hide;
+
+        UIEvents.ShowLightOverview += () => ShowView(_lightOverview);
+        UIEvents.HideLightOverview += () => ResetToHUD(_lightOverview);
+
+
+
 
         _allUIViews.Add(_detailView);
         _allUIViews.Add(_hudView);
+        _allUIViews.Add(_lightOverview);
     }
     private void OnDestroy()
     {
         UIEvents.ShowDetailView -= (index) => { HideAllViews(); _detailView.Show(index); };
-        UIEvents.HideDetailView -= () => { _detailView.Hide(); _hudView.Show(); };
+        UIEvents.HideDetailView -= () => ResetToHUD(_detailView);
         _detailView.Dispose();
-        UIEvents.ShowHUDView -= () => { HideAllViews(); _hudView.Show(); };
+        UIEvents.ShowHUDView -= () => ShowView(_hudView);
         UIEvents.HideHUDView -= _hudView.Hide;
         _hudView.Dispose();
+        UIEvents.ShowLightOverview -= () => ShowView(_lightOverview);
+        UIEvents.HideLightOverview -= () => ResetToHUD(_lightOverview);
+        _lightOverview.Dispose();
+    }
+
+    private void ResetToHUD(UIView view)
+    {
+        view.Hide();
+        _hudView.Show();
+    }
+
+
+    private void ShowView(UIView view)
+    {
+        HideAllViews();
+        view.Show();
     }
 
     private void HideAllViews()

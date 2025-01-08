@@ -547,7 +547,7 @@ public class DetailViewPlantManager
 
     public Dictionary<string, object> GetCurrentPlantData()
     {
-        return _plants[CurrentPlantIndex].DataDictionary();
+        return _plants[CurrentPlantIndex].PlantData.DataDictionary();
     }
 
     public void AddWaterAndFertilizer(float waterAmount, float fertilizerAmount)
@@ -555,8 +555,8 @@ public class DetailViewPlantManager
         if (CurrentPlantIndex < 0)
             return;
         var currentPlant = _plants[CurrentPlantIndex];
-        currentPlant.Soil.StoredWater += waterAmount;
-        currentPlant.Soil.StoredNutrients += fertilizerAmount;
+        currentPlant.PlantData.Soil.StoredWater += waterAmount;
+        currentPlant.PlantData.Soil.StoredNutrients += fertilizerAmount;
     }
 
     public void ChangePotSize(UIButton buttonType)
@@ -582,7 +582,7 @@ public class DetailViewPlantManager
 
         }
         var currentPlant = _plants[CurrentPlantIndex];
-        currentPlant.Potsize = potsize;
+        currentPlant.PlantData.Potsize = potsize;
     }
 
     private void SavePlantTransform()
