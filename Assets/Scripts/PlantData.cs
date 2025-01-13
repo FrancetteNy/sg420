@@ -2,6 +2,7 @@
 using static Age;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 [Serializable]
 public class PlantData
@@ -17,9 +18,23 @@ public class PlantData
     {
         this.Sex = false;
         this.Potsize = Potsize.Cultivation;
-        this.Age = new(GrowthStage.GERMINATION, 0);
+        this.Age = new(GrowthStage.EMPTY, 0);
         this.Strain = Strain.Sativa;
         this.Soil = new(0, 0);
+    }
+    public void PlantSeed(Strain strain)
+    {
+        if (Age.Stage != GrowthStage.EMPTY)
+        {
+            Debug.LogWarning("Samen kann nicht gepflanzt werden: Der Topf ist nicht leer !");
+            return;
+        }
+
+        Age.Stage = GrowthStage.GERMINATION;
+        Age.AgeNumber = 0; // La germination commence
+        Strain = strain;
+        Soil = new Soil(100, 50); // Initialisation du sol avec de l'eau et des nutriments
+        Debug.Log("Erfolgreich gepflanzter Samen !");
     }
 
 
@@ -40,6 +55,9 @@ public class PlantData
                 break;
             case GrowthStage.FLOWERING:
                 growthStage = "Blüte";
+                break;
+            case GrowthStage.EMPTY:
+                growthStage = "Leer";
                 break;
         }
         string potsizeString = string.Empty;
@@ -85,6 +103,7 @@ public class Age
 {
     public enum GrowthStage
     {
+        EMPTY,
         GERMINATION,
         SEEDLING,
         VEGETATIVEGROWTH,

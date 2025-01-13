@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UIElements;
 
 public class DetailViewController : MonoBehaviour
@@ -16,17 +17,24 @@ public class DetailViewController : MonoBehaviour
     private DetailViewCameraController _cameraController;
     private DetailViewUIManager _uiManager;
     private DetailViewPlantManager _detailViewplantManager;
-
+    private VisualElement _background;
     private Action _closeAction;
     private Vector3 _cameraMoveVector;
     private Vector3 _rotateVector;
-
     private bool _isInitialized = false;
     private PlantManager _plantManager;
+    public List<PlantData> PlantDatas;
+
+
+
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
+
+
+
     }
+
 
     private void UpdatePlantControllers()
     {
@@ -45,7 +53,7 @@ public class DetailViewController : MonoBehaviour
     }
     private void Update()
     {
-        if ( !_isInitialized)
+        if (!_isInitialized)
         {
             return;
         }
@@ -168,9 +176,10 @@ public class DetailViewController : MonoBehaviour
     private void OnPlantChanged(int currentIndex)
     {
         _uiManager.UpdatePlantNavigationButtons(
-            currentIndex > 0,
-            currentIndex < _detailViewplantManager.Plantcount - 1
-        );
+           currentIndex > 0,
+           currentIndex < _detailViewplantManager.Plantcount - 1
+       );
+
     }
 
     public void ActivateView(int plantControllerIndex, Action closeAction)
@@ -333,6 +342,18 @@ public class DetailViewUIManager
     private Dictionary<string, Label> _detailLabels = new();
     private Button _previousPlantButton;
     private Button _nextPlantButton;
+    private VisualElement _seedSelectionContainer;
+    private DropdownField _seedTypeDropdown;
+    private VisualElement _inventoryList;
+    private Button _confirmSeedButton;
+    private int _currentPlantDataIndex = -1;
+    public List<PlantData> PlantDatas;
+    private Samen _samen;
+    private Ernte _ernte;
+    public int Plantcount => _plants.Count;
+    private List<PlantController> _plants;
+    private DetailViewPlantManager _detailViewPlantManager;
+
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
     {
         _background = document.rootVisualElement.Q<VisualElement>("background");
@@ -344,107 +365,248 @@ public class DetailViewUIManager
         _wikiTextLabel = _background.Q<Label>("wiki-text");
         SetupDetailLabels(onDetailHovered);
 
+        _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
+        _seedTypeDropdown = _seedSelectionContainer.Q<DropdownField>("seed-type-dropdown");
+        _confirmSeedButton = _seedSelectionContainer.Q<Button>("confirm-seed-button");
+
+
+
         SetupSliders();
+        _samen = new Samen();
+        _ernte = new Ernte();
+
+        // Ajouter des objets pour tester (graines et récoltes)
+        _samen.AddItem("Sativa Seed", 5);
+        _samen.AddItem("Indica Seed", 3);
+        _samen.AddItem("Tomato Crop", 10);
+
+        _ernte.AddItem("Sativa Seed", 0);
+        _ernte.AddItem("Indica Seed", 3);
+        _ernte.AddItem("Tomato Crop", 5);
+
+        UpdateSamenDisplay();
+        UpdateErnteDisplay();
+
+        // Configurer le bouton de confirmation
+
+         _confirmSeedButton.clicked += ConfirmPlantSeed;
 
     }
-
-    private void SetupSliders()
+    void ConfirmPlantSeed()
     {
-        var waterValueLabel = _background.Q<Label>("water-value-label");
-        var fertilizerValueLabel = _background.Q<Label>("fertilizer-value-label");
-        _background.Q<Slider>("water-slider").RegisterValueChangedCallback(v => waterValueLabel.text = v.newValue.ToString());
-        _background.Q<Slider>("fertilizer-slider").RegisterValueChangedCallback(v => fertilizerValueLabel.text = v.newValue.ToString());
-    }
-
-    private void SetupButtons(Action<UIButton> onButtonDown, Action<UIButton> onButtonUp)
-    {
-        _previousPlantButton = _background.Q<Button>("previous-plant-button");
-        _nextPlantButton = _background.Q<Button>("next-plant-button");
-        foreach (var (enumValue, buttonName) in DetailViewConstants.NameOfButtons)
+        // Vérifiez que l'index courant est valide
+        if (_detailViewPlantManager.CurrentPlantIndex < 0)
         {
-            var button = _background.Q<Button>(buttonName);
-            if (button != null)
-            {
-                button.RegisterCallback<PointerDownEvent>((_) => onButtonDown(enumValue), TrickleDown.TrickleDown);
-                button.RegisterCallback<PointerUpEvent>((_) => onButtonUp(enumValue));
-                button.RegisterCallback<PointerDownEvent>((_) => SoundManagerSingleton.Instance.PlaySound("Click"), TrickleDown.TrickleDown);
+            Debug.LogError($"Invalid plant data index: {_detailViewPlantManager.CurrentPlantIndex}. Ensure a plant is selected.");
+            return;
+        }
 
-            }
+        // Récupérez les données de la plante actuelle
+        var currentPlantData = PlantDatas[_detailViewPlantManager.CurrentPlantIndex];
+
+        // Vérifiez que le type de graine est valide via le Dropdown
+        if (Enum.TryParse<Strain>(_seedTypeDropdown.value, out Strain selectedStrain))
+        {
+            // Plantez la graine
+            currentPlantData.PlantSeed(selectedStrain);
+
+            // Log de succès
+            Debug.Log($"Successfully planted {selectedStrain} seed in plant slot {_detailViewPlantManager.CurrentPlantIndex}!");
+
+            // Mettez à jour l'interface utilisateur (si applicable)
+            UpdatePlantData(currentPlantData.DataDictionary());
+
+            // Réinitialisez le menu déroulant pour une nouvelle sélection
+            _seedTypeDropdown.value = null;
+        }
+        else
+        {
+            Debug.LogError("Invalid seed type selected. Please choose a valid strain from the dropdown.");
         }
     }
 
-    private void SetupDetailLabels(Action<string> onDetailHovered)
-    {
-        foreach (var labelName in new[] { "water", "nutrients", "potsize", "strain", "sex", "age", "growthStage" })
-        {
-            var row = _background.Q<VisualElement>(labelName);
-            var valueLabel = row.Q<Label>("value");
-            _detailLabels[labelName] = valueLabel;
 
-            row.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered(labelName));
+
+void UpdateSamenDisplay()
+
+{
+    _inventoryList = _background.Q<VisualElement>("seed-list");
+    // Vider la liste avant d'ajouter les nouveaux éléments
+    _inventoryList.Clear();
+
+    // Ajouter chaque élément de l'inventaire à la liste dans l'UI
+    foreach (var item in _samen.Items)
+    {
+        var itemElement = new VisualElement();
+        itemElement.style.flexDirection = FlexDirection.Row;
+
+        // Créer un label pour le nom de l'item
+        var itemNameLabel = new Label(item.Key);
+        itemNameLabel.style.flexGrow = 1;
+
+        // Créer un label pour la quantité
+        var itemQuantityLabel = new Label($"x{item.Value}");
+
+        // Ajouter les labels dans l'élément de l'inventaire
+        itemElement.Add(itemNameLabel);
+        itemElement.Add(itemQuantityLabel);
+
+        // Ajouter l'élément à la liste de l'inventaire dans l'UI
+        _inventoryList.Add(itemElement);
+    }
+
+}
+void UpdateErnteDisplay()
+
+{
+    _inventoryList = _background.Q<VisualElement>("harvest-list");
+    // Vider la liste avant d'ajouter les nouveaux éléments
+    _inventoryList.Clear();
+
+    // Ajouter chaque élément de l'inventaire à la liste dans l'UI
+    foreach (var item in _ernte.Items)
+    {
+        var itemElement = new VisualElement();
+        itemElement.style.flexDirection = FlexDirection.Row;
+
+        // Créer un label pour le nom de l'item
+        var itemNameLabel = new Label(item.Key);
+        itemNameLabel.style.flexGrow = 1;
+
+        // Créer un label pour la quantité
+        var itemQuantityLabel = new Label($"x{item.Value}");
+
+        // Ajouter les labels dans l'élément de l'inventaire
+        itemElement.Add(itemNameLabel);
+        itemElement.Add(itemQuantityLabel);
+
+        // Ajouter l'élément à la liste de l'inventaire dans l'UI
+        _inventoryList.Add(itemElement);
+    }
+
+}
+
+private void SetupSliders()
+{
+    var waterValueLabel = _background.Q<Label>("water-value-label");
+    var fertilizerValueLabel = _background.Q<Label>("fertilizer-value-label");
+    _background.Q<Slider>("water-slider").RegisterValueChangedCallback(v => waterValueLabel.text = v.newValue.ToString());
+    _background.Q<Slider>("fertilizer-slider").RegisterValueChangedCallback(v => fertilizerValueLabel.text = v.newValue.ToString());
+}
+
+private void SetupButtons(Action<UIButton> onButtonDown, Action<UIButton> onButtonUp)
+{
+    _previousPlantButton = _background.Q<Button>("previous-plant-button");
+    _nextPlantButton = _background.Q<Button>("next-plant-button");
+    foreach (var (enumValue, buttonName) in DetailViewConstants.NameOfButtons)
+    {
+        var button = _background.Q<Button>(buttonName);
+        if (button != null)
+        {
+            button.RegisterCallback<PointerDownEvent>((_) => onButtonDown(enumValue), TrickleDown.TrickleDown);
+            button.RegisterCallback<PointerUpEvent>((_) => onButtonUp(enumValue));
+            button.RegisterCallback<PointerDownEvent>((_) => SoundManagerSingleton.Instance.PlaySound("Click"), TrickleDown.TrickleDown);
+
         }
     }
+}
 
-    public void UpdatePlantData(Dictionary<string, object> plantData)
+private void SetupDetailLabels(Action<string> onDetailHovered)
+{
+    foreach (var labelName in new[] { "water", "nutrients", "potsize", "strain", "sex", "age", "growthStage" })
     {
-        foreach (var (name, label) in _detailLabels)
+        var row = _background.Q<VisualElement>(labelName);
+        var valueLabel = row.Q<Label>("value");
+        _detailLabels[labelName] = valueLabel;
+
+        row.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered(labelName));
+    }
+}
+
+public void UpdatePlantData(Dictionary<string, object> plantData)
+{
+    foreach (var (name, label) in _detailLabels)
+    {
+        label.text = plantData[name]?.ToString() ?? string.Empty;
+
+    }
+    foreach (var plant in plantData)
+    {
+        Debug.Log(plant);
+    }
+    if (plantData.TryGetValue("growthStage", out var growthStage))
+    {
+        string growthStageString = growthStage?.ToString() ?? string.Empty;
+
+        if (growthStageString.Equals("Leer", StringComparison.OrdinalIgnoreCase))
         {
-            label.text = plantData[name]?.ToString() ?? string.Empty;
+            _seedSelectionContainer.style.display = DisplayStyle.Flex;  // Affiche l'indicateur de plante vide
+        }
+        else
+        {
+            _seedSelectionContainer.style.display = DisplayStyle.None;  // Cache l'indicateur de plante vide
         }
     }
-    public void UpdatePlantNavigationButtons(bool canGoPrevious, bool canGoNext)
+    else
     {
-        _previousPlantButton.SetEnabled(canGoPrevious);
-        _nextPlantButton.SetEnabled(canGoNext);
+        Debug.LogWarning("La clé 'growthStage' est manquante ou incorrecte dans plantData.");
+        _seedSelectionContainer.style.display = DisplayStyle.None;
     }
 
-    public void UpdateWikiText(string text)
-    {
-        _wikiTextLabel.text = text;
-    }
+}
+public void UpdatePlantNavigationButtons(bool canGoPrevious, bool canGoNext)
+{
+    _previousPlantButton.SetEnabled(canGoPrevious);
+    _nextPlantButton.SetEnabled(canGoNext);
+}
 
-    public void ShowView()
-    {
-        _background.style.display = DisplayStyle.Flex;
-    }
+public void UpdateWikiText(string text)
+{
+    _wikiTextLabel.text = text;
+}
 
-    public void HideView()
-    {
-        UIEvents.HideDetailView.Invoke();
-    }
-    private Submenu _currentSubmenu;
-    public void ShowSubmenu(Submenu submenu)
-    {
-        switch (submenu)
-        {
-            case Submenu.WATERINGSUBMENU:
-                _background.Q<Slider>("water-slider").value = DetailViewConstants.DefaultWaterValue;
-                _background.Q<Slider>("fertilizer-slider").value = DetailViewConstants.DefaultFertilizerValue;
-                break;
-            case Submenu.CHANGEPOTSUBMENU:
-                break;
-            default:
-                break;
-        }
-        _background.Q<VisualElement>("submenues").style.display = DisplayStyle.Flex;
-        _background.Q<VisualElement>(DetailViewConstants.NameOfSubmenues[submenu]).style.display = DisplayStyle.Flex;
-        _currentSubmenu = submenu;
-    }
-    public void CloseCurrentSubmenu()
-    {
-        _background.Q<VisualElement>("submenues").style.display = DisplayStyle.None;
-        _background.Q<VisualElement>(DetailViewConstants.NameOfSubmenues[_currentSubmenu]).style.display = DisplayStyle.None;
-    }
+public void ShowView()
+{
+    _background.style.display = DisplayStyle.Flex;
+}
 
-    internal float GetWaterValue()
+public void HideView()
+{
+    UIEvents.HideDetailView.Invoke();
+}
+private Submenu _currentSubmenu;
+public void ShowSubmenu(Submenu submenu)
+{
+    switch (submenu)
     {
-        return _background.Q<Slider>("water-slider").value;
+        case Submenu.WATERINGSUBMENU:
+            _background.Q<Slider>("water-slider").value = DetailViewConstants.DefaultWaterValue;
+            _background.Q<Slider>("fertilizer-slider").value = DetailViewConstants.DefaultFertilizerValue;
+            break;
+        case Submenu.CHANGEPOTSUBMENU:
+            break;
+        default:
+            break;
     }
+    _background.Q<VisualElement>("submenues").style.display = DisplayStyle.Flex;
+    _background.Q<VisualElement>(DetailViewConstants.NameOfSubmenues[submenu]).style.display = DisplayStyle.Flex;
+    _currentSubmenu = submenu;
+}
+public void CloseCurrentSubmenu()
+{
+    _background.Q<VisualElement>("submenues").style.display = DisplayStyle.None;
+    _background.Q<VisualElement>(DetailViewConstants.NameOfSubmenues[_currentSubmenu]).style.display = DisplayStyle.None;
+}
 
-    internal float GetFertilizerValue()
-    {
-        return _background.Q<Slider>("fertilizer-slider").value;
-    }
+internal float GetWaterValue()
+{
+    return _background.Q<Slider>("water-slider").value;
+}
+
+internal float GetFertilizerValue()
+{
+    return _background.Q<Slider>("fertilizer-slider").value;
+}
 }
 
 
@@ -598,7 +760,7 @@ public class DummyWiki
 {
     public static string GetWikiEntry(string entryTitle)
     {
-        return $"Das ist ein Enzyklop�dieeintrag f�r {entryTitle}.";
+        return $"Das ist ein Enzyklop�dieeintrag f�r {entryTitle}.";
     }
 }
 
