@@ -23,6 +23,8 @@ public class DetailViewController : MonoBehaviour
 
     private bool _isInitialized = false;
     private PlantManager _plantManager;
+
+    private bool _willBeDisabled = false;
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
@@ -60,6 +62,16 @@ public class DetailViewController : MonoBehaviour
 
         // Update Plant Rotation
         _detailViewplantManager.UpdateRotations(_rotateVector);
+
+        if (_willBeDisabled && !_detailViewplantManager.HasPlantsToReset)
+        {
+            this.enabled = false;
+        }
+    }
+
+    private void OnEnable()
+    {
+        _willBeDisabled = false;
     }
 
     private void OnButtonDown(UIButton buttonId)
@@ -200,6 +212,11 @@ public class DetailViewController : MonoBehaviour
         _detailViewplantManager.ResetCurrentPlantTransform();
 
         _closeAction?.Invoke();
+    }
+
+    public void TriggerDisabling()
+    {
+        _willBeDisabled = true;
     }
 }
 
@@ -451,6 +468,7 @@ public class DetailViewUIManager
 public class DetailViewPlantManager
 {
     public int Plantcount => _plants.Count;
+    public bool HasPlantsToReset => _plantsToReset.Count > 0;
     private List<PlantController> _plants;
     private Quaternion _savedPlantRotation;
     private Dictionary<int, Quaternion> _plantsToReset = new();
