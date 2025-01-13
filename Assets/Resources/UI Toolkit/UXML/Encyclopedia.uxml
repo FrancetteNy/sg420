@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Encyclopedia.uss" />
+    <ui:VisualElement enabled="true" name="Encyclopedia" class="Encyclopedia">
+        <ui:VisualElement name="menu" class="side-bar">
+            <ui:TextField name="search-bar" placeholder-text="Search..." class="search-bar" />
+            <ui:TreeView name="tree-view"/>
+        </ui:VisualElement>
+        <ui:Button text="X" name="close-button" />
+        <ui:ScrollView >
+            <ui:Label name="entry" /> 
+        </ui:ScrollView >
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,60 @@
+VisualElement {
+    flex-grow: 1; 
+}
+
+.side-bar {
+    width: 20%;
+    /*background-color: rgb(183, 186, 214); */
+}
+
+#close-button {
+    width: 5%; height: 5%;
+    position: absolute; 
+    top: 0%; 
+    right: 1%; 
+    background-color: rgb(255, 255, 255); 
+    border-color: rgba(0, 0, 0, 0); 
+    border-width: 2px; 
+}
+
+#tree-view {
+    height: 20%;
+}
+
+#Encyclopedia {
+    flex-grow: 1; 
+    width: 98%; height: 98%;
+    background-color: rgb(255, 255, 255); 
+    right: 1%; 
+    bottom: 1%; 
+    left: 1%; 
+    top: 1%; 
+    position: absolute; 
+    border-color: rgba(0, 0, 0, 0); 
+    border-width: 10px; 
+    border-radius: 15px;
+}
+
+.search-bar {
+    height: 5%;
+    border-radius: 15px;
+    border-width: 2px;
+    border-color: rgb(126, 126, 126);
+}
+
+TextField {
+    height: 9%;
+    font-size: 10px; 
+}
+
+ScrollView {
+    width: 70%;
+    height: 94%;
+    top: 3%;
+    left: 22%;
+}
+
+#entry {
+    height: 100%;
+    width: 100%;
+}
