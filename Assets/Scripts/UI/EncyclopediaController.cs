@@ -12,7 +12,7 @@ public class EncyclopediaController : MonoBehaviour
     private VisualElement _root;
     private Label _textView;
     private TreeView _treeView;
-
+    private TextField _searchBar;    
     protected interface IEntryOrCategory
     {
         public string name
@@ -20,10 +20,6 @@ public class EncyclopediaController : MonoBehaviour
            get; 
         }
 
-        public string pathToContent
-        {
-           get; 
-        }
     }
 
     protected class Entry : IEntryOrCategory
@@ -33,15 +29,9 @@ public class EncyclopediaController : MonoBehaviour
            get; 
         }
 
-        public string pathToContent
-        {
-           get; 
-        }
-
-        public Entry(string name, string contentFileName)
+        public Entry(string name)
         {
             this.name = name;
-            this.pathToContent = "Assets/Resources/EncyclopediaEntries/" + contentFileName;
         }
     }
 
@@ -52,36 +42,30 @@ public class EncyclopediaController : MonoBehaviour
            get; 
         }
         
-        public string pathToContent
-        {
-           get; 
-        }
-        
         public List<Entry> entries
         {
            get; 
         }
 
-        public Category(string name, string contentFileName, List<Entry> entries) {
+        public Category(string name, List<Entry> entries) {
             this.name = name;
             this.entries = entries;
-            this.pathToContent = "Assets/Resources/EncyclopediaEntries/" + contentFileName;
         }
 
     }
   
-    protected static List<Category> categories = new List<Category> {
-        new Category("Anbau", "Anbau.html",  new List<Entry>
+    protected static List<Category> _categories = new List<Category> {
+        new Category("Anbau", new List<Entry>
         {
-            new Entry("Bewässern", "Bewässern.html"),
-            new Entry("Nährstoffe", "Nährstoffe.html"),
-            new Entry("Feuchtigkeit", "Licht.html"),
-            new Entry("Krankheiten", "Krankheiten.html"),
+            new Entry("Bewässern"),
+            new Entry("Nährstoffe"),
+            new Entry("Krankheiten"),
+            new Entry("Lich"),
         }),
-        new Category("Ernteprozess", "Ernteprozess.html", new List<Entry>
+        new Category("Ernteprozess", new List<Entry>
         {
-            new Entry("Ernte", "Ernte.html"),
-            new Entry("Trocknen", "Trocknen.html"),
+            new Entry("Ernten"),
+            new Entry("Trocknen"),
         })
     };
 
@@ -90,36 +74,13 @@ public class EncyclopediaController : MonoBehaviour
         get
         {
             var retVal = new List<Entry>(6);
-            foreach (var category in categories)
+            foreach (var category in _categories)
             {
                 retVal.AddRange(category.entries);
             }
             return retVal;
         }
     }
-
-    protected static IList<TreeViewItemData<IEntryOrCategory>> treeRoots
-    {
-        get
-        {
-            int id = 0;
-            var roots = new List<TreeViewItemData<IEntryOrCategory>>(categories.Count);
-            foreach (var category in categories)
-            {
-                var entriesInCategory = new List<TreeViewItemData<IEntryOrCategory>>(category.entries.Count);
-                foreach (var entry in category.entries)
-                {
-                    entriesInCategory.Add(new TreeViewItemData<IEntryOrCategory>(id++, entry));
-                }
-
-                roots.Add(new TreeViewItemData<IEntryOrCategory>(id++, category, entriesInCategory));
-            }
-            return roots;
-        }
-    }
-
-
-  
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Initialize(VisualElement root)
@@ -133,11 +94,12 @@ public class EncyclopediaController : MonoBehaviour
 
         _textView = _root.Q<Label>("entry");
  
+        SetUpSearchBar();
         SetUpTreeView();
 
         try
         {
-            using (StreamReader sr = new StreamReader("Assets/Resources/EncyclopediaEntries/Anbau.html")) 
+            using (StreamReader sr = new StreamReader("Assets/Resources/EncyclopediaEntries/Home.html")) 
             {
                 _textView.text = sr.ReadToEnd();
             }
@@ -157,23 +119,70 @@ public class EncyclopediaController : MonoBehaviour
 
     void LoadEntry(IEntryOrCategory entry)
     {
+        string pathToContent = "Assets/Resources/EncyclopediaEntries/" + entry.name + ".html";
         try
         {
-            using (StreamReader sr = new StreamReader(entry.pathToContent)) 
+            using (StreamReader sr = new StreamReader(pathToContent)) 
             {
                 _textView.text = sr.ReadToEnd();
             }
         }
         catch (Exception e)
         {
-            Debug.Log("File Could not be read:" + entry.pathToContent);
+            Debug.Log("File Could not be read:" + pathToContent);
             Debug.Log(e.Message);
         }
     }
 
-    void SetUpTreeView() {
+    void SetUpSearchBar() 
+    {
+        _searchBar = _root.Q<TextField>("search-bar");
+
+        _searchBar.RegisterCallback<ChangeEvent<string>>((evt) =>
+        {
+            var search = evt.newValue;
+            var tempList = new List<Category>();
+            if (search == "") {
+                _treeView.SetRootItems(GenerateTreeRoots(_categories));
+            }
+            else 
+            {
+                foreach (var category in _categories)
+                {
+                    if (category.name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        tempList.Add(category);
+                    }
+                    else
+                    {
+                        var tempEntryList = new List<Entry>();
+                        int count = 0;
+                        foreach (var entry in category.entries)
+                        {
+                            if (entry.name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
+                            {
+                                tempEntryList.Add(entry);
+                                count++;
+                            }
+                        }
+                        if (count > 0)
+                        {
+                            tempList.Add(new Category(category.name, tempEntryList));
+                        }
+                    }
+                }
+                _treeView.SetRootItems(GenerateTreeRoots(tempList));
+            }
+
+            _treeView.Rebuild();
+        });
+
+    }
+
+    void SetUpTreeView() 
+    {
         _treeView = _root.Query<TreeView>("tree-view");
-        _treeView.SetRootItems(treeRoots);
+        _treeView.SetRootItems(GenerateTreeRoots(_categories));
 
         _treeView.makeItem = () => new Button();
 
@@ -182,6 +191,24 @@ public class EncyclopediaController : MonoBehaviour
             (element as Button).text = _treeView.GetItemDataForIndex<IEntryOrCategory>(index).name;
             (element as Button).RegisterCallback<MouseUpEvent>((evt) => LoadEntry(_treeView.GetItemDataForIndex<IEntryOrCategory>(index)));
         };
+    }
+
+
+    static IList<TreeViewItemData<IEntryOrCategory>> GenerateTreeRoots(List<Category> categories)
+    {
+        int id = 0;
+        var roots = new List<TreeViewItemData<IEntryOrCategory>>(categories.Count);
+        foreach (var category in categories)
+        {
+            var entriesInCategory = new List<TreeViewItemData<IEntryOrCategory>>(category.entries.Count);
+            foreach (var entry in category.entries)
+            {
+                entriesInCategory.Add(new TreeViewItemData<IEntryOrCategory>(id++, entry));
+            }
+
+            roots.Add(new TreeViewItemData<IEntryOrCategory>(id++, category, entriesInCategory));
+        }
+        return roots;
     }
 
 }

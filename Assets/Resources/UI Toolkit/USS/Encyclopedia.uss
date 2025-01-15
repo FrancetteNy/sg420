@@ -36,7 +36,7 @@
     border-radius: 15px;
     border-width: 2px;
     border-color: rgb(126, 126, 126);
-    font-size: 10px; 
+    font-size: 15px; 
 }
 
 #entry-scroll-view {
