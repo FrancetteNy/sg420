@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
         UIEvents.HideLightOverview += () => ResetToHUD(_lightOverview);
 
         UIEvents.ShowEncyclopedia += () => ShowView(_encyclopedia);
-        UIEvents.ShowEncyclopedia += () => ResetToHUD(_encyclopedia);
+        UIEvents.HideEncyclopedia += () => ResetToHUD(_encyclopedia);
 
 
 
