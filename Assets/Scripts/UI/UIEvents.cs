@@ -9,4 +9,6 @@ class UIEvents
     public static Action HideHUDView;
     public static Action ShowLightOverview;
     public static Action HideLightOverview;
+    public static Action ShowEncyclopedia;
+    public static Action HideEncyclopedia;
 }

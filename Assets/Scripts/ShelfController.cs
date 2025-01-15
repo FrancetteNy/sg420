@@ -17,7 +17,7 @@ public class ShelfController : MonoBehaviour
         var highlightBuilder = _highlightController.BeginHighlightObject(this.gameObject);
         highlightBuilder.WithClickAction((data) =>
         {
-            Debug.Log("CLICKING THE BOOKSHELF AND TOTALLY OPENING THE ENZYKLOPÄDIE!!!");
+            UIEvents.ShowEncyclopedia.Invoke();
         });
 
         highlightBuilder.Apply();

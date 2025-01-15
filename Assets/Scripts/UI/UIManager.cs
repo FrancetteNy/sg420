@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     DetailView _detailView;
     HUDView _hudView;
     LightOverview _lightOverview;
+    Encyclopedia _encyclopedia;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +24,7 @@ public class UIManager : MonoBehaviour
         _detailView = new DetailView(_root, this);
         _hudView = new HUDView(_root, this);
         _lightOverview = new LightOverview(_root, this);
+        _encyclopedia = new Encyclopedia(_root, this);
 
         UIEvents.ShowDetailView += (index) => { HideAllViews(); _detailView.Show(index); };
         UIEvents.HideDetailView += () => ResetToHUD(_detailView);
@@ -33,12 +35,15 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowLightOverview += () => ShowView(_lightOverview);
         UIEvents.HideLightOverview += () => ResetToHUD(_lightOverview);
 
+        UIEvents.ShowEncyclopedia += () => ShowView(_encyclopedia);
+        UIEvents.HideEncyclopedia += () => ResetToHUD(_encyclopedia);
 
 
 
         _allUIViews.Add(_detailView);
         _allUIViews.Add(_hudView);
         _allUIViews.Add(_lightOverview);
+        _allUIViews.Add(_encyclopedia);
     }
     private void OnDestroy()
     {
@@ -51,6 +56,9 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowLightOverview -= () => ShowView(_lightOverview);
         UIEvents.HideLightOverview -= () => ResetToHUD(_lightOverview);
         _lightOverview.Dispose();
+        UIEvents.ShowEncyclopedia -= () => ShowView(_encyclopedia);
+        UIEvents.ShowEncyclopedia -= () => ResetToHUD(_encyclopedia);
+        _encyclopedia.Dispose();
     }
 
     private void ResetToHUD(UIView view)
