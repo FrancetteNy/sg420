@@ -60,7 +60,7 @@ public class EncyclopediaController : MonoBehaviour
             new Entry("Bewässern"),
             new Entry("Nährstoffe"),
             new Entry("Krankheiten"),
-            new Entry("Lich"),
+            new Entry("Licht"),
         }),
         new Category("Ernteprozess", new List<Entry>
         {
