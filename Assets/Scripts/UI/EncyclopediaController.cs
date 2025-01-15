@@ -131,22 +131,9 @@ public class EncyclopediaController : MonoBehaviour
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideEncyclopedia.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        //var _encyclopediaEntryAsset = EditorGUIUtility.Load("Assets/Resources/UI%20Toolkit/EncyclopediaItemView.uxml") as VisualTreeAsset;
-
         _textView = _root.Q<Label>("entry");
  
-
-        _treeView = _root.Query<TreeView>("tree-view");
-        _treeView.SetRootItems(treeRoots);
-
-        _treeView.makeItem = () => new Button();
-
-        _treeView.bindItem = (VisualElement element, int index) =>
-        {
-            (element as Button).text = _treeView.GetItemDataForIndex<IEntryOrCategory>(index).name;
-            (element as Button).RegisterCallback<MouseUpEvent>((evt) => LoadEntry(_treeView.GetItemDataForIndex<IEntryOrCategory>(index)));
-        };
-
+        SetUpTreeView();
 
         try
         {
@@ -182,6 +169,19 @@ public class EncyclopediaController : MonoBehaviour
             Debug.Log("File Could not be read:" + entry.pathToContent);
             Debug.Log(e.Message);
         }
+    }
+
+    void SetUpTreeView() {
+        _treeView = _root.Query<TreeView>("tree-view");
+        _treeView.SetRootItems(treeRoots);
+
+        _treeView.makeItem = () => new Button();
+
+        _treeView.bindItem = (VisualElement element, int index) =>
+        {
+            (element as Button).text = _treeView.GetItemDataForIndex<IEntryOrCategory>(index).name;
+            (element as Button).RegisterCallback<MouseUpEvent>((evt) => LoadEntry(_treeView.GetItemDataForIndex<IEntryOrCategory>(index)));
+        };
     }
 
 }
