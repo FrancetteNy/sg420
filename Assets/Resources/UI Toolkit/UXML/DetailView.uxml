@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=0d58af7bba0875b4dba220ea32ce5f0a&amp;type=3#DetailView" />
     <ui:VisualElement name="DetailView" style="flex-grow: 1; display: none;">
         <ui:VisualElement name="background" enabled="true" style="background-color: rgb(147, 147, 147); flex-grow: 1; display: flex; flex-direction: row;">
             <ui:VisualElement name="left-column" style="width: 400px;">
