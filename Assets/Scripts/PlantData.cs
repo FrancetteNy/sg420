@@ -165,6 +165,7 @@ public class Age
 [Serializable]
 public enum Strain
 {
+    None,
     Sativa,
     Indica,
     Ruderalis
