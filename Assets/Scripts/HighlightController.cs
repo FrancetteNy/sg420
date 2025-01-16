@@ -23,6 +23,7 @@ public class HighlightController : MonoBehaviour
         _highlightData.Add(data);
         SetOutlineSettings(data.Outline, data.OutlineMode, data.OutlineColor, data.OutlineWidth);
         data.Renderers = data.ObjectToHighlight.GetComponentsInChildren<Renderer>();
+        Debug.Log(data.Outline);
     }
 
     private void SetOutlineSettings(Outline outline, Outline.Mode outlineMode, Color outlineColor, float outlineWidth)

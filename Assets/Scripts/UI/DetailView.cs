@@ -32,7 +32,7 @@ class DetailView : UIView
     public override void Hide()
     {
         View.style.display = DisplayStyle.None;
-        _controller.enabled = false;
+        _controller.TriggerDisabling();
         _highlightController.enabled = true;
     }
 
