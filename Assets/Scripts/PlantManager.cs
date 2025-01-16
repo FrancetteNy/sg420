@@ -26,13 +26,13 @@ public class PlantManager : MonoBehaviour
         var plantPrefab = Resources.Load<GameObject>("prefabs/plant_with_pot");
         foreach (var (plantData, position) in GameStateManagerSingleton.Instance.GameState.PlantDataList.List.Zip(plantPositions, (a,b) => (a,b)))
         {
-            var inScene = Instantiate<GameObject>(plantPrefab, position);
+            var inScene = Instantiate(plantPrefab, position);
             var controller = inScene.GetComponent<PlantController>();
             controller.PlantData = plantData;
             Plants.Add(inScene);
             SetLayerOfAllChildren(inScene);
             ManagePlantStageModel(inScene);
-            UpdateModel(GetCurrentPlantModel(inScene).transform, plantData.Age);
+            UpdateModel(inScene, plantData.Age);
         }
         //Make sure that everything is up to date if anything changes
         Plants.CollectionChanged += new NotifyCollectionChangedEventHandler((object sender, NotifyCollectionChangedEventArgs e) => UpdateHighlightAndDetailView());
@@ -55,6 +55,7 @@ public class PlantManager : MonoBehaviour
     {
         var correctAmountOfWater = false;
         var correctAmountOfNutrients = false;
+
         if (plantController.Soil.StoredWater < PlantManagerConstants.MinWater)
         {
             Debug.Log($"Not enough water {plant}");
@@ -101,10 +102,10 @@ public class PlantManager : MonoBehaviour
             var plantModel = GetCurrentPlantModel(plant).transform;
             plantModel.localScale += new Vector3(0.1f,0.1f,0.1f);
         }
-        UpdateModel(GetCurrentPlantModel(plant).transform, plantController.Age);
+        UpdateModel(plant, plantController.Age);
     }
 
-    private void UpdateModel(Transform transform, Age age)
+    private void UpdateModel(GameObject plant, Age age)
     {
         float vectorValue;
         switch (age.Stage)
@@ -121,9 +122,9 @@ public class PlantManager : MonoBehaviour
                 break;
             case GrowthStage.VEGETATIVEGROWTH:
                 vectorValue = CalculateVectorValue(
-                    PlantManagerConstants.MaxSeedlingValue, 
-                    PlantManagerConstants.MaxVegetativeGrowthValue, 
-                    PlantManagerConstants.MaximumAgePerGrowthStage[GrowthStage.VEGETATIVEGROWTH], 
+                    PlantManagerConstants.MaxSeedlingValue,
+                    PlantManagerConstants.MaxVegetativeGrowthValue,
+                    PlantManagerConstants.MaximumAgePerGrowthStage[GrowthStage.VEGETATIVEGROWTH],
                     age.AgeNumber);
                 break;
             case GrowthStage.FLOWERING:
@@ -140,7 +141,8 @@ public class PlantManager : MonoBehaviour
                 vectorValue = 0.0f;
                 break;
         }
-        transform.localScale = new Vector3(vectorValue, vectorValue, vectorValue);
+        ManagePlantStageModel(plant);
+        GetCurrentPlantModel(plant).transform.localScale = new Vector3(vectorValue, vectorValue, vectorValue);
     }
 
     private float CalculateVectorValue(float min, float max, int numberOfSteps, int currentStep)
@@ -212,10 +214,20 @@ public class PlantManager : MonoBehaviour
     private void ConstructPlantHighlightAndClickFunction(int index)
     {
         var highlightBuilder = _highlightController.BeginHighlightObject(Plants[index]);
+        PlantController plant = Plants[index].GetComponent<PlantController>();
+
         highlightBuilder.WithClickAction((data) =>
         {
             data.Outline.enabled = false;
             UIEvents.ShowDetailView.Invoke(index);
+        });
+
+        highlightBuilder.WithClickAction2((data) =>
+        {
+            GetCurrentPlantModel(plant.gameObject).SetActive(false);
+            plant.PlantData.Age.ResetAge();
+            print(plant.PlantData.Strain.ToString());
+            GameManager.instance.UpdateTreeCount(plant.PlantData.Strain.ToString(), 1);
         });
 
         highlightBuilder.Apply();

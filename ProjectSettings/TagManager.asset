@@ -3,15 +3,18 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Plant
+  - Light
+  - Shelf
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Plant
   - Water
   - UI
-  - Plant
+  - 
   - 
   - 
   - 

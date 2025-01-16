@@ -44,29 +44,63 @@ public class HighlightController : MonoBehaviour
         Destroy(data.Outline);
         return true;
     }
-
+    private void Start()
+    {
+        DontDestroyOnLoad(this.transform.root.gameObject);
+    }
     private void Update()
     {
         foreach (var data in _highlightData)
         {
-            //foreach (var renderer in data.Renderers)
-            //{
             if (IsMouseOver(data))
             {
+                string tag = data.Tag;
+
+                if (tag == "Plant")
+                {
+                    PlantController plantController = data.ObjectToHighlight.GetComponent<PlantController>();
+                    Drying_Controller dryingController = data.ObjectToHighlight.GetComponent<Drying_Controller>();
+
+                    if (plantController && plantController.PlantData.Age.Stage == Age.GrowthStage.FLOWERING)
+                    {
+                        _outlineColor = Color.green;
+                    }
+                    else if (dryingController && dryingController.Age.Stage == AgeDrying.DryingStage.Ready)
+                    {
+                        _outlineColor = Color.green;
+                    }
+                    else
+                    {
+                        _outlineColor = Color.yellow;
+                    }
+                }
+                else
+                {
+                    _outlineColor = Color.yellow;
+                }
+                SetOutlineSettings(data.Outline, data.OutlineMode, _outlineColor, data.OutlineWidth);
 
                 data.Outline.enabled = true;
-                if (Input.GetMouseButtonDown(0) && data.MouseClickFunction != null)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    SoundManagerSingleton.Instance.PlaySound("Click");
-                    data.MouseClickFunction.Invoke(data);
-                    break;
+                    if (tag == "Plant" && _outlineColor == Color.green && data.MouseClickFunction2 != null)
+                    {
+                        data.MouseClickFunction2.Invoke(data);
+                        break;
+                    }
+                    if (data.MouseClickFunction != null)
+                    {
+                        SoundManagerSingleton.Instance.PlaySound("Click");
+                        data.MouseClickFunction.Invoke(data);
+                        break;
+                    }
                 }
             }
             else
             {
                 data.Outline.enabled = false;
             }
-            //}
+
             if (!this.enabled)
             {
                 break;
@@ -109,7 +143,9 @@ public class HighlightController : MonoBehaviour
                 OutlineMode = controller._outlineMode,
                 OutlineColor = controller._outlineColor,
                 OutlineWidth = controller._outlineWidth,
-                MouseClickFunction = null
+                MouseClickFunction = null,
+                MouseClickFunction2 = null,
+                Tag = objectToHighlight.tag
             };
         }
 
@@ -137,6 +173,12 @@ public class HighlightController : MonoBehaviour
             return this;
         }
 
+        public HighlightBuilder WithClickAction2(Action<HighlightData> action)
+        {
+            _data.MouseClickFunction2 = action;
+            return this;
+        }
+
         public void Apply()
         {
             _controller.AddHighlightData(_data);
@@ -149,9 +191,11 @@ public class HighlightController : MonoBehaviour
         public GameObject ObjectToHighlight;
         public Outline Outline;
         public Action<HighlightData>? MouseClickFunction;
+        public Action<HighlightData>? MouseClickFunction2;
         public Outline.Mode OutlineMode;
         public Color OutlineColor;
         public float OutlineWidth;
+        public string Tag;
         public Renderer[] Renderers;
     }
 #nullable disable

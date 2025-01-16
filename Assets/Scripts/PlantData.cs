@@ -142,6 +142,12 @@ public class Age
         GrowthStage.FADED => GrowthStage.FADED,
         _ => throw new ArgumentOutOfRangeException(nameof(GrowthStage), $"Not expected GrowthStage value {Stage}"),
     };
+
+    public void ResetAge()
+    {
+        AgeNumber = 0;
+        Stage = GrowthStage.FADED;
+    }
 }
 [Serializable]
 public enum Strain

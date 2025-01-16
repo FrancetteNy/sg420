@@ -1,12 +1,18 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/globals.uss?fileID=7433441132597879392&amp;guid=3e712312a89df5142a020cb0d117628d&amp;type=3#globals" />
     <ui:VisualElement name="HUD" style="flex-grow: 1; justify-content: flex-end;">
         <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between;">
-            <ui:Label text="Tag 1" name="current-day-label" />
+            <ui:Label text="Tag 1" name="current-day-label" style="background-color: rgba(0, 0, 0, 0);" />
             <ui:Button text="Spiel speichern" name="save-game-button" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1;" />
-        <ui:VisualElement style="flex-direction: row; justify-content: flex-end;">
-            <ui:Button text="Nächsten Tag starten" name="advance-day-button" style="margin-right: 10px; margin-bottom: 10px;" />
+        <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between; align-items: flex-end;">
+            <ui:VisualElement style="flex-grow: 1; flex-direction: column-reverse;">
+                <ui:Label text="Ruderalis : 0, Dried : 0" name="Ruderalis" class="text" />
+                <ui:Label text="Indica : 0, Dried : 0" name="Indica" class="text" />
+                <ui:Label text="Sativa : 0, Dried : 0" name="Sativa" class="text" />
+            </ui:VisualElement>
+            <ui:Button text="Nächsten Tag starten" name="advance-day-button" style="margin-right: 10px; margin-bottom: 10px; height: 50px; flex-direction: column;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
