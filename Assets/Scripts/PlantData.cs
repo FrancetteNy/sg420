@@ -31,9 +31,9 @@ public class PlantData
         }
 
         Age.Stage = GrowthStage.GERMINATION;
-        Age.AgeNumber = 0; // La germination commence
+        Age.AgeNumber = 0; 
         Strain = strain;
-        Soil = new Soil(100, 50); // Initialisation du sol avec de l'eau et des nutriments
+        Soil = new Soil(100, 50); 
         Debug.Log("Erfolgreich gepflanzter Samen !");
     }
 
@@ -168,7 +168,9 @@ public enum Strain
     None,
     Sativa,
     Indica,
-    Ruderalis
+    
+    
+
 }
 
 [Serializable]

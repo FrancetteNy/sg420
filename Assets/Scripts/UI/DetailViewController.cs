@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 using UnityEngine.UIElements;
 
 public class DetailViewController : MonoBehaviour
@@ -10,20 +9,18 @@ public class DetailViewController : MonoBehaviour
     // Events
     public static Action PlantsChanged;
 
-
     // Camera and Managers
     public List<PlantController> PlantControllers;
     private Camera _detailViewCamera;
     private DetailViewCameraController _cameraController;
     private DetailViewUIManager _uiManager;
     private DetailViewPlantManager _detailViewplantManager;
-    private VisualElement _background;
     private Action _closeAction;
     private Vector3 _cameraMoveVector;
     private Vector3 _rotateVector;
     private bool _isInitialized = false;
     private PlantManager _plantManager;
-    public List<PlantData> PlantDatas;
+
 
 
 
@@ -32,13 +29,6 @@ public class DetailViewController : MonoBehaviour
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
-
-        if (!_isInitialized)
-        {
-            var camera = Camera.main; // Ou une autre caméra assignée
-            var plantManager = FindObjectOfType<PlantManager>(); // Recherchez PlantManager dans la scène
-            Initialize(camera, plantManager);
-        }
 
     }
 
@@ -211,26 +201,7 @@ public class DetailViewController : MonoBehaviour
 
         _closeAction = closeAction;
     }
-    private void SeedCurrentPot()
-    {
-        if (_detailViewplantManager == null)
-        {
-            Debug.LogError("DetailViewPlantManager is not initialized.");
-            return;
-        }
 
-        if (!_uiManager.TryGetSelectedSeed(out var selectedSeedType))
-        {
-            Debug.LogError("No seed selected from the dropdown.");
-            return;
-        }
-
-        if (_detailViewplantManager.PlantSeedInCurrentPot(selectedSeedType))
-        {
-            // Mettez à jour l'interface utilisateur après avoir planté
-            _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
-        }
-    }
 
 
 
@@ -393,13 +364,10 @@ public class DetailViewUIManager
     private VisualElement _inventoryList;
     private Button _confirmSeedButton;
     private Button _popupCloseButton;
+    private VisualElement _plantInfo;
     private int _currentPlantDataIndex = -1;
-    public List<PlantData> PlantDatas;
     private Samen _samen;
-    private DetailViewUIManager _uiManager;
     private Ernte _ernte;
-    public int Plantcount => _plants.Count;
-    private List<PlantController> _plants;
     private DetailViewPlantManager _detailViewPlantManager;
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered, DetailViewPlantManager detailViewPlantManager)
@@ -414,12 +382,14 @@ public class DetailViewUIManager
         _wikiTextLabel = _background.Q<Label>("wiki-text");
         SetupDetailLabels(onDetailHovered);
 
+        _plantInfo = _background.Q<VisualElement>("plantinfo");
+
         // Seed Container
         _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
         _seedTypeDropdown = _seedSelectionContainer.Q<DropdownField>("seed-type-dropdown");
         _confirmSeedButton = _seedSelectionContainer.Q<Button>("confirm-seed-button");
-        
-        
+
+
         //Popup container
         _popupContainer = _background.Q<VisualElement>("popup-container");
         _popupContent = _popupContainer.Q<VisualElement>("popup-content");
@@ -427,7 +397,6 @@ public class DetailViewUIManager
         _popupCloseButton = _popupContent.Q<Button>("popup-close-button");
 
 
-        // Masquer la sélection des graines par défaut
         _seedSelectionContainer.style.display = DisplayStyle.None;
         _popupContainer.style.display = DisplayStyle.None;
 
@@ -441,7 +410,7 @@ public class DetailViewUIManager
         _samen = new Samen();
         _ernte = new Ernte();
 
-        // Ajouter des objets pour tester (graines et récoltes)
+
         _samen.AddItem("Sativa Seed", 5);
         _samen.AddItem("Indica Seed", 3);
         _samen.AddItem("Ruderalis Seed", 10);
@@ -455,26 +424,6 @@ public class DetailViewUIManager
 
 
 
-    }
-    public bool TryGetSelectedSeed(out Strain selectedSeed)
-    {
-        selectedSeed = default;
-
-        // Vérifiez si le DropdownField est null
-        if (_seedTypeDropdown == null || string.IsNullOrEmpty(_seedTypeDropdown.value))
-        {
-            Debug.LogError("No seed type selected from the dropdown.");
-            return false;
-        }
-
-        // Essayez de convertir la valeur en une graine valide (Strain)
-        if (Enum.TryParse<Strain>(_seedTypeDropdown.value, out selectedSeed))
-        {
-            return true; // Conversion réussie
-        }
-
-        Debug.LogError($"Invalid seed type: {_seedTypeDropdown.value}");
-        return false; // Conversion échouée
     }
 
 
@@ -498,7 +447,7 @@ public class DetailViewUIManager
             if (_detailViewPlantManager.PlantSeedInCurrentPot(selectedSeed))
             {
                 ShowPopup($"Der Samen {selectedSeed} gesät!");
-                // Mettre à jour l'interface utilisateur
+                // Die Benutzeroberfläche aktualisieren
                 UpdatePlantData(_detailViewPlantManager.GetCurrentPlantData());
             }
         }
@@ -511,13 +460,14 @@ public class DetailViewUIManager
     public void ShowPopup(string message)
     {
         _popupMessage.text = message;
-        _popupContainer.style.display = DisplayStyle.Flex; // Affiche le popup
+        _popupContainer.style.display = DisplayStyle.Flex;
     }
 
-    // Méthode pour cacher le popup
+
     public void HidePopup()
     {
-        _popupContainer.style.display = DisplayStyle.None; // Cache le popup
+        _popupContainer.style.display = DisplayStyle.None;
+        _plantInfo.style.display = DisplayStyle.Flex;
     }
 
 
@@ -526,27 +476,23 @@ public class DetailViewUIManager
 
     {
         _inventoryList = _background.Q<VisualElement>("seed-list");
-        // Vider la liste avant d'ajouter les nouveaux éléments
+
         _inventoryList.Clear();
 
-        // Ajouter chaque élément de l'inventaire à la liste dans l'UI
+
         foreach (var item in _samen.Items)
         {
             var itemElement = new VisualElement();
             itemElement.style.flexDirection = FlexDirection.Row;
 
-            // Créer un label pour le nom de l'item
             var itemNameLabel = new Label(item.Key);
             itemNameLabel.style.flexGrow = 1;
 
-            // Créer un label pour la quantité
             var itemQuantityLabel = new Label($"x{item.Value}");
 
-            // Ajouter les labels dans l'élément de l'inventaire
             itemElement.Add(itemNameLabel);
             itemElement.Add(itemQuantityLabel);
 
-            // Ajouter l'élément à la liste de l'inventaire dans l'UI
             _inventoryList.Add(itemElement);
         }
 
@@ -555,27 +501,23 @@ public class DetailViewUIManager
 
     {
         _inventoryList = _background.Q<VisualElement>("harvest-list");
-        // Vider la liste avant d'ajouter les nouveaux éléments
+        
         _inventoryList.Clear();
 
-        // Ajouter chaque élément de l'inventaire à la liste dans l'UI
+       
         foreach (var item in _ernte.Items)
         {
             var itemElement = new VisualElement();
             itemElement.style.flexDirection = FlexDirection.Row;
 
-            // Créer un label pour le nom de l'item
             var itemNameLabel = new Label(item.Key);
             itemNameLabel.style.flexGrow = 1;
 
-            // Créer un label pour la quantité
             var itemQuantityLabel = new Label($"x{item.Value}");
 
-            // Ajouter les labels dans l'élément de l'inventaire
             itemElement.Add(itemNameLabel);
             itemElement.Add(itemQuantityLabel);
 
-            // Ajouter l'élément à la liste de l'inventaire dans l'UI
             _inventoryList.Add(itemElement);
         }
 
@@ -635,16 +577,18 @@ public class DetailViewUIManager
 
             if (growthStageString.Equals("None", StringComparison.OrdinalIgnoreCase))
             {
-                _seedSelectionContainer.style.display = DisplayStyle.Flex;  // Affiche l'indicateur de plante vide
+                _seedSelectionContainer.style.display = DisplayStyle.Flex;
+                _plantInfo.style.display = DisplayStyle.None;
             }
             else
             {
-                _seedSelectionContainer.style.display = DisplayStyle.None;  // Cache l'indicateur de plante vide
+                _seedSelectionContainer.style.display = DisplayStyle.None;
+
             }
         }
         else
         {
-            Debug.LogWarning("La clé 'growthStage' est manquante ou incorrecte dans plantData.");
+            Debug.LogWarning("Der Schlüssel 'Strain' fehlt oder ist in plantData nicht korrekt.");
             _seedSelectionContainer.style.display = DisplayStyle.None;
         }
 
@@ -859,14 +803,14 @@ public class DetailViewPlantManager
 
         var currentPlant = _plants[CurrentPlantIndex];
 
-        // Vérifiez si le pot est vide
+
         if (!currentPlant.IsEmpty())
         {
             Debug.LogError("The selected pot is not empty.");
             return false;
         }
 
-        // Plantez la graine
+        // Pflanzt den Samen ein
         currentPlant.PlantSeed(seedType);
 
         Debug.Log($"Successfully planted {seedType} seed in pot {CurrentPlantIndex}.");
