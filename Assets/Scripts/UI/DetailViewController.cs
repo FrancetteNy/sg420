@@ -152,6 +152,12 @@ public class DetailViewController : MonoBehaviour
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 _uiManager.CloseCurrentSubmenu();
                 break;
+            case UIButton.CONFIRMSEED:
+                _uiManager.SeedCurrentPot();
+                break;
+            case UIButton.POPUPCLOSED:
+                _uiManager.HidePopup();
+                break;
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
@@ -251,6 +257,9 @@ public enum UIButton
     CHANGETOSMALL,
     CHANGETOMEDIUM,
     CHANGETOLARGE,
+    CONFIRMSEED,
+    POPUPCLOSED,
+
 }
 // Constants for readability and configurability
 public static class DetailViewConstants
@@ -290,6 +299,9 @@ public static class DetailViewConstants
         { UIButton.CHANGETOSMALL,"change-to-small-pot-button" },
         { UIButton.CHANGETOMEDIUM,"change-to-medium-pot-button" },
         { UIButton.CHANGETOLARGE,"change-to-large-pot-button" },
+        { UIButton.CONFIRMSEED, "confirm-seed-button" },
+        { UIButton.POPUPCLOSED, "popup-close-button" },
+
     };
     public static Dictionary<Submenu, string> NameOfSubmenues = new Dictionary<Submenu, string>() {
         {Submenu.WATERINGSUBMENU, "watering-submenu" },
@@ -360,14 +372,8 @@ public class DetailViewUIManager
     private Button _previousPlantButton;
     private Button _nextPlantButton;
     private VisualElement _seedSelectionContainer;
-    private DropdownField _seedTypeDropdown;
-    private VisualElement _inventoryList;
-    private Button _confirmSeedButton;
-    private Button _popupCloseButton;
+    private string _seedTypeDropdown;   
     private VisualElement _plantInfo;
-    private int _currentPlantDataIndex = -1;
-    private Samen _samen;
-    private Ernte _ernte;
     private DetailViewPlantManager _detailViewPlantManager;
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered, DetailViewPlantManager detailViewPlantManager)
@@ -386,63 +392,38 @@ public class DetailViewUIManager
 
         // Seed Container
         _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
-        _seedTypeDropdown = _seedSelectionContainer.Q<DropdownField>("seed-type-dropdown");
-        _confirmSeedButton = _seedSelectionContainer.Q<Button>("confirm-seed-button");
-
-
+        
         //Popup container
         _popupContainer = _background.Q<VisualElement>("popup-container");
         _popupContent = _popupContainer.Q<VisualElement>("popup-content");
         _popupMessage = _popupContent.Q<Label>("popup-message");
-        _popupCloseButton = _popupContent.Q<Button>("popup-close-button");
-
-
+        
         _seedSelectionContainer.style.display = DisplayStyle.None;
         _popupContainer.style.display = DisplayStyle.None;
 
-
-        // Connect the confirm seed button to the planting logic
-        _confirmSeedButton.clicked += SeedCurrentPot;
-        _popupCloseButton.clicked += HidePopup;
-
-
+        
         SetupSliders();
-        _samen = new Samen();
-        _ernte = new Ernte();
-
-
-        _samen.AddItem("Sativa Seed", 5);
-        _samen.AddItem("Indica Seed", 3);
-        _samen.AddItem("Ruderalis Seed", 10);
-
-        _ernte.AddItem("Sativa Seed", 0);
-        _ernte.AddItem("Indica Seed", 3);
-        _ernte.AddItem("Ruderalis Crop", 5);
-
-        UpdateSamenDisplay();
-        UpdateErnteDisplay();
-
-
-
     }
 
 
-    private void SeedCurrentPot()
+    public void SeedCurrentPot()
     {
+        _seedTypeDropdown = GetSeedValue();
+
         if (_detailViewPlantManager == null)
         {
             Debug.LogError("DetailViewPlantManager is not initialized.");
             return;
         }
 
-        if (string.IsNullOrEmpty(_seedTypeDropdown.value))
+        if (string.IsNullOrEmpty(_seedTypeDropdown))
         {
             Debug.LogError("No seed selected from the dropdown.");
             return;
         }
-
+       
         // Parse the selected seed type
-        if (Enum.TryParse<Strain>(_seedTypeDropdown.value, out Strain selectedSeed))
+        if (Enum.TryParse<Strain>(_seedTypeDropdown, out Strain selectedSeed))
         {
             if (_detailViewPlantManager.PlantSeedInCurrentPot(selectedSeed))
             {
@@ -468,59 +449,6 @@ public class DetailViewUIManager
     {
         _popupContainer.style.display = DisplayStyle.None;
         _plantInfo.style.display = DisplayStyle.Flex;
-    }
-
-
-
-    void UpdateSamenDisplay()
-
-    {
-        _inventoryList = _background.Q<VisualElement>("seed-list");
-
-        _inventoryList.Clear();
-
-
-        foreach (var item in _samen.Items)
-        {
-            var itemElement = new VisualElement();
-            itemElement.style.flexDirection = FlexDirection.Row;
-
-            var itemNameLabel = new Label(item.Key);
-            itemNameLabel.style.flexGrow = 1;
-
-            var itemQuantityLabel = new Label($"x{item.Value}");
-
-            itemElement.Add(itemNameLabel);
-            itemElement.Add(itemQuantityLabel);
-
-            _inventoryList.Add(itemElement);
-        }
-
-    }
-    void UpdateErnteDisplay()
-
-    {
-        _inventoryList = _background.Q<VisualElement>("harvest-list");
-        
-        _inventoryList.Clear();
-
-       
-        foreach (var item in _ernte.Items)
-        {
-            var itemElement = new VisualElement();
-            itemElement.style.flexDirection = FlexDirection.Row;
-
-            var itemNameLabel = new Label(item.Key);
-            itemNameLabel.style.flexGrow = 1;
-
-            var itemQuantityLabel = new Label($"x{item.Value}");
-
-            itemElement.Add(itemNameLabel);
-            itemElement.Add(itemQuantityLabel);
-
-            _inventoryList.Add(itemElement);
-        }
-
     }
 
     private void SetupSliders()
@@ -642,6 +570,10 @@ public class DetailViewUIManager
         return _background.Q<Slider>("water-slider").value;
     }
 
+    internal string GetSeedValue()
+    {
+        return _seedSelectionContainer.Q<DropdownField>("seed-type-dropdown").value;
+    }
     internal float GetFertilizerValue()
     {
         return _background.Q<Slider>("fertilizer-slider").value;

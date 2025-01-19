@@ -168,6 +168,7 @@ public enum Strain
     None,
     Sativa,
     Indica,
+    Ruderalis,
     
     
 
