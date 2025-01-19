@@ -372,7 +372,7 @@ public class DetailViewUIManager
     private Button _previousPlantButton;
     private Button _nextPlantButton;
     private VisualElement _seedSelectionContainer;
-    private string _seedTypeDropdown;   
+    private string _seedTypeDropdown;
     private VisualElement _plantInfo;
     private DetailViewPlantManager _detailViewPlantManager;
 
@@ -392,16 +392,16 @@ public class DetailViewUIManager
 
         // Seed Container
         _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
-        
+
         //Popup container
         _popupContainer = _background.Q<VisualElement>("popup-container");
         _popupContent = _popupContainer.Q<VisualElement>("popup-content");
         _popupMessage = _popupContent.Q<Label>("popup-message");
-        
+
         _seedSelectionContainer.style.display = DisplayStyle.None;
         _popupContainer.style.display = DisplayStyle.None;
 
-        
+
         SetupSliders();
     }
 
@@ -412,16 +412,14 @@ public class DetailViewUIManager
 
         if (_detailViewPlantManager == null)
         {
-            Debug.LogError("DetailViewPlantManager is not initialized.");
             return;
         }
 
         if (string.IsNullOrEmpty(_seedTypeDropdown))
         {
-            Debug.LogError("No seed selected from the dropdown.");
             return;
         }
-       
+
         // Parse the selected seed type
         if (Enum.TryParse<Strain>(_seedTypeDropdown, out Strain selectedSeed))
         {
@@ -729,23 +727,15 @@ public class DetailViewPlantManager
     {
         if (CurrentPlantIndex < 0 || CurrentPlantIndex >= _plants.Count)
         {
-            Debug.LogError("Invalid plant index or no pot selected.");
             return false;
         }
-
         var currentPlant = _plants[CurrentPlantIndex];
-
-
         if (!currentPlant.IsEmpty())
         {
-            Debug.LogError("The selected pot is not empty.");
             return false;
         }
-
         // Pflanzt den Samen ein
         currentPlant.PlantSeed(seedType);
-
-        Debug.Log($"Successfully planted {seedType} seed in pot {CurrentPlantIndex}.");
         return true;
     }
 

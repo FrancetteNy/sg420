@@ -22,22 +22,6 @@ public class PlantData
         this.Strain = Strain.Sativa;
         this.Soil = new(0, 0);
     }
-    public void PlantSeed(Strain strain)
-    {
-        if (Age.Stage != GrowthStage.EMPTY)
-        {
-            Debug.LogWarning("Samen kann nicht gepflanzt werden: Der Topf ist nicht leer !");
-            return;
-        }
-
-        Age.Stage = GrowthStage.GERMINATION;
-        Age.AgeNumber = 0; 
-        Strain = strain;
-        Soil = new Soil(100, 50); 
-        Debug.Log("Erfolgreich gepflanzter Samen !");
-    }
-
-
 
     public Dictionary<string, object> DataDictionary()
     {
