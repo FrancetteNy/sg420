@@ -66,7 +66,7 @@
                     <ui:Button text="X" name="close-button" style="align-self: flex-end;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="plant" class="block" style="flex-grow: 1; flex-shrink: 0; max-height: 47.5%;">
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                    <ui:VisualElement name= "plantinfo" style="flex-grow: 1; flex-direction: row;">
                         <ui:VisualElement name="left" style="flex-grow: 1; flex-direction: column; max-width: 50%;">
                             <ui:VisualElement name="growthStage" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                                 <ui:Label text="Phase" name="name" class="property-text" />
@@ -95,14 +95,14 @@
                                 <ui:Label text="-" name="name" class="property-text" />
                                 <ui:Label name="value" text="-" class="property-text" />
                             </ui:VisualElement>
-                        </ui:VisualElement>
-                        <ui:VisualElement name="popup-container" style="background-color: rgb(10, 9, 9),position: absolute; top: 30%; width: 30%; height: 50%; background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center;">
+                        </ui:VisualElement>  
+                    </ui:VisualElement> 
+                    <ui:VisualElement name="popup-container" style="background-color: rgb(10, 9, 9),position: absolute; top: 30%; width: 30%; height: 50%; background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center;">
                             <ui:VisualElement name="popup-content" style=" padding: 20px; border-radius: 5px;">
                                 <ui:Label name="popup-message" text="Default Message" style="font-size: 18px; text-align: center; margin-bottom: 20px;" />
                                 <ui:Button name="popup-close-button" text="OK" style="align-self: center;" />
                             </ui:VisualElement>
                         </ui:VisualElement>
-                    </ui:VisualElement> 
                     <ui:VisualElement name="seed-selection-container" style=" flex-direction: column; margin-top: 10px;">
                         <ui:Label text="Samen auswählen :" class="property-text" style="margin-bottom: 5px;" />
                         <ui:DropdownField name="seed-type-dropdown" choices="Sativa,Indica,Ruderalis" style="width: 50%;"/>
