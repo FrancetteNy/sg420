@@ -113,30 +113,6 @@
                     <ui:Label text="Enzyklopädie" name="title" class="block-header" />
                     <ui:Label text="Dummy Text" name="wiki-text" style="font-size: 20px;" />
                 </ui:VisualElement>
-                <ui:VisualElement name="inventory-container" class= "block" style="flex-direction: column; margin-top: 10px; justify-content: space-between;">
-                    <ui:Label text="Inventar" name="title" class="block-header" />
-                    <ui:VisualElement name="inventory-sections" style="flex-direction: row; justify-content: space-between;">
-                    <!-- Section des graines -->
-                    <ui:VisualElement name="seed-inventory" class="inventory-section block" style="flex-direction: column; width: 48%; margin-right: 2%;">
-                        <ui:Label text="Pflanzensamen" class="inventory-section-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;" />
-                        <ui:VisualElement name="seed-list" >
-                            <!-- Liste dynamique des graines -->
-                        </ui:VisualElement>
-                        <!--<ui:Button text="Samen hinzufügen" name="add-sativa-button" />
-                        <ui:Button text="Samen entfernen" name="remove-flower-button" />-->
-
-                    </ui:VisualElement>
-
-                    <!-- Section des récoltes -->
-                    <ui:VisualElement name="harvest-inventory" class="inventory-section block" style="flex-direction: column; width: 48%;">
-                        <ui:Label text="Ernten" class="inventory-section-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;" />
-                        <ui:VisualElement name="harvest-list">
-                            <!-- Liste dynamique des récoltes -->
-                        </ui:VisualElement>
-                        <!--<ui:Button text="Ernte hinzufügen" name="add-sativa-button" />
-                        <ui:Button text="Ernte entfernen" name="remove-flower-button" />-->
-                    </ui:VisualElement>
-                </ui:VisualElement>
             </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button name="previous-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-left-circle-outline.png?fileID=2800000&amp;guid=dabda778f4ff92c4792236dca892c7a3&amp;type=3#chevron-left-circle-outline" class="button switch-plant-button no-background" style="position: absolute; top: 45%; left: 0; bottom: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
