@@ -102,7 +102,7 @@
                                 <ui:Label name="popup-message" text="Default Message" style="font-size: 18px; text-align: center; margin-bottom: 20px;" />
                                 <ui:Button name="popup-close-button" text="OK" style="align-self: center;" />
                             </ui:VisualElement>
-                        </ui:VisualElement>
+                    </ui:VisualElement>
                     <ui:VisualElement name="seed-selection-container" style=" flex-direction: column; margin-top: 10px;">
                         <ui:Label text="Samen auswählen :" class="property-text" style="margin-bottom: 5px;" />
                         <ui:DropdownField name="seed-type-dropdown" choices="Sativa,Indica,Ruderalis" style="width: 50%;"/>
@@ -113,7 +113,6 @@
                     <ui:Label text="Enzyklopädie" name="title" class="block-header" />
                     <ui:Label text="Dummy Text" name="wiki-text" style="font-size: 20px;" />
                 </ui:VisualElement>
-            </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button name="previous-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-left-circle-outline.png?fileID=2800000&amp;guid=dabda778f4ff92c4792236dca892c7a3&amp;type=3#chevron-left-circle-outline" class="button switch-plant-button no-background" style="position: absolute; top: 45%; left: 0; bottom: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
             <ui:Button name="next-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-right-circle-outline.png?fileID=2800000&amp;guid=7a5c6d966bab47e45a2f621b28a31819&amp;type=3#chevron-right-circle-outline" class="switch-plant-button no-background" style="position: absolute; right: 0; top: 45%; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
