@@ -15,7 +15,6 @@ public class LightController : MonoBehaviour
     private void ConstructPlantHighlightAndClickFunction()
     {
         var highlightBuilder = _highlightController.BeginHighlightObject(this.gameObject);
-        Debug.Log(this.gameObject);
         highlightBuilder.WithClickAction((data) =>
         {
             UIEvents.ShowLightOverview.Invoke();
