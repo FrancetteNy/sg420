@@ -1,4 +1,4 @@
-using MyUILibrary;
+using SG420UILibrary;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ public class EncyclopediaController : MonoBehaviour
     private TextField _searchBar;    
     protected interface IEntryOrCategory
     {
-        public string name
+        public string Name
         {
            get; 
         }
@@ -24,37 +24,37 @@ public class EncyclopediaController : MonoBehaviour
 
     protected class Entry : IEntryOrCategory
     {
-        public string name
+        public string Name
         {
            get; 
         }
 
         public Entry(string name)
         {
-            this.name = name;
+            this.Name = name;
         }
     }
 
     protected class Category : IEntryOrCategory
     {
-        public string name
+        public string Name
         {
            get; 
         }
         
-        public List<Entry> entries
+        public List<Entry> Entries
         {
            get; 
         }
 
         public Category(string name, List<Entry> entries) {
-            this.name = name;
-            this.entries = entries;
+            this.Name = name;
+            this.Entries = entries;
         }
 
     }
   
-    protected static List<Category> _categories = new List<Category> {
+    protected static List<Category> Categories = new List<Category> {
         new Category("Anbau", new List<Entry>
         {
             new Entry("Bewässern"),
@@ -69,14 +69,14 @@ public class EncyclopediaController : MonoBehaviour
         })
     };
 
-    protected static List<Entry> entries
+    protected static List<Entry> Entries
     {
         get
         {
             var retVal = new List<Entry>(6);
-            foreach (var category in _categories)
+            foreach (var category in Categories)
             {
-                retVal.AddRange(category.entries);
+                retVal.AddRange(category.Entries);
             }
             return retVal;
         }
@@ -97,18 +97,7 @@ public class EncyclopediaController : MonoBehaviour
         SetUpSearchBar();
         SetUpTreeView();
 
-        try
-        {
-            using (StreamReader sr = new StreamReader("Assets/Resources/EncyclopediaEntries/Home.html")) 
-            {
-                _textView.text = sr.ReadToEnd();
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log("File Could not be read: Home");
-            Debug.Log(e.Message);
-        }
+        _textView.text = Resources.Load<TextAsset>("EncyclopediaEntries/Home").text;
     }
 
     // Update is called once per frame
@@ -119,19 +108,9 @@ public class EncyclopediaController : MonoBehaviour
 
     void LoadEntry(IEntryOrCategory entry)
     {
-        string pathToContent = "Assets/Resources/EncyclopediaEntries/" + entry.name + ".html";
-        try
-        {
-            using (StreamReader sr = new StreamReader(pathToContent)) 
-            {
-                _textView.text = sr.ReadToEnd();
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log("File Could not be read:" + pathToContent);
-            Debug.Log(e.Message);
-        }
+        string pathToContent = "EncyclopediaEntries/" + entry.Name;
+
+        _textView.text = Resources.Load<TextAsset>(pathToContent).text;
     }
 
     void SetUpSearchBar() 
@@ -143,13 +122,13 @@ public class EncyclopediaController : MonoBehaviour
             var search = evt.newValue;
             var tempList = new List<Category>();
             if (search == "") {
-                _treeView.SetRootItems(GenerateTreeRoots(_categories));
+                _treeView.SetRootItems(GenerateTreeRoots(Categories));
             }
             else 
             {
-                foreach (var category in _categories)
+                foreach (var category in Categories)
                 {
-                    if (category.name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (category.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         tempList.Add(category);
                     }
@@ -157,9 +136,9 @@ public class EncyclopediaController : MonoBehaviour
                     {
                         var tempEntryList = new List<Entry>();
                         int count = 0;
-                        foreach (var entry in category.entries)
+                        foreach (var entry in category.Entries)
                         {
-                            if (entry.name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
+                            if (entry.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
                             {
                                 tempEntryList.Add(entry);
                                 count++;
@@ -167,7 +146,7 @@ public class EncyclopediaController : MonoBehaviour
                         }
                         if (count > 0)
                         {
-                            tempList.Add(new Category(category.name, tempEntryList));
+                            tempList.Add(new Category(category.Name, tempEntryList));
                         }
                     }
                 }
@@ -182,13 +161,13 @@ public class EncyclopediaController : MonoBehaviour
     void SetUpTreeView() 
     {
         _treeView = _root.Query<TreeView>("tree-view");
-        _treeView.SetRootItems(GenerateTreeRoots(_categories));
+        _treeView.SetRootItems(GenerateTreeRoots(Categories));
 
         _treeView.makeItem = () => new Button();
 
         _treeView.bindItem = (VisualElement element, int index) =>
         {
-            (element as Button).text = _treeView.GetItemDataForIndex<IEntryOrCategory>(index).name;
+            (element as Button).text = _treeView.GetItemDataForIndex<IEntryOrCategory>(index).Name;
             (element as Button).RegisterCallback<MouseUpEvent>((evt) => LoadEntry(_treeView.GetItemDataForIndex<IEntryOrCategory>(index)));
         };
     }
@@ -200,8 +179,8 @@ public class EncyclopediaController : MonoBehaviour
         var roots = new List<TreeViewItemData<IEntryOrCategory>>(categories.Count);
         foreach (var category in categories)
         {
-            var entriesInCategory = new List<TreeViewItemData<IEntryOrCategory>>(category.entries.Count);
-            foreach (var entry in category.entries)
+            var entriesInCategory = new List<TreeViewItemData<IEntryOrCategory>>(category.Entries.Count);
+            foreach (var entry in category.Entries)
             {
                 entriesInCategory.Add(new TreeViewItemData<IEntryOrCategory>(id++, entry));
             }
