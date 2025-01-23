@@ -23,7 +23,6 @@ public class HighlightController : MonoBehaviour
         _highlightData.Add(data);
         SetOutlineSettings(data.Outline, data.OutlineMode, data.OutlineColor, data.OutlineWidth);
         data.Renderers = data.ObjectToHighlight.GetComponentsInChildren<Renderer>();
-        Debug.Log(data.Outline);
     }
 
     private void SetOutlineSettings(Outline outline, Outline.Mode outlineMode, Color outlineColor, float outlineWidth)
@@ -65,7 +64,7 @@ public class HighlightController : MonoBehaviour
                     {
                         _outlineColor = Color.green;
                     }
-                    else if (dryingController && dryingController.Age.Stage == AgeDrying.DryingStage.Ready)
+                    else if (dryingController && dryingController.PlantDriedData.Age.Stage == AgeDrying.DryingStage.Ready)
                     {
                         _outlineColor = Color.green;
                     }
@@ -83,11 +82,7 @@ public class HighlightController : MonoBehaviour
                 data.Outline.enabled = true;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if (tag == "Plant" && _outlineColor == Color.green && data.MouseClickFunction2 != null)
-                    {
-                        data.MouseClickFunction2.Invoke(data);
-                        break;
-                    }
+             
                     if (data.MouseClickFunction != null)
                     {
                         SoundManagerSingleton.Instance.PlaySound("Click");
@@ -144,7 +139,6 @@ public class HighlightController : MonoBehaviour
                 OutlineColor = controller._outlineColor,
                 OutlineWidth = controller._outlineWidth,
                 MouseClickFunction = null,
-                MouseClickFunction2 = null,
                 Tag = objectToHighlight.tag
             };
         }
@@ -173,11 +167,7 @@ public class HighlightController : MonoBehaviour
             return this;
         }
 
-        public HighlightBuilder WithClickAction2(Action<HighlightData> action)
-        {
-            _data.MouseClickFunction2 = action;
-            return this;
-        }
+ 
 
         public void Apply()
         {

@@ -58,6 +58,27 @@ public class GameStateManagerSingleton : MonoBehaviour
         Save();
     }
 
+    public void AdvanceTreesCount(int num)
+    {
+        GameState.TreesCount += num;
+        GameState.InventorzChanged?.Invoke();
+        Save();
+    }
+
+    public void AdvanceScore(int score)
+    {
+        GameState.Score += score;
+        GameState.ScoreChanged?.Invoke();
+        Save();
+    }
+
+    public void AdvanceGetrocknet(int num)
+    {
+        GameState.Getrocknet += num;
+        GameState.GetrocknetChanged?.Invoke();
+        Save();
+    }
+
     private string _saveFilePath;
 
     public void Save()

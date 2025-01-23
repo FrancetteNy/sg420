@@ -134,9 +134,6 @@ public class PlantManager : MonoBehaviour
                     PlantManagerConstants.MaximumAgePerGrowthStage[GrowthStage.FLOWERING],
                     age.AgeNumber);
                 break;
-            case GrowthStage.FADED:
-                vectorValue = 1.0f;
-                break;
             default:
                 vectorValue = 0.0f;
                 break;
@@ -211,6 +208,32 @@ public class PlantManager : MonoBehaviour
         }
     }
 
+    public void ErntePlant(PlantController plant)
+    {
+        PlantData plantData = plant.PlantData;
+        if (plantData.Age.Stage == GrowthStage.FLOWERING)
+        {
+            ErnteAction(plant);
+        }
+        else
+        {
+            if (plantData.Age.Stage != GrowthStage.FADED)
+                ModalController.Instance.ShowModal("Are you Sure?", "Collect the plant", () => ErnteAction(plant));
+        }
+    }
+
+    private void ErnteAction(PlantController plant)
+    {
+        GetCurrentPlantModel(plant.gameObject).SetActive(false);
+        plant.PlantData.Age.ResetAge();
+        GameStateManagerSingleton.Instance.AdvanceTreesCount(1);
+
+        // Send a notification
+        print("Send A Notification");
+
+        GameStateManagerSingleton.Instance.Save();
+    }
+
     private void ConstructPlantHighlightAndClickFunction(int index)
     {
         var highlightBuilder = _highlightController.BeginHighlightObject(Plants[index]);
@@ -221,19 +244,9 @@ public class PlantManager : MonoBehaviour
             data.Outline.enabled = false;
             UIEvents.ShowDetailView.Invoke(index);
         });
-
-        highlightBuilder.WithClickAction2((data) =>
-        {
-            GetCurrentPlantModel(plant.gameObject).SetActive(false);
-            plant.PlantData.Age.ResetAge();
-            print(plant.PlantData.Strain.ToString());
-            GameManager.instance.UpdateTreeCount(plant.PlantData.Strain.ToString(), 1);
-        });
-
         highlightBuilder.Apply();
 
     }
-
 }
 
 public static class PlantManagerConstants

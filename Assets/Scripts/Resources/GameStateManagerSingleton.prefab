@@ -44,4 +44,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da545297171e69419a2b631fc7a22cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SoundDataList: []
+  GameState:
+    Growlight:
+      Type: 0
+      IsInFloweringGrowthMode: 0
+    CurrentDay: 1
+    PlantDataList:
+      List:
+      - Potsize: 500
+        Age:
+          Stage: 0
+          AgeNumber: 0
+        Strain: 0
+        Soil:
+          StoredWater: 0
+          StoredNutrients: 0
+      - Potsize: 500
+        Age:
+          Stage: 0
+          AgeNumber: 0
+        Strain: 0
+        Soil:
+          StoredWater: 0
+          StoredNutrients: 0
+      - Potsize: 500
+        Age:
+          Stage: 0
+          AgeNumber: 0
+        Strain: 0
+        Soil:
+          StoredWater: 0
+          StoredNutrients: 0
+      - Potsize: 500
+        Age:
+          Stage: 0
+          AgeNumber: 0
+        Strain: 0
+        Soil:
+          StoredWater: 0
+          StoredNutrients: 0
+    PlantDriedDataList:
+      List:
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
+    TreesCount: 0
+    Score: 0
+    Getrocknet: 0
+    Room: 0

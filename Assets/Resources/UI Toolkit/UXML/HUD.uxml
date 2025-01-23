@@ -5,14 +5,15 @@
             <ui:Label text="Tag 1" name="current-day-label" style="background-color: rgba(0, 0, 0, 0);" />
             <ui:Button text="Spiel speichern" name="save-game-button" />
         </ui:VisualElement>
-        <ui:VisualElement style="flex-grow: 1;" />
-        <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between; align-items: flex-end;">
+        <ui:VisualElement style="flex-grow: 1; height: 40px;" />
+        <ui:Button text="Ernten" name="Ernten" style="flex-direction: column; height: 40px; width: 100px;" />
+        <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between; align-items: flex-end; flex-wrap: wrap;">
             <ui:VisualElement style="flex-grow: 1; flex-direction: column-reverse;">
-                <ui:Label text="Ruderalis : 0, Dried : 0" name="Ruderalis" class="text" />
-                <ui:Label text="Indica : 0, Dried : 0" name="Indica" class="text" />
-                <ui:Label text="Sativa : 0, Dried : 0" name="Sativa" class="text" />
+                <ui:Label text="getrocknet : 0" name="Getrocknet" class="text" />
+                <ui:Label text="Score : 0" name="Score" class="text" />
+                <ui:Label text="Ernte : 0" name="Ernte" class="text" />
             </ui:VisualElement>
-            <ui:Button text="Nächsten Tag starten" name="advance-day-button" style="margin-right: 10px; margin-bottom: 10px; height: 50px; flex-direction: column;" />
+            <ui:Button text="Nächsten Tag starten" name="advance-day-button" style="margin-right: 10px; margin-bottom: 10px; height: 50px; flex-direction: row;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

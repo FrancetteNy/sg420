@@ -88,6 +88,10 @@ public class DetailViewController : MonoBehaviour
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 break;
+            case UIButton.ERNTENPLANT:
+                PlantController plant = PlantControllers[_detailViewplantManager.CurrentPlantIndex];
+                _plantManager.ErntePlant(plant);
+                break;
             case UIButton.STARTSEXING:
                 Debug.Log("Starting the sexing minigame...");
                 break;
@@ -224,6 +228,7 @@ public enum UIButton
 {
     PREVIOUSPLANT,
     NEXTPLANT,
+    ERNTENPLANT,
     STARTSEXING,
     CLOSEVIEW,
     ZOOMIN,
@@ -263,6 +268,7 @@ public static class DetailViewConstants
     public static Dictionary<UIButton, string> NameOfButtons = new Dictionary<UIButton, string>() {
         {UIButton.PREVIOUSPLANT, "previous-plant-button" },
         {UIButton.NEXTPLANT, "next-plant-button"},
+        {UIButton.ERNTENPLANT, "ernten-button"},
         {UIButton.STARTSEXING, "start-sexing-button"},
         {UIButton.CLOSEVIEW, "close-button"},
         {UIButton.ZOOMIN, "zoom-in-button"},
@@ -350,6 +356,7 @@ public class DetailViewUIManager
     private Dictionary<string, Label> _detailLabels = new();
     private Button _previousPlantButton;
     private Button _nextPlantButton;
+    private Button _erntenButton;
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
     {
         _background = document.rootVisualElement.Q<VisualElement>("background");
@@ -377,6 +384,7 @@ public class DetailViewUIManager
     {
         _previousPlantButton = _background.Q<Button>("previous-plant-button");
         _nextPlantButton = _background.Q<Button>("next-plant-button");
+        _erntenButton = _background.Q<Button>("ernten-button");
         foreach (var (enumValue, buttonName) in DetailViewConstants.NameOfButtons)
         {
             var button = _background.Q<Button>(buttonName);
@@ -385,7 +393,6 @@ public class DetailViewUIManager
                 button.RegisterCallback<PointerDownEvent>((_) => onButtonDown(enumValue), TrickleDown.TrickleDown);
                 button.RegisterCallback<PointerUpEvent>((_) => onButtonUp(enumValue));
                 button.RegisterCallback<PointerDownEvent>((_) => SoundManagerSingleton.Instance.PlaySound("Click"), TrickleDown.TrickleDown);
-
             }
         }
     }

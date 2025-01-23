@@ -2,6 +2,8 @@
 using static Age;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
+using static AgeDrying;
 
 [Serializable]
 public class PlantData
@@ -71,6 +73,98 @@ public class PlantData
         return data;
     }
 }
+
+[Serializable]
+public class PlantDriedData
+{
+    public bool? Sex;
+    public AgeDrying Age;
+    public Strain Strain;
+
+    public PlantDriedData()
+    {
+        this.Sex = false;
+        this.Age = new(DryingStage.Others, 0);
+        this.Strain = Strain.Sativa;
+    }
+
+    public Dictionary<string, object> DataDictionary()
+    {
+        string dryingStage = string.Empty;
+        switch (Age.Stage)
+        {
+            case DryingStage.Others:
+                dryingStage = "Others";
+                break;
+            case DryingStage.Drying:
+                dryingStage = "Drying";
+                break;
+            case DryingStage.Ready:
+                dryingStage = "Ready";
+                break;
+        }
+        var data = new Dictionary<string, object>
+        {
+            { "sex", Sex },
+            { "age", Age },
+            { "strain", Strain },
+            { "dryingStage",  dryingStage}
+        };
+        return data;
+    }
+}
+
+
+[Serializable]
+public class AgeDrying
+{
+    public enum DryingStage
+    {
+        Others,
+        Drying,
+        Ready,
+    }
+    public DryingStage Stage;
+    public int AgeNumber; // The AgeNumber has, depending on the Stage, a different meaning
+    public AgeDrying(DryingStage stage, int ageNumber)
+    {
+        Stage = stage;
+        AgeNumber = ageNumber;
+    }
+    override public string ToString()
+    {
+        string interval = string.Empty;
+        switch (Stage)
+        {
+            case DryingStage.Drying:
+            case DryingStage.Ready:
+                if (AgeNumber == 1)
+                {
+                    interval = "Tag";
+                }
+                else
+                {
+                    interval = "Tage";
+                }
+                break;
+        }
+        return $"{AgeNumber} {interval}";
+    }
+
+    public DryingStage GetNextStage() => Stage switch
+    {
+        DryingStage.Others => DryingStage.Drying,
+        DryingStage.Drying => DryingStage.Ready,
+        _ => throw new ArgumentOutOfRangeException(nameof(DryingStage), $"Not expected GrowthStage value {Stage}"),
+    };
+
+    public void ResetAge()
+    {
+        Stage = DryingStage.Others;
+        AgeNumber = 0;
+    }
+}
+
 
 public enum Potsize
 {
