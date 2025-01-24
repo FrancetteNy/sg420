@@ -40,18 +40,7 @@ public class HUDController : MonoBehaviour
         // Button zum Ernten hinzufügen
         var harvestButton = _root.Q<Button>("harvest-button");
         //harvestButton.clicked += HarvestSelectedPlant;
-
-        // for test
-        Button _erntenBtn = _root.Q<Button>("Ernten");
-        _erntenBtn.clicked += ErntenBtnClicked;
-        _erntenBtn.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
     }
-
-    private void ErntenBtnClicked()
-    {
-        GameState.ErnteAction?.Invoke();
-    }
-
     private void SetupLabels()
     {
         _currentDayLabel = _root.Q<Label>("current-day-label");
@@ -85,25 +74,4 @@ public class HUDController : MonoBehaviour
     {
         _currentDayLabel.text = $"Tag {GameStateManagerSingleton.Instance.GameState.CurrentDay}";
     }
-
-    // Wenn sich das Inventar ändert, z. B. wenn eine Pflanze geerntet wird
-    //private void OnInventoryChanged(int plantID, InventoryChangeType changeType)
-    //{
-    //    if (changeType == InventoryChangeType.Harvested)
-    //    {
-    //        // Update der UI nach der Ernte
-    //        Debug.Log($"Pflanze {plantID} wurde geerntet!");
-    //        UpdateHUD();  // Update der HUD-Anzeige nach der Ernte
-    //    }
-    //}
-
-    // Ernte-Logik ausführen, wenn der Ernte-Button geklickt wird
-    //private void HarvestSelectedPlant()
-    //{
-    //    int selectedPlantID = GetSelectedPlantID();  // Methode zum Abrufen der aktuell ausgewählten Pflanze
-    //    if (selectedPlantID >= 0)
-    //    {
-    //        GameStateManagerSingleton.Instance.GameState.HarvestPlant(selectedPlantID);
-    //    }
-    //}
 }

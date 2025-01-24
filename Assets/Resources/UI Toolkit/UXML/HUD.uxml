@@ -6,7 +6,6 @@
             <ui:Button text="Spiel speichern" name="save-game-button" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1; height: 40px;" />
-        <ui:Button text="Ernten" name="Ernten" style="flex-direction: column; height: 40px; width: 100px;" />
         <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between; align-items: flex-end; flex-wrap: wrap;">
             <ui:VisualElement style="flex-grow: 1; flex-direction: column-reverse;">
                 <ui:Label text="getrocknet : 0" name="Getrocknet" class="text" />

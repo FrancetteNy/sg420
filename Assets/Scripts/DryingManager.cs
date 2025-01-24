@@ -83,9 +83,10 @@ public class DryingManager : MonoBehaviour
         plant.PlantDriedData.Age.ResetAge();
         SaveDataOfPlants();
 
-        // Send A Notification
-        //int totalTreesDried = GameManager.Instance.GetTotalTreesDried();
-        //NotificationManager.Instance.PushNotificationDetailsOfTree(Strain.ToString(), 10, sativaCount_Dried);
+        string plantStrain = plant.PlantDriedData.Strain.ToString();
+        print(plantStrain);
+        int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
+        NotificationManager.Instance.PushNotificationDetailsOfTree(plantStrain, 5, totalScore);
     }
 
     private void ConstructPlantHighlightAndClickFunction(int index)
@@ -113,7 +114,9 @@ public class DryingManager : MonoBehaviour
             else
             {
                 // send a notification
-                print("notification");
+                string plantStrain = plant.PlantDriedData.Strain.ToString();
+                int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
+                NotificationManager.Instance.PushNotificationDetailsOfTree(plantStrain, 5, totalScore);
             }
         });
         highlightBuilder.Apply();

@@ -15,6 +15,7 @@ public class NotificationManager: MonoBehaviour
 
     public void PushNotificationDetailsOfTree(string strain, int flowers, int totalScore)
     {
+        print("Push");
         GameObject notificationObject = Instantiate(NotificationPrefab, NotificationPoint);
 
         Animator anim = notificationObject.GetComponent<Animator>();

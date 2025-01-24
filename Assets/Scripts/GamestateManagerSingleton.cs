@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 // by @kurtdekker - to make a Unity singleton that has some
 // https://gist.github.com/kurtdekker/2f07be6f6a844cf82110fc42a774a625
@@ -78,6 +80,17 @@ public class GameStateManagerSingleton : MonoBehaviour
         GameState.GetrocknetChanged?.Invoke();
         Save();
     }
+
+    //public void ResetData()
+    //{
+    //    GameState.TreesCount = 0;
+    //    GameState.InventorzChanged?.Invoke();
+    //    GameState.Score = 0;
+    //    GameState.ScoreChanged?.Invoke();
+    //    GameState.Getrocknet = 0;
+    //    GameState.GetrocknetChanged?.Invoke();
+    //    Save();
+    //}
 
     private string _saveFilePath;
 
