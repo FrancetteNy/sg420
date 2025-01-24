@@ -1,4 +1,4 @@
-using MyUILibrary;
+using SG420UILibrary;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +26,10 @@ public class LightOverviewController : MonoBehaviour
     private void SetupToggles()
     {
         _slideToggle = _root.Q<SlideToggle>("growthphase-slidetoggle");
-        _slideToggle.RegisterValueChangedCallback(OnGrowthPhaseChanged);
+        _slideToggle.RegisterCallback<PointerDownEvent>(_ =>
+        {
+            SoundManagerSingleton.Instance.PlaySound("Click");
+        });
     }
 
     private void OnGrowthPhaseChanged(ChangeEvent<bool> evt)
