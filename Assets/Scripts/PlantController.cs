@@ -18,6 +18,9 @@ public class PlantController : MonoBehaviour
         }
         PlantData.Strain = strain;
         PlantData.Age.Stage = Age.GrowthStage.GERMINATION;
+        PlantData.Potsize = Potsize.Cultivation;
+        PlantData.Sex = false;
+        PlantData.Soil = new(0, 0);
     }
 
 }
