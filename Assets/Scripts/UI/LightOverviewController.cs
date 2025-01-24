@@ -84,7 +84,7 @@ public class LightOverviewController : MonoBehaviour
     private void SetupButtons()
     {
         var close_button = _root.Q<Button>("close-button");
-        close_button.clicked += () => UIEvents.HideLightOverview.Invoke();
+        close_button.clicked += () => UIEvents.HideLightOverview?.Invoke();
         close_button.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
     }
     private void UpdateOverview()

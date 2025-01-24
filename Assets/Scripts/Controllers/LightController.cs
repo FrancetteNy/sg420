@@ -17,7 +17,7 @@ public class LightController : MonoBehaviour
         var highlightBuilder = _highlightController.BeginHighlightObject(this.gameObject);
         highlightBuilder.WithClickAction((data) =>
         {
-            UIEvents.ShowLightOverview.Invoke();
+            UIEvents.ShowLightOverview?.Invoke();
         });
 
         highlightBuilder.Apply();

@@ -28,7 +28,7 @@ public class GameState
         Getrocknet = 0;
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
-        PlantDriedDataList = new(new List<PlantDriedData> { new(), new(), new() });
+        PlantDriedDataList = new(new List<PlantDriedData> { new(), new(), new(), new() });
         Room = Room.START;
     }
 
