@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.UIElements;
 namespace SG420UILibrary
 {
@@ -15,6 +16,7 @@ namespace SG420UILibrary
         public Button CloseButton;
         public float TimeUntilNotificationCloses;
 
+        public Action OnClick;
 
         public Notification():this(new("-","-")) { }
 
@@ -43,6 +45,7 @@ namespace SG420UILibrary
             _titleLabel.text = notificationData.Title;
             _bodyElement.text = notificationData.Message;
             TimeUntilNotificationCloses = notificationData.TimeToShowNotification;
+            OnClick = notificationData.OnClick;
         }
     }
 
