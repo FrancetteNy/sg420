@@ -82,6 +82,7 @@ public class NotificationManagerSingleton : MonoBehaviour
             }
             notification.style.transitionDuration = StyleKeyword.Initial;
             notification.style.display = DisplayStyle.None;
+            notification.RegisterCallback<MouseDownEvent>((_) => notification.OnClick?.Invoke());
         }
 
     _shownNotifications = new List<Notification>();
@@ -169,11 +170,13 @@ public class NotificationData
     public string Title;
     public string Message;
     public float TimeToShowNotification;
+    public Action OnClick;
 
-    public NotificationData(string title, string message, float timeToShowNotification = -1)
+    public NotificationData(string title, string message, float timeToShowNotification = -1, Action onClick = null)
     {
         Title = title;
         Message = message;
         TimeToShowNotification = timeToShowNotification;
+        OnClick = onClick;
     }
 }
