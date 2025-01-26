@@ -376,7 +376,6 @@ public class DetailViewUIManager
     private string _seedTypeDropdown;
     private VisualElement _plantInfo;
     private DropdownField _seedDropdown;
-    private DetailViewPlantManager _detailViewPlantManager;
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
     {
