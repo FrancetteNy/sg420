@@ -376,7 +376,7 @@ public class DetailViewUIManager
     private string _seedTypeDropdown;
     private VisualElement _plantInfo;
     private DropdownField _seedDropdown;
-    private DetailViewPlantManager _detailViewPlantManager;
+
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
     {
@@ -396,16 +396,29 @@ public class DetailViewUIManager
         _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
 
         //Popup container
+        SetupSeedContainer(onDetailHovered);
+
+        SetupPopupContainer();
+
+        SetupSliders();
+    }
+    private void SetupPopupContainer()
+    {
         _popupContainer = _background.Q<VisualElement>("popup-container");
         _popupContent = _popupContainer.Q<VisualElement>("popup-content");
         _popupMessage = _popupContent.Q<Label>("popup-message");
 
-        _seedSelectionContainer.style.display = DisplayStyle.None;
+
         _popupContainer.style.display = DisplayStyle.None;
-
-
-        SetupSliders();
     }
+
+    private void SetupSeedContainer(Action<string> onDetailHovered)
+    {
+        _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
+        _seedSelectionContainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Die Aussaat"));
+        _seedSelectionContainer.style.display = DisplayStyle.None;
+    }
+
     /**public void ShowPopup(string message)
     {
         _popupMessage.text = message;
@@ -476,19 +489,15 @@ public class DetailViewUIManager
             label.text = plantData[name]?.ToString() ?? string.Empty;
 
         }
-        foreach (var plant in plantData)
-        {
-            Debug.Log(plant);
-        }
         if (plantData.TryGetValue("strain", out var strain))
         {
-            string growthStageString = strain?.ToString() ?? string.Empty;
+            string strainString = strain?.ToString() ?? string.Empty;
 
-            if (growthStageString.Equals("None", StringComparison.OrdinalIgnoreCase))
+            if (strainString.Equals("None", StringComparison.OrdinalIgnoreCase))
             {
                 _seedSelectionContainer.style.display = DisplayStyle.Flex;
                 _plantInfo.style.display = DisplayStyle.None;
-                
+
             }
             else
             {
@@ -718,7 +727,7 @@ public class DetailViewPlantManager
             return false;
         }
         var currentPlant = _plants[CurrentPlantIndex];
-        if (!currentPlant.IsEmpty())
+        if (!currentPlant.IsPlantable())
         {
             return false;
         }

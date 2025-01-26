@@ -1,11 +1,11 @@
-using System;
+
 using UnityEngine;
 
 public class PlantController : MonoBehaviour
 {
     public PlantData PlantData;
 
-    public bool IsEmpty()
+    public bool IsPlantable()
     {
         return PlantData == null || PlantData.Strain == Strain.None;
     }

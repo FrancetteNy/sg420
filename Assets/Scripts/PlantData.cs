@@ -2,7 +2,6 @@
 using static Age;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
 
 [Serializable]
 public class PlantData
@@ -19,7 +18,7 @@ public class PlantData
         this.Sex = false;
         this.Potsize = Potsize.Cultivation;
         this.Age = new(GrowthStage.EMPTY, 0);
-        this.Strain = Strain.Sativa;
+        this.Strain = Strain.None;
         this.Soil = new(0, 0);
     }
 
@@ -153,8 +152,8 @@ public enum Strain
     Sativa,
     Indica,
     Ruderalis,
-    
-    
+
+
 
 }
 
