@@ -488,8 +488,7 @@ public class DetailViewUIManager
             {
                 _seedSelectionContainer.style.display = DisplayStyle.Flex;
                 _plantInfo.style.display = DisplayStyle.None;
-                UpdateWikiText("Die Aussaat ist sehr einfach! Wähle deinen Samen aus und pflanze ihn ein!");
-
+                
             }
             else
             {
