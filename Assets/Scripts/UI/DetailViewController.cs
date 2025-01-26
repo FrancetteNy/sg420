@@ -375,6 +375,7 @@ public class DetailViewUIManager
     private VisualElement _seedSelectionContainer;
     private string _seedTypeDropdown;
     private VisualElement _plantInfo;
+    private DropdownField _seedDropdown;
     private DetailViewPlantManager _detailViewPlantManager;
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
@@ -383,6 +384,7 @@ public class DetailViewUIManager
 
         // Configure Buttons
         SetupButtons(onButtonDown, onButtonUp);
+        SetupDropDowns();
 
         // Collect and Configure Detail Labels
         _wikiTextLabel = _background.Q<Label>("wiki-text");
@@ -441,6 +443,19 @@ public class DetailViewUIManager
             }
         }
     }
+    private void SetupDropDowns()
+    {
+        _seedDropdown = _background.Q<DropdownField>("seed-type-dropdown");
+        _seedDropdown.RegisterCallback<PointerDownEvent>(_ =>
+        {
+            SoundManagerSingleton.Instance.PlaySound("Click");
+        });
+        _seedDropdown.RegisterValueChangedCallback(_ =>
+        {
+            SoundManagerSingleton.Instance.PlaySound("Click");
+        });
+    }
+
 
     private void SetupDetailLabels(Action<string> onDetailHovered)
     {
@@ -473,6 +488,8 @@ public class DetailViewUIManager
             {
                 _seedSelectionContainer.style.display = DisplayStyle.Flex;
                 _plantInfo.style.display = DisplayStyle.None;
+                UpdateWikiText("Die Aussaat ist sehr einfach! Wähle deinen Samen aus und pflanze ihn ein!");
+
             }
             else
             {
