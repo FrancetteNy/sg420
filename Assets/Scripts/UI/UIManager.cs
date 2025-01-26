@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     HUDView _hudView;
     LightOverview _lightOverview;
     Encyclopedia _encyclopedia;
+    ChatView _chatView;
 
     NotificationManagerSingleton _notificationManager;
 
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour
         _hudView = new HUDView(_root, this);
         _lightOverview = new LightOverview(_root, this);
         _encyclopedia = new Encyclopedia(_root, this);
+        _chatView = new ChatView(_root, this);
 
         UIEvents.ShowDetailView += (index) => { HideAllViews(); _detailView.Show(index); };
         UIEvents.HideDetailView += () => ResetToHUD(_detailView);
@@ -48,12 +50,16 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowEncyclopedia += () => ShowView(_encyclopedia);
         UIEvents.HideEncyclopedia += () => ResetToHUD(_encyclopedia);
 
+        UIEvents.ShowChatView += () => ShowView(_chatView);
+        UIEvents.HideChatView += () => ResetToHUD(_chatView);
+
 
 
         _allUIViews.Add(_detailView);
         _allUIViews.Add(_hudView);
         _allUIViews.Add(_lightOverview);
         _allUIViews.Add(_encyclopedia);
+        _allUIViews.Add(_chatView);
     }
     private void OnDestroy()
     {
@@ -67,8 +73,11 @@ public class UIManager : MonoBehaviour
         UIEvents.HideLightOverview -= () => ResetToHUD(_lightOverview);
         _lightOverview.Dispose();
         UIEvents.ShowEncyclopedia -= () => ShowView(_encyclopedia);
-        UIEvents.ShowEncyclopedia -= () => ResetToHUD(_encyclopedia);
+        UIEvents.HideEncyclopedia -= () => ResetToHUD(_encyclopedia);
         _encyclopedia.Dispose();
+        UIEvents.ShowChatView -= () => ShowView(_chatView);
+        UIEvents.HideChatView -= () => ResetToHUD(_chatView);
+        _chatView.Dispose();
     }
 
     private void ResetToHUD(UIView view)
