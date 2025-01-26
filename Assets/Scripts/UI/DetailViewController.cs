@@ -476,10 +476,6 @@ public class DetailViewUIManager
             label.text = plantData[name]?.ToString() ?? string.Empty;
 
         }
-        foreach (var plant in plantData)
-        {
-            Debug.Log(plant);
-        }
         if (plantData.TryGetValue("strain", out var strain))
         {
             string growthStageString = strain?.ToString() ?? string.Empty;
