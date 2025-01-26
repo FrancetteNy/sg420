@@ -45,7 +45,7 @@ public class DetailViewController : MonoBehaviour
         UpdatePlantControllers();
         _cameraController = new DetailViewCameraController(detailViewCamera, GetComponent<UIDocument>().rootVisualElement.Q<Image>("plant-view"));
         _detailViewplantManager = new DetailViewPlantManager(PlantControllers, OnPlantChanged);
-        _uiManager = new DetailViewUIManager(GetComponent<UIDocument>(), OnButtonDown, OnButtonUp, OnDetailHovered, _detailViewplantManager);
+        _uiManager = new DetailViewUIManager(GetComponent<UIDocument>(), OnButtonDown, OnButtonUp, OnDetailHovered);
         _isInitialized = true;
     }
     private void Update()
@@ -153,11 +153,12 @@ public class DetailViewController : MonoBehaviour
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.CONFIRMSEED:
-                _uiManager.SeedCurrentPot();
+                _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 break;
-            case UIButton.POPUPCLOSED:
+            /**case UIButton.POPUPCLOSED:
                 _uiManager.HidePopup();
-                break;
+                break;**/
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
@@ -376,9 +377,8 @@ public class DetailViewUIManager
     private VisualElement _plantInfo;
     private DetailViewPlantManager _detailViewPlantManager;
 
-    public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered, DetailViewPlantManager detailViewPlantManager)
+    public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
     {
-        _detailViewPlantManager = detailViewPlantManager;
         _background = document.rootVisualElement.Q<VisualElement>("background");
 
         // Configure Buttons
@@ -404,39 +404,7 @@ public class DetailViewUIManager
 
         SetupSliders();
     }
-
-
-    public void SeedCurrentPot()
-    {
-        _seedTypeDropdown = GetSeedValue();
-
-        if (_detailViewPlantManager == null)
-        {
-            return;
-        }
-
-        if (string.IsNullOrEmpty(_seedTypeDropdown))
-        {
-            return;
-        }
-
-        // Parse the selected seed type
-        if (Enum.TryParse<Strain>(_seedTypeDropdown, out Strain selectedSeed))
-        {
-            if (_detailViewPlantManager.PlantSeedInCurrentPot(selectedSeed))
-            {
-                ShowPopup($"Der Samen {selectedSeed} gesät!");
-                // Die Benutzeroberfläche aktualisieren
-                UpdatePlantData(_detailViewPlantManager.GetCurrentPlantData());
-            }
-        }
-        else
-        {
-            Debug.LogError("Invalid seed type selected.");
-        }
-    }
-
-    public void ShowPopup(string message)
+    /**public void ShowPopup(string message)
     {
         _popupMessage.text = message;
         _popupContainer.style.display = DisplayStyle.Flex;
@@ -447,7 +415,7 @@ public class DetailViewUIManager
     {
         _popupContainer.style.display = DisplayStyle.None;
         _plantInfo.style.display = DisplayStyle.Flex;
-    }
+    }**/
 
     private void SetupSliders()
     {
@@ -509,6 +477,7 @@ public class DetailViewUIManager
             else
             {
                 _seedSelectionContainer.style.display = DisplayStyle.None;
+                _plantInfo.style.display = DisplayStyle.Flex;
 
             }
         }
@@ -568,9 +537,12 @@ public class DetailViewUIManager
         return _background.Q<Slider>("water-slider").value;
     }
 
-    internal string GetSeedValue()
+    public Strain GetSeedValue()
     {
-        return _seedSelectionContainer.Q<DropdownField>("seed-type-dropdown").value;
+        string selectedValue = _seedSelectionContainer.Q<DropdownField>("seed-type-dropdown").value;
+        if (Enum.TryParse<Strain>(selectedValue, out var strainValue))
+            return strainValue;
+        return Strain.None;
     }
     internal float GetFertilizerValue()
     {
@@ -740,8 +712,6 @@ public class DetailViewPlantManager
     }
 
 }
-
-
 
 public class DummyWiki
 {
