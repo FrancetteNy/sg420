@@ -564,7 +564,7 @@ public class DetailViewUIManager
 
     public Strain GetSeedValue()
     {
-        string selectedValue = _seedSelectionContainer.Q<DropdownField>("seed-type-dropdown").value;
+        string selectedValue =_seedDropdown.value;
         if (Enum.TryParse<Strain>(selectedValue, out var strainValue))
             return strainValue;
         return Strain.None;
