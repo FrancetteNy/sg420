@@ -66,7 +66,7 @@
                     <ui:Button text="X" name="close-button" style="align-self: flex-end;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="plant" class="block" style="flex-grow: 1; flex-shrink: 0; max-height: 47.5%;">
-                    <ui:VisualElement style="flex-grow: 1; flex-direction: row;">
+                    <ui:VisualElement name= "plantinfo" style="flex-grow: 1; flex-direction: row;">
                         <ui:VisualElement name="left" style="flex-grow: 1; flex-direction: column; max-width: 50%;">
                             <ui:VisualElement name="growthStage" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                                 <ui:Label text="Phase" name="name" class="property-text" />
@@ -95,12 +95,17 @@
                                 <ui:Label text="-" name="name" class="property-text" />
                                 <ui:Label name="value" text="-" class="property-text" />
                             </ui:VisualElement>
-                        </ui:VisualElement>
+                        </ui:VisualElement>  
+                    </ui:VisualElement> 
+                    <ui:VisualElement name="seed-selection-container" style=" flex-direction: column; margin-top: 10px;">
+                        <ui:Label name="SamenAuswählen" text="Samen auswählen :" class="property-text" style="margin-bottom: 5px;" />
+                        <ui:DropdownField name="seed-type-dropdown" choices="Sativa,Indica,Ruderalis" style="width: 50%;"/>
+                        <ui:Button name="confirm-seed-button" text="Anpflanzen" style="width: 50%; " />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="wiki" class="block" style="flex-grow: 1; max-height: 47.5%; flex-shrink: 0;">
                     <ui:Label text="Enzyklopädie" name="title" class="block-header" />
-                    <ui:Label text="Dummy Text" name="wiki-text" style="font-size: 20px;" />
+                    <ui:Label text="Fahre über etwas um Informationen zu erhalten" name="wiki-text" style="font-size: 20px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button name="previous-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-left-circle-outline.png?fileID=2800000&amp;guid=dabda778f4ff92c4792236dca892c7a3&amp;type=3#chevron-left-circle-outline" class="button switch-plant-button no-background" style="position: absolute; top: 45%; left: 0; bottom: auto; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
