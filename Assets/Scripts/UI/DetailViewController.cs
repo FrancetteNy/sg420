@@ -156,9 +156,6 @@ public class DetailViewController : MonoBehaviour
                 _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 break;
-            /**case UIButton.POPUPCLOSED:
-                _uiManager.HidePopup();
-                break;**/
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
@@ -259,7 +256,6 @@ public enum UIButton
     CHANGETOMEDIUM,
     CHANGETOLARGE,
     CONFIRMSEED,
-    POPUPCLOSED,
 
 }
 // Constants for readability and configurability
@@ -301,7 +297,6 @@ public static class DetailViewConstants
         { UIButton.CHANGETOMEDIUM,"change-to-medium-pot-button" },
         { UIButton.CHANGETOLARGE,"change-to-large-pot-button" },
         { UIButton.CONFIRMSEED, "confirm-seed-button" },
-        { UIButton.POPUPCLOSED, "popup-close-button" },
 
     };
     public static Dictionary<Submenu, string> NameOfSubmenues = new Dictionary<Submenu, string>() {
@@ -398,19 +393,9 @@ public class DetailViewUIManager
         //Popup container
         SetupSeedContainer(onDetailHovered);
 
-        SetupPopupContainer();
-
         SetupSliders();
     }
-    private void SetupPopupContainer()
-    {
-        _popupContainer = _background.Q<VisualElement>("popup-container");
-        _popupContent = _popupContainer.Q<VisualElement>("popup-content");
-        _popupMessage = _popupContent.Q<Label>("popup-message");
-
-
-        _popupContainer.style.display = DisplayStyle.None;
-    }
+    
 
     private void SetupSeedContainer(Action<string> onDetailHovered)
     {
@@ -418,19 +403,6 @@ public class DetailViewUIManager
         _seedSelectionContainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Die Aussaat"));
         _seedSelectionContainer.style.display = DisplayStyle.None;
     }
-
-    /**public void ShowPopup(string message)
-    {
-        _popupMessage.text = message;
-        _popupContainer.style.display = DisplayStyle.Flex;
-    }
-
-
-    public void HidePopup()
-    {
-        _popupContainer.style.display = DisplayStyle.None;
-        _plantInfo.style.display = DisplayStyle.Flex;
-    }**/
 
     private void SetupSliders()
     {

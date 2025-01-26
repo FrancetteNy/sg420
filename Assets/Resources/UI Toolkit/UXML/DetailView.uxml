@@ -97,12 +97,6 @@
                             </ui:VisualElement>
                         </ui:VisualElement>  
                     </ui:VisualElement> 
-                    <ui:VisualElement name="popup-container" style="background-color: rgb(10, 9, 9),position: absolute; top: 30%; width: 30%; height: 50%; background-color: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center;">
-                            <ui:VisualElement name="popup-content" style=" padding: 20px; border-radius: 5px;">
-                                <ui:Label name="popup-message" text="Default Message" style="font-size: 18px; text-align: center; margin-bottom: 20px;" />
-                                <ui:Button name="popup-close-button" text="OK" style="align-self: center;" />
-                            </ui:VisualElement>
-                    </ui:VisualElement>
                     <ui:VisualElement name="seed-selection-container" style=" flex-direction: column; margin-top: 10px;">
                         <ui:Label name="SamenAuswählen" text="Samen auswählen :" class="property-text" style="margin-bottom: 5px;" />
                         <ui:DropdownField name="seed-type-dropdown" choices="Sativa,Indica,Ruderalis" style="width: 50%;"/>
