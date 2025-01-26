@@ -9,26 +9,29 @@ public class DetailViewController : MonoBehaviour
     // Events
     public static Action PlantsChanged;
 
-
     // Camera and Managers
     public List<PlantController> PlantControllers;
     private Camera _detailViewCamera;
     private DetailViewCameraController _cameraController;
     private DetailViewUIManager _uiManager;
     private DetailViewPlantManager _detailViewplantManager;
-
     private Action _closeAction;
     private Vector3 _cameraMoveVector;
     private Vector3 _rotateVector;
-
     private bool _isInitialized = false;
     private PlantManager _plantManager;
+
+
+
+
 
     private bool _willBeDisabled = false;
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
+
     }
+
 
     private void UpdatePlantControllers()
     {
@@ -47,7 +50,7 @@ public class DetailViewController : MonoBehaviour
     }
     private void Update()
     {
-        if ( !_isInitialized)
+        if (!_isInitialized)
         {
             return;
         }
@@ -149,6 +152,10 @@ public class DetailViewController : MonoBehaviour
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 _uiManager.CloseCurrentSubmenu();
                 break;
+            case UIButton.CONFIRMSEED:
+                _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                break;
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
@@ -180,9 +187,10 @@ public class DetailViewController : MonoBehaviour
     private void OnPlantChanged(int currentIndex)
     {
         _uiManager.UpdatePlantNavigationButtons(
-            currentIndex > 0,
-            currentIndex < _detailViewplantManager.Plantcount - 1
-        );
+           currentIndex > 0,
+           currentIndex < _detailViewplantManager.Plantcount - 1
+       );
+
     }
 
     public void ActivateView(int plantControllerIndex, Action closeAction)
@@ -197,6 +205,8 @@ public class DetailViewController : MonoBehaviour
 
         _closeAction = closeAction;
     }
+
+
 
 
     private void OnDetailHovered(string detailName)
@@ -245,6 +255,8 @@ public enum UIButton
     CHANGETOSMALL,
     CHANGETOMEDIUM,
     CHANGETOLARGE,
+    CONFIRMSEED,
+
 }
 // Constants for readability and configurability
 public static class DetailViewConstants
@@ -284,6 +296,8 @@ public static class DetailViewConstants
         { UIButton.CHANGETOSMALL,"change-to-small-pot-button" },
         { UIButton.CHANGETOMEDIUM,"change-to-medium-pot-button" },
         { UIButton.CHANGETOLARGE,"change-to-large-pot-button" },
+        { UIButton.CONFIRMSEED, "confirm-seed-button" },
+
     };
     public static Dictionary<Submenu, string> NameOfSubmenues = new Dictionary<Submenu, string>() {
         {Submenu.WATERINGSUBMENU, "watering-submenu" },
@@ -347,22 +361,47 @@ public class DetailViewUIManager
 {
     private VisualElement _background;
     private Label _wikiTextLabel;
+    private Label _popupMessage;
+    private VisualElement _popupContainer;
+    private VisualElement _popupContent;
     private Dictionary<string, Label> _detailLabels = new();
     private Button _previousPlantButton;
     private Button _nextPlantButton;
+    private VisualElement _seedSelectionContainer;
+    private string _seedTypeDropdown;
+    private VisualElement _plantInfo;
+    private DropdownField _seedDropdown;
+
+
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
     {
         _background = document.rootVisualElement.Q<VisualElement>("background");
 
         // Configure Buttons
         SetupButtons(onButtonDown, onButtonUp);
+        SetupDropDowns();
 
         // Collect and Configure Detail Labels
         _wikiTextLabel = _background.Q<Label>("wiki-text");
         SetupDetailLabels(onDetailHovered);
 
-        SetupSliders();
+        _plantInfo = _background.Q<VisualElement>("plantinfo");
 
+        // Seed Container
+        _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
+
+        //Popup container
+        SetupSeedContainer(onDetailHovered);
+
+        SetupSliders();
+    }
+    
+
+    private void SetupSeedContainer(Action<string> onDetailHovered)
+    {
+        _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
+        _seedSelectionContainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Die Aussaat"));
+        _seedSelectionContainer.style.display = DisplayStyle.None;
     }
 
     private void SetupSliders()
@@ -389,6 +428,19 @@ public class DetailViewUIManager
             }
         }
     }
+    private void SetupDropDowns()
+    {
+        _seedDropdown = _background.Q<DropdownField>("seed-type-dropdown");
+        _seedDropdown.RegisterCallback<PointerDownEvent>(_ =>
+        {
+            SoundManagerSingleton.Instance.PlaySound("Click");
+        });
+        _seedDropdown.RegisterValueChangedCallback(_ =>
+        {
+            SoundManagerSingleton.Instance.PlaySound("Click");
+        });
+    }
+
 
     private void SetupDetailLabels(Action<string> onDetailHovered)
     {
@@ -407,7 +459,31 @@ public class DetailViewUIManager
         foreach (var (name, label) in _detailLabels)
         {
             label.text = plantData[name]?.ToString() ?? string.Empty;
+
         }
+        if (plantData.TryGetValue("strain", out var strain))
+        {
+            string strainString = strain?.ToString() ?? string.Empty;
+
+            if (strainString.Equals("None", StringComparison.OrdinalIgnoreCase))
+            {
+                _seedSelectionContainer.style.display = DisplayStyle.Flex;
+                _plantInfo.style.display = DisplayStyle.None;
+
+            }
+            else
+            {
+                _seedSelectionContainer.style.display = DisplayStyle.None;
+                _plantInfo.style.display = DisplayStyle.Flex;
+
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Der SchlÃ¼ssel 'Strain' fehlt oder ist in plantData nicht korrekt.");
+            _seedSelectionContainer.style.display = DisplayStyle.None;
+        }
+
     }
     public void UpdatePlantNavigationButtons(bool canGoPrevious, bool canGoNext)
     {
@@ -458,6 +534,13 @@ public class DetailViewUIManager
         return _background.Q<Slider>("water-slider").value;
     }
 
+    public Strain GetSeedValue()
+    {
+        string selectedValue =_seedDropdown.value;
+        if (Enum.TryParse<Strain>(selectedValue, out var strainValue))
+            return strainValue;
+        return Strain.None;
+    }
     internal float GetFertilizerValue()
     {
         return _background.Q<Slider>("fertilizer-slider").value;
@@ -480,6 +563,7 @@ public class DetailViewPlantManager
     {
         _plants = plants;
         _onPlantChanged = onPlantChanged;
+
     }
 
     public void SetCurrentPlant(int plantIndex)
@@ -608,15 +692,29 @@ public class DetailViewPlantManager
         var currentPlant = _plants[CurrentPlantIndex];
         _savedPlantRotation = currentPlant.transform.rotation;
     }
+    public bool PlantSeedInCurrentPot(Strain seedType)
+    {
+        if (CurrentPlantIndex < 0 || CurrentPlantIndex >= _plants.Count)
+        {
+            return false;
+        }
+        var currentPlant = _plants[CurrentPlantIndex];
+        if (!currentPlant.IsPlantable())
+        {
+            return false;
+        }
+        // Pflanzt den Samen ein
+        currentPlant.PlantSeed(seedType);
+        return true;
+    }
+
 }
-
-
 
 public class DummyWiki
 {
     public static string GetWikiEntry(string entryTitle)
     {
-        return $"Das ist ein Enzyklopädieeintrag für {entryTitle}.";
+        return $"Das ist ein Enzyklopï¿½dieeintrag fï¿½r {entryTitle}.";
     }
 }
 
