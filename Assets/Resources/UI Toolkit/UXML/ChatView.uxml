@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/ChatView.uss?fileID=7433441132597879392&amp;guid=34e7df1203e973346acf97beb165fca8&amp;type=3#ChatView" />
+    <ui:VisualElement name="ChatView" style="flex-grow: 1; flex-direction: row; background-color: rgb(140, 138, 138);">
+        <ui:ListView name="chat-member-list" style="width: 20%;" />
+        <ui:ListView name="chat-list" selection-type="None" focusable="false" style="width: 80%;" />
+    </ui:VisualElement>
+</ui:UXML>
