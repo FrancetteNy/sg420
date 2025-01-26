@@ -104,7 +104,7 @@
                             </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="seed-selection-container" style=" flex-direction: column; margin-top: 10px;">
-                        <ui:Label text="Samen auswählen :" class="property-text" style="margin-bottom: 5px;" />
+                        <ui:Label name="SamenAuswählen" text="Samen auswählen :" class="property-text" style="margin-bottom: 5px;" />
                         <ui:DropdownField name="seed-type-dropdown" choices="Sativa,Indica,Ruderalis" style="width: 50%;"/>
                         <ui:Button name="confirm-seed-button" text="Anpflanzen" style="width: 50%; " />
                     </ui:VisualElement>
