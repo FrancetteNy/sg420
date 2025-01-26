@@ -218,7 +218,7 @@ public class PlantManager : MonoBehaviour
         else
         {
             if (plantData.Age.Stage != GrowthStage.FADED)
-                ModalController.Instance.ShowModal("Are you Sure?", "Collect the plant", () => ErnteAction(plant));
+                ModalController.Instance.ShowModal("Warnung", "Die Pflanze wirklich ernten? Die Ernte kann nicht rückgängig gemacht werden!", () => ErnteAction(plant));
         }
     }
 
