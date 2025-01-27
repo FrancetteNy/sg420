@@ -56,7 +56,7 @@ public class EncyclopediaController : MonoBehaviour
 
     }
   
-    protected static List<Category> _categories = new List<Category> {
+    protected static List<Category> Categories = new List<Category> {
         new Category("Anbau", new List<Entry>
         {
             new Entry("Bewässern"),
@@ -76,7 +76,7 @@ public class EncyclopediaController : MonoBehaviour
         get
         {
             var retVal = new List<Entry>(6);
-            foreach (var category in _categories)
+            foreach (var category in Categories)
             {
                 retVal.AddRange(category.Entries);
             }
@@ -165,7 +165,7 @@ public class EncyclopediaController : MonoBehaviour
     {
         List<String> unlockedEntryNames = GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List;
         List<Category> filteredList = new List<Category>();
-        foreach (var category in _categories) 
+        foreach (var category in Categories) 
         {
             List<Entry> entries = new List<Entry>();
             int count = 0;
