@@ -19,12 +19,10 @@ public class PlantData
     {
         this.Sex = false;
         this.Potsize = Potsize.Cultivation;
-        this.Age = new(GrowthStage.GERMINATION, 0);
-        this.Strain = Strain.Sativa;
+        this.Age = new(GrowthStage.EMPTY, 0);
+        this.Strain = Strain.None;
         this.Soil = new(0, 0);
     }
-
-
 
     public Dictionary<string, object> DataDictionary()
     {
@@ -42,6 +40,9 @@ public class PlantData
                 break;
             case GrowthStage.FLOWERING:
                 growthStage = "Blüte";
+                break;
+            case GrowthStage.EMPTY:
+                growthStage = "Leer";
                 break;
         }
         string potsizeString = string.Empty;
@@ -179,6 +180,7 @@ public class Age
 {
     public enum GrowthStage
     {
+        EMPTY,
         GERMINATION,
         SEEDLING,
         VEGETATIVEGROWTH,
@@ -246,9 +248,13 @@ public class Age
 [Serializable]
 public enum Strain
 {
+    None,
     Sativa,
     Indica,
-    Ruderalis
+    Ruderalis,
+
+
+
 }
 
 [Serializable]
