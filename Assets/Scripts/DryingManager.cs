@@ -102,7 +102,7 @@ public class DryingManager : MonoBehaviour
             }
             else if (plant.PlantDriedData.Age.Stage == DryingStage.Drying)
             {
-                ModalController.Instance.ShowModal("Warnung", "Die Pflanze wirklich ernten? Die Ernte kann nicht rückgängig gemacht werden!", () => CollectPlant(plant));
+                ModalController.Instance.ShowModal("Warnung", "Die Trocknungsphase wirklich abschließen? Die Trocknung kann nicht rückgängig gemacht werden.", () => CollectPlant(plant));
             }
             else if (GameStateManagerSingleton.Instance.GameState.TreesCount > 0 && plant.PlantDriedData.Age.Stage == DryingStage.Others)
             {
