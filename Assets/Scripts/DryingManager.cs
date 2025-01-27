@@ -76,6 +76,8 @@ public class DryingManager : MonoBehaviour
 
     private void CollectPlant(Drying_Controller plant)
     {
+        //NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 500, () => print("Clicked")));
+
         plant.PlantObject.SetActive(false);
         GameStateManagerSingleton.Instance.AdvanceGetrocknet(1);
         // Change Value for every Strain
@@ -84,9 +86,8 @@ public class DryingManager : MonoBehaviour
         SaveDataOfPlants();
 
         string plantStrain = plant.PlantDriedData.Strain.ToString();
-        print(plantStrain);
         int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
-        NotificationManager.Instance.PushNotificationDetailsOfTree(plantStrain, 5, totalScore);
+        NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
     }
 
     private void ConstructPlantHighlightAndClickFunction(int index)
@@ -113,10 +114,7 @@ public class DryingManager : MonoBehaviour
             }
             else
             {
-                // send a notification
-                string plantStrain = plant.PlantDriedData.Strain.ToString();
-                int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
-                NotificationManager.Instance.PushNotificationDetailsOfTree(plantStrain, 5, totalScore);
+                NotificationManagerSingleton.Instance.AddNotification(new NotificationData("Warning", "You Donot have any plant", 6));
             }
         });
         highlightBuilder.Apply();

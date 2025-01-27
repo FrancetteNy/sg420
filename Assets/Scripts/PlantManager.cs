@@ -227,11 +227,11 @@ public class PlantManager : MonoBehaviour
         GetCurrentPlantModel(plant.gameObject).SetActive(false);
         plant.PlantData.Age.ResetAge();
         GameStateManagerSingleton.Instance.AdvanceTreesCount(1);
-
-        // Send a notification
-        print("Send A Notification");
-
         GameStateManagerSingleton.Instance.Save();
+
+        string plantStrain = plant.PlantData.Strain.ToString();
+        int totalScore = GameStateManagerSingleton.Instance.GameState.TreesCount;
+        NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
     }
 
     private void ConstructPlantHighlightAndClickFunction(int index)

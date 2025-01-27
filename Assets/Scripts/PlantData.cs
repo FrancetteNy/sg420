@@ -20,7 +20,7 @@ public class PlantData
         this.Sex = false;
         this.Potsize = Potsize.Cultivation;
         this.Age = new(GrowthStage.EMPTY, 0);
-        this.Strain = Strain.None;
+        this.Strain = Strain.Sativa;
         this.Soil = new(0, 0);
     }
 

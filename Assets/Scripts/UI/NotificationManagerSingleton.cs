@@ -85,7 +85,7 @@ public class NotificationManagerSingleton : MonoBehaviour
             notification.RegisterCallback<MouseDownEvent>((_) => notification.OnClick?.Invoke());
         }
 
-    _shownNotifications = new List<Notification>();
+        _shownNotifications = new List<Notification>();
     }
 
     private void OnGeometryChanged(GeometryChangedEvent evt)
