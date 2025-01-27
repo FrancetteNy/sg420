@@ -21,9 +21,9 @@ public class NotificationManager: MonoBehaviour
         Animator anim = notificationObject.GetComponent<Animator>();
         Notification notification = notificationObject.GetComponent<Notification>();
 
-        notification.strain.text = strain;
-        notification.details.text = "Flowers : " + flowers;
-        notification.totalScore.text = totalScore.ToString();
+        notification.Strain.text = strain;
+        notification.Details.text = "Flowers : " + flowers;
+        notification.TotalScore.text = totalScore.ToString();
 
         StartCoroutine(DeleteNotification(anim, notificationObject));
     }

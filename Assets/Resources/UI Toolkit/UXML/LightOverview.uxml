@@ -9,7 +9,7 @@
                 <ui:DropdownField name="light-dropdown-field" label="Lichttyp auswählen" style="flex-grow: 1;" />
             </ui:VisualElement>
             <ui:Label text="Text für die Erklärung der Lichttypen" name="light-label" />
-            <SG420Library.SlideToggle name="SlideToggle" class="slide-toggle__input" />
+            <SG420UILibrary.SlideToggle name="growthphase-slidetoggle" class="slide-toggle__input" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

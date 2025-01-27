@@ -1,4 +1,4 @@
-using SG420Library;
+using SG420UILibrary;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,15 +22,37 @@ public class LightOverviewController : MonoBehaviour
         SetupToggles();
         UpdateOverview();
     }
-
     private void SetupToggles()
     {
+        Debug.Log("SetupToggles gestartet");
+
+        if (_root == null)
+        {
+            Debug.LogError("_root ist null.");
+            return;
+        }
+
         _slideToggle = _root.Q<SlideToggle>("growthphase-slidetoggle");
+        if (_slideToggle == null)
+        {
+            Debug.LogError("SlideToggle 'growthphase-slidetoggle' nicht gefunden.");
+            return;
+        }
+
         _slideToggle.RegisterCallback<PointerDownEvent>(_ =>
         {
             SoundManagerSingleton.Instance.PlaySound("Click");
         });
     }
+
+    //private void SetupToggles()
+    //{
+    //    _slideToggle = _root.Q<SlideToggle>("growthphase-slidetoggle");
+    //    _slideToggle.RegisterCallback<PointerDownEvent>(_ =>
+    //    {
+    //        SoundManagerSingleton.Instance.PlaySound("Click");
+    //    });
+    //}
 
     private void OnGrowthPhaseChanged(ChangeEvent<bool> evt)
     {

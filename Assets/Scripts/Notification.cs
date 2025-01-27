@@ -3,5 +3,5 @@ using UnityEngine;
 
 public class Notification : MonoBehaviour
 {
-    public TextMeshProUGUI strain, details, totalScore;
+    public TextMeshProUGUI Strain, Details, TotalScore;
 }

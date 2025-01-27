@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 //https://docs.unity3d.com/6000.0/Documentation/Manual/UIE-slide-toggle.html
-namespace SG420Library
+namespace SG420UILibrary
 {
     // Derives from BaseField<bool> base class. Represents a container for its input part.
     [UxmlElement]
