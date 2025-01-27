@@ -44,12 +44,20 @@ public class GameStateManagerSingleton : MonoBehaviour
                 // get GameState (load if available, else create new one and save)
                 _instance._saveFilePath = Application.persistentDataPath + "/SaveData.json";
                 _instance.GameState = new GameState();
-               _instance.Load();
+                _instance.Load();
             }
             return _instance;
         }
     }
     public GameState GameState;
+
+    private void OnEnable() {
+        GameState.EncyclopediaEntryUnlocked += unlockEncyclopediaEntry;
+    }
+
+    private void OnDisable() {
+        GameState.EncyclopediaEntryUnlocked -= unlockEncyclopediaEntry;
+    }
 
     public void AdvanceDay()
     {
@@ -80,6 +88,16 @@ public class GameStateManagerSingleton : MonoBehaviour
             Debug.Log("File does not exist " + _saveFilePath);
         }
     }
+
+    private void unlockEncyclopediaEntry(string entry) 
+    {
+        List<String> currentEntries = GameState.UnlockedEncyclopediaEntries.List;
+        if (!currentEntries.Contains(entry)) {
+            Debug.Log("Unlocking Encyclopedia entry " + entry);
+            GameState.UnlockedEncyclopediaEntries.List.Add(entry);
+        }
+    }
+
     // NOTE: alternatively to a prefab, you could use a ScriptableObject derived asset,
     // make a reference to it here, and populated that reference at the Resources.Load
     // line above.
