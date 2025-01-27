@@ -42,6 +42,7 @@ class Encyclopedia : UIView
     {
         View.style.display = DisplayStyle.Flex;
         _controller.enabled = true;
+        _controller.ReloadEntries();
         _highlightController.enabled = false;
     }
 
