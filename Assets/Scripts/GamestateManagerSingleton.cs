@@ -58,6 +58,7 @@ public class GameStateManagerSingleton : MonoBehaviour
         GameState.CurrentDay++;
         GameState.DayChanged?.Invoke();
         Save();
+        UIEvents.AddNotification.Invoke(new NotificationData("Spiel gespeichert", $"Tag {GameState.CurrentDay} gestartet.", 3));
     }
 
     public void AdvanceTreesCount(int num)

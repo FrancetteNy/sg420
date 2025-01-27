@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -12,11 +13,20 @@ public class UIManager : MonoBehaviour
     LightOverview _lightOverview;
     Encyclopedia _encyclopedia;
 
+    NotificationManagerSingleton _notificationManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
         AddAllUIViews();
+        SetupNotificationMananger();
+    }
+
+    private void SetupNotificationMananger()
+    {
+        _notificationManager = NotificationManagerSingleton.Instance;
+        UIEvents.AddNotification += _notificationManager.AddNotification;
     }
 
     private void AddAllUIViews()
