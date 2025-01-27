@@ -1,0 +1,40 @@
+.notification {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 25%;
+    height: 20%;
+    background-color: rgb(159, 159, 159);
+    transition-property: translate;
+    transition-duration: 0.1s;
+    transition-timing-function: linear;
+}
+
+.notification__close-button {
+    width: 15%;
+}
+
+.notification__top-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 20%;
+}
+
+.notification__title-label {
+    width: 75%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 100%;
+    white-space: normal;
+    -unity-font-style: bold;
+    font-size: 120%;
+}
+
+.notification__body-label {
+    width: 100%;
+    text-overflow: ellipsis;
+    height: 79%;
+    overflow: hidden;
+    white-space: normal;
+}
