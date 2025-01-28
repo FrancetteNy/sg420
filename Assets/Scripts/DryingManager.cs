@@ -23,7 +23,7 @@ public class DryingManager : MonoBehaviour
             dryingController.PlantDriedData = plantData;
             UpdatePlantModel(dryingController);
         }
-        GameState.DayChanged += OnDayChanged;
+       // GameState.DayChanged += OnDayChanged;
         UpdateHighlight();
     }
 

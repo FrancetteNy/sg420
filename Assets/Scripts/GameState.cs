@@ -23,9 +23,7 @@ public class GameState
     public static Action ErnteAction;
 
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
-    public Room Room;
 
-    public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
 
     

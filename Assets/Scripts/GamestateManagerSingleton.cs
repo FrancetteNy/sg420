@@ -54,11 +54,11 @@ public class GameStateManagerSingleton : MonoBehaviour
     public GameState GameState;
 
     private void OnEnable() {
-        GameState.EncyclopediaEntryUnlocked += unlockEncyclopediaEntry;
+        GameState.EncyclopediaEntryUnlocked += UnlockEncyclopediaEntry;
     }
 
     private void OnDisable() {
-        GameState.EncyclopediaEntryUnlocked -= unlockEncyclopediaEntry;
+        GameState.EncyclopediaEntryUnlocked -= UnlockEncyclopediaEntry;
     }
 
     public void AdvanceDay()
@@ -123,7 +123,7 @@ public class GameStateManagerSingleton : MonoBehaviour
         }
     }
 
-    private void unlockEncyclopediaEntry(string entry) 
+    private void UnlockEncyclopediaEntry(string entry) 
     {
         List<String> currentEntries = GameState.UnlockedEncyclopediaEntries.List;
         if (!currentEntries.Contains(entry)) {

@@ -721,7 +721,7 @@ public class DummyWiki
 {
     public static string GetWikiEntry(string entryTitle)
     {
-        return $"Das ist ein Enzyklop�dieeintrag f�r {entryTitle}.";
+        return $"Das ist ein Enzyklopädieeintrag für {entryTitle}.";
     }
 }
 
