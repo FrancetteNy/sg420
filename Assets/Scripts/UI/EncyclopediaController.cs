@@ -13,6 +13,8 @@ public class EncyclopediaController : MonoBehaviour
     private Label _textView;
     private TreeView _treeView;
     private TextField _searchBar;    
+    private List<Category> _unlockedEntries;
+
     protected interface IEntryOrCategory
     {
         public string Name
@@ -94,6 +96,7 @@ public class EncyclopediaController : MonoBehaviour
 
         _textView = _root.Q<Label>("entry");
  
+        FilterLockedEntries();
         SetUpSearchBar();
         SetUpTreeView();
 
@@ -122,11 +125,11 @@ public class EncyclopediaController : MonoBehaviour
             var search = evt.newValue;
             var tempList = new List<Category>();
             if (search == "") {
-                _treeView.SetRootItems(GenerateTreeRoots(Categories));
+                _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
             }
             else 
             {
-                foreach (var category in Categories)
+                foreach (var category in _unlockedEntries)
                 {
                     if (category.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
@@ -158,10 +161,40 @@ public class EncyclopediaController : MonoBehaviour
 
     }
 
+    private void FilterLockedEntries()
+    {
+        List<String> unlockedEntryNames = GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List;
+        List<Category> filteredList = new List<Category>();
+        foreach (var category in Categories) 
+        {
+            List<Entry> entries = new List<Entry>();
+            int count = 0;
+            foreach (var entry in category.Entries) 
+            {
+                if (unlockedEntryNames.Contains(entry.Name)) 
+                {
+                    entries.Add(entry);
+                    count++;
+                }
+            }
+            if (count > 0) 
+            {
+                filteredList.Add(new Category(category.Name, entries));
+            }
+        }
+        _unlockedEntries = filteredList;
+    }
+
+    public void ReloadEntries() 
+    {
+        FilterLockedEntries();
+        SetUpTreeView();
+    }
+
     void SetUpTreeView() 
     {
         _treeView = _root.Query<TreeView>("tree-view");
-        _treeView.SetRootItems(GenerateTreeRoots(Categories));
+        _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
 
         _treeView.makeItem = () => new Button();
 

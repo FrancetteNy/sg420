@@ -7,9 +7,11 @@ public class GameState
     public Growlight Growlight;
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
+    public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
     public Room Room;
 
     public static Action DayChanged;
+    public static Action<string> EncyclopediaEntryUnlocked;
 
     
 
@@ -18,6 +20,7 @@ public class GameState
         CurrentDay = 1;
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
+        UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;
     }
 
