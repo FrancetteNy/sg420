@@ -171,10 +171,8 @@ public class EncyclopediaController : MonoBehaviour
             int count = 0;
             foreach (var entry in category.Entries) 
             {
-                Debug.Log(category.Name);
                 if (unlockedEntryNames.Contains(entry.Name)) 
                 {
-                    Debug.Log("    " + entry.Name);
                     entries.Add(entry);
                     count++;
                 }
