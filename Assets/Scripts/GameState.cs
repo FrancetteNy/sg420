@@ -9,6 +9,7 @@ public class GameState
     public Growlight Growlight;
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
+
     public JsonableListWrapper<PlantDriedData> PlantDriedDataList;
     public int TreesCount;
     public int Score;
@@ -20,6 +21,16 @@ public class GameState
     public static Action ScoreChanged;
     public static Action GetrocknetChanged;
     public static Action ErnteAction;
+
+    public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
+    public Room Room;
+
+    public static Action DayChanged;
+    public static Action<string> EncyclopediaEntryUnlocked;
+
+    
+
+
     public GameState()
     {
         CurrentDay = 1;
@@ -29,6 +40,8 @@ public class GameState
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
         PlantDriedDataList = new(new List<PlantDriedData> { new(), new(), new(), new() });
+
+        UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;
     }
 

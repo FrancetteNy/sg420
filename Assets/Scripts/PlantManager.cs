@@ -59,10 +59,12 @@ public class PlantManager : MonoBehaviour
         if (plantController.Soil.StoredWater < PlantManagerConstants.MinWater)
         {
             Debug.Log($"Not enough water {plant}");
+            GameState.EncyclopediaEntryUnlocked("Bewässern");
         }
         else if (plantController.Soil.StoredWater > PlantManagerConstants.MaxWater)
         {
             Debug.Log($"Too much water {plant}");
+            GameState.EncyclopediaEntryUnlocked("Bewässern");
         }
         else
         {
@@ -78,10 +80,12 @@ public class PlantManager : MonoBehaviour
         if (plantController.Soil.StoredNutrients < PlantManagerConstants.MinNutrients)
         {
             Debug.Log($"Not enough Nutrients {plant}");
+            GameState.EncyclopediaEntryUnlocked("Nährstoffe");
         }
         else if (plantController.Soil.StoredNutrients > PlantManagerConstants.MaxNutrients)
         {
             Debug.Log($"Too much Nutrients {plant}");
+            GameState.EncyclopediaEntryUnlocked("Nährstoffe");
         }
         else
         {
