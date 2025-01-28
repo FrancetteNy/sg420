@@ -93,7 +93,6 @@ public class GameStateManagerSingleton : MonoBehaviour
     {
         List<String> currentEntries = GameState.UnlockedEncyclopediaEntries.List;
         if (!currentEntries.Contains(entry)) {
-            Debug.Log("Unlocking Encyclopedia entry " + entry);
             GameState.UnlockedEncyclopediaEntries.List.Add(entry);
         }
     }
