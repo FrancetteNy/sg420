@@ -77,3 +77,42 @@
 .no-background {
     background-color: rgba(0, 0, 0, 0);
 }
+
+.text-color {
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(255, 255, 255);
+}
+
+.custom-button {
+    background-color: rgb(14, 104, 10);
+    font-size: 20px;
+    -unity-font-style: bold;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+}
+
+.unity-popup-field__menu {
+    background-color: rgb(14, 104, 10);
+}
+
+.unity-base-popup {
+    background-color: rgb(14, 104, 10);
+}
+
+.window-bg-color {
+    background-color: rgb(4, 24, 1);
+}
+
+.bg-color {
+    background-color: rgb(55, 23, 22);
+}
