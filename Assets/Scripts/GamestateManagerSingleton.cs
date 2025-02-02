@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 // by @kurtdekker - to make a Unity singleton that has some
 // https://gist.github.com/kurtdekker/2f07be6f6a844cf82110fc42a774a625
@@ -69,37 +67,28 @@ public class GameStateManagerSingleton : MonoBehaviour
         UIEvents.AddNotification.Invoke(new NotificationData("Spiel gespeichert", $"Tag {GameState.CurrentDay} gestartet.", 3));
     }
 
-    public void AdvanceTreesCount(int num)
+    public void UpdateTreesCount(int num)
     {
         GameState.TreesCount += num;
         GameState.InventorzChanged?.Invoke();
         Save();
     }
 
-    public void AdvanceScore(int score)
+    public void UpdateScore(int score)
     {
         GameState.Score += score;
         GameState.ScoreChanged?.Invoke();
         Save();
     }
 
-    public void AdvanceGetrocknet(int num)
+    public void UpdateGetrocknet(int num)
     {
         GameState.Getrocknet += num;
         GameState.GetrocknetChanged?.Invoke();
         Save();
     }
 
-    //public void ResetData()
-    //{
-    //    GameState.TreesCount = 0;
-    //    GameState.InventorzChanged?.Invoke();
-    //    GameState.Score = 0;
-    //    GameState.ScoreChanged?.Invoke();
-    //    GameState.Getrocknet = 0;
-    //    GameState.GetrocknetChanged?.Invoke();
-    //    Save();
-    //}
+   
 
     private string _saveFilePath;
 

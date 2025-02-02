@@ -1,11 +1,26 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
-
-[Serializable]
 public class PlantController : MonoBehaviour
 {
     public PlantData PlantData;
+    public Action StageChanged;
+    Outline _outline;
+    private void Start()
+    {
+        _outline = GetComponent<Outline>();
+        StageChanged += OnStageChanged;
+    }
+    private void OnStageChanged()
+    {
+        if (PlantData.Age.Stage == Age.GrowthStage.FLOWERING)
+        {
+            _outline.OutlineColor = Color.green;
+        }
+        else
+        {
+            _outline.OutlineColor = Color.yellow;
+        }
+    }
     public bool IsPlantable()
     {
         return PlantData == null || PlantData.Strain == Strain.None;

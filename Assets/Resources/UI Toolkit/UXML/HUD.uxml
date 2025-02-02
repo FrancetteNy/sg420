@@ -12,7 +12,7 @@
                 <ui:Label text="Score : 0" name="Score" class="text" />
                 <ui:Label text="Ernte : 0" name="Ernte" class="text" />
             </ui:VisualElement>
-            <ui:Button text="Nächsten Tag starten" name="advance-day-button" style="margin-right: 10px; margin-bottom: 10px; height: 50px; flex-direction: row;" />
+            <ui:Button text="Nächsten Tag starten" name="update-day-button" style="margin-right: 10px; margin-bottom: 10px; height: 50px; flex-direction: row;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

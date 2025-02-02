@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 [Serializable]
 public class GameState
@@ -10,7 +8,7 @@ public class GameState
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
 
-    public JsonableListWrapper<PlantDriedData> PlantDriedDataList;
+    public JsonableListWrapper<DriedData> PlantDriedDataList;
     public int TreesCount;
     public int Score;
     public int Getrocknet;
@@ -26,9 +24,6 @@ public class GameState
 
     public static Action<string> EncyclopediaEntryUnlocked;
 
-    
-
-
     public GameState()
     {
         CurrentDay = 1;
@@ -37,7 +32,7 @@ public class GameState
         Getrocknet = 0;
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
-        PlantDriedDataList = new(new List<PlantDriedData> { new(), new(), new(), new() });
+        PlantDriedDataList = new(new List<DriedData> { new(), new(), new(), new() });
 
         UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;

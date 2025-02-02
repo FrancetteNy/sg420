@@ -53,42 +53,12 @@ public class HighlightController : MonoBehaviour
         {
             if (IsMouseOver(data))
             {
-                string tag = data.Tag;
-
-                if (tag == "Plant")
-                {
-                    PlantController plantController = data.ObjectToHighlight.GetComponent<PlantController>();
-                    Drying_Controller dryingController = data.ObjectToHighlight.GetComponent<Drying_Controller>();
-
-                    if (plantController && plantController.PlantData.Age.Stage == Age.GrowthStage.FLOWERING)
-                    {
-                        _outlineColor = Color.green;
-                    }
-                    else if (dryingController && dryingController.PlantDriedData.Age.Stage == AgeDrying.DryingStage.Ready)
-                    {
-                        _outlineColor = Color.green;
-                    }
-                    else
-                    {
-                        _outlineColor = Color.yellow;
-                    }
-                }
-                else
-                {
-                    _outlineColor = Color.yellow;
-                }
-                SetOutlineSettings(data.Outline, data.OutlineMode, _outlineColor, data.OutlineWidth);
-
                 data.Outline.enabled = true;
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && data.MouseClickFunction != null)
                 {
-             
-                    if (data.MouseClickFunction != null)
-                    {
-                        SoundManagerSingleton.Instance.PlaySound("Click");
-                        data.MouseClickFunction.Invoke(data);
-                        break;
-                    }
+                    SoundManagerSingleton.Instance.PlaySound("Click");
+                    data.MouseClickFunction.Invoke(data);
+                    break;
                 }
             }
             else
@@ -178,15 +148,15 @@ public class HighlightController : MonoBehaviour
 #nullable enable
     public class HighlightData
     {
-        public GameObject ObjectToHighlight;
-        public Outline Outline;
+        public GameObject? ObjectToHighlight;
+        public Outline? Outline;
         public Action<HighlightData>? MouseClickFunction;
         public Action<HighlightData>? MouseClickFunction2;
         public Outline.Mode OutlineMode;
         public Color OutlineColor;
         public float OutlineWidth;
-        public string Tag;
-        public Renderer[] Renderers;
+        public string? Tag;
+        public Renderer[]? Renderers;
     }
 #nullable disable
 }

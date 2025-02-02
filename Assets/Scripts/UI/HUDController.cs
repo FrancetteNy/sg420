@@ -29,7 +29,7 @@ public class HUDController : MonoBehaviour
     }
     private void SetupButtons()
     {
-        var advanceDayButton = _root.Q<Button>("advance-day-button");
+        Button advanceDayButton = _root.Q<Button>("update-day-button");
         advanceDayButton.clicked += GameStateManagerSingleton.Instance.AdvanceDay;
         advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 

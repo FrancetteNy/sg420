@@ -8,14 +8,14 @@ using static AgeDrying;
 
 public class DryingManager : MonoBehaviour
 {
-    public ObservableCollection<GameObject> Plants = new();
+    public List<Drying_Controller> Plants = new List<Drying_Controller>();
     private HighlightController _highlightController;
     void Start()
     {
         _highlightController = FindAnyObjectByType<HighlightController>();
         foreach (Transform plantPosition in transform)
         {
-            Plants.Add(plantPosition.gameObject);
+            Plants.Add(plantPosition.GetComponent<Drying_Controller>());
         }
         foreach (var (plantData, plantObject) in GameStateManagerSingleton.Instance.GameState.PlantDriedDataList.List.Zip(Plants, (data, obj) => (data, obj)))
         {
@@ -23,25 +23,26 @@ public class DryingManager : MonoBehaviour
             dryingController.PlantDriedData = plantData;
             UpdatePlantModel(dryingController);
         }
-       // GameState.DayChanged += OnDayChanged;
+        GameState.DayChanged += OnDayChanged;
         UpdateHighlight();
     }
 
     private void OnDayChanged()
     {
-        foreach (var plant in Plants)
+        foreach (Drying_Controller plant in Plants)
         {
             AgePlant(plant);
         }
     }
-    private void SaveDataOfPlants()
+    private void SaveDataOfPlant(Drying_Controller plant)
     {
         var plantDataList = GameStateManagerSingleton.Instance.GameState.PlantDriedDataList.List;
+        int plantIndex = Plants.IndexOf(plant);
 
-        for (int i = 0; i < plantDataList.Count; i++)
-        {
-            plantDataList[i] = Plants[i].GetComponent<Drying_Controller>().PlantDriedData;
-        }
+        if (plantIndex + 1 > plantDataList.Count)
+            plantDataList.Add(plant.PlantDriedData);
+        else
+            plantDataList[plantIndex] = plant.PlantDriedData;
 
         GameStateManagerSingleton.Instance.Save();
     }
@@ -50,11 +51,11 @@ public class DryingManager : MonoBehaviour
         if(plant.PlantDriedData.Age.Stage == DryingStage.Drying)
             plant.PlantObject.SetActive(true);
     }
-    private void AgePlant(GameObject plant)
+    private void AgePlant(Drying_Controller plant)
     {
-        PlantDriedData plantDriedData = plant.GetComponent<Drying_Controller>().PlantDriedData;
+        DriedData plantDriedData = plant.PlantDriedData;
 
-        if(plantDriedData.Age.Stage != DryingStage.Drying)
+        if (plantDriedData.Age.Stage != DryingStage.Drying)
             return;
 
         plantDriedData.Age.AgeNumber += 1;
@@ -63,6 +64,7 @@ public class DryingManager : MonoBehaviour
         {
             plantDriedData.Age.Stage = plantDriedData.Age.GetNextStage();
             plantDriedData.Age.AgeNumber = 0;
+            plant.StageChanged.Invoke();
         }
     }
 
@@ -79,21 +81,22 @@ public class DryingManager : MonoBehaviour
         //NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 500, () => print("Clicked")));
 
         plant.PlantObject.SetActive(false);
-        GameStateManagerSingleton.Instance.AdvanceGetrocknet(1);
+        GameStateManagerSingleton.Instance.UpdateGetrocknet(1);
         // Change Value for every Strain
-        GameStateManagerSingleton.Instance.AdvanceScore(DriedManagerConstants.ScorePerDryingStage[plant.PlantDriedData.Age.Stage]);
+        GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[plant.PlantDriedData.Age.Stage]);
         plant.PlantDriedData.Age.ResetAge();
-        SaveDataOfPlants();
+        plant.StageChanged.Invoke();
+        SaveDataOfPlant(plant);
 
-        string plantStrain = plant.PlantDriedData.Strain.ToString();
+        string plantStrain = $"{plant.PlantDriedData.Strain} geerntet";
         int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
         NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
     }
 
     private void ConstructPlantHighlightAndClickFunction(int index)
     {
-        var highlightBuilder = _highlightController.BeginHighlightObject(Plants[index]);
-        Drying_Controller plant = Plants[index].GetComponent<Drying_Controller>();
+        var highlightBuilder = _highlightController.BeginHighlightObject(Plants[index].gameObject);
+        Drying_Controller plant = Plants[index];
 
         highlightBuilder.WithClickAction((data) =>
         {
@@ -104,13 +107,14 @@ public class DryingManager : MonoBehaviour
             else if (plant.PlantDriedData.Age.Stage == DryingStage.Drying)
             {
                 ModalController.Instance.ShowModal("Warnung", "Die Trocknungsphase wirklich abschließen? Die Trocknung kann nicht rückgängig gemacht werden.", () => CollectPlant(plant));
+               
             }
-            else if (GameStateManagerSingleton.Instance.GameState.TreesCount > 0 && plant.PlantDriedData.Age.Stage == DryingStage.Others)
+            else if (GameStateManagerSingleton.Instance.GameState.TreesCount > 0 && plant.PlantDriedData.Age.Stage == DryingStage.Empty)
             {
                 plant.PlantDriedData.Age.Stage = plant.PlantDriedData.Age.GetNextStage();
                 plant.PlantObject.SetActive(true);
-                GameStateManagerSingleton.Instance.AdvanceTreesCount(-1);
-                SaveDataOfPlants();
+                GameStateManagerSingleton.Instance.UpdateTreesCount(-1);
+                SaveDataOfPlant(plant);
             }
             else
             {
@@ -124,12 +128,12 @@ public class DryingManager : MonoBehaviour
 public static class DriedManagerConstants
 {
     public static Dictionary<DryingStage, int> MaximumAgePerDryingStage = new Dictionary<DryingStage, int> {
-            {DryingStage.Others, 0 },
+            {DryingStage.Empty, 0 },
             {DryingStage.Drying, 2 },
             {DryingStage.Ready, 0 },
         };
     public static Dictionary<DryingStage, int> ScorePerDryingStage = new Dictionary<DryingStage, int> {
-            {DryingStage.Others, 0 },
+            {DryingStage.Empty, 0 },
             {DryingStage.Drying, 5 },
             {DryingStage.Ready, 10 },
         };

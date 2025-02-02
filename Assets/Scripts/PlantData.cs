@@ -76,16 +76,16 @@ public class PlantData
 }
 
 [Serializable]
-public class PlantDriedData
+public class DriedData
 {
     public bool? Sex;
     public AgeDrying Age;
     public Strain Strain;
 
-    public PlantDriedData()
+    public DriedData()
     {
         this.Sex = false;
-        this.Age = new(DryingStage.Others, 0);
+        this.Age = new(DryingStage.Empty, 0);
         this.Strain = Strain.Sativa;
     }
 
@@ -94,7 +94,7 @@ public class PlantDriedData
         string dryingStage = string.Empty;
         switch (Age.Stage)
         {
-            case DryingStage.Others:
+            case DryingStage.Empty:
                 dryingStage = "Others";
                 break;
             case DryingStage.Drying:
@@ -121,7 +121,7 @@ public class AgeDrying
 {
     public enum DryingStage
     {
-        Others,
+        Empty,
         Drying,
         Ready,
     }
@@ -154,14 +154,14 @@ public class AgeDrying
 
     public DryingStage GetNextStage() => Stage switch
     {
-        DryingStage.Others => DryingStage.Drying,
+        DryingStage.Empty => DryingStage.Drying,
         DryingStage.Drying => DryingStage.Ready,
         _ => throw new ArgumentOutOfRangeException(nameof(DryingStage), $"Not expected GrowthStage value {Stage}"),
     };
 
     public void ResetAge()
     {
-        Stage = DryingStage.Others;
+        Stage = DryingStage.Empty;
         AgeNumber = 0;
     }
 }
@@ -231,6 +231,7 @@ public class Age
 
     public GrowthStage GetNextStage() => Stage switch
     {
+        GrowthStage.EMPTY => GrowthStage.GERMINATION,
         GrowthStage.GERMINATION => GrowthStage.SEEDLING,
         GrowthStage.SEEDLING => GrowthStage.VEGETATIVEGROWTH,
         GrowthStage.VEGETATIVEGROWTH => GrowthStage.FLOWERING,
@@ -242,7 +243,7 @@ public class Age
     public void ResetAge()
     {
         AgeNumber = 0;
-        Stage = GrowthStage.FADED;
+        Stage = GrowthStage.EMPTY;
     }
 }
 [Serializable]

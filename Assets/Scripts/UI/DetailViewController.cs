@@ -91,7 +91,7 @@ public class DetailViewController : MonoBehaviour
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 break;
-            case UIButton.ERNTENPLANT:
+            case UIButton.HARVESTPLANT :
                 PlantController plant = PlantControllers[_detailViewplantManager.CurrentPlantIndex];
                 _plantManager.ErntePlant(plant);
                 break;
@@ -238,7 +238,7 @@ public enum UIButton
 {
     PREVIOUSPLANT,
     NEXTPLANT,
-    ERNTENPLANT,
+    HARVESTPLANT ,
     STARTSEXING,
     CLOSEVIEW,
     ZOOMIN,
@@ -280,7 +280,7 @@ public static class DetailViewConstants
     public static Dictionary<UIButton, string> NameOfButtons = new Dictionary<UIButton, string>() {
         {UIButton.PREVIOUSPLANT, "previous-plant-button" },
         {UIButton.NEXTPLANT, "next-plant-button"},
-        {UIButton.ERNTENPLANT, "ernten-button"},
+        {UIButton.HARVESTPLANT, "ernten-button"},
         {UIButton.STARTSEXING, "start-sexing-button"},
         {UIButton.CLOSEVIEW, "close-button"},
         {UIButton.ZOOMIN, "zoom-in-button"},

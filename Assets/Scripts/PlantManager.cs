@@ -6,6 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Age;
+using static AgeDrying;
 
 public class PlantManager : MonoBehaviour
 {
@@ -141,6 +142,10 @@ public class PlantManager : MonoBehaviour
             default:
                 vectorValue = 0.0f;
                 break;
+            case GrowthStage.FADED:
+                vectorValue = 1.0f;
+                break;
+
         }
         ManagePlantStageModel(plant);
         GetCurrentPlantModel(plant).transform.localScale = new Vector3(vectorValue, vectorValue, vectorValue);
@@ -153,15 +158,17 @@ public class PlantManager : MonoBehaviour
 
     public void AgePlant(GameObject plant)
     {
-        PlantData plantController = plant.GetComponent<PlantController>().PlantData;
+        PlantController plantController = plant.GetComponent<PlantController>();
+        PlantData plantData = plantController.PlantData;
 
-        plantController.Age.AgeNumber += 1;
+        plantData.Age.AgeNumber += 1;
 
-        if (plantController.Age.AgeNumber > PlantManagerConstants.MaximumAgePerGrowthStage[plantController.Age.Stage])
+        if (plantData.Age.AgeNumber > PlantManagerConstants.MaximumAgePerGrowthStage[plantData.Age.Stage])
         {
-            plantController.Age.Stage = plantController.Age.GetNextStage();
+            plantData.Age.Stage = plantData.Age.GetNextStage();
             ManagePlantStageModel(plant);
-            plantController.Age.AgeNumber = 0;
+            plantData.Age.AgeNumber = 0;
+            plantController.StageChanged.Invoke();
         }
     }
 
@@ -215,6 +222,10 @@ public class PlantManager : MonoBehaviour
     public void ErntePlant(PlantController plant)
     {
         PlantData plantData = plant.PlantData;
+
+        if (plantData.Age.Stage == GrowthStage.EMPTY)
+            return;
+
         if (plantData.Age.Stage == GrowthStage.FLOWERING)
         {
             ErnteAction(plant);
@@ -223,21 +234,33 @@ public class PlantManager : MonoBehaviour
         {
             if (plantData.Age.Stage != GrowthStage.FADED)
                 ModalController.Instance.ShowModal("Warnung", "Die Pflanze wirklich ernten? Die Ernte kann nicht rückgängig gemacht werden!", () => ErnteAction(plant));
+            else
+                ModalController.Instance.ShowModal("Warnung", "(Reomve Plant) Die Pflanze wirklich ernten? Die Ernte kann nicht rückgängig gemacht werden! (FADED)", () => ErnteAction(plant));
         }
     }
 
     private void ErnteAction(PlantController plant)
     {
         GetCurrentPlantModel(plant.gameObject).SetActive(false);
+        plant.StageChanged.Invoke();
+        GameStateManagerSingleton.Instance.UpdateScore(PlantManagerConstants.ScorePerGrowthStage[plant.PlantData.Age.Stage]);
+
+        if (plant.PlantData.Age.Stage != GrowthStage.FADED)
+        {
+            GameStateManagerSingleton.Instance.UpdateTreesCount(1);
+
+            string plantStrain = $"{plant.PlantData.Strain} geerntet";
+            int totalScore = GameStateManagerSingleton.Instance.GameState.TreesCount;
+            NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
+        }
+        else
+        {
+            print("Stage is FADED");
+        }
+
         plant.PlantData.Age.ResetAge();
-        GameStateManagerSingleton.Instance.AdvanceTreesCount(1);
         GameStateManagerSingleton.Instance.Save();
-
-        string plantStrain = plant.PlantData.Strain.ToString();
-        int totalScore = GameStateManagerSingleton.Instance.GameState.TreesCount;
-        NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
     }
-
     private void ConstructPlantHighlightAndClickFunction(int index)
     {
         var highlightBuilder = _highlightController.BeginHighlightObject(Plants[index]);
@@ -267,9 +290,19 @@ public static class PlantManagerConstants
     public const float MaxVegetativeGrowthValue = 0.6f;
     public const float MaxFloweringValue = 1.0f;
     public static Dictionary<GrowthStage, int> MaximumAgePerGrowthStage = new Dictionary<GrowthStage, int> {
+            {GrowthStage.EMPTY, 0 },
             {GrowthStage.GERMINATION, 1 },
             {GrowthStage.SEEDLING, 3 },
             {GrowthStage.VEGETATIVEGROWTH, 8 },
             {GrowthStage.FLOWERING, 5 },
+            {GrowthStage.FADED, 0 },
+        };
+    public static Dictionary<GrowthStage, int> ScorePerGrowthStage = new Dictionary<GrowthStage, int> {
+            {GrowthStage.EMPTY, 0 },
+            {GrowthStage.GERMINATION, 2 },
+            {GrowthStage.SEEDLING, 4 },
+            {GrowthStage.VEGETATIVEGROWTH, 6 },
+            {GrowthStage.FLOWERING, 10 },
+            {GrowthStage.FADED, 3 },
         };
 }

@@ -33,7 +33,6 @@ namespace SG420UILibrary
             CloseButton.text = "X";
             CloseButton.AddToClassList(UssCloseButtonClassName);
             topRow.Add(CloseButton);
-            CloseButton.clicked += OnClick;
 
             _bodyElement = new Label();
             _bodyElement.AddToClassList(UssBodyLabelClassName);

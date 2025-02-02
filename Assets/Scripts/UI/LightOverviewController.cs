@@ -24,8 +24,6 @@ public class LightOverviewController : MonoBehaviour
     }
     private void SetupToggles()
     {
-        Debug.Log("SetupToggles gestartet");
-
         if (_root == null)
         {
             Debug.LogError("_root ist null.");
@@ -113,6 +111,5 @@ public class LightOverviewController : MonoBehaviour
     {
         _lightDropdownField.value = _lighttypeStrings[GameStateManagerSingleton.Instance.GameState.Growlight.Type];
         _slideToggle.value = GameStateManagerSingleton.Instance.GameState.Growlight.IsInFloweringGrowthMode;
-
     }
 }
