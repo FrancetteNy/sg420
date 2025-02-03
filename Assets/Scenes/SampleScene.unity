@@ -1204,7 +1204,7 @@ MonoBehaviour:
     Age:
       Stage: 0
       AgeNumber: 0
-    Strain: 0
+    Strain: 1
   PlantObject: {fileID: 2005370942}
 --- !u!65 &190130276
 BoxCollider:
@@ -3647,6 +3647,30 @@ PrefabInstance:
       propertyPath: ruderalis
       value: 
       objectReference: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+    - target: {fileID: 424529277985496327, guid: b187584ce7a670945a03aeefb1ce12f0, type: 3}
+      propertyPath: InputGoing.m_Name
+      value: Input Going
+      objectReference: {fileID: 0}
+    - target: {fileID: 424529277985496327, guid: b187584ce7a670945a03aeefb1ce12f0, type: 3}
+      propertyPath: PlayerControllers.m_Name
+      value: Player Controllers
+      objectReference: {fileID: 0}
+    - target: {fileID: 424529277985496327, guid: b187584ce7a670945a03aeefb1ce12f0, type: 3}
+      propertyPath: PlayerControllers.m_SingletonActionBindings.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 424529277985496327, guid: b187584ce7a670945a03aeefb1ce12f0, type: 3}
+      propertyPath: PlayerControllers.m_SingletonActionBindings.Array.data[0].m_Id
+      value: bc3b921b-f7f4-45e4-aab1-9d75444cd2d2
+      objectReference: {fileID: 0}
+    - target: {fileID: 424529277985496327, guid: b187584ce7a670945a03aeefb1ce12f0, type: 3}
+      propertyPath: PlayerControllers.m_SingletonActionBindings.Array.data[0].m_Path
+      value: <Keyboard>/t
+      objectReference: {fileID: 0}
+    - target: {fileID: 424529277985496327, guid: b187584ce7a670945a03aeefb1ce12f0, type: 3}
+      propertyPath: PlayerControllers.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Player Controllers
+      objectReference: {fileID: 0}
     - target: {fileID: 1745873447463926759, guid: b187584ce7a670945a03aeefb1ce12f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -41.059265
@@ -3761,7 +3785,7 @@ MonoBehaviour:
     Age:
       Stage: 0
       AgeNumber: 0
-    Strain: 0
+    Strain: 1
   PlantObject: {fileID: 1437619824}
 --- !u!23 &934443323
 MeshRenderer:
@@ -4139,7 +4163,7 @@ MonoBehaviour:
     Age:
       Stage: 0
       AgeNumber: 0
-    Strain: 0
+    Strain: 1
   PlantObject: {fileID: 871893291}
 --- !u!65 &995889517
 BoxCollider:
@@ -7858,7 +7882,7 @@ MonoBehaviour:
     Age:
       Stage: 0
       AgeNumber: 0
-    Strain: 0
+    Strain: 1
   PlantObject: {fileID: 1231952906}
 --- !u!1001 &1793136038
 PrefabInstance:
@@ -8472,6 +8496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f051f4e1191fb440b52b893245153b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Plants: []
 --- !u!1 &2012696495
 GameObject:
   m_ObjectHideFlags: 0
