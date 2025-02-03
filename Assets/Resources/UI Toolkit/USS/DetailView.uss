@@ -79,12 +79,12 @@
 }
 
 .text-color {
-    background-color: rgba(255, 255, 255, 0);
+    background-color: rgb(255, 255, 255);
     color: rgb(255, 255, 255);
 }
 
 .custom-button {
-    background-color: rgb(14, 104, 10);
+    background-color: rgb(3, 74, 0);
     font-size: 20px;
     -unity-font-style: bold;
     border-top-left-radius: 10px;
