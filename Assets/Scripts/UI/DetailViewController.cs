@@ -385,10 +385,6 @@ public class DetailViewUIManager
 
         _plantInfo = _background.Q<VisualElement>("plantinfo");
 
-        // Seed Container
-        _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
-
-        //Popup container
         SetupSeedContainer(onDetailHovered);
         SetupInventarContainer(onDetailHovered);
 
@@ -404,7 +400,7 @@ public class DetailViewUIManager
     }
     private void SetupInventarContainer(Action<string> onDetailHovered){
         _inventarcontainer = _background.Q<VisualElement>("inventory-container");
-       _inventarcontainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Die Aussaat"));
+        _inventarcontainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Das Inventar"));
 
     }
 

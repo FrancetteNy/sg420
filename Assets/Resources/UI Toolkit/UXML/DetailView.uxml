@@ -110,14 +110,33 @@
                 <ui:VisualElement name="inventory-container" class= "block" style="flex-direction: column; margin-top: 10px; justify-content: space-between;">
                     <ui:Label text="Inventar" name="title" class="block-header" />
                     <ui:VisualElement name="inventory-sections" style="flex-direction: row; justify-content: space-between;">
-                    <ui:VisualElement name="seed-inventory" class="inventory-section block" style="flex-direction: column; width: 48%; margin-right: 2%;">
-                        <ui:Label text="Pflanzensamen" class="inventory-section-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;" />
-                        <ui:VisualElement name="seed-list" >
+                        <ui:VisualElement name="seed-inventory" class="inventory-section block" style="flex-direction: column; width: 48%; margin-right: 2%;">
+                            <ui:Label text="Pflanzensamen" class="inventory-section-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;" />
+                            <ui:VisualElement name="seed-list" >
+                                <ui:VisualElement class="list-item">Sativa,Indica,Ruderalis
+                                    <ui:Label text="Sativa  x5" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="list-item">
+                                    <ui:Label text="Indica  x6" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="list-item">
+                                    <ui:Label text="Ruderalis  x7" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
                         </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="harvest-inventory" class="inventory-section block" style="flex-direction: column; width: 48%;">
-                        <ui:Label text="Ernten" class="inventory-section-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;" />
-                        <ui:VisualElement name="harvest-list">
+                        <ui:VisualElement name="harvest-inventory" class="inventory-section block" style="flex-direction: column; width: 48%;">
+                            <ui:Label text="Ernten" class="inventory-section-header" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;" />
+                            <ui:VisualElement name="harvest-list">
+                                <ui:VisualElement class="list-item">Sativa,Indica,Ruderalis
+                                    <ui:Label text="Sativa  x5" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="list-item">
+                                    <ui:Label text="Indica  x6" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="list-item">
+                                    <ui:Label text="Ruderalis  x7" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
