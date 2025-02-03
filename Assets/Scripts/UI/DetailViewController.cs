@@ -155,6 +155,7 @@ public class DetailViewController : MonoBehaviour
             case UIButton.CONFIRMSEED:
                 _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreiche Pflanzung", $"Der Samen {_uiManager.GetSeedValue()} wurde erfolgreich gepflanzt.", 5));
                 break;
             default:
                 Debug.Log("Button without associated action pressed");
