@@ -100,14 +100,10 @@ public class DryingManager : MonoBehaviour
 
         highlightBuilder.WithClickAction((data) =>
         {
-            if (plant.PlantDriedData.Age.Stage == DryingStage.Ready)
+            if (plant.PlantDriedData.Age.Stage == DryingStage.Ready|| plant.PlantDriedData.Age.Stage == DryingStage.Drying)
             {
-                CollectPlant(plant);
-            }
-            else if (plant.PlantDriedData.Age.Stage == DryingStage.Drying)
-            {
-                ModalController.Instance.ShowModal("Warnung", "Die Trocknungsphase wirklich abschließen? Die Trocknung kann nicht rückgängig gemacht werden.", () => CollectPlant(plant));
-               
+                //CollectPlant(plant);
+                ModalController.Instance.ShowModal("Warnung", "Die Trocknungsphase wirklich abschließen? Die Trocknung kann nicht rückgängig gemacht werden.", () => CollectPlant(plant));               
             }
             else if (GameStateManagerSingleton.Instance.GameState.TreesCount > 0 && plant.PlantDriedData.Age.Stage == DryingStage.Empty)
             {
@@ -118,7 +114,7 @@ public class DryingManager : MonoBehaviour
             }
             else
             {
-                NotificationManagerSingleton.Instance.AddNotification(new NotificationData("Warning", "You Donot have any plant", 6));
+                NotificationManagerSingleton.Instance.AddNotification(new NotificationData("Warnung", "Keine Pflanze zu trocken . Bitte ernten Sie zu erst! ", 6));
             }
         });
         highlightBuilder.Apply();
