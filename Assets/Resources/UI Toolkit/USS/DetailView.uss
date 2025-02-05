@@ -125,7 +125,7 @@
 }
 
 .custom-button {
-    background-color: rgb(3, 74, 0);
+    background-color: rgb(37, 85, 35);
     font-size: 20px;
     -unity-font-style: bold;
     border-top-left-radius: 10px;
