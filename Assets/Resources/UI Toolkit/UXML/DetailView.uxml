@@ -109,10 +109,10 @@
                 <ui:Label text="Enzyklopädie" name="title" class="block-header" style="font-size: 30px; -unity-font-style: bold;" />
                 <ui:Label text="Fahre über etwas um Informationen zu erhalten" name="wiki-text" style="font-size: 20px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="submenues" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; justify-content: center; background-color: rgba(0, 0, 0, 0.46); display: none;">
-                <ui:VisualElement name="watering-submenu" style="width: 75%; align-self: center; background-color: rgb(185, 185, 185); height: 75%; display: none;">
+            <ui:VisualElement name="submenues" class="bg-color text-color" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; justify-content: center; background-color: rgba(0, 0, 0, 0.46); display: none;">
+                <ui:VisualElement name="watering-submenu" class="submenu-window" style="width: 75%; align-self: center; background-color: rgb(4, 24, 1); height: 75%; display: none;">
                     <ui:VisualElement name="submenucontrols" style="flex-direction: row; justify-content: flex-end;">
-                        <ui:Button text="X" name="close-watering-submenu-button" />
+                        <ui:Button text="X" name="close-watering-submenu-button" class="custom-button" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-grow: 1;">
                         <ui:Label text="Total ein cooles Bild, was irgendwas mit gießen zu tun hat" />
@@ -125,17 +125,17 @@
                         <ui:Slider label="Dünger" value="0" high-value="15" inverted="false" low-value="0" name="fertilizer-slider" fill="true" style="flex-grow: 1;" />
                         <ui:Label text="0" name="fertilizer-value-label" style="width: 50px;" />
                     </ui:VisualElement>
-                    <ui:Button text="Gießen" name="water-plant-button" />
+                    <ui:Button text="Gießen" name="water-plant-button" class="custom-button" />
                 </ui:VisualElement>
-                <ui:VisualElement name="change-pot-submenu" style="width: 75%; align-self: center; background-color: rgb(185, 185, 185); height: 75%; display: none;">
+                <ui:VisualElement name="change-pot-submenu" class="submenu-window" style="width: 75%; align-self: center; background-color: rgb(4, 24, 1); height: 75%; display: none;">
                     <ui:VisualElement name="submenucontrols" style="flex-direction: row; justify-content: flex-end;">
-                        <ui:Button text="X" name="close-change-pot-submenu-button" />
+                        <ui:Button text="X" name="close-change-pot-submenu-button" class="custom-button" />
                     </ui:VisualElement>
                     <ui:VisualElement style="flex-grow: 1;">
-                        <ui:Button text="In Anzuchtstopf setzen" name="change-to-cultivation-pot-button" />
-                        <ui:Button text="In einen kleinen Topf setzen" name="change-to-small-pot-button" />
-                        <ui:Button text="In einen mittleren Topf setzen" name="change-to-medium-pot-button" />
-                        <ui:Button text="In einen großen Topf setzen" name="change-to-large-pot-button" />
+                        <ui:Button text="In Anzuchtstopf setzen" name="change-to-cultivation-pot-button" class="custom-button" />
+                        <ui:Button text="In einen kleinen Topf setzen" name="change-to-small-pot-button" class="custom-button" />
+                        <ui:Button text="In einen mittleren Topf setzen" name="change-to-medium-pot-button" class="custom-button" />
+                        <ui:Button text="In einen großen Topf setzen" name="change-to-large-pot-button" class="custom-button" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
