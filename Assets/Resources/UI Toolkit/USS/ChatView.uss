@@ -28,6 +28,11 @@
     background-color: rgb(241, 233, 219);
 }
 
+.chat-list__item--system {
+    -unity-text-align: upper-center;
+    color: rgb(140, 140, 140);
+}
+
 .chat-list__item-container {
     width: 70%;
 }
@@ -40,9 +45,12 @@
     align-self: flex-end;
 }
 
+.chat-list__item-container--system {
+    align-self: center;
+}
+
 .chat-list__item--first.chat-list__item--npc {
     border-bottom-left-radius: 3px;
-    margin-bottom: 2px;
 }
 
 .chat-list__item--last.chat-list__item--npc {
@@ -53,23 +61,17 @@
 .chat-list__item--multiple.chat-list__item--npc {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
-    margin-top: 2px;
-    margin-bottom: 2px;
 }
 
 .chat-list__item--first.chat-list__item--player {
-    margin-bottom: 2px;
     border-bottom-right-radius: 3px;
 }
 
 .chat-list__item--last.chat-list__item--player {
-    margin-top: 2px;
     border-top-right-radius: 3px;
 }
 
 .chat-list__item--multiple.chat-list__item--player {
-    margin-top: 2px;
-    margin-bottom: 2px;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
 }
@@ -90,4 +92,16 @@
     transition-property: scale;
     transition-duration: 0.3s;
     transition-timing-function: ease-in-out-back;
+}
+
+.chat-list__item--first {
+    margin-bottom: 1px;
+}
+
+.chat-list__item--last {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.chat-list__item--multiple {
 }
