@@ -13,6 +13,7 @@ public class GameState
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
 
+    public ChatData ChatData;
     
 
     public GameState()
@@ -22,9 +23,39 @@ public class GameState
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
         UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;
+        ChatData = new();
     }
-
 }
+
+[Serializable]
+public class ChatData
+{
+    public ChatData()
+    {
+        DoneChatIDs = new(new());
+        MetRequirements = new(new());
+        KnownNPCs = new(new());
+        ChatIDsAvailable = new(new());
+        ChatUnlocks = new(new());
+    }
+    public JsonableListWrapper<int> DoneChatIDs;
+    public JsonableListWrapper<MetRequirements> MetRequirements;
+    public JsonableListWrapper<string> KnownNPCs;
+    public JsonableListWrapper<int> ChatIDsAvailable;
+    public JsonableListWrapper<string> ChatUnlocks;
+}
+
+[Serializable]
+public class MetRequirements{
+    public MetRequirements(string requirementName, int requirementValue)
+    {
+        RequirementName = requirementName;
+        RequirementValue = requirementValue;
+    }
+    public string RequirementName;
+    public int RequirementValue;
+}
+
 [Serializable]
 public class JsonableListWrapper<T>
 {

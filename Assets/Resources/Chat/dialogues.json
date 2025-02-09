@@ -1,0 +1,209 @@
+{
+  "Test1": {
+    "Topics": [
+      "testTopic1",
+      "testTopic2"
+    ],
+    "Chats": [
+      {
+        "ID": 0,
+        "Requirements": [],
+        "UnlocksNeeded": [],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Das ist eine initiale Aussage. Mit einem zweiten Satz.",
+              "Jetzt kommt eine zweite Nachricht.",
+              ":D"
+            ],
+            "Answers": [
+              {
+                "Text": "Das ist eine 1. Antwort",
+                "NextQuestion": 1,
+                "Progress": []
+              },
+              {
+                "Text": "Zweite Antwort!!",
+                "NextQuestion": 1,
+                "Progress": []
+              },
+              {
+                "Text": "Und eine Antwort mit einer anderen Folgefrage",
+                "NextQuestion": 2,
+                "Progress": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Das ist die Folgefrage nach der ersten Antwort.",
+              "Was hälst du von textTopic1?"
+            ],
+            "Answers": [
+              {
+                "Text": "Klingt interessant!",
+                "NextQuestion": 3,
+                "Progress": [
+                  {
+                    "topic": "testTopic1",
+                    "change": 1
+                  }
+                ]
+              },
+              {
+                "Text": "Ich bin nicht sicher...",
+                "NextQuestion": 4,
+                "Progress": [
+                  {
+                    "topic": "testTopic1",
+                    "change": -1
+                  }
+                ]
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Diese Frage folgt aus der dritten Antwort.",
+              "Was hälst du von textTopic2?"
+            ],
+            "Answers": [
+              {
+                "Text": "Ich hab gehört das sollte durch das eine voll gut gehen!",
+                "NextQuestion": 5,
+                "Progress": [
+                  {
+                    "topic": "testTopic2",
+                    "change": 2
+                  }
+                ]
+              },
+              {
+                "Text": "Nicht wirklich viel, sorry...",
+                "NextQuestion": null,
+                "Progress": [
+                  {
+                    "topic": "testTopic2",
+                    "change": -2
+                  }
+                ]
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 3,
+            "Question": [
+              "Ja, oder? Weißt du was echt auch cool ist über das testTopic1?"
+            ],
+            "Answers": [
+              {
+                "Text": "Nein, erzähl!",
+                "NextQuestion": 4,
+                "Progress": [
+                  {
+                    "topic": "testTopic1",
+                    "change": 1
+                  }
+                ]
+              },
+              {
+                "Text": "Nein, aber du ich hab echt keine Zeit mehr...",
+                "NextQuestion": null,
+                "Progress": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 4,
+            "Question": [
+              "Hier sind noch ein paar spannende Fakten zu testTopic1",
+              "Und noch ein paar",
+              "aber jetzt wird es doch recht spät",
+              "aber lass wann anders auf jeden Fall weiter reden!"
+            ],
+            "Answers": [],
+            "Unlocks": []
+          },
+          {
+            "ID": 5,
+            "Question": [],
+            "Answers": [
+              {
+                "Text": "Man macht doch erst das eine",
+                "NextQuestion": 6,
+                "Progress": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 6,
+            "Question": [],
+            "Answers": [
+              {
+                "Text": "und danach das andere",
+                "NextQuestion": 7,
+                "Progress": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 7,
+            "Question": [
+              "Wow, dir kann man nichts vormachen",
+              "Da müssen wir dringend wann anders noch drüber reden!"
+            ],
+            "Answers": [],
+            "Unlocks": [
+              "testTopic2-Folgediskussion"
+            ]
+          }
+        ]
+      },
+      {
+        "ID": 1,
+        "Requirements": [
+          {
+            "testTopic2": 2
+          }
+        ],
+        "UnlocksNeeded": [
+          "testTopic2-Folgediskussion"
+        ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Weißt du das letztens",
+              "Da hast du mir doch davon erzählt dass man erstmal das eine und dann das andere machen sollte",
+              "ich hab da nochmal darüber nachgedacht"
+            ],
+            "Answers": [
+              {
+                "Text": "und?",
+                "NextQuestion": null,
+                "Progress": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      }
+    ]
+  },
+  "Test2": {
+    "Topics": [
+      "testTopic2",
+      "testTopic3"
+    ],
+    "Chats": []
+  }
+}
