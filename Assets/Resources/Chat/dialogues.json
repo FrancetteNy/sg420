@@ -7,7 +7,7 @@
     "Chats": [
       {
         "ID": 0,
-        "Requirements": [],
+        "Requirements": {},
         "UnlocksNeeded": [],
         "Dialogues": [
           {
@@ -170,11 +170,10 @@
       },
       {
         "ID": 1,
-        "Requirements": [
+        "Requirements": 
           {
             "testTopic2": 2
-          }
-        ],
+          },
         "UnlocksNeeded": [
           "testTopic2-Folgediskussion"
         ],

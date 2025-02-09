@@ -67,6 +67,7 @@ public class GameStateManagerSingleton : MonoBehaviour
         UIEvents.AddNotification.Invoke(new NotificationData("Spiel gespeichert", $"Tag {GameState.CurrentDay} gestartet.", 3));
     }
 
+
     private string _saveFilePath;
 
     public void Save()

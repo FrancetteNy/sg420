@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -39,7 +40,62 @@ public class ChatViewController : MonoBehaviour
         SetupButtons();
         SetupCenteredScrollView();
         SetupInputSystemActions();
+        GameState.DayChanged += CheckForChatUnlocks;
     }
+
+    private void CheckForChatUnlocks()
+    {
+        _npcConversationStates.Clear();
+        _chat.Clear();
+        RefreshChatList();
+        List<(int, string)> chatIDs = new List<(int, string)>();
+        foreach (var (npcName, npcData) in _chatDatas)
+        {
+            foreach (var chat in npcData.Chats)
+            {
+                if (!_gamestateChatData.ChatIDsAvailable.List.Contains(chat.ID) && !_gamestateChatData.DoneChatIDs.List.Contains(chat.ID))
+                {
+                    foreach(var unlock in chat.UnlocksNeeded)
+                    {
+                        if (!_gamestateChatData.ChatUnlocks.List.Contains(unlock))
+                            continue;
+                    }
+                    foreach(var (requirementName, requirementValue) in chat.Requirements)
+                    {
+                        var found = _gamestateChatData.MetRequirements.List.Find((req) => req.RequirementName == requirementName && req.RequirementValue <= requirementValue);
+                        if (found == null)
+                            continue;
+                    }
+                    chatIDs.Add((chat.ID, npcName));
+                }
+            }
+        }
+        NPCData nPCData = _chatMemberList.selectedItem as NPCData;
+        //don't even roll something or change a chance when there is nothing to unlock
+        if (chatIDs.Count == 0){
+            HandleNPCSelection(nPCData);
+            return;
+        }
+        //roll if something actually gets unlocked, if not add to pitychance, because we are not evil :)
+        if (UnityEngine.Random.Range(0f, 1f) > _gamestateChatData.NextChanceToUnlockSomething)
+        {
+            _gamestateChatData.NextChanceToUnlockSomething += 0.3f;
+            HandleNPCSelection(nPCData);
+            return;
+        }
+        var (unlockedID, name) = chatIDs[UnityEngine.Random.Range(0, chatIDs.Count)];
+        _gamestateChatData.ChatIDsAvailable.List.Add(unlockedID);
+        _gamestateChatData.NextChanceToUnlockSomething = 0.3f;
+        EnumerateAllCharacters();
+        HandleNPCSelection(nPCData);
+        UIEvents.AddNotification(new(name, "Eine neue Nachricht!",-1,  () => {
+            _currentNPC = name;
+            UIEvents.ShowChatView.Invoke();
+            var npcIndex = _allNPCs.FindIndex(npc => npc.CharacterName == name);
+            _chatMemberList.SetSelection(npcIndex);
+        }));
+    }
+
     private void Awake()
     {
         _actions = new InputSystem_Actions();
@@ -174,8 +230,9 @@ public class ChatViewController : MonoBehaviour
         _chatList.bindItem = (item, index) =>
         {
             var dialogItem = _chat[index];
-            item.EnableInClassList("chat-list__item-container--npc", dialogItem.IsNPCText);
-            item.EnableInClassList("chat-list__item-container--player", !dialogItem.IsNPCText);
+            item.EnableInClassList("chat-list__item-container--npc", dialogItem.ItemType == ItemType.NPC);
+            item.EnableInClassList("chat-list__item-container--player", dialogItem.ItemType == ItemType.Player);
+            item.EnableInClassList("chat-list__item-container--system", dialogItem.ItemType == ItemType.System);
             for (int i = item.childCount; i < dialogItem.Texts.Count; i++)
             {
                 var label = new Label();
@@ -197,8 +254,9 @@ public class ChatViewController : MonoBehaviour
                     label.EnableInClassList("chat-list__item--first", dialogItem.Texts.Count > 1 && childIndex == 0);
                     label.EnableInClassList("chat-list__item--last", dialogItem.Texts.Count > 1 && childIndex == dialogItem.Texts.Count - 1);
                 }
-                label.EnableInClassList("chat-list__item--npc", dialogItem.IsNPCText);
-                label.EnableInClassList("chat-list__item--player", !dialogItem.IsNPCText);
+                label.EnableInClassList("chat-list__item--npc", dialogItem.ItemType == ItemType.NPC);
+                label.EnableInClassList("chat-list__item--player", dialogItem.ItemType == ItemType.Player);
+                label.EnableInClassList("chat-list__item--system", dialogItem.ItemType == ItemType.System);
                 childIndex++;
             }
         };
@@ -249,8 +307,9 @@ public class ChatViewController : MonoBehaviour
 
         _chatMemberList.selectionChanged += (selectedItems) =>
         {
-            if (selectedItems.FirstOrDefault() is not NPCData data)
+            if (selectedItems.FirstOrDefault() is not NPCData data){
                 return;
+            }
             HandleNPCSelection(data);
         };
 
@@ -263,33 +322,40 @@ public class ChatViewController : MonoBehaviour
 
     private void HandleNPCSelection(NPCData data)
     {
+        _chat.Clear();
         _currentNPC = data.CharacterName;
         // Reset conversation state when switching NPCs
         if (!_npcConversationStates.TryGetValue(_currentNPC, out var state))
         {
             state = new NPCConversationState();
             _npcConversationStates[_currentNPC] = state;
+            var _chatsOfThisNPC = _chatDatas[_currentNPC].Chats;
+            var availableChatsOfThisNPC = _chatsOfThisNPC.FindAll((chat) => _gamestateChatData.ChatIDsAvailable.List.Contains(chat.ID));
+            if (availableChatsOfThisNPC.Count == 0)
+            {
+                state.CurrentChatID = -1;
+                AddOfflineMessage();
+                return;
+            }
+            var chosenChatID = availableChatsOfThisNPC[UnityEngine.Random.Range(0, availableChatsOfThisNPC.Count)].ID;
+            state.CurrentChatID = chosenChatID;
         }
-        _chat.Clear();
         _chat.AddRange(state.History);
         RefreshChatList();
-
-        var availableChat = _chatDatas[_currentNPC].Chats
-    .FirstOrDefault(c => _gamestateChatData.ChatIDsAvailable.List.Contains(c.ID));
-
-        if (availableChat != null && state.CurrentChatID == 0)
-        {
-            state.CurrentChatID = availableChat.ID;
+        if (state.CurrentChatID == -1)
+            return;
+        else
             ContinueConversation();
-        }
 
     }
     private void ContinueConversation()
     {
         var state = _npcConversationStates[_currentNPC];
         var chat = _chatDatas[_currentNPC].Chats[state.CurrentChatID];
-        if (state.CurrentDialogueIndex == -1 || state.CurrentDialogueIndex >= chat.Dialogues.Count)
+        if (state.CurrentDialogueIndex == -1 || state.CurrentDialogueIndex >= chat.Dialogues.Count){
+            FinishChat(chat);
             return;
+        }
 
         var dialogue = chat.Dialogues[state.CurrentDialogueIndex];
         if (state.CurrentQuestionIndex < dialogue.Question.Count)
@@ -304,14 +370,34 @@ public class ChatViewController : MonoBehaviour
                     }
                 }
             }
-            AddNPCMessage(dialogue.Question[state.CurrentQuestionIndex], state);
+            AddNPCMessage(dialogue.Question[state.CurrentQuestionIndex]);
             state.CurrentQuestionIndex++;
             StartCoroutine(ContinueAfterDelay());
         }
         else if (dialogue.Answers != null && dialogue.Answers.Count > 0)
         {
-            ShowPlayerAnswers(dialogue.Answers, chat, state);
+            ShowPlayerAnswers(dialogue.Answers);
         }
+        else
+        {
+            FinishChat(chat);
+        }
+    }
+
+    private void FinishChat(Chat chat)
+    {
+        AddOfflineMessage();
+        _gamestateChatData.DoneChatIDs.List.Add(chat.ID);
+        _gamestateChatData.ChatIDsAvailable.List.Remove(chat.ID);
+    }
+
+    private void AddOfflineMessage()
+    {
+        var state = _npcConversationStates[_currentNPC];
+        var item = new ChatHistoryItem(new() { $"{_currentNPC} ist offline" }, ItemType.System);
+        _chat.Add(item);
+        state.History.Add(item);
+        RefreshChatList();
     }
 
     private IEnumerator ContinueAfterDelay()
@@ -324,11 +410,12 @@ public class ChatViewController : MonoBehaviour
         ContinueConversation();
     }
 
-    private void AddNPCMessage(string message, NPCConversationState state)
+    private void AddNPCMessage(string message)
     {
+        var state = _npcConversationStates[_currentNPC];
         if (state.CurrentQuestionIndex == 0)
         {
-            var item = new ChatHistoryItem(new() { message }, true);
+            var item = new ChatHistoryItem(new() { message }, ItemType.NPC);
             _chat.Add(item);
             state.History.Add(item);
         }
@@ -339,7 +426,7 @@ public class ChatViewController : MonoBehaviour
         RefreshChatList();
     }
 
-    private void ShowPlayerAnswers(List<Answer> answers, Chat chat, NPCConversationState state)
+    private void ShowPlayerAnswers(List<Answer> answers)
     {
         _answerRequired = true;
         _centeredScrollView.SetTexts(answers.Select(ans => ans.Text).ToList());
@@ -367,9 +454,9 @@ public class ChatViewController : MonoBehaviour
             }
         }
         var message = chosenAnswer.Text;
-        if (state.History.LastOrDefault() is not ChatHistoryItem lastItem || lastItem.IsNPCText)
+        if (state.History.LastOrDefault() is not ChatHistoryItem lastItem || lastItem.ItemType != ItemType.Player)
         {
-            var item = new ChatHistoryItem(new() { message }, false);
+            var item = new ChatHistoryItem(new() { message }, ItemType.Player);
             _chat.Add(item);
             state.History.Add(item);
         }
@@ -400,10 +487,10 @@ public class ChatViewController : MonoBehaviour
             if (_gamestateChatData.KnownNPCs.List.Contains(npc.CharacterName))
             {
                 _allNPCs.Add(npc);
-                if (!_npcConversationStates.ContainsKey(npc.CharacterName))
-                {
-                    _npcConversationStates.Add(npc.CharacterName, new());
-                }
+                //if (!_npcConversationStates.ContainsKey(npc.CharacterName))
+                //{
+                //    _npcConversationStates.Add(npc.CharacterName, new());
+                //}
             }
         }
     }
@@ -461,7 +548,7 @@ public class ProgressChange
 public class Chat
 {
     public int ID;
-    public List<Dictionary<string, int>> Requirements;
+    public Dictionary<string, int> Requirements;
     public List<string> UnlocksNeeded;
     public List<Dialogue> Dialogues;
 }
@@ -472,15 +559,20 @@ public class NPC
     public List<string> Topics;
     public List<Chat> Chats;
 }
-
+public enum ItemType
+{
+    NPC,
+    Player,
+    System
+}
 public class ChatHistoryItem
 {
     public List<string> Texts;
-    public bool IsNPCText;
-    public ChatHistoryItem(List<string> texts, bool isNPCText)
+    public ItemType ItemType;
+    public ChatHistoryItem(List<string> texts, ItemType itemType)
     {
         Texts = texts;
-        IsNPCText = isNPCText;
+        ItemType = itemType;
     }
 }
 public class ScrollValues
