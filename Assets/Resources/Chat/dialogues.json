@@ -188,11 +188,43 @@
             "Answers": [
               {
                 "Text": "und?",
-                "NextQuestion": null,
+                "NextQuestion": 1,
                 "Progress": []
               }
             ],
             "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Ich habe mit Test2 darüber geredet",
+              "Der findet das was du da gemacht hast echt interessant und wollte mit dir reden, darum hab ich ihm deine Nummer gegeben",
+              "Ich denke der schreibt dir demnächst mal!"
+            ],
+            "Answers": [
+              {
+                "Text": "Wer ist das?",
+                "NextQuestion": 2,
+                "Progress": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Ach ein Kumpel von mir, ihr werdet euch bestimmt gut verstehen!",
+              "Hier ich schick dir seine Nummer, dann kannst du sie gleich mal einspeichern",
+              "Ich muss jetzt aber los, bis dann, wollte dir das nur sagen!"
+            ],
+            "Answers": [
+              {
+                "Text": "Okay, danke",
+                "NextQuestion": 3,
+                "Progress": []
+              }
+            ],
+            "Unlocks": [ "NPCUnlocked:Test2" ]
           }
         ]
       }
@@ -203,6 +235,34 @@
       "testTopic2",
       "testTopic3"
     ],
-    "Chats": []
+    "Chats": [
+      {
+        "ID": 3,
+        "Requirements": {
+        },
+        "UnlocksNeeded": [
+          "testTopic2-Folgediskussion"
+        ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, Test1 hat mir deine Nummer gegeben",
+              "Er hat gesagt du hast voll die Ahnung von testTopic2",
+              "Geht das wirklich so, wie du es ihm erzählt hast?",
+              "Ich kenne das nur so..."
+            ],
+            "Answers": [
+              {
+                "Text": "joa mehr hab ich dazu nicht zu sagen",
+                "NextQuestion": null,
+                "Progress": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      }
+    ]
   }
 }

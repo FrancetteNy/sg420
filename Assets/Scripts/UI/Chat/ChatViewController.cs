@@ -86,7 +86,6 @@ public class ChatViewController : MonoBehaviour
         var (unlockedID, name) = chatIDs[UnityEngine.Random.Range(0, chatIDs.Count)];
         _gamestateChatData.ChatIDsAvailable.List.Add(unlockedID);
         _gamestateChatData.NextChanceToUnlockSomething = 0.3f;
-        EnumerateAllCharacters();
         HandleNPCSelection(nPCData);
         UIEvents.AddNotification(new(name, "Eine neue Nachricht!",-1,  () => {
             _currentNPC = name;
@@ -274,8 +273,8 @@ public class ChatViewController : MonoBehaviour
 
     private void SetupChatMembers()
     {
-        EnumerateAllCharacters();
 
+        EnumerateAllCharacters();
         _chatMemberList = _root.Q<ListView>("chat-member-list");
         if (_chatMemberList == null)
         {
@@ -367,6 +366,26 @@ public class ChatViewController : MonoBehaviour
                     if (!_gamestateChatData.ChatUnlocks.List.Contains(unlock))
                     {
                         _gamestateChatData.ChatUnlocks.List.Add(unlock);
+                        var split = unlock.Split(':');
+                        if (split.Length > 1 && split[0] == "NPCUnlocked")
+                        {
+                            var unlockedNPC = split[1];
+                            if (!_gamestateChatData.KnownNPCs.List.Contains(unlockedNPC))
+                            { 
+                                _gamestateChatData.KnownNPCs.List.Add(unlockedNPC);
+                                //EnumerateAllCharacters();
+                                NPCData[] npcs = Resources.LoadAll<NPCData>("NPCs");
+                                foreach (var npc in npcs)
+                                {
+                                    if (npc.CharacterName == unlockedNPC)
+                                    {
+                                        _allNPCs.Add(npc);
+                                        _chatMemberList.RefreshItems();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -487,10 +506,6 @@ public class ChatViewController : MonoBehaviour
             if (_gamestateChatData.KnownNPCs.List.Contains(npc.CharacterName))
             {
                 _allNPCs.Add(npc);
-                //if (!_npcConversationStates.ContainsKey(npc.CharacterName))
-                //{
-                //    _npcConversationStates.Add(npc.CharacterName, new());
-                //}
             }
         }
     }
