@@ -55,7 +55,6 @@
 
 .chat-list__item--last.chat-list__item--npc {
     border-top-left-radius: 3px;
-    margin-top: 2px;
 }
 
 .chat-list__item--multiple.chat-list__item--npc {
@@ -100,8 +99,9 @@
 
 .chat-list__item--last {
     margin-top: 1px;
-    margin-bottom: 1px;
 }
 
 .chat-list__item--multiple {
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
