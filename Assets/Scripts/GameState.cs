@@ -40,7 +40,7 @@ public class ChatData
         NextChanceToUnlockSomething = 0.3f;
     }
     public JsonableListWrapper<int> DoneChatIDs;
-    public JsonableListWrapper<MetRequirements> MetRequirements;
+    public JsonableListWrapper<MetRequirement> MetRequirements;
     public JsonableListWrapper<string> KnownNPCs;
     public JsonableListWrapper<int> ChatIDsAvailable;
     public JsonableListWrapper<string> ChatUnlocks;
@@ -48,8 +48,8 @@ public class ChatData
 }
 
 [Serializable]
-public class MetRequirements{
-    public MetRequirements(string requirementName, int requirementValue)
+public class MetRequirement{
+    public MetRequirement(string requirementName, int requirementValue)
     {
         RequirementName = requirementName;
         RequirementValue = requirementValue;
