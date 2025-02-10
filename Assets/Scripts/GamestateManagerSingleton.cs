@@ -71,21 +71,18 @@ public class GameStateManagerSingleton : MonoBehaviour
     {
         GameState.TreesCount += num;
         GameState.InventorzChanged?.Invoke();
-        Save();
     }
 
     public void UpdateScore(int score)
     {
         GameState.Score += score;
         GameState.ScoreChanged?.Invoke();
-        Save();
     }
 
     public void UpdateGetrocknet(int num)
     {
         GameState.Getrocknet += num;
         GameState.GetrocknetChanged?.Invoke();
-        Save();
     }
 
    

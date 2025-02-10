@@ -97,8 +97,14 @@ public class DriedData
             case DryingStage.Empty:
                 dryingStage = "Others";
                 break;
-            case DryingStage.Drying:
-                dryingStage = "Drying";
+            case DryingStage.DryingStart:
+                dryingStage = "Drying Start";
+                break;
+            case DryingStage.DryingMid:
+                dryingStage = "Drying Mid";
+                break;
+            case DryingStage.DryingEnd:
+                dryingStage = "Drying End";
                 break;
             case DryingStage.Ready:
                 dryingStage = "Ready";
@@ -122,7 +128,9 @@ public class AgeDrying
     public enum DryingStage
     {
         Empty,
-        Drying,
+        DryingStart,
+        DryingMid,
+        DryingEnd,
         Ready,
     }
     public DryingStage Stage;
@@ -137,7 +145,6 @@ public class AgeDrying
         string interval = string.Empty;
         switch (Stage)
         {
-            case DryingStage.Drying:
             case DryingStage.Ready:
                 if (AgeNumber == 1)
                 {
@@ -154,8 +161,11 @@ public class AgeDrying
 
     public DryingStage GetNextStage() => Stage switch
     {
-        DryingStage.Empty => DryingStage.Drying,
-        DryingStage.Drying => DryingStage.Ready,
+        DryingStage.Empty => DryingStage.DryingStart,
+        DryingStage.DryingStart => DryingStage.DryingMid,
+        DryingStage.DryingMid => DryingStage.DryingEnd,
+        DryingStage.DryingEnd => DryingStage.Ready,
+        DryingStage.Ready => DryingStage.Ready,
         _ => throw new ArgumentOutOfRangeException(nameof(DryingStage), $"Not expected GrowthStage value {Stage}"),
     };
 
