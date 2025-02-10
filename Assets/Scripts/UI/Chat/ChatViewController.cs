@@ -638,8 +638,6 @@ public class ChatViewController : MonoBehaviour
 
     private void ProcessUnlock(string unlock)
     {
-        // Original unlock processing logic
-
         if (!_gamestateChatData.ChatUnlocks.List.Contains(unlock))
         {
             _gamestateChatData.ChatUnlocks.List.Add(unlock);
