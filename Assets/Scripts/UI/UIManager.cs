@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     HUDView _hudView;
     LightOverview _lightOverview;
     Encyclopedia _encyclopedia;
+    Inventar _inventar;
 
     NotificationManagerSingleton _notificationManager;
 
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour
         _hudView = new HUDView(_root, this);
         _lightOverview = new LightOverview(_root, this);
         _encyclopedia = new Encyclopedia(_root, this);
+        _inventar = new Inventar(_root, this);
 
         UIEvents.ShowDetailView += (index) => { HideAllViews(); _detailView.Show(index); };
         UIEvents.HideDetailView += () => ResetToHUD(_detailView);
@@ -47,6 +49,9 @@ public class UIManager : MonoBehaviour
 
         UIEvents.ShowEncyclopedia += () => ShowView(_encyclopedia);
         UIEvents.HideEncyclopedia += () => ResetToHUD(_encyclopedia);
+        
+        UIEvents.ShowInventar += () => ShowView(_inventar);
+        UIEvents.HideInventar += () => ResetToHUD(_inventar);
 
 
 
@@ -54,6 +59,7 @@ public class UIManager : MonoBehaviour
         _allUIViews.Add(_hudView);
         _allUIViews.Add(_lightOverview);
         _allUIViews.Add(_encyclopedia);
+        _allUIViews.Add(_inventar);
     }
     private void OnDestroy()
     {
@@ -69,6 +75,9 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowEncyclopedia -= () => ShowView(_encyclopedia);
         UIEvents.ShowEncyclopedia -= () => ResetToHUD(_encyclopedia);
         _encyclopedia.Dispose();
+        UIEvents.ShowInventar -= () => ShowView(_inventar);
+        UIEvents.HideInventar -= () => ResetToHUD(_inventar);
+        _inventar.Dispose();
     }
 
     private void ResetToHUD(UIView view)
