@@ -14,7 +14,7 @@
 }
 
 .notification__close-button {
-    width: auto;
+    width: 20px;
     padding: 7px 15px;
     background-color: rgb(3, 74, 0);
     border: 5px;
@@ -25,7 +25,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 20%;
+    height: 30%;
 }
 
 .notification__title-label {
@@ -35,7 +35,7 @@
     height: 100%;
     white-space: normal;
     -unity-font-style: bold;
-    font-size: 120%;
+    font-size: 100%;
 }
 
 .notification__body-label {

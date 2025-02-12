@@ -3,11 +3,11 @@
     <ui:VisualElement name="DetailView" style="flex-grow: 1; display: none;">
         <ui:VisualElement name="background" enabled="true" class="text-color" style="background-color: rgb(28, 51, 27); flex-grow: 1; display: flex; flex-direction: column; color: rgb(253, 255, 253);">
             <ui:VisualElement name="top-row" style="width: 100%; flex-direction: row; height: 70%;">
-                <ui:Image name="plant-view" enabled="true" class="block" style="position: relative; -unity-background-scale-mode: scale-to-fit; height: auto; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 50%; background-color: rgb(4, 24, 1);">
+                <ui:Image name="plant-view" enabled="true" class="block" style="position: relative; -unity-background-scale-mode: scale-to-fit; height: auto; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 55%; background-color: rgb(4, 24, 1);">
                     <ui:VisualElement name="VisualElement" style="flex-grow: 1; border-top-width: 4px; border-right-width: 4px; border-bottom-width: 4px; border-left-width: 4px; border-top-left-radius: 14px; border-top-right-radius: 14px; border-bottom-right-radius: 14px; border-bottom-left-radius: 14px; border-left-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0); margin-top: -5px; margin-right: -5px; margin-bottom: -5px; margin-left: -5px; background-color: rgba(4, 24, 1, 0);">
-                        <ui:Button name="previous-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-left-circle-outline.png?fileID=2800000&amp;guid=dabda778f4ff92c4792236dca892c7a3&amp;type=3#chevron-left-circle-outline" class="button switch-plant-button no-background custom-button" style="position: absolute; top: 45%; left: auto; bottom: auto; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 40px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 14px; height: 100px; width: 100px; border-top-left-radius: 50px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px;" />
-                        <ui:Button name="next-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-right-circle-outline.png?fileID=2800000&amp;guid=7a5c6d966bab47e45a2f621b28a31819&amp;type=3#chevron-right-circle-outline" class="switch-plant-button no-background custom-button" style="position: absolute; right: 0; top: 45%; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; height: 100px; border-top-left-radius: 50px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px; width: 100px; margin-top: 0; margin-right: 40px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                        <ui:VisualElement name="rotate-control-buttons" style="flex-grow: 1; position: absolute; height: 190px; width: 150px; top: auto; left: auto; bottom: 0; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px; right: 0;">
+                        <ui:Button name="previous-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-left-circle-outline.png?fileID=2800000&amp;guid=dabda778f4ff92c4792236dca892c7a3&amp;type=3#chevron-left-circle-outline" class="button switch-plant-button no-background custom-button" style="position: absolute; top: 45%; left: auto; bottom: auto; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 20px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 14px; height: 60px; width: 60px; border-top-left-radius: 50px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px;" />
+                        <ui:Button name="next-plant-button" icon-image="project://database/Assets/Art/Textures/chevron-right-circle-outline.png?fileID=2800000&amp;guid=7a5c6d966bab47e45a2f621b28a31819&amp;type=3#chevron-right-circle-outline" class="switch-plant-button no-background custom-button" style="position: absolute; right: 0; top: 45%; border-top-width: 5px; border-right-width: 5px; border-bottom-width: 5px; border-left-width: 5px; height: 60px; border-top-left-radius: 50px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px; width: 60px; margin-top: 0; margin-right: 20px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:VisualElement name="rotate-control-buttons" style="flex-grow: 1; position: absolute; height: 115px; width: 80px; top: auto; left: auto; bottom: 0; margin-top: 5px; margin-right: 10px; margin-bottom: 5px; margin-left: 5px; right: 0;">
                             <ui:VisualElement name="first-row" class="d-pad-row">
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="rotate-up-button" icon-image="project://database/Assets/Art/Textures/arrow-up-bold.png?fileID=2800000&amp;guid=59c2804fd52a19240a67f773bfe16839&amp;type=3#arrow-up-bold" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
@@ -21,9 +21,9 @@
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="rotate-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down-bold.png?fileID=2800000&amp;guid=6a9b37e4993dcdb4585ce71605c167e6&amp;type=3#arrow-down-bold" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                             </ui:VisualElement>
-                            <ui:Label text="Pflanze" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 25px; margin-top: 8px;" />
+                            <ui:Label text="Pflanze" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="camera-control-buttons" style="flex-grow: 1; position: absolute; height: 190px; width: 150px; top: auto; left: 0; bottom: 0; right: auto; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px;">
+                        <ui:VisualElement name="camera-control-buttons" style="flex-grow: 1; position: absolute; height: 115px; width: 80px; top: auto; left: 0; bottom: 0; right: auto; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 10px;">
                             <ui:VisualElement name="first-row" class="d-pad-row">
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="move-up-button" icon-image="project://database/Assets/Art/Textures/arrow-up.png?fileID=2800000&amp;guid=fa4e6ae8518742c41a3ca618f359dbcf&amp;type=3#arrow-up" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
@@ -37,9 +37,9 @@
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="move-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down.png?fileID=2800000&amp;guid=8120d92f71ff08f40a9ac0c372dc8b55&amp;type=3#arrow-down" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                             </ui:VisualElement>
-                            <ui:Label text="Kamera&#10;" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 25px; margin-top: 8px;" />
+                            <ui:Label text="Kamera&#10;" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="zoom-control-buttons" style="position: absolute; top: 0; left: auto; width: 65px; height: 100px; flex-direction: column; right: 0; padding-top: 0; margin-top: 25px; margin-right: 20px;">
+                        <ui:VisualElement name="zoom-control-buttons" style="position: absolute; top: 0; left: auto; width: 40px; height: 80px; flex-direction: column; right: 0; padding-top: 0; margin-top: 10px; margin-right: 10px;">
                             <ui:Button name="zoom-in-button" icon-image="project://database/Assets/Art/Textures/magnify-plus.png?fileID=2800000&amp;guid=d984076e25c756941b526b134c93e334&amp;type=3#magnify-plus" class="no-spacing no-background custom-button" style="height: 50%; margin-bottom: 15px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                             <ui:Button name="zoom-out-button" icon-image="project://database/Assets/Art/Textures/magnify-minus.png?fileID=2800000&amp;guid=c0d63cf30cab5dd4e95e9e520d1ae63c&amp;type=3#magnify-minus" class="no-spacing no-background custom-button" style="height: 50%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                         </ui:VisualElement>
@@ -60,7 +60,7 @@
                                 <ui:VisualElement name="sex" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                                     <ui:Label text="Geschlecht" name="name" class="property-text" />
                                     <ui:Label name="value" text="-" class="property-text" style="display: none;" />
-                                    <ui:Button text="Geschlecht Bestimmen" name="start-sexing-button" class="property-text custom-button" style="height: 80%; align-self: center; flex-wrap: nowrap; width: 100%; padding-top: 7px; padding-right: 15px; padding-bottom: 7px; padding-left: 15px;" />
+                                    <ui:Button text="Geschlecht Bestimmen" name="start-sexing-button" class="property-text custom-button" style="height: 80%; align-self: center; flex-wrap: nowrap; width: 100%; padding-top: 7px; padding-right: 15px; padding-bottom: 7px; padding-left: 15px; font-size: 14px;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="right" style="flex-grow: 1; max-width: 50%;">
@@ -78,10 +78,10 @@
                                 </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
-                        <ui:VisualElement name="seed-selection-container" style="flex-direction: column; margin-top: 10px; align-self: auto; justify-content: flex-start; align-items: center;">
-                            <ui:Label name="SamenAuswählen" text="Samen auswählen :" class="property-text" style="margin-bottom: 5px;" />
+                        <ui:VisualElement name="seed-selection-container" style="flex-direction: column; margin-top: 10px; align-self: auto; justify-content: flex-start; align-items: center; margin-bottom: 10px;">
+                            <ui:Label name="SamenAuswählen" text="Samen auswählen :" class="property-text" style="margin-bottom: 20px; align-items: stretch; width: auto;" />
                             <ui:DropdownField name="seed-type-dropdown" choices="Sativa,Indica,Ruderalis" style="width: 50%; background-color: rgba(255, 255, 255, 0); color: rgb(0, 0, 0);" />
-                            <ui:Button name="confirm-seed-button" text="Anpflanzen" class="custom-button" style="width: auto;" />
+                            <ui:Button name="confirm-seed-button" text="Anpflanzen" class="custom-button" style="width: auto; margin-top: 20px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                     <ui:VisualElement name="soil" class="block" style="flex-grow: 1; width: auto; background-color: rgb(4, 24, 1);">
@@ -140,7 +140,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="controls" style="height: auto; position: absolute; top: auto; right: 0; margin-top: 0; margin-right: 15px; bottom: 0; margin-bottom: 15px;">
-                <ui:Button text="Fenster Schließen" name="close-button" class="custom-button" style="align-self: flex-end; position: relative; top: auto; right: auto; color: rgb(255, 255, 255); font-size: 25px; padding-top: 15px; padding-right: 25px; padding-bottom: 15px; padding-left: 25px; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px;" />
+                <ui:Button text="Fenster Schließen" name="close-button" class="custom-button" style="align-self: flex-end; position: relative; top: auto; right: auto; color: rgb(255, 255, 255); font-size: 15px; padding-top: 15px; padding-right: 25px; padding-bottom: 15px; padding-left: 25px; margin-top: 15px; margin-right: 15px; margin-bottom: 15px; margin-left: 15px;" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
