@@ -39,10 +39,10 @@ public class ChatData
         ChatUnlocks = new(new());
         NextChanceToUnlockSomething = 0.3f;
     }
-    public JsonableListWrapper<int> DoneChatIDs;
+    public JsonableListWrapper<string> DoneChatIDs;
     public JsonableListWrapper<MetRequirement> MetRequirements;
     public JsonableListWrapper<string> KnownNPCs;
-    public JsonableListWrapper<int> ChatIDsAvailable;
+    public JsonableListWrapper<string> ChatIDsAvailable;
     public JsonableListWrapper<string> ChatUnlocks;
     public float NextChanceToUnlockSomething;
 }

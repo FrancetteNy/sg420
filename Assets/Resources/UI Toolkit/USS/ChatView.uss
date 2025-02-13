@@ -4,6 +4,7 @@
 
 #chat-member-list .unity-list-view__item {
     background-color: rgb(37, 85, 35);
+    font-size: 22px;
 }
 
 .chat-list__item {
@@ -104,4 +105,12 @@
 .chat-list__item--multiple {
     margin-top: 1px;
     margin-bottom: 1px;
+}
+
+#light-dropdown-field:active .unity-base-field__input {
+    background-color: rgb(37, 85, 35);
+}
+
+#light-dropdown-field:hover .unity-base-field__input {
+    background-color: rgb(37, 85, 35) !important;
 }
