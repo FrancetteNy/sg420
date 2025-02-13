@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,8 +14,9 @@ namespace SG420UILibrary
         private readonly List<VisualElement> _carouselPoints = new List<VisualElement>();
         private int _selectedIndex;
         public int SelectedIndex => _selectedIndex;
+        public bool IsIndexEnabled => _texts[_selectedIndex].Enabled;
         public float Spacing = 10f;
-        private List<string> _texts;
+        private List<TextWithEnabledInformation> _texts;
         public event Action<int> Textchosen;
 
         private VisualElement _answerContainer;
@@ -91,7 +93,11 @@ namespace SG420UILibrary
             return button;
         }
 
-        public void SetTexts(List<string> texts)
+        public void SetTexts(List<string> texts) => SetTexts(texts.Select(str => new TextWithEnabledInformation(str, true)).ToList());
+
+        public void SetTexts(List<(string, bool)> texts) => SetTexts(texts.Select(tuple => new TextWithEnabledInformation(tuple)).ToList());
+
+        private void SetTexts(List<TextWithEnabledInformation> texts)
         {
             // Hide all carousel points.
             foreach (var point in _carouselPoints)
@@ -115,6 +121,7 @@ namespace SG420UILibrary
             }
             _labels.Clear();
 
+
             _texts = texts;
             UpdateTexts();
         }
@@ -127,8 +134,10 @@ namespace SG420UILibrary
             StyleList<TimeValue> transitionDuration = null;
             for (int i = 0; i < _texts.Count; i++)
             {
-                var label = new Label(_texts[i]);
+                var label = new Label(_texts[i].Text);
                 label.AddToClassList("picker-item");
+                label.EnableInClassList("picker-item--locked", !_texts[i].Enabled);
+                label.EnableInClassList("picker-item--unlocked", _texts[i].Enabled);
                 int index = i;
                 label.RegisterCallback<MouseDownEvent>(_ =>
                 {
@@ -242,6 +251,22 @@ namespace SG420UILibrary
             {
                 this.Label = label;
                 this.Height = height;
+            }
+        }
+
+        private class TextWithEnabledInformation
+        {
+            public string Text;
+            public bool Enabled;
+            public TextWithEnabledInformation(string text, bool enabled)
+            {
+                Text = text;
+                Enabled = enabled;
+            }
+            public TextWithEnabledInformation((string, bool) tuple)
+            {
+                Text = tuple.Item1;
+                Enabled = tuple.Item2;
             }
         }
     }

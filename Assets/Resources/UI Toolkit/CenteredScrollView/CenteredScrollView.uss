@@ -5,10 +5,16 @@
     font-size: 25px;
     left: 0;
     white-space: normal;
-    color: rgb(255, 255, 255);
     transition-property: scale, top;
     transition-duration: 0.2s, 0.2s;
     transition-timing-function: ease-out, ease-out;
+}
+
+.picker-item--unlocked{
+    color: rgb(255, 255, 255);
+}
+.picker-item--locked{
+    color: rgba(255, 255, 255, 0.25);
 }
 
 .picker-item--selected {
@@ -22,10 +28,21 @@
     border-bottom-color: rgb(0, 0, 0);
     opacity: 1;
     scale: 1 1;
+}
+
+.picker-item--selected.picker-item--unlocked{
     background-color: rgb(37, 85, 35);
 }
 
-.picker-item--selected:hover{
+.picker-item--selected.picker-item--locked{
+    background-color: rgba(37, 85, 35, 0.25);
+}
+
+.picker-item--selected.picker-item--locked:hover{
+    
+}
+
+.picker-item--selected.picker-item--unlocked:hover{
     background-color: rgb(46, 123, 42);
 }
 

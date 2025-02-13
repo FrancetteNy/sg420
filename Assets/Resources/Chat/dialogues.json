@@ -1,37 +1,42 @@
 {
-  "Test1": {
-    "Topics": [
-      "testTopic1",
-      "testTopic2"
-    ],
+  "Lara Grün": {
     "Chats": [
       {
-        "ID": 0,
+        "ID": "Lara_1",
         "Requirements": {},
         "UnlocksNeeded": [],
         "Dialogues": [
           {
             "ID": 0,
             "Question": [
-              "Das ist eine initiale Aussage. Mit einem zweiten Satz.",
-              "Jetzt kommt eine zweite Nachricht.",
-              ":D"
+              "Hey Neuling, ich hab gehört, du machst im Keller deines Großvates weiter. Willkommen in der Grow-Community!",
+              "Bevor du startest: Cannabis-Anbau ist komplex - du solltest dich gut zu verschiedenen Sachen auskennen.",
+              "Hast du schon Erfahrung mit Pflanzen?"
             ],
             "Answers": [
               {
-                "Text": "Das ist eine 1. Antwort",
+                "Text": "Nein, bin komplett neu",
                 "NextQuestion": 1,
-                "Progress": []
+                "Progress": [
+                  {
+                    "topic": "Grundlagen",
+                    "change": -1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
               },
               {
-                "Text": "Zweite Antwort!!",
+                "Text": "Ich hab schon ein bisschen Ahnung, aber Auffrischung kann nicht schaden",
                 "NextQuestion": 1,
-                "Progress": []
-              },
-              {
-                "Text": "Und eine Antwort mit einer anderen Folgefrage",
-                "NextQuestion": 2,
-                "Progress": []
+                "Progress": [
+                  {
+                    "topic": "Grundlagen",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
               }
             ],
             "Unlocks": []
@@ -39,59 +44,47 @@
           {
             "ID": 1,
             "Question": [
-              "Das ist die Folgefrage nach der ersten Antwort.",
-              "Was hälst du von textTopic1?"
+              "Auf jeden Fall keine Angst haben irgendwas Falsch zu machen!",
+              "Dein Großvater hatte in seinem Keller dieses Bücherregal mit ganz vielen Büchern über Cannabis",
+              "Da kannst du dich Informieren, ich denke sinnvoll für den Anfang sind die Bücher zu",
+              "1. Anbau und Saatgut",
+              "2. Bewässern",
+              "3. Nährstoffe",
+              "4. Licht und Lichtzyklus"
             ],
             "Answers": [
               {
-                "Text": "Klingt interessant!",
-                "NextQuestion": 3,
+                "Text": "Das ist eine super Idee, da schaue ich gleich mal rein",
+                "NextQuestion": 2,
                 "Progress": [
                   {
-                    "topic": "testTopic1",
-                    "change": 1
+                    "topic": "Grundlagen",
+                    "change": 2
                   }
-                ]
-              },
-              {
-                "Text": "Ich bin nicht sicher...",
-                "NextQuestion": 4,
-                "Progress": [
-                  {
-                    "topic": "testTopic1",
-                    "change": -1
-                  }
-                ]
+                ],
+                "Requirements": {},
+                "Unlocks": []
               }
             ],
-            "Unlocks": []
+            "Unlocks": [
+              "MechanicUnlocked:Enzyklopädie",
+              "EnzyklopädieUnlocked:Anbau",
+              "EnzyklopädieUnlocked:Saatgut",
+              "EnzyklopädieUnlocked:Bewässern",
+              "EnzyklopädieUnlocked:Nährstoffe",
+              "EnzyklopädieUnlocked:Licht"
+            ]
           },
           {
             "ID": 2,
-            "Question": [
-              "Diese Frage folgt aus der dritten Antwort.",
-              "Was hälst du von textTopic2?"
-            ],
+            "Question": [],
             "Answers": [
               {
-                "Text": "Ich hab gehört das sollte durch das eine voll gut gehen!",
-                "NextQuestion": 5,
-                "Progress": [
-                  {
-                    "topic": "testTopic2",
-                    "change": 2
-                  }
-                ]
-              },
-              {
-                "Text": "Nicht wirklich viel, sorry...",
-                "NextQuestion": null,
-                "Progress": [
-                  {
-                    "topic": "testTopic2",
-                    "change": -2
-                  }
-                ]
+                "Text": "Kannst du mir einen Tipp geben woher ich gute Samen bekomme?",
+                "NextQuestion": 3,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
               }
             ],
             "Unlocks": []
@@ -99,97 +92,57 @@
           {
             "ID": 3,
             "Question": [
-              "Ja, oder? Weißt du was echt auch cool ist über das testTopic1?"
+              "Gute Genetik ist essentiell für Qualität!",
+              "Ich kann dir einen Kontakt vermitteln...",
+              "Hier ist die Nummer von Zoki",
+              "Wenn der Zeit hat, schreibt er dich an, les dich so lange einfach ein paar Tage ein"
             ],
             "Answers": [
               {
-                "Text": "Nein, erzähl!",
-                "NextQuestion": 4,
-                "Progress": [
-                  {
-                    "topic": "testTopic1",
-                    "change": 1
-                  }
-                ]
-              },
-              {
-                "Text": "Nein, aber du ich hab echt keine Zeit mehr...",
+                "Text": "Das ist eine super Hilfe, danke!",
                 "NextQuestion": null,
-                "Progress": []
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [ "NPCUnlocked:Zoki" ]
               }
             ],
             "Unlocks": []
-          },
-          {
-            "ID": 4,
-            "Question": [
-              "Hier sind noch ein paar spannende Fakten zu testTopic1",
-              "Und noch ein paar",
-              "aber jetzt wird es doch recht spät",
-              "aber lass wann anders auf jeden Fall weiter reden!"
-            ],
-            "Answers": [],
-            "Unlocks": []
-          },
-          {
-            "ID": 5,
-            "Question": [],
-            "Answers": [
-              {
-                "Text": "Man macht doch erst das eine",
-                "NextQuestion": 6,
-                "Progress": []
-              }
-            ],
-            "Unlocks": []
-          },
-          {
-            "ID": 6,
-            "Question": [],
-            "Answers": [
-              {
-                "Text": "und danach das andere",
-                "NextQuestion": 7,
-                "Progress": []
-              }
-            ],
-            "Unlocks": []
-          },
-          {
-            "ID": 7,
-            "Question": [
-              "Wow, dir kann man nichts vormachen",
-              "Da müssen wir dringend wann anders noch drüber reden!"
-            ],
-            "Answers": [],
-            "Unlocks": [
-              "testTopic2-Folgediskussion"
-            ]
           }
         ]
       },
       {
-        "ID": 1,
-        "Requirements": 
-          {
-            "testTopic2": 2
-          },
-        "UnlocksNeeded": [
-          "testTopic2-Folgediskussion"
-        ],
+        "ID": "Lara_2",
+        "Requirements": {
+          "Grundlagen": 3
+        },
+        "UnlocksNeeded": [ "QuestDone:ErsteSamen" ],
         "Dialogues": [
           {
             "ID": 0,
             "Question": [
-              "Weißt du das letztens",
-              "Da hast du mir doch davon erzählt dass man erstmal das eine und dann das andere machen sollte",
-              "ich hab da nochmal darüber nachgedacht"
+              "Hey, wie läuft's mit deinen ersten Pflanzen?",
+              "Ich seh schon - du hast dich gut eingearbeitet!",
+              "Vergiss nicht: Die vegetative Phase ist kritisch - kontrolliere regelmäßig die Blattfarbe!"
             ],
             "Answers": [
               {
-                "Text": "und?",
+                "Text": "Danke! Was sollte ich besonders beachten?",
                 "NextQuestion": 1,
-                "Progress": []
+                "Progress": [
+                  {
+                    "topic": "Wachstumsphasen",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Alles klar, aber ich hab komische Flecken an den Blättern...",
+                "NextQuestion": 2,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [ "QuestUnlocked:Blattdiagnose" ]
               }
             ],
             "Unlocks": []
@@ -197,15 +150,79 @@
           {
             "ID": 1,
             "Question": [
-              "Ich habe mit Test2 darüber geredet",
-              "Der findet das was du da gemacht hast echt interessant und wollte mit dir reden, darum hab ich ihm deine Nummer gegeben",
-              "Ich denke der schreibt dir demnächst mal!"
+              "Achte auf gleichmäßige Luftzirkulation und halte die Temperatur unter 27°C.",
+              "Zu viel Hitze stresst die Pflanzen und begünstigt Schädlinge!"
             ],
             "Answers": [
               {
-                "Text": "Wer ist das?",
+                "Text": "Werde ich umsetzen!",
+                "NextQuestion": null,
+                "Progress": [
+                  {
+                    "topic": "Klimakontrolle",
+                    "change": 2
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": [ "MechanicUnlocked:Lüftungssteuerung" ]
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      },
+      {
+        "ID": "Lara_3",
+        "Requirements": {},
+        "UnlocksNeeded": [ "NPCUnlocked:Zoki" ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hast du schon in dem Bücherregal deines Großvaters nachgeschaut?",
+              "Manche Kapitel enthalten wirklich spannende Techniken."
+            ],
+            "Answers": [
+              {
+                "Text": "Ja, ich habe einiges gelernt und neue Ideen gesammelt.",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Kenntnisse",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Nein, ich hatte bisher keine Zeit, mich damit auseinanderzusetzen.",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Kenntnisse",
+                    "change": 0
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Super, dann denk dran: Praxis ist der beste Lehrer.",
+              "Wenn du Fragen hast oder Unterstützung brauchst, bin ich für dich da."
+            ],
+            "Answers": [
+              {
+                "Text": "Danke, Lara! Ich komme bestimmt auf dich zu.",
                 "NextQuestion": 2,
-                "Progress": []
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
               }
             ],
             "Unlocks": []
@@ -213,50 +230,303 @@
           {
             "ID": 2,
             "Question": [
-              "Ach ein Kumpel von mir, ihr werdet euch bestimmt gut verstehen!",
-              "Hier ich schick dir seine Nummer, dann kannst du sie gleich mal einspeichern",
-              "Ich muss jetzt aber los, bis dann, wollte dir das nur sagen!"
+              "Übrigens, hast du schon von Felix Schwarz gehört? Er ist ein erfahrener Grower und hat viele Tricks auf Lager.",
+              "Möchtest du, dass ich dir seine Kontaktdaten gebe?"
             ],
             "Answers": [
               {
-                "Text": "Okay, danke",
-                "NextQuestion": 3,
-                "Progress": []
+                "Text": "Ja, bitte, ich würde gerne mehr von Felix erfahren.",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [
+                  "NPCUnlocked:Felix Schwarz"
+                ]
+              },
+              {
+                "Text": "Nein, danke das brauche ich nicht.",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
               }
             ],
-            "Unlocks": [ "NPCUnlocked:Test2" ]
+            "Unlocks": []
           }
         ]
       }
     ]
   },
-  "Test2": {
-    "Topics": [
-      "testTopic2",
-      "testTopic3"
-    ],
+
+  "Zoki": {
     "Chats": [
       {
-        "ID": 3,
-        "Requirements": {
-        },
+        "ID": "Zoki_1",
+        "Requirements": {},
+        "UnlocksNeeded": [],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, Lara hat mir deine Nummer gegeben",
+              "Sie hat gesagt du suchst Samen, ich kann dir welche verkaufen",
+              "Bestell sie einfach auf meiner Seite"
+            ],
+            "Answers": [
+              {
+                "Text": "Oh nice, werd ich tun",
+                "NextQuestion": 1,
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {},
+                "Unlocks": [
+                  "QuestUnlocked:ErsteSamen",
+                  "MechanicUnlocked:Shop"
+                ]
+              },
+              {
+                "Text": "Danke! Hast du noch irgendwelche Tipps mit was ich anfangen sollte?",
+                "NextQuestion": 2,
+                "Progress": [
+                  { "Grundlagen": 2 }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Na dann hoffe ich mal auf einen neuen Stammkunden ;-)"
+
+            ],
+            "Answers": [],
+            "Unlocks": [
+              "QuestUnlocked:ErsteSamen",
+              "MechanicUnlocked:Shop"
+            ]
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Immer doch, am besten suchst du dir eine feminisierten Sative Samen heraus",
+              "Sativa sollte ganz gut für dich zu handeln sein",
+              "und wenn der Samen feminisiert ist, bekommst du wahrscheinlich auch sehr gute Ernte"
+            ],
+            "Answers": [
+              {
+                "Text": "Cool, danke für den Tipp!",
+                "NextQuestion": 1,
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      },
+      {
+        "ID": "Zoki_2",
+        "Requirements": {},
         "UnlocksNeeded": [
-          "testTopic2-Folgediskussion"
+          "QuestDone:ErsteSamen"
         ],
         "Dialogues": [
           {
             "ID": 0,
             "Question": [
-              "Hey, Test1 hat mir deine Nummer gegeben",
-              "Er hat gesagt du hast voll die Ahnung von testTopic2",
-              "Geht das wirklich so, wie du es ihm erzählt hast?",
-              "Ich kenne das nur so..."
+              "Ich hoffe die Bestellung war so, wie du sie dir vorgestellt hast.",
+              "Hast du noch irgendwelche Fragen dazu?"
             ],
             "Answers": [
               {
-                "Text": "joa mehr hab ich dazu nicht zu sagen",
+                "Text": "Nein, ich weiß bestens bescheid!",
                 "NextQuestion": null,
-                "Progress": []
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {"Grundlagen":  10},
+                "Unlocks": []
+              },
+              {
+                "Text": "Ja, auf was sollte ich beim Anbau achten?",
+                "NextQuestion": 1,
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": [
+              "RudimentäresAnbauwissen"
+            ]
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Da gibt es einiges zu beachten.",
+              "Lara hat gesagt du baust im Keller deines Großvaters an – da sollte es ein Bücherregal mit einer Enzyklopädie geben.",
+              "Ich hab die gleiche hier, die ist super.",
+              "Schau dir vor allem die Kapitel über Bewässern und Nährstoffe genau an!"
+            ],
+            "Answers": [],
+            "Unlocks": []
+          }
+        ]
+      },
+      {
+        "ID": "Zoki_3",
+        "Requirements": {},
+        "UnlocksNeeded": [
+          "QuestDone:ErsteSamen"
+        ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, es freut mich, dass deine erste Bestellung erfolgreich war.",
+              "Wie läuft dein Anbau? Konntest du schon erste Erfolge sehen?"
+            ],
+            "Answers": [
+              {
+                "Text": "Ja, die Pflanzen sehen gut aus, danke!",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Erfolg",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Noch nicht wirklich, ich brauche wohl noch mehr Tipps.",
+                "NextQuestion": 2,
+                "Progress": [
+                  {
+                    "topic": "Erfolg",
+                    "change": 0
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Freut mich, weiter so! Denk daran, Geduld ist der Schlüssel im Grow."
+            ],
+            "Answers": [
+              {
+                "Text": "Werde ich im Hinterkopf behalten, danke!",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [
+                  "MechanicUnlocked:ErnteTipps"
+                ]
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Kein Problem, jeder fängt mal klein an.",
+              "Schau dir mal an, wie ich meine Bewässerung optimiere – vielleicht ist das auch was für dich."
+            ],
+            "Answers": [
+              {
+                "Text": "Das klingt gut, ich werde es ausprobieren.",
+                "NextQuestion": null,
+                "Progress": [
+                  {
+                    "topic": "Erfolg",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      }
+    ]
+  },
+  "Felix Schwarz": {
+    "Chats": [
+      {
+        "ID": "Felix_1",
+        "Requirements": {},
+        "UnlocksNeeded": [],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, ich bin Felix, ein alter Hase im Grow-Game.",
+              "Ich habe gehört, dass du gerade erst anfängst. Wie läuft’s bisher?"
+            ],
+            "Answers": [
+              {
+                "Text": "Ich bin noch am Lernen und brauche ein paar Tipps.",
+                "NextQuestion": 1,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Alles läuft prima, aber ich bin offen für neue Ideen.",
+                "NextQuestion": 2,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Gut, dass du lernbereit bist.",
+              "Mein erster Tipp: Achte auf die Qualität des Wassers – eine gute Wasserquelle ist Gold wert."
+            ],
+            "Answers": [
+              {
+                "Text": "Danke, das merke ich mir!",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Cool, dann habe ich hier noch einen weiteren Ratschlag für dich.",
+              "Informiere dich auch, wie man natürliche Dünger herstellen kann – das kann deine Ernte wirklich verbessern."
+            ],
+            "Answers": [
+              {
+                "Text": "Klingt interessant, da schaue ich mal rein.",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
               }
             ],
             "Unlocks": []
