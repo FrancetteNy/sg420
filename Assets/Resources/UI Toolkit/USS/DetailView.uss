@@ -144,10 +144,16 @@
     border-bottom-color: rgb(0, 0, 0);
 }
 
-#light-dropdown-field:active .unity-base-field__input {
-    background-color: rgb(37, 85, 35);
+.unity-popup-field:active .unity-base-field__input {
+    background-color: rgb(50, 112, 47);
+    border-color: rgb(0, 0, 0);
 }
 
-#light-dropdown-field:hover .unity-base-field__input {
-    background-color: rgb(37, 85, 35) !important;
+.unity-popup-field:hover .unity-base-field__input {
+    background-color: rgb(50, 112, 47);
+    border-color: rgb(0, 0, 0);
+}
+
+.unity-button:hover {
+    background-color: rgb(50, 112, 47);
 }
