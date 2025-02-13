@@ -143,3 +143,11 @@
     border-top-color: rgb(0, 0, 0);
     border-bottom-color: rgb(0, 0, 0);
 }
+
+#light-dropdown-field:active .unity-base-field__input {
+    background-color: rgb(37, 85, 35);
+}
+
+#light-dropdown-field:hover .unity-base-field__input {
+    background-color: rgb(37, 85, 35) !important;
+}
