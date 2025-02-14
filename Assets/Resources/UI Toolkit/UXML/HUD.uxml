@@ -8,9 +8,9 @@
         <ui:VisualElement style="flex-grow: 1; height: 40px;" />
         <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between; align-items: flex-end; flex-wrap: wrap;">
             <ui:VisualElement style="flex-grow: 1; flex-direction: column-reverse;">
-                <ui:Label text="getrocknet : 0" name="Getrocknet" class="text" />
-                <ui:Label text="Score : 0" name="Score" class="text" />
-                <ui:Label text="Ernte : 0" name="Ernte" class="text" />
+                <ui:Label text="getrocknet : 0" name="Getrocknet" class="hud-label" />
+                <ui:Label text="Score : 0" name="Score" class="hud-label" />
+                <ui:Label text="Ernte : 0" name="Ernte" class="hud-label" />
             </ui:VisualElement>
             <ui:Button text="Nächsten Tag starten" name="update-day-button" style="margin-right: 10px; margin-bottom: 10px; height: 50px; flex-direction: row;" />
         </ui:VisualElement>

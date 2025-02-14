@@ -1,4 +1,4 @@
-.text {
+.hud-label {
     font-size: 16px;
     color: rgb(255, 255, 255);
     -unity-text-outline-width: 0;
