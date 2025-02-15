@@ -18,7 +18,7 @@ public class DryingManager : MonoBehaviour
         foreach (var (plantData, plantObject) in GameStateManagerSingleton.Instance.GameState.PlantDriedDataList.List.Zip(Plants, (data, obj) => (data, obj)))
         {
             Drying_Controller dryingController = plantObject.GetComponent<Drying_Controller>();  
-            dryingController.PlantDriedData = plantData;
+            dryingController.DriedPlantData = plantData;
             UpdatePlantModel(dryingController);
         }
         GameState.DayChanged += OnDayChanged;
@@ -45,13 +45,13 @@ public class DryingManager : MonoBehaviour
         int plantIndex = Plants.IndexOf(plant); 
 
         if (plantIndex + 1 > plantDataList.Count)
-            plantDataList.Add(plant.PlantDriedData);
+            plantDataList.Add(plant.DriedPlantData);
         else
-            plantDataList[plantIndex] = plant.PlantDriedData; 
+            plantDataList[plantIndex] = plant.DriedPlantData; 
     }
     private void UpdatePlantModel(Drying_Controller plant)
     {
-        if(plant.PlantDriedData.Age.Stage != DryingStage.Empty)
+        if(plant.DriedPlantData.Age.Stage != DryingStage.Empty)
         {
             plant.PlantObject.SetActive(true);
             plant.StageChanged?.Invoke();
@@ -59,9 +59,9 @@ public class DryingManager : MonoBehaviour
     }
     private void AgePlant(Drying_Controller plant)
     {
-        DriedData plantDriedData = plant.PlantDriedData;
+        DriedData plantDriedData = plant.DriedPlantData;
 
-        if (plant.PlantDriedData.Age.Stage == DryingStage.Empty)
+        if (plant.DriedPlantData.Age.Stage == DryingStage.Empty)
             return;
 
         plantDriedData.Age.AgeNumber += 1;
@@ -90,13 +90,13 @@ public class DryingManager : MonoBehaviour
         GameStateManagerSingleton.Instance.UpdateGetrocknet(1);
 
         // Update Score für die Pflanze
-        GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[dryingController.PlantDriedData.Age.Stage]);
+        GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[dryingController.DriedPlantData.Age.Stage]);
 
-        dryingController.PlantDriedData.Age.ResetAge();
+        dryingController.DriedPlantData.Age.ResetAge();
         dryingController.StageChanged.Invoke();
         SaveDataOfPlant(dryingController); 
 
-        string plantStrain = $"{dryingController.PlantDriedData.Strain} geerntet";
+        string plantStrain = $"{dryingController.DriedPlantData.Strain} geerntet";
         int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
         NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
     }
@@ -108,13 +108,13 @@ public class DryingManager : MonoBehaviour
 
         highlightBuilder.WithClickAction((data) =>
         {
-            if (plant.PlantDriedData.Age.Stage != DryingStage.Empty)
+            if (plant.DriedPlantData.Age.Stage != DryingStage.Empty)
             {
                 ModalController.Instance.ShowModal("Warnung", "Die Trocknungsphase wirklich abschließen? Die Trocknung kann nicht rückgängig gemacht werden.", () => CollectPlant(plant));               
             }
             else if (GameStateManagerSingleton.Instance.GameState.TreesCount > 0)
             {
-                plant.PlantDriedData.Age.Stage = plant.PlantDriedData.Age.GetNextStage();
+                plant.DriedPlantData.Age.Stage = plant.DriedPlantData.Age.GetNextStage();
                 plant.PlantObject.SetActive(true);
                 GameStateManagerSingleton.Instance.UpdateTreesCount(-1);
                 SaveDataOfPlant(plant);
