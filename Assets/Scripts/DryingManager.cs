@@ -48,8 +48,6 @@ public class DryingManager : MonoBehaviour
             plantDataList.Add(plant.PlantDriedData);
         else
             plantDataList[plantIndex] = plant.PlantDriedData;
-
-        GameStateManagerSingleton.Instance.Save();
     }
     private void UpdatePlantModel(Drying_Controller plant)
     {

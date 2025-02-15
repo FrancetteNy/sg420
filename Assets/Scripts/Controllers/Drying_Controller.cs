@@ -36,23 +36,29 @@ public class Drying_Controller : MonoBehaviour
     }
     private void ColorMaterialUpdate()
     {
-        Color32 newColor = new Color32(160, 160, 160, 255);
+        Color32 newColor = new Color32(160, 160, 160, 255); // Standardfarbe (grau)
+
         DryingStage stage = PlantDriedData.Age.Stage;
 
         if (stage == DryingStage.DryingMid)
         {
-            newColor = new Color32(154, 134, 50, 255);
+            // Trocknungsphase Mitte: Gelb-Braun
+            newColor = new Color32(154, 134, 47, 255); // #9A862F
         }
-        else if(stage == DryingStage.DryingEnd)
+        else if (stage == DryingStage.DryingEnd)
         {
-            newColor = new Color32(102, 51, 0, 255);
+            // Späte Trocknungsphase: Dunkles Braun
+            newColor = new Color32(106, 51, 0, 255); // #6A3300
         }
-        else if(stage == DryingStage.Ready)
+        else if (stage == DryingStage.Ready)
         {
-            newColor = new Color32(30, 15, 8, 255);
+            // Fertig getrocknet: Dunkelbraun, fast rötlich
+            newColor = new Color32(76, 35, 8, 255); // #4C2308
         }
 
         _rendererMaterial.material.color = newColor;
         _rendererMaterial.material.SetColor("_EmissionColor", newColor);
     }
+
+
 }
