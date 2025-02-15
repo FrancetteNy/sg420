@@ -10,14 +10,7 @@ public class HUDController : MonoBehaviour
     private Label _currentDayLabel;
     private Label _ernteLabel;
     private Label _scoreLabel;
-    private Label _getrocknetLabel;
-    void Start()
-    {
-        _root = GetComponent<UIDocument>().rootVisualElement;
-        SetupButtons();
-        SetupLabels();
-        UpdateHUD();
-    }
+    private Label _getrocknetLabel; 
     public void Initialize(VisualElement root)
     {
         _root = root;
@@ -26,6 +19,10 @@ public class HUDController : MonoBehaviour
         GameState.ScoreChanged += OnScoreChanged;
         GameState.GetrocknetChanged += OnGetrocknetChanged;
         //GameState.OnInventoryChanged += OnInventoryChanged;  // Abo für Inventaränderungen
+
+        SetupButtons();
+        SetupLabels();
+        UpdateHUD();
     }
     private void SetupButtons()
     {
