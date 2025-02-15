@@ -1,3 +1,11 @@
+:root {
+  --color-window:  rgb(4, 24, 1);
+  --color-interactable: rgb(37, 85, 35);
+  --color-hover: rgb(50, 112, 47);
+  --color-border: rgb(0, 0, 0);
+  --color-text: rgb(255, 255, 255);
+}
+
 .property-text {
     font-size: 20px;
     flex-grow: 1;
@@ -12,26 +20,11 @@
 }
 
 .block {
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    border-top-width: 6px;
-    border-right-width: 6px;
-    border-bottom-width: 6px;
-    border-left-width: 6px;
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
-    border-bottom-left-radius: 14px;
-    margin-top: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    margin-left: 5px;
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
+    border-color: var(--color-border);
+    border-width: 6px;
+    border-radius: 14px;
+    margin: 5px;
+    padding: 10px;
 }
 
 .name-and-value {
@@ -64,14 +57,8 @@
 }
 
 .no-spacing {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .no-background {
@@ -79,8 +66,7 @@
 }
 
 .text-color {
-    background-color: rgba(255, 255, 255, 0);
-    color: rgb(255, 255, 255);
+    color: var(--color-text);
 }
 
 .unity-popup-field__menu {
@@ -92,7 +78,7 @@
 }
 
 .window-bg-color {
-    background-color: rgb(4, 24, 1);
+    background-color: var(--color-window);
 }
 
 .custom-label {
@@ -103,21 +89,12 @@
 }
 
 .custom-button {
-    background-color: rgb(37, 85, 35);
+    background-color: var(--color-interactable);
     font-size: 20px;
     -unity-font-style: bold;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
-    border-top-width: 3px;
-    border-right-width: 3px;
-    border-bottom-width: 3px;
-    border-left-width: 3px;
+    border-radius: 10px;
+    border-color: var(--color-border);
+    border-width: 3px;
     padding-top: 15px;
     padding-right: 25px;
     padding-bottom: 15px;
@@ -125,56 +102,47 @@
 }
 
 .bg-color {
-    background-color: rgb(4, 24, 1);
+    background-color: var(--color-window);
 }
 
 .submenu-window {
-    background-color: rgb(4, 24, 1);
-    border-top-width: 5px;
-    border-right-width: 5px;
-    border-bottom-width: 5px;
-    border-left-width: 5px;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
-    border-bottom-left-radius: 7px;
-    border-left-color: rgb(0, 0, 0);
-    border-right-color: rgb(0, 0, 0);
-    border-top-color: rgb(0, 0, 0);
-    border-bottom-color: rgb(0, 0, 0);
+    background-color: var(--color-window);
+    border-width: 5px;
+    border-radius: 7px;
+    border-color: var(--color-border);
 }
 
 .unity-popup-field:active .unity-base-field__input {
-    background-color: rgb(50, 112, 47);
-    border-color: rgb(0, 0, 0);
+    background-color: var(--color-hover);
+    border-color: var(--color-border);
 }
 
 .unity-popup-field:hover .unity-base-field__input {
-    background-color: rgb(50, 112, 47);
-    border-color: rgb(0, 0, 0);
+    background-color: var(--color-hover);
+    border-color: var(--color-border);
 }
 
 .unity-button:hover {
-    background-color: rgb(50, 112, 47);
+    background-color: var(--color-hover);
 }
 
 .unity-tree-view__item:hover {
-    background-color: rgb(4, 24, 1);
+    background-color: var(--color-window);
 }
 
 .unity-tree-view__item {
-    background-color: rgb(4, 24, 1);
+    background-color: var(--color-window);
     margin-bottom: 3px;
 }
 
 .unity-button {
-    background-color: rgb(37, 85, 35);
+    background-color: var(--color-interactable);
     -unity-font-style: bold;
-    border-color: rgb(0, 0, 0);
+    border-color: var(--color-border);
     border-width: 3px;
 }
 
 .unity-base-text-field__input:hover {
-    background-color: rgb(50, 112, 47);
-    border-color: rgb(0, 0, 0);
+    background-color: var(--color-hover);
+    border-color: var(--color-border);
 }
