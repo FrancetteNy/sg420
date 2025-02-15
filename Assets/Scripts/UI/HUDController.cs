@@ -39,7 +39,6 @@ public class HUDController : MonoBehaviour
 
         // Button zum Ernten hinzufügen
         var harvestButton = _root.Q<Button>("harvest-button");
-        //harvestButton.clicked += HarvestSelectedPlant;
     }
     private void SetupLabels()
     {
