@@ -17,7 +17,7 @@ public class DryingManager : MonoBehaviour
 
         foreach (var (plantData, plantObject) in GameStateManagerSingleton.Instance.GameState.PlantDriedDataList.List.Zip(Plants, (data, obj) => (data, obj)))
         {
-            Drying_Controller dryingController = plantObject.GetComponent<Drying_Controller>();
+            Drying_Controller dryingController = plantObject.GetComponent<Drying_Controller>();  
             dryingController.PlantDriedData = plantData;
             UpdatePlantModel(dryingController);
         }
@@ -42,12 +42,12 @@ public class DryingManager : MonoBehaviour
     private void SaveDataOfPlant(Drying_Controller plant)
     {
         var plantDataList = GameStateManagerSingleton.Instance.GameState.PlantDriedDataList.List;
-        int plantIndex = Plants.IndexOf(plant);
+        int plantIndex = Plants.IndexOf(plant); 
 
         if (plantIndex + 1 > plantDataList.Count)
             plantDataList.Add(plant.PlantDriedData);
         else
-            plantDataList[plantIndex] = plant.PlantDriedData;
+            plantDataList[plantIndex] = plant.PlantDriedData; 
     }
     private void UpdatePlantModel(Drying_Controller plant)
     {
@@ -84,17 +84,19 @@ public class DryingManager : MonoBehaviour
 
     private void CollectPlant(Drying_Controller plant)
     {
-        //NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 500, () => print("Clicked")));
+        var dryingController = plant;  
 
-        plant.PlantObject.SetActive(false);
+        dryingController.PlantObject.SetActive(false);
         GameStateManagerSingleton.Instance.UpdateGetrocknet(1);
-        // Change Value for every Strain
-        GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[plant.PlantDriedData.Age.Stage]);
-        plant.PlantDriedData.Age.ResetAge();
-        plant.StageChanged.Invoke();
-        SaveDataOfPlant(plant);
 
-        string plantStrain = $"{plant.PlantDriedData.Strain} geerntet";
+        // Update Score für die Pflanze
+        GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[dryingController.PlantDriedData.Age.Stage]);
+
+        dryingController.PlantDriedData.Age.ResetAge();
+        dryingController.StageChanged.Invoke();
+        SaveDataOfPlant(dryingController); 
+
+        string plantStrain = $"{dryingController.PlantDriedData.Strain} geerntet";
         int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
         NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
     }
