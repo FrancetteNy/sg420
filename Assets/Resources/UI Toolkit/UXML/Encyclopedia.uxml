@@ -4,7 +4,7 @@
     <ui:VisualElement enabled="true" name="Encyclopedia" class="Encyclopedia bg-color text-color" style="background-color: rgb(4, 24, 1); color: rgb(4, 24, 1); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px;">
         <ui:VisualElement name="side-bar">
             <ui:TextField name="search-bar" placeholder-text="Search..." style="border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; height: auto; color: rgb(255, 255, 255);" />
-            <ui:TreeView name="tree-view" class="text-color" />
+            <ui:TreeView name="tree-view" virtualization-method="DynamicHeight" class="text-color" />
         </ui:VisualElement>
         <ui:Button text="X" name="close-button" class="custom-button text-color" style="position: absolute; top: 0; right: 0; padding-top: 7px; padding-bottom: 7px; padding-right: 15px; padding-left: 15px;" />
         <ui:ScrollView name="entry-scroll-view" horizontal-scorller-visibility="Hidden" mode="vertical" class="text-color">
