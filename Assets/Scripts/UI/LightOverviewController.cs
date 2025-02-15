@@ -24,33 +24,12 @@ public class LightOverviewController : MonoBehaviour
     }
     private void SetupToggles()
     {
-        if (_root == null)
-        {
-            Debug.LogError("_root ist null.");
-            return;
-        }
-
         _slideToggle = _root.Q<SlideToggle>("growthphase-slidetoggle");
-        if (_slideToggle == null)
-        {
-            Debug.LogError("SlideToggle 'growthphase-slidetoggle' nicht gefunden.");
-            return;
-        }
-
         _slideToggle.RegisterCallback<PointerDownEvent>(_ =>
         {
             SoundManagerSingleton.Instance.PlaySound("Click");
         });
     }
-
-    //private void SetupToggles()
-    //{
-    //    _slideToggle = _root.Q<SlideToggle>("growthphase-slidetoggle");
-    //    _slideToggle.RegisterCallback<PointerDownEvent>(_ =>
-    //    {
-    //        SoundManagerSingleton.Instance.PlaySound("Click");
-    //    });
-    //}
 
     private void OnGrowthPhaseChanged(ChangeEvent<bool> evt)
     {
