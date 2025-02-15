@@ -26,7 +26,8 @@ public class HUDController : MonoBehaviour
         saveGameButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         
         var inventarButton = _root.Q<Button>("inventar-button");
-        inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");   
+        inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        inventarButton.clicked += () => UIEvents.ShowInventar.Invoke();
     }
 
     private void SetupLabels()

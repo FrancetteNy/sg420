@@ -3,7 +3,6 @@
         <ui:VisualElement name="VisualElement" style="flex-direction: row; justify-content: space-between;">
             <ui:Label text="Tag 1" name="current-day-label" />
             <ui:Button text="Spiel speichern" name="save-game-button" />
-            <ui:Button text="Spiel speichern" name="save-game-button" />
             <ui:Button text="Inventar" name="inventar-button" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1;" />
