@@ -55,8 +55,8 @@
 
 .switch-plant-button:hover {
     transition-property: scale;
-    transition-duration: 1s;
-    scale: 1.2 1.2;
+    transition-duration: .3s;
+    scale: 1.1 1.1;
 }
 
 .switch-plant-button:disabled:hover {
