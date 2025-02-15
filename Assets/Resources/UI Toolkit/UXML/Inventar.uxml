@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Inventar.uss" />
-    <ui:VisualElement name="Inventar" class="Inventar">
+    <ui:VisualElement name="Inventar" class="Inventar" style="flex-grow: 1; display: none;" >
         <ui:VisualElement name="tab-container" class="nav-tabs">
             <ui:Button name="tab1" text="Samen" class="nav-link" />
             <ui:Button name="tab2" text="Ungetrokene Pflanzen" class="nav-link" />
@@ -11,45 +11,45 @@
         </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name= "tab-content1" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
-                <ui:Label text="Indica" />
-                <ui:Label text="x2" />
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
+                <ui:Label name= "seedName" text="Indica" />
+                <ui:Label name= "seedQuantity" text="2" />
             </ui:VisualElement>
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
-                <ui:Label text="Saltiva" />
-                <ui:Label text="x6" />
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
+                <ui:Label name= "seedName" text="Saltiva" />
+                <ui:Label name= "seedQuantity" text="6" />
             </ui:VisualElement>
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
-                <ui:Label text="Ruderalis" />
-                <ui:Label text="x5" />
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
+                <ui:Label name= "seedName" text="Ruderalis" />
+                <ui:Label name= "seedQuantity" text="5" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name= "tab-content2" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px">
                 <ui:Label text="Indica" />
-                <ui:Label text="x2" />
+                <ui:Label text="2" />
             </ui:VisualElement>
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
                 <ui:Label text="Saltiva" />
-                <ui:Label text="x2" />
+                <ui:Label text="2" />
             </ui:VisualElement>
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
                 <ui:Label text="Ruderalis" />
-                <ui:Label text="x4" />
+                <ui:Label text="4" />
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name= "tab-content3" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
                <ui:Label text="Indica" />
-                <ui:Label text="x7" />
+                <ui:Label text="7" />
             </ui:VisualElement>
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
                 <ui:Label text="Saltiva" />
-                <ui:Label text="x9" />
+                <ui:Label text="9" />
             </ui:VisualElement>
-            <ui:VisualElement style="width: 80px; height: 80px; border-width: 2px; border-color: black; justify-content: center; align-items: center;">
+            <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: black; justify-content: center; align-items: center; font-size: 20px;">
                 <ui:Label text="Ruderalis" />
-                <ui:Label text="x3" />
+                <ui:Label text="3" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

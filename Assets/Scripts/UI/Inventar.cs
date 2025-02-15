@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 class Inventar : UIView
 {
     InventarController _controller;
+    HighlightController _highlightController;
     
     public Inventar(VisualElement root, UIManager manager) : base(root, manager) { }
     override protected void Initialize()
@@ -21,6 +22,8 @@ class Inventar : UIView
         _controller = Manager.gameObject.AddComponent<InventarController>();
         _controller.Initialize(View);
 
+        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
+        Hide();
     }
     public override void Dispose()
     {
@@ -32,6 +35,7 @@ class Inventar : UIView
     {
         View.style.display = DisplayStyle.None;
         _controller.enabled = false;
+        _highlightController.enabled = true;
     }
 
 
@@ -39,6 +43,7 @@ class Inventar : UIView
     {
         _controller.enabled = true;
         View.style.display = DisplayStyle.Flex;
+        _highlightController.enabled = false;
     }
 
 }

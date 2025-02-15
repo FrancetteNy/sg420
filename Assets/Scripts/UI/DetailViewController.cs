@@ -369,6 +369,7 @@ public class DetailViewUIManager
     private VisualElement _inventarcontainer;
     private VisualElement _plantInfo;
     private DropdownField _seedDropdown;
+    public InventarController InventoryController; 
 
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
@@ -403,7 +404,6 @@ public class DetailViewUIManager
         _inventarcontainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Das Inventar"));
 
     }
-
     private void SetupSliders()
     {
         var waterValueLabel = _background.Q<Label>("water-value-label");

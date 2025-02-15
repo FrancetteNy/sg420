@@ -9,6 +9,7 @@
     border-radius: 20px; 
     border-width: 2px; 
     border-color: black;
+        
 }
 .close-button{
     background-color: transparent; 
@@ -23,6 +24,7 @@
     border-bottom-width: 2px;
     border-color: black;
     margin-bottom: 10px;
+    
 }
 
 
@@ -33,6 +35,7 @@
     border-width: 0;
     background-color: transparent;
     cursor: pointer;
+    font-size: 26px;
 }
 
 .active {
@@ -48,6 +51,7 @@
 
 .tab-content {
     display: none;
+    font-size: 20px
 }
 
 .tab-content.active {
