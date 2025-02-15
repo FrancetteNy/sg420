@@ -148,14 +148,13 @@ public class HighlightController : MonoBehaviour
 #nullable enable
     public class HighlightData
     {
-        public GameObject? ObjectToHighlight;
-        public Outline? Outline;
-        public Action<HighlightData>? MouseClickFunction;
-        public Action<HighlightData>? MouseClickFunction2;
+        public GameObject ObjectToHighlight;
+        public Outline Outline;
+        public Action<HighlightData> MouseClickFunction;
         public Outline.Mode OutlineMode;
         public Color OutlineColor;
         public float OutlineWidth;
-        public string? Tag;
+        public string Tag;
         public Renderer[]? Renderers;
     }
 #nullable disable
