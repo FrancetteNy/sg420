@@ -157,3 +157,24 @@
 .unity-button:hover {
     background-color: rgb(50, 112, 47);
 }
+
+.unity-tree-view__item:hover {
+    background-color: rgb(4, 24, 1);
+}
+
+.unity-tree-view__item {
+    background-color: rgb(4, 24, 1);
+    margin-bottom: 3px;
+}
+
+.unity-button {
+    background-color: rgb(37, 85, 35);
+    -unity-font-style: bold;
+    border-color: rgb(0, 0, 0);
+    border-width: 3px;
+}
+
+.unity-base-text-field__input:hover {
+    background-color: rgb(50, 112, 47);
+    border-color: rgb(0, 0, 0);
+}
