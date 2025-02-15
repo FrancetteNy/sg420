@@ -30,7 +30,7 @@ public class DryingManager : MonoBehaviour
         {
             Plants.Add(plantPosition.GetComponent<Drying_Controller>());
         }
-        UpdateHighlight();
+        InitializeHighlight();
     }
     private void OnDayChanged()
     {
@@ -74,7 +74,7 @@ public class DryingManager : MonoBehaviour
         }
     }
 
-    private void UpdateHighlight()
+    private void InitializeHighlight()
     {
         for (int i = 0; i < Plants.Count; i++)
         {
