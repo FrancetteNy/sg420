@@ -20,6 +20,10 @@
     color: white;
 }
 
+.unity-scroll-view:hover .unity-base-dropdown__item {
+    background-color:  rgb(50, 112, 47);
+}
+
 .unity-base-dropdown__checkmark {
     -unity-background-image-tint-color: rgb(0, 0, 0);
 }
