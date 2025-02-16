@@ -13,16 +13,6 @@
     border-radius: 15px;
 }
 
-#close-button {
-    width: 5%; height: 5%;
-    position: absolute; 
-    top: 0%; 
-    right: 1%; 
-    background-color: rgb(255, 255, 255); 
-    border-color: rgba(0, 0, 0, 0); 
-    border-width: 2px; 
-}
-
 #side-bar {
     height: 96%;
     width: 15%;
