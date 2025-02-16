@@ -3,22 +3,29 @@
     right: 0;
     bottom: 0;
     width: 25%;
+    padding: 10px;
     height: 20%;
-    background-color: rgb(159, 159, 159);
+    border-radius: 5px;
+    background-color: rgb(4, 24, 1);
+    color: white;
     transition-property: translate;
     transition-duration: 0.1s;
     transition-timing-function: linear;
 }
 
 .notification__close-button {
-    width: 15%;
+    width: 20px;
+    padding: 7px 15px;
+    background-color: rgb(3, 74, 0);
+    border: 5px;
+    border-radius: 5px;
 }
 
 .notification__top-row {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 20%;
+    height: 30%;
 }
 
 .notification__title-label {
@@ -28,7 +35,7 @@
     height: 100%;
     white-space: normal;
     -unity-font-style: bold;
-    font-size: 120%;
+    font-size: 100%;
 }
 
 .notification__body-label {
