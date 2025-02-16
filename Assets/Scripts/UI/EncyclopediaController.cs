@@ -10,10 +10,11 @@ public class EncyclopediaController : MonoBehaviour
 {
 
     private VisualElement _root;
-    private Label _textView;
+    private VisualElement _entryView;
     private TreeView _treeView;
     private TextField _searchBar;    
     private List<IEntryOrCategory> _unlockedEntries;
+    private Dictionary<string,VisualTreeAsset> _entries;
 
     protected interface IEntryOrCategory
     {
@@ -31,10 +32,10 @@ public class EncyclopediaController : MonoBehaviour
            get; 
         }
 
-        public Entry(string name)
-        {
+        public Entry (string name) {
             this.Name = name;
         }
+
     }
 
     protected class Category : IEntryOrCategory
@@ -84,7 +85,6 @@ public class EncyclopediaController : MonoBehaviour
         }),
     };
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Initialize(VisualElement root)
     {
         _root = root;
@@ -94,13 +94,20 @@ public class EncyclopediaController : MonoBehaviour
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideEncyclopedia.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        _textView = _root.Q<Label>("entry");
+        _entryView = _root.Q<VisualElement>("entry");
  
         _unlockedEntries = FilterLockedEntries(GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List, Categories);
         SetUpSearchBar();
         SetUpTreeView();
 
-        _textView.text = Resources.Load<TextAsset>("EncyclopediaEntries/Home").text;
+        _entries = new Dictionary<string,VisualTreeAsset>();
+        foreach (var entry in Resources.LoadAll("EncyclopediaEntries", typeof(VisualTreeAsset)))
+        {
+            _entries.Add(entry.name, (VisualTreeAsset)entry);
+        }
+
+        _entryView.Add(_entries["Home"].Instantiate());
+
     }
 
     // Update is called once per frame
@@ -111,9 +118,8 @@ public class EncyclopediaController : MonoBehaviour
 
     void LoadEntry(IEntryOrCategory entry)
     {
-        string pathToContent = "EncyclopediaEntries/" + entry.Name;
-
-        _textView.text = Resources.Load<TextAsset>(pathToContent).text;
+        _entryView.Clear();
+        _entryView.Add(_entries[entry.Name].Instantiate());
     }
 
     void SetUpSearchBar() 
