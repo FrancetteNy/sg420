@@ -1,12 +1,12 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class HUDView : UIView
 {
     HUDController _controller;
-    public HUDView(VisualElement root, UIManager manager): base(root, manager)
+    HighlightController _highlightController;
+    public HUDView(VisualElement root, UIManager manager) : base(root, manager)
     {
     }
 
@@ -23,21 +23,33 @@ public class HUDView : UIView
 
         _controller = Manager.gameObject.AddComponent<HUDController>();
         _controller.Initialize(View);
+        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
+        Hide();
     }
+    public override void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        if (!IsOpen)
+            return;
+        UIEvents.ShowMainMenuView();
+    }
+
     public override void Dispose()
     {
+        base.Dispose();
         Root.Remove(View);
     }
 
     public override void Hide()
     {
-        View.style.display = DisplayStyle.None;
+        base.Hide();
         _controller.enabled = false;
+        _highlightController.enabled = false;
     }
 
     public override void Show()
     {
-        View.style.display = DisplayStyle.Flex;
+        base.Show();
         _controller.enabled = true;
+        _highlightController.enabled = true;
     }
 }
