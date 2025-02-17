@@ -10,9 +10,9 @@ public class DryingManager : MonoBehaviour
 {
     public List<Drying_Controller> Plants = new List<Drying_Controller>();
     private HighlightController _highlightController;
-    IEnumerator Start()
+    void Start()
     {
-        yield return null;
+       
 
         foreach (var (plantData, plantObject) in GameStateManagerSingleton.Instance.GameState.PlantDriedDataList.List.Zip(Plants, (data, obj) => (data, obj)))
         {
@@ -33,17 +33,14 @@ public class DryingManager : MonoBehaviour
     }
     private void OnDayChanged()
     {
-        foreach (Drying_Controller plant in Plants)
-        {
-            AgePlant(plant);
-        }
+        Plants.ForEach(AgePlant);
     }
     private void SaveDataOfPlant(Drying_Controller plant)
     {
         var plantDataList = GameStateManagerSingleton.Instance.GameState.PlantDriedDataList.List;
-        int plantIndex = Plants.IndexOf(plant); 
+        int plantIndex = Plants.IndexOf(plant);
 
-        if (plantIndex + 1 > plantDataList.Count)
+        if (plantIndex >= plantDataList.Count)
             plantDataList.Add(plant.DriedPlantData);
         else
             plantDataList[plantIndex] = plant.DriedPlantData; 
@@ -69,7 +66,7 @@ public class DryingManager : MonoBehaviour
         {
             plantDriedData.Age.Stage = plantDriedData.Age.GetNextStage();
             plantDriedData.Age.AgeNumber = 0;
-            plant.StageChanged.Invoke();
+            plant.StageChanged?.Invoke();
         }
     }
 
@@ -92,7 +89,7 @@ public class DryingManager : MonoBehaviour
         GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[dryingController.DriedPlantData.Age.Stage]);
 
         dryingController.DriedPlantData.Age.ResetAge();
-        dryingController.StageChanged.Invoke();
+        dryingController.StageChanged?.Invoke();
         SaveDataOfPlant(dryingController); 
 
         string plantStrain = $"{dryingController.DriedPlantData.Strain} geerntet";
@@ -120,7 +117,11 @@ public class DryingManager : MonoBehaviour
             }
             else
             {
-                NotificationManagerSingleton.Instance.AddNotification(new NotificationData("Warnung", "Keine Pflanze zu trocken . Bitte ernten Sie zu erst! ", 6));
+                NotificationManagerSingleton.Instance.AddNotification(new NotificationData(
+                   "Warnung",
+                   "Keine Pflanze zum Trocknen verfügbar. Bitte ernten Sie zuerst!", 
+                   6
+               ));
             }
         });
         highlightBuilder.Apply();

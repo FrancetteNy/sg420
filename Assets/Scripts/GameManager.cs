@@ -20,14 +20,6 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            //Camera.main.transform.position = GameObject.Find("DryingRoomCameraPosition").transform.position;
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            //Camera.main.transform.position = GameObject.Find("MainRoomCameraPosition").transform.position;
-        }
     }
 
     void GoingToDryingRoom()

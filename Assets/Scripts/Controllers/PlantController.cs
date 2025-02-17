@@ -8,18 +8,6 @@ public class PlantController : MonoBehaviour
     private void Start()
     {
         _outline = GetComponent<Outline>();
-        StageChanged += OnStageChanged;
-    }
-    private void OnStageChanged()
-    {
-        if (PlantData.Age.Stage == Age.GrowthStage.FLOWERING)
-        {
-            _outline.OutlineColor = Color.green;
-        }
-        else
-        {
-            _outline.OutlineColor = Color.yellow;
-        }
     }
     public bool IsPlantable()
     {

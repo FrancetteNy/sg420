@@ -20,21 +20,9 @@ public class Drying_Controller : MonoBehaviour
     }
 
     private void OnStageChanged()
-    {
-        OutlineUpdate();
+    {       
         ColorMaterialUpdate();
-    }
-    private void OutlineUpdate()
-    {
-        if (DriedPlantData.Age.Stage == AgeDrying.DryingStage.Ready)
-        {
-            _outline.OutlineColor = Color.green;
-        }
-        else
-        {
-            _outline.OutlineColor = Color.yellow;
-        }
-    }
+    } 
     private void ColorMaterialUpdate()
     {
         Color32 newColor = new Color32(160, 160, 160, 255); // Grauton

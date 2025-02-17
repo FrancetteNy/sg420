@@ -246,7 +246,7 @@ public class PlantManager : MonoBehaviour
     {
         GetCurrentPlantModel(plant.gameObject).SetActive(false);
 
-        plant.StageChanged.Invoke();
+        plant.StageChanged?.Invoke();
 
         GameStateManagerSingleton.Instance.UpdateScore(PlantManagerConstants.ScorePerGrowthStage[plant.PlantData.Age.Stage]);
 
