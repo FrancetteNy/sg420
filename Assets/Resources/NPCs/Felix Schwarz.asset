@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79aedca60708918428806903a2d20163, type: 3}
   m_Name: Felix Schwarz
   m_EditorClassIdentifier: 
-  CharacterName: 
-  Avatar: {fileID: 0}
+  CharacterName: Felix Schwarz
+  Avatar: {fileID: 2800000, guid: 1799bfd4d835d76459309b5aef7dd3d8, type: 3}
