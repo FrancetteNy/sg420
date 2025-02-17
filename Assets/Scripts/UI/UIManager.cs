@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
         _lightOverview = new LightOverview(_root, this);
         _encyclopedia = new Encyclopedia(_root, this);
 
-        UIEvents.ShowDetailView += (index) => { HideCurrentView(); _detailView.Show(index); };
+        UIEvents.ShowDetailView += ShowDetailView;
         UIEvents.HideDetailView += () => ResetToHUD();
 
         UIEvents.ShowHUDView += () => ShowView(_hudView);
@@ -64,9 +64,12 @@ public class UIManager : MonoBehaviour
 
         _currentView = _hudView;
     }
+
+
+
     private void OnDestroy()
     {
-        UIEvents.ShowDetailView -= (index) => { HideCurrentView(); _detailView.Show(index); };
+        UIEvents.ShowDetailView -= ShowDetailView;
         UIEvents.HideDetailView -= () => ResetToHUD();
         _detailView.Dispose();
         UIEvents.ShowHUDView -= () => ShowView(_hudView);
@@ -82,7 +85,12 @@ public class UIManager : MonoBehaviour
         UIEvents.HideChatView -= () => ResetToHUD();
         _chatView.Dispose();
     }
-
+    private void ShowDetailView(int index)
+    {
+        HideCurrentView();
+        _currentView = _detailView;
+        _detailView.Show(index);
+    }
     private void ResetToHUD()
     {
         HideCurrentView();
