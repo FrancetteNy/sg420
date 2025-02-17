@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static DryingProcess;
 
 [Serializable]
 public class GameState

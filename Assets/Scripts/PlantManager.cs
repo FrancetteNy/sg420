@@ -6,7 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Age;
-using static AgeDrying;
+using static DryingProcess.AgeDrying;
 
 public class PlantManager : MonoBehaviour
 {
@@ -224,25 +224,30 @@ public class PlantManager : MonoBehaviour
         PlantData plantData = plant.PlantData;
 
         if (plantData.Age.Stage == GrowthStage.EMPTY)
+        {
+            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist noch nicht gewachsen und kann nicht geerntet werden.", () => { });
             return;
+        }
 
         if (plantData.Age.Stage == GrowthStage.FLOWERING)
         {
             ErnteAction(plant);
         }
+        else if (plantData.Age.Stage == GrowthStage.FADED)
+        {
+            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist verwelkt und past prime. Die Ernte kann nicht rückgängig gemacht werden!", () => ErnteAction(plant));
+        }
         else
         {
-            if (plantData.Age.Stage != GrowthStage.FADED)
-                ModalController.Instance.ShowModal("Warnung", "Die Pflanze wirklich ernten? Die Ernte kann nicht rückgängig gemacht werden!", () => ErnteAction(plant));
-            else
-                ModalController.Instance.ShowModal("Warnung", "(Reomve Plant) Die Pflanze wirklich ernten? Die Ernte kann nicht rückgängig gemacht werden! (FADED)", () => ErnteAction(plant));
+            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist nicht in einem optimalen Zustand für die Ernte! Die Ernte kann nicht rückgängig gemacht werden.", () => ErnteAction(plant));
         }
     }
-
     private void ErnteAction(PlantController plant)
     {
         GetCurrentPlantModel(plant.gameObject).SetActive(false);
+
         plant.StageChanged.Invoke();
+
         GameStateManagerSingleton.Instance.UpdateScore(PlantManagerConstants.ScorePerGrowthStage[plant.PlantData.Age.Stage]);
 
         if (plant.PlantData.Age.Stage != GrowthStage.FADED)
@@ -251,16 +256,16 @@ public class PlantManager : MonoBehaviour
 
             string plantStrain = $"{plant.PlantData.Strain} geerntet";
             int totalScore = GameStateManagerSingleton.Instance.GameState.TreesCount;
-            NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score : {totalScore}", 6));
+            NotificationManagerSingleton.Instance.AddNotification(new NotificationData(plantStrain, $"Total Score: {totalScore}", 6));
         }
         else
         {
-            print("Stage is FADED");
+            NotificationManagerSingleton.Instance.AddNotification(new NotificationData("Verwelkte Pflanze", "Diese Pflanze ist verwelkt und kann nicht mehr geerntet werden.", 6));
         }
 
         plant.PlantData.Age.ResetAge();
-        GameStateManagerSingleton.Instance.Save();
     }
+
     private void ConstructPlantHighlightAndClickFunction(int index)
     {
         var highlightBuilder = _highlightController.BeginHighlightObject(Plants[index]);

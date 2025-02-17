@@ -1,7 +1,8 @@
 using System.Collections;
 using System;
 using UnityEngine;
-using static AgeDrying;
+using static DryingProcess;
+using static DryingProcess.AgeDrying;
 
 public class Drying_Controller : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class Drying_Controller : MonoBehaviour
     }
     private void OutlineUpdate()
     {
-        if (DriedPlantData.Age.Stage == DryingStage.Ready)
+        if (DriedPlantData.Age.Stage == AgeDrying.DryingStage.Ready)
         {
             _outline.OutlineColor = Color.green;
         }
@@ -38,9 +39,9 @@ public class Drying_Controller : MonoBehaviour
     {
         Color32 newColor = new Color32(160, 160, 160, 255); // Grauton
 
-        DryingStage stage = DriedPlantData.Age.Stage;
+        AgeDrying.DryingStage stage = DriedPlantData.Age.Stage;
 
-        if (stage == DryingStage.DryingMid)
+        if (stage == AgeDrying.DryingStage.DryingMid)
         {
             newColor = new Color32((byte)(0.8f * 255), (byte)(0.6f * 255), (byte)(0.3f * 255), 255); // #CC9933
         }

@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using static Age;
-using static AgeDrying;
+using static DryingProcess.AgeDrying;
+using static DryingProcess;
+
 
 public class DryingManager : MonoBehaviour
 {
@@ -51,7 +50,7 @@ public class DryingManager : MonoBehaviour
     }
     private void UpdatePlantModel(Drying_Controller plant)
     {
-        if(plant.DriedPlantData.Age.Stage != DryingStage.Empty)
+        if(plant.DriedPlantData.Age.Stage != AgeDrying.DryingStage.Empty)
         {
             plant.PlantObject.SetActive(true);
             plant.StageChanged?.Invoke();
@@ -61,7 +60,7 @@ public class DryingManager : MonoBehaviour
     {
         DriedData plantDriedData = plant.DriedPlantData;
 
-        if (plant.DriedPlantData.Age.Stage == DryingStage.Empty)
+        if (plant.DriedPlantData.Age.Stage == AgeDrying.DryingStage.Empty)
             return;
 
         plantDriedData.Age.AgeNumber += 1;
@@ -108,7 +107,7 @@ public class DryingManager : MonoBehaviour
 
         highlightBuilder.WithClickAction((data) =>
         {
-            if (plant.DriedPlantData.Age.Stage != DryingStage.Empty)
+            if (plant.DriedPlantData.Age.Stage != AgeDrying.DryingStage.Empty)
             {
                 ModalController.Instance.ShowModal("Warnung", "Die Trocknungsphase wirklich abschließen? Die Trocknung kann nicht rückgängig gemacht werden.", () => CollectPlant(plant));               
             }
@@ -130,18 +129,18 @@ public class DryingManager : MonoBehaviour
 
 public static class DriedManagerConstants
 {
-    public static Dictionary<DryingStage, int> MaximumAgePerDryingStage = new Dictionary<DryingStage, int> {
-            {DryingStage.Empty, 0 },
-            {DryingStage.DryingStart, 2 },
-            {DryingStage.DryingMid, 3 },
-            {DryingStage.DryingEnd, 4 },
-            {DryingStage.Ready, 0 },
+    public static Dictionary<AgeDrying.DryingStage, int> MaximumAgePerDryingStage = new Dictionary<AgeDrying.DryingStage, int> {
+            {AgeDrying.DryingStage.Empty, 0 },
+            {AgeDrying.DryingStage.DryingStart, 2 },
+            {AgeDrying.DryingStage.DryingMid, 3 },
+            {AgeDrying.DryingStage.DryingEnd, 4 },
+            {AgeDrying.DryingStage.Ready, 0 },
         };
-    public static Dictionary<DryingStage, int> ScorePerDryingStage = new Dictionary<DryingStage, int> {
-            {DryingStage.Empty, 0 },
-            {DryingStage.DryingStart, 5 },
-            {DryingStage.DryingMid, 10 },
-            {DryingStage.DryingEnd, 15 },
-            {DryingStage.Ready, 20 },
+    public static Dictionary<AgeDrying.DryingStage, int> ScorePerDryingStage = new Dictionary<AgeDrying.DryingStage, int> {
+            {AgeDrying.DryingStage.Empty, 0 },
+            {AgeDrying.DryingStage.DryingStart, 5 },
+            {AgeDrying.DryingStage.DryingMid, 10 },
+            {AgeDrying.DryingStage.DryingEnd, 15 },
+            {AgeDrying.DryingStage.Ready, 20 },
         };
 }
