@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79aedca60708918428806903a2d20163, type: 3}
-  m_Name: "Lara Gr\xFCn"
+  m_Name: Lara Gruen
   m_EditorClassIdentifier: 
-  CharacterName: "Lara Gr\xFCn"
+  CharacterName: Lara Gruen
   Avatar: {fileID: 2800000, guid: 9c2d4fa47ed1e5f42b6663676d974250, type: 3}
