@@ -34,7 +34,7 @@ public class ChatData
     {
         DoneChatIDs = new(new());
         MetRequirements = new(new());
-        KnownNPCs = new(new() { "Lara Grün" });
+        KnownNPCs = new(new() { "Lara Gruen" });
         ChatIDsAvailable = new(new());
         ChatUnlocks = new(new());
         NextChanceToUnlockSomething = 0.3f;
