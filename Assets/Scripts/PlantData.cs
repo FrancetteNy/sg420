@@ -96,6 +96,7 @@ public class Age
         FADED
     }
     public GrowthStage Stage;
+    public Strain Strain;
     public int AgeNumber; // The AgeNumber has, depending on the Stage, a different meaning
     public Age(GrowthStage stage, int ageNumber)
     {
@@ -152,6 +153,7 @@ public class Age
     {
         AgeNumber = 0;
         Stage = GrowthStage.EMPTY;
+        Strain = Strain.None;             
     }
 }
 [Serializable]

@@ -66,6 +66,7 @@ public class DryingProcess
         }
         public DryingStage Stage;
         public int AgeNumber; // The AgeNumber has, depending on the Stage, a different meaning
+        public Strain Strain;
         public AgeDrying(DryingStage stage, int ageNumber)
         {
             Stage = stage;
@@ -100,10 +101,11 @@ public class DryingProcess
             _ => throw new ArgumentOutOfRangeException(nameof(DryingStage), $"Not expected GrowthStage value {Stage}"),
         };
 
-        public void ResetAge()
+        public void ResetPlantData()
         {
             Stage = DryingStage.Empty;
             AgeNumber = 0;
+            Strain = Strain.None;
         }
     }
 

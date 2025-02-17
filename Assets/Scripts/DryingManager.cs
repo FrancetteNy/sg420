@@ -88,7 +88,7 @@ public class DryingManager : MonoBehaviour
         // Update Score für die Pflanze
         GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[dryingController.DriedPlantData.Age.Stage]);
 
-        dryingController.DriedPlantData.Age.ResetAge();
+        dryingController.DriedPlantData.Age.ResetPlantData();
         dryingController.StageChanged?.Invoke();
         SaveDataOfPlant(dryingController); 
 
