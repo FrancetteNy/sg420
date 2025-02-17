@@ -82,7 +82,12 @@ public class NotificationManagerSingleton : MonoBehaviour
             }
             notification.style.transitionDuration = StyleKeyword.Initial;
             notification.style.display = DisplayStyle.None;
-            notification.RegisterCallback<MouseDownEvent>((_) => notification.OnClick?.Invoke());
+            notification.RegisterCallback<MouseDownEvent>((_) => {
+                if (notification.OnClick == null)
+                    return;
+                notification.OnClick.Invoke();
+                Close(notification).Invoke();
+            });
         }
 
     _shownNotifications = new List<Notification>();
