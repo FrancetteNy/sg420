@@ -25,6 +25,10 @@ public class HUDController : MonoBehaviour
         saveGameButton.clicked += GameStateManagerSingleton.Instance.Save;
         saveGameButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
+        var openChatButton = _root.Q<Button>("open-chat-button");
+        openChatButton.clicked += () => UIEvents.ShowChatView.Invoke();
+        openChatButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+
     }
 
     private void SetupLabels()
