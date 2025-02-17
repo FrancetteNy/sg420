@@ -2,11 +2,11 @@
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement name="HUD" style="flex-grow: 1; justify-content: flex-end;">
         <ui:VisualElement name="VisualElement" class="bg-color" style="flex-direction: row; justify-content: space-between; height: 90px; padding-top: 15px; padding-bottom: 15px;">
-            <ui:VisualElement style="flex-grow: 1; flex-direction: row; align-self: center; align-items: center; justify-content: flex-start; align-content: auto;">
+            <ui:VisualElement style="flex-direction: row; align-self: center; align-items: center; justify-content: flex-start; align-content: auto; flex-grow: 1;">
                 <ui:Label text="Tag 1" name="current-day-label" class="text-color custom-label" style="align-self: center; font-size: 24px;" />
                 <ui:Button text="Nächsten Tag starten" name="advance-day-button" class="custom-button text-color" style="margin-right: 0; margin-bottom: 0; align-self: auto; align-items: center; justify-content: center; align-content: center; margin-top: 0; margin-left: 0;" />
             </ui:VisualElement>
-            <ui:Button name="open-chat-button" style="background-image: url(&quot;project://database/Assets/Art/Textures/forum.png?fileID=2800000&amp;guid=0f06c7afd83ad4045aee1b0d5e5d97ab&amp;type=3#forum&quot;); padding-top: 25px; padding-right: 25px; padding-bottom: 25px; padding-left: 25px; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px;" />
+            <ui:Button name="open-chat-button" class="custom-button" style="background-image: url(&quot;project://database/Assets/Art/Textures/forum.png?fileID=2800000&amp;guid=0f06c7afd83ad4045aee1b0d5e5d97ab&amp;type=3#forum&quot;);" />
             <ui:Button text="Spiel speichern" name="save-game-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1;" />
