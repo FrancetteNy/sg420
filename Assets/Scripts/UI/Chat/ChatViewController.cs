@@ -38,8 +38,6 @@ public class ChatViewController : MonoBehaviour
 
     #region Unity Lifecycle
     private void Awake() => _actions = new InputSystem_Actions();
-    private void OnEnable() => _actions.Enable();
-    private void OnDisable() => _actions.Disable();
 
     private void Update() => HandleScrollInput();
 
@@ -450,7 +448,7 @@ public class ChatViewController : MonoBehaviour
     #region Chat Operations
     private void ChooseAnswer(int answerIndex)
     {
-        if (!_answerRequired || !_centeredScrollView.IsIndexEnabled)
+        if (!_answerRequired || !_centeredScrollView.IsIndexEnabled || !enabled)
             return;
 
         var state = _npcConversationStates[_currentNPC];
