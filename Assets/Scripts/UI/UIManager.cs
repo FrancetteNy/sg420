@@ -41,19 +41,19 @@ public class UIManager : MonoBehaviour
         _encyclopedia = new Encyclopedia(_root, this);
 
         UIEvents.ShowDetailView += ShowDetailView;
-        UIEvents.HideDetailView += () => ResetToHUD();
+        UIEvents.HideDetailView += () => ShowView(_hudView);
 
         UIEvents.ShowHUDView += () => ShowView(_hudView);
         UIEvents.HideHUDView += _hudView.Hide;
 
         UIEvents.ShowLightOverview += () => ShowView(_lightOverview);
-        UIEvents.HideLightOverview += () => ResetToHUD();
+        UIEvents.HideLightOverview += () => ShowView(_hudView);
 
         UIEvents.ShowEncyclopedia += () => ShowView(_encyclopedia);
-        UIEvents.HideEncyclopedia += () => ResetToHUD();
+        UIEvents.HideEncyclopedia += () => ShowView(_hudView);
 
         UIEvents.ShowChatView += () => ShowView(_chatView);
-        UIEvents.HideChatView += () => ResetToHUD();
+        UIEvents.HideChatView += () => ShowView(_hudView);
 
 
         _allUIViews.Add(_detailView);
@@ -70,37 +70,35 @@ public class UIManager : MonoBehaviour
     private void OnDestroy()
     {
         UIEvents.ShowDetailView -= ShowDetailView;
-        UIEvents.HideDetailView -= () => ResetToHUD();
+        UIEvents.HideDetailView -= () => ShowView(_hudView);
         _detailView.Dispose();
         UIEvents.ShowHUDView -= () => ShowView(_hudView);
         UIEvents.HideHUDView -= _hudView.Hide;
         _hudView.Dispose();
         UIEvents.ShowLightOverview -= () => ShowView(_lightOverview);
-        UIEvents.HideLightOverview -= () => ResetToHUD();
+        UIEvents.HideLightOverview -= () => ShowView(_hudView);
         _lightOverview.Dispose();
         UIEvents.ShowEncyclopedia -= () => ShowView(_encyclopedia);
-        UIEvents.HideEncyclopedia -= () => ResetToHUD();
+        UIEvents.HideEncyclopedia -= () => ShowView(_hudView);
         _encyclopedia.Dispose();
         UIEvents.ShowChatView -= () => ShowView(_chatView);
-        UIEvents.HideChatView -= () => ResetToHUD();
+        UIEvents.HideChatView -= () => ShowView(_hudView);
         _chatView.Dispose();
     }
     private void ShowDetailView(int index)
     {
+        if (_detailView == _currentView)
+            return;
         HideCurrentView();
         _currentView = _detailView;
         _detailView.Show(index);
-    }
-    private void ResetToHUD()
-    {
-        HideCurrentView();
-        _hudView.Show();
-        _currentView = _hudView;
     }
 
 
     private void ShowView(UIView view)
     {
+        if (view == _currentView)
+            return;
         HideCurrentView();
         _currentView = view;
         view.Show();
