@@ -1,8 +1,5 @@
-using SG420UILibrary;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -12,14 +9,14 @@ public class EncyclopediaController : MonoBehaviour
     private VisualElement _root;
     private Label _textView;
     private TreeView _treeView;
-    private TextField _searchBar;    
+    private TextField _searchBar;
     private List<Category> _unlockedEntries;
 
     protected interface IEntryOrCategory
     {
         public string Name
         {
-           get; 
+            get;
         }
 
     }
@@ -28,7 +25,7 @@ public class EncyclopediaController : MonoBehaviour
     {
         public string Name
         {
-           get; 
+            get;
         }
 
         public Entry(string name)
@@ -41,21 +38,22 @@ public class EncyclopediaController : MonoBehaviour
     {
         public string Name
         {
-           get; 
-        }
-        
-        public List<Entry> Entries
-        {
-           get; 
+            get;
         }
 
-        public Category(string name, List<Entry> entries) {
+        public List<Entry> Entries
+        {
+            get;
+        }
+
+        public Category(string name, List<Entry> entries)
+        {
             this.Name = name;
             this.Entries = entries;
         }
 
     }
-  
+
     protected static List<Category> Categories = new List<Category> {
         new Category("Anbau", new List<Entry>
         {
@@ -95,7 +93,7 @@ public class EncyclopediaController : MonoBehaviour
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
         _textView = _root.Q<Label>("entry");
- 
+
         FilterLockedEntries();
         SetUpSearchBar();
         SetUpTreeView();
@@ -106,7 +104,7 @@ public class EncyclopediaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void LoadEntry(IEntryOrCategory entry)
@@ -116,7 +114,7 @@ public class EncyclopediaController : MonoBehaviour
         _textView.text = Resources.Load<TextAsset>(pathToContent).text;
     }
 
-    void SetUpSearchBar() 
+    void SetUpSearchBar()
     {
         _searchBar = _root.Q<TextField>("search-bar");
 
@@ -124,10 +122,11 @@ public class EncyclopediaController : MonoBehaviour
         {
             var search = evt.newValue;
             var tempList = new List<Category>();
-            if (search == "") {
+            if (search == "")
+            {
                 _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
             }
-            else 
+            else
             {
                 foreach (var category in _unlockedEntries)
                 {
@@ -165,19 +164,19 @@ public class EncyclopediaController : MonoBehaviour
     {
         List<String> unlockedEntryNames = GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List;
         List<Category> filteredList = new List<Category>();
-        foreach (var category in Categories) 
+        foreach (var category in Categories)
         {
             List<Entry> entries = new List<Entry>();
             int count = 0;
-            foreach (var entry in category.Entries) 
+            foreach (var entry in category.Entries)
             {
-                if (unlockedEntryNames.Contains(entry.Name)) 
+                if (unlockedEntryNames.Contains(entry.Name))
                 {
                     entries.Add(entry);
                     count++;
                 }
             }
-            if (count > 0) 
+            if (count > 0)
             {
                 filteredList.Add(new Category(category.Name, entries));
             }
@@ -185,13 +184,13 @@ public class EncyclopediaController : MonoBehaviour
         _unlockedEntries = filteredList;
     }
 
-    public void ReloadEntries() 
+    public void ReloadEntries()
     {
         FilterLockedEntries();
         SetUpTreeView();
     }
 
-    void SetUpTreeView() 
+    void SetUpTreeView()
     {
         _treeView = _root.Query<TreeView>("tree-view");
         _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));

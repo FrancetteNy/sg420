@@ -1,11 +1,10 @@
-using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class ChatView : UIView
 {
     ChatViewController _controller;
-    HighlightController _highlightController;
     public ChatView(VisualElement root, UIManager manager) : base(root, manager) { }
     override protected void Initialize()
     {
@@ -21,34 +20,42 @@ public class ChatView : UIView
         _controller = Manager.gameObject.AddComponent<ChatViewController>();
         _controller.enabled = false;
         _controller.Initialize(Root);
-        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
         Hide();
     }
     public override void Dispose()
     {
+        base.Dispose();
         Root.Remove(View);
         GameObject.Destroy(_controller);
     }
 
     public override void Hide()
     {
+        IsOpen = false;
         View.EnableInClassList("chatview--hidden", true);
         _controller.enabled = false;
-        View.schedule.Execute(() => { 
-            View.style.display = DisplayStyle.None; 
-            _highlightController.enabled = true; 
+        View.schedule.Execute(() =>
+        {
+            View.style.display = DisplayStyle.None;
         }).ExecuteLater(300);
     }
 
 
     public override void Show()
     {
+        IsOpen = true;
         View.EnableInClassList("chatview--hidden", false);
         View.style.display = DisplayStyle.Flex;
         View.schedule.Execute(() =>
         {
             _controller.enabled = true;
         }).ExecuteLater(300);
-        _highlightController.enabled = false;
+    }
+
+    public override void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        if (!IsOpen)
+            return;
+        UIEvents.HideChatView();
     }
 }

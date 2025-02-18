@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,9 +20,9 @@ public class HUDController : MonoBehaviour
         advanceDayButton.clicked += GameStateManagerSingleton.Instance.AdvanceDay;
         advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        var saveGameButton = _root.Q<Button>("save-game-button");
-        saveGameButton.clicked += GameStateManagerSingleton.Instance.Save;
-        saveGameButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        var openMainmenuButton = _root.Q<Button>("open-mainmenu-button");
+        openMainmenuButton.clicked += () => UIEvents.ShowMainMenuView.Invoke();
+        openMainmenuButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
         var openChatButton = _root.Q<Button>("open-chat-button");
         openChatButton.clicked += () => UIEvents.ShowChatView.Invoke();
