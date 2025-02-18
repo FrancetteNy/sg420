@@ -38,5 +38,24 @@
 
 #entry {
     flex-grow: 1;
+
+}
+
+.h1 {
+    font-size: 30;
+    font-wheight: bold;
+}
+
+.h2 {
+    font-size: 20;
+    font-wheight: bold;
+}
+
+.h3 {
+    font-size: 15;
+    font-wheight: bold;
+}
+
+.paragraph {
     white-space: normal;
 }

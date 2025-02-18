@@ -690,8 +690,9 @@ public class ChatViewController : MonoBehaviour
                     case "QuestUnlocked":
                         print($"unlocked Quest {split[1]}");
                         break;
-                    case "Enzyklop‰dieUnlocked":
-                        print($"unlocked enzyklop‰die eintrage {split[1]}");
+                    case "EnzyklopaedieUnlocked":
+                        print($"unlocked enzyklop√§die eintrage {split[1]}");
+                        GameState.EncyclopediaEntryUnlocked(split[1]);
                         break;
                     case "MechanicUnlocked":
                         print($"unlocked mechanic {split[1]}");
