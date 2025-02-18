@@ -4,12 +4,12 @@
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement enabled="true" name="Licht" class="EncyclopediaEntry" >
         <ui:Label class="h1" text="Licht"/>
-        <ui:Label class="paragraph" text="Wie die meisten Pflanzen benötigt Cannabis Licht um zu Wachsen. Dabei gibt es einiges zu beachten."/>
+        <ui:Label class="paragraph" text="Wie die meisten Pflanzen benötigt Cannabis Licht um zu wachsen. Dabei gibt es einiges zu beachten."/>
         <ui:Label class="h2" text="Intensität"/>
-        <ui:Label class="paragraph" text="Die Lichtintensität ist entscheidend für das Wachstum und die Ertragsmenge von Cannabis. Eine höhere Intensität fördert die Photosynthese, was zu kräftigeren Pflanzen und dichteren Blüten führt. Dabei sind einige Faktoren wichtig: Die Lichtmenge, Der Abstand zur Lichtquelle, Die Gleichmäßige Lichtverteilung. Eine Größere Lichtintensität ist aber nicht immer besser. Wird diese zu groß, kann das schädlich für die Pflanze sein."/>
+        <ui:Label class="paragraph" text="Die Lichtintensität ist entscheidend für das Wachstum und die Ertragsmenge von Cannabis. Eine höhere Intensität fördert die Photosynthese, was zu kräftigeren Pflanzen und dichteren Blüten führt. Dabei sind einige Faktoren wichtig: die Lichtmenge, der Abstand zur Lichtquelle, die gleichmäßige Lichtverteilung. Eine größere Lichtintensität ist aber nicht immer besser. Wird diese zu groß, kann das schädlich für die Pflanze sein."/>
         <ui:Label class="h2" text="Zyklus"/>
         <ui:Label class="paragraph" text="In der vegetativen Phase benötigt die Pflanze 16–18 Stunden Licht pro Tag, um kräftig zu wachsen. In der Blütephase wird die Lichtdauer auf 12 Stunden reduziert, um die Blütenbildung zu stimulieren."/>
-        <ui:Label class="h2" text="Umsetzung im spiel"/>
-        <ui:Label class="paragraph" text="Die Pflanzen im spiel verhalen sich im moment wie Autoflowers, also Pflanzen die nach einer gewissen zeit Blühen und nicht abhängig vom Lichtzyklus. Auch auf das Wachstum hat das Licht im Spiel noch keinen Einfluss."/>
+        <ui:Label class="h2" text="Umsetzung im Spiel"/>
+        <ui:Label class="paragraph" text="Die Pflanzen im Spiel verhalten sich im Moment wie Autoflowers, also Pflanzen, die nach einer gewissen Zeit blühen und nicht abhängig vom Lichtzyklus. Auch auf das Wachstum hat das Licht im Spiel noch keinen Einfluss."/>
     </ui:VisualElement>
 </ui:UXML>
