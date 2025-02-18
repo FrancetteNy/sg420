@@ -1,8 +1,5 @@
-using SG420UILibrary;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,7 +18,7 @@ public class EncyclopediaController : MonoBehaviour
     {
         public string Name
         {
-           get; 
+            get;
         }
 
     }
@@ -30,7 +27,7 @@ public class EncyclopediaController : MonoBehaviour
     {
         public string Name
         {
-           get; 
+            get;
         }
 
         public Entry (string name) {
@@ -118,7 +115,7 @@ public class EncyclopediaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void LoadEntry(IEntryOrCategory entry)
@@ -127,7 +124,7 @@ public class EncyclopediaController : MonoBehaviour
         _entryView.Add(_entries[entry.Name]);
     }
 
-    void SetUpSearchBar() 
+    void SetUpSearchBar()
     {
         _searchBar = _root.Q<TextField>("search-bar");
 
@@ -137,7 +134,7 @@ public class EncyclopediaController : MonoBehaviour
             if (search == "") {
                 _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
             }
-            else 
+            else
             {
                 _treeView.SetRootItems(GenerateTreeRoots(FilterEntries(search, _unlockedEntries)));
             }
@@ -197,7 +194,7 @@ public class EncyclopediaController : MonoBehaviour
         return filteredList;
     }
 
-    public void ReloadEntries() 
+    public void ReloadEntries()
     {
         _unlockedEntries = FilterLockedEntries(GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List, Categories);
         _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
@@ -205,7 +202,7 @@ public class EncyclopediaController : MonoBehaviour
 
     }
 
-    void SetUpTreeView() 
+    void SetUpTreeView()
     {
         _treeView = _root.Query<TreeView>("tree-view");
         _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));

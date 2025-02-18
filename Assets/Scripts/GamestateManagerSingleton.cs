@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // by @kurtdekker - to make a Unity singleton that has some
 // https://gist.github.com/kurtdekker/2f07be6f6a844cf82110fc42a774a625
@@ -50,13 +51,15 @@ public class GameStateManagerSingleton : MonoBehaviour
         }
     }
     public GameState GameState;
-
-    private void OnEnable() {
-        GameState.EncyclopediaEntryUnlocked += unlockEncyclopediaEntry;
+    public bool IsGameLoaded = false;
+    private void OnEnable()
+    {
+        GameState.EncyclopediaEntryUnlocked += UnlockEncyclopediaEntry;
     }
 
-    private void OnDisable() {
-        GameState.EncyclopediaEntryUnlocked -= unlockEncyclopediaEntry;
+    private void OnDisable()
+    {
+        GameState.EncyclopediaEntryUnlocked -= UnlockEncyclopediaEntry;
     }
 
     public void AdvanceDay()
@@ -77,12 +80,17 @@ public class GameStateManagerSingleton : MonoBehaviour
         File.WriteAllText(_saveFilePath, writeToFile);
     }
 
-    public void Load() {
+    public void Load()
+    {
+        if (IsGameLoaded)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         if (File.Exists(_saveFilePath))
         {
             string loadedData = File.ReadAllText(_saveFilePath);
             GameState = JsonUtility.FromJson<GameState>(loadedData);
-
+            IsGameLoaded = true;
         }
         else
         {
@@ -90,10 +98,11 @@ public class GameStateManagerSingleton : MonoBehaviour
         }
     }
 
-    private void unlockEncyclopediaEntry(string entry) 
+    private void UnlockEncyclopediaEntry(string entry)
     {
         List<String> currentEntries = GameState.UnlockedEncyclopediaEntries.List;
-        if (!currentEntries.Contains(entry)) {
+        if (!currentEntries.Contains(entry))
+        {
             GameState.UnlockedEncyclopediaEntries.List.Add(entry);
         }
     }

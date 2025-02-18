@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
@@ -13,17 +14,33 @@ public class UIManager : MonoBehaviour
     LightOverview _lightOverview;
     Encyclopedia _encyclopedia;
     ChatView _chatView;
+    MainMenuView _mainMenuView;
 
     NotificationManagerSingleton _notificationManager;
 
     UIView _currentView;
+    UIView _previousView;
 
+    InputSystem_Actions _actions;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
         AddAllUIViews();
         SetupNotificationMananger();
+        SetupActionSystem();
+    }
+
+    private void SetupActionSystem()
+    {
+        _actions = new InputSystem_Actions();
+        _actions.UI.Enable();
+        _actions.UI.Cancel.performed += OnCancelPerformed;
+    }
+
+    private void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        _currentView?.OnCancelPerformed(context);
     }
 
     private void SetupNotificationMananger()
@@ -34,26 +51,33 @@ public class UIManager : MonoBehaviour
 
     private void AddAllUIViews()
     {
+        UIEvents.ShowPreviousView += ShowPreviousView;
+
         _chatView = new ChatView(_root, this);
         _detailView = new DetailView(_root, this);
         _hudView = new HUDView(_root, this);
         _lightOverview = new LightOverview(_root, this);
         _encyclopedia = new Encyclopedia(_root, this);
+        _mainMenuView = new MainMenuView(_root, this);
 
-        UIEvents.ShowDetailView += ShowDetailView;
-        UIEvents.HideDetailView += () => ShowView(_hudView);
 
-        UIEvents.ShowHUDView += () => ShowView(_hudView);
+        UIEvents.ShowDetailView += OnDetailViewShown;
+        UIEvents.HideDetailView += OnHudShown;
+
+        UIEvents.ShowHUDView += OnHudShown;
         UIEvents.HideHUDView += _hudView.Hide;
 
-        UIEvents.ShowLightOverview += () => ShowView(_lightOverview);
-        UIEvents.HideLightOverview += () => ShowView(_hudView);
+        UIEvents.ShowLightOverview += OnLightOverviewShown;
+        UIEvents.HideLightOverview += OnHudShown;
 
-        UIEvents.ShowEncyclopedia += () => ShowView(_encyclopedia);
-        UIEvents.HideEncyclopedia += () => ShowView(_hudView);
+        UIEvents.ShowEncyclopedia += OnEncyclopediaShown;
+        UIEvents.HideEncyclopedia += OnHudShown;
 
-        UIEvents.ShowChatView += () => ShowView(_chatView);
-        UIEvents.HideChatView += () => ShowView(_hudView);
+        UIEvents.ShowChatView += OnChatViewShown;
+        UIEvents.HideChatView += OnHudShown;
+
+        UIEvents.ShowMainMenuView += OnMainMenuViewShown;
+        UIEvents.HideMainMenuView += OnHudShown;
 
 
         _allUIViews.Add(_detailView);
@@ -61,53 +85,74 @@ public class UIManager : MonoBehaviour
         _allUIViews.Add(_lightOverview);
         _allUIViews.Add(_encyclopedia);
         _allUIViews.Add(_chatView);
+        _allUIViews.Add(_mainMenuView);
 
         _currentView = _hudView;
+        _previousView = _hudView;
+        UIEvents.ShowMainMenuView.Invoke();
     }
 
+    private void OnDetailViewShown(int index) => ShowView(_detailView, index);
+    private void OnHudShown() => ShowView(_hudView);
+    private void OnLightOverviewShown() => ShowView(_lightOverview);
+    private void OnEncyclopediaShown() => ShowView(_encyclopedia);
+    private void OnChatViewShown() => ShowView(_chatView);
+    private void OnMainMenuViewShown() => ShowView(_mainMenuView);
 
 
     private void OnDestroy()
     {
-        UIEvents.ShowDetailView -= ShowDetailView;
-        UIEvents.HideDetailView -= () => ShowView(_hudView);
+        UIEvents.ShowPreviousView -= ShowPreviousView;
+
+        UIEvents.ShowDetailView -= OnDetailViewShown;
+        UIEvents.HideDetailView -= OnHudShown;
         _detailView.Dispose();
-        UIEvents.ShowHUDView -= () => ShowView(_hudView);
+        UIEvents.ShowHUDView -= OnHudShown;
         UIEvents.HideHUDView -= _hudView.Hide;
         _hudView.Dispose();
-        UIEvents.ShowLightOverview -= () => ShowView(_lightOverview);
-        UIEvents.HideLightOverview -= () => ShowView(_hudView);
+        UIEvents.ShowLightOverview -= OnLightOverviewShown;
+        UIEvents.HideLightOverview -= OnHudShown;
         _lightOverview.Dispose();
-        UIEvents.ShowEncyclopedia -= () => ShowView(_encyclopedia);
-        UIEvents.HideEncyclopedia -= () => ShowView(_hudView);
+        UIEvents.ShowEncyclopedia -= OnEncyclopediaShown;
+        UIEvents.HideEncyclopedia -= OnHudShown;
         _encyclopedia.Dispose();
-        UIEvents.ShowChatView -= () => ShowView(_chatView);
-        UIEvents.HideChatView -= () => ShowView(_hudView);
+        UIEvents.ShowChatView -= OnChatViewShown;
+        UIEvents.HideChatView -= OnHudShown;
         _chatView.Dispose();
-    }
-    private void ShowDetailView(int index)
-    {
-        if (_detailView == _currentView)
-            return;
-        HideCurrentView();
-        _currentView = _detailView;
-        _detailView.Show(index);
-    }
+        UIEvents.ShowMainMenuView -= OnMainMenuViewShown;
+        UIEvents.HideMainMenuView -= OnHudShown;
+        _mainMenuView.Dispose();
 
 
-    private void ShowView(UIView view)
+        _actions.UI.Cancel.performed -= OnCancelPerformed;
+    }
+
+    private void ShowView(UIView view, int? index = null)
     {
         if (view == _currentView)
             return;
+
         HideCurrentView();
+        _previousView = _currentView;
         _currentView = view;
-        view.Show();
+
+        if (index.HasValue)
+            (view as DetailView).Show(index.Value);
+        else
+            view.Show();
+    }
+
+    private void ShowPreviousView()
+    {
+        if (_currentView == _previousView || _previousView is null || _currentView is null)
+            return;
+        ShowView(_previousView);
     }
 
     private void HideCurrentView()
     {
         if (_currentView != null)
-        { 
+        {
             _currentView.Hide();
         }
     }
