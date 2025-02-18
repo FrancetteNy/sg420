@@ -14,7 +14,8 @@ public class EncyclopediaController : MonoBehaviour
     private TreeView _treeView;
     private TextField _searchBar;    
     private List<IEntryOrCategory> _unlockedEntries;
-    private Dictionary<string,VisualTreeAsset> _entries;
+    private Dictionary<string,VisualElement> _entries;
+    private StyleSheet _stylesheet;
 
     protected interface IEntryOrCategory
     {
@@ -100,13 +101,17 @@ public class EncyclopediaController : MonoBehaviour
         SetUpSearchBar();
         SetUpTreeView();
 
-        _entries = new Dictionary<string,VisualTreeAsset>();
-        foreach (var entry in Resources.LoadAll("EncyclopediaEntries", typeof(VisualTreeAsset)))
+        _stylesheet = (StyleSheet)Resources.Load("UI Toolkit/USS/Encyclopedia", typeof(StyleSheet));
+
+        _entries = new Dictionary<string,VisualElement>();
+        foreach (VisualTreeAsset entry in Resources.LoadAll("EncyclopediaEntries", typeof(VisualTreeAsset)))
         {
-            _entries.Add(entry.name, (VisualTreeAsset)entry);
+            VisualElement instantiatedEntry = entry.Instantiate();
+            instantiatedEntry.styleSheets.Add(_stylesheet);
+            _entries.Add(entry.name, instantiatedEntry);
         }
 
-        _entryView.Add(_entries["Home"].Instantiate());
+        _entryView.Add(_entries["Home"]);
 
     }
 
@@ -119,7 +124,7 @@ public class EncyclopediaController : MonoBehaviour
     void LoadEntry(IEntryOrCategory entry)
     {
         _entryView.Clear();
-        _entryView.Add(_entries[entry.Name].Instantiate());
+        _entryView.Add(_entries[entry.Name]);
     }
 
     void SetUpSearchBar() 
