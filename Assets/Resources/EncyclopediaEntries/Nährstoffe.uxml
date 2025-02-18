@@ -3,6 +3,15 @@
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Encyclopedia.uss?fileID=7433441132597879392&amp;guid=c72bc6add74bfd44c9618da8f32e605d&amp;type=3#Encyclopedia" />
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement enabled="true" name="Nährstoffe" class="EncyclopediaEntry" >
-        <ui:Label text="Nährstoffe sind wichtig"/>
+        <ui:Label class="h1" text="Nährstoffe"/>
+        <ui:Label class="paragraph" text="Nährstoffe sind ein Komplexes Thema. Das hier nur sehr oberflächlich behandelt wird."/>
+        <ui:Label class="h2" text="Nährstoffe zur verfügurng Stellen"/>
+        <ui:Label class="paragraph" text="Es gibt zwei einfache methoden Nährstoffe der Pflanze zur Verfügung zu stellen. Düngen und umtopfen. In der regel wird man aber düngen um Nährstoffmängel vorzubeugen oder zu beheben"/>
+        <ui:Label class="paragraph" text="Hier hat man die Wahl zwischen organischem und mineralischem dünger. Mineralischer dünger wird künstlich hergestellt und die enthaltenen Nährstoffe können direkt von der Pflanze aufgenommen werden. Vorteile: Maximale Kontrolle. Du entscheidest genau wie viele Nährstoffe die Pflanze wann bekommt. Eignet sich also gut zur behebugn Akuter Nährstoffmängel. Nachteile: Schwer zu dosieren. Die Pflanze kann überdüngt und übersäuert werden, was im zweifel schädlicher ist als ein Nährstoffmangel."/>
+        <ui:Label class="paragraph" text="Organischer Dünger wird aus organischem Material gewonnen und die Pflanze hat erst zeitversetzt zugang zu den Nährstoffen. Vorteile: Nur seltenes Düngen notwendig. Da die Nährstoffe erst nach und nach für die Pflanze verfügbar werden, hält der effek länger an und ein Überdüngen ist quasi nicht möglich. Nachteile: Das Substrat braucht Mikroorganismen die die Nährstoffe für die Pflanze aufschlüsseln, also wird Organische erde benötigt. Durch die verzögerte Bereitstellung der Nährstoffe ist ein akuter Nährstoffmangel nicht so schnell zu beheben wie mit Mineralischem Dünger."/>
+        <ui:Label class="h2" text="Nährstoffmängel erkennen"/>
+        <ui:Label class="paragraph" text="Nährstoffmängel zeigen sich häufig in form von Verfärbung und Verformung von Blättern so wie reduziertem wachstum. Mängel von unterschiedliche Nährstoffen können zu unterschiedlichen Symptomen führen. Um diese korrekt zu identifizieren solltest du dich mit den unterschiedlichen Nährstoffen auseinander setzen so wie mit mobieln bzw. imobilen Nährstoffen."/>
+        <ui:Label class="h2" text="Umsetzung Im Spiel"/>
+        <ui:Label class="paragraph" text="Die Umsetzung im spiel ist recht simpel. Es gibt einen Zusammengefassten wert für alle Nährstoffe Pro Pflanze der sich jeden Tag reduziert und über das Gießen aufgestockt werden kann. Hat die Pflanze zu viele oder zu wenige Nährstoffe wird das wachstum verzögert. Das Modell der Pflanze ändert die Farbe um den Nährstoffmangel darzustellen"/>
     </ui:VisualElement>
 </ui:UXML>
