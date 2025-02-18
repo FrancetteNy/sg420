@@ -64,7 +64,7 @@ public class NotificationManagerSingleton : MonoBehaviour
 
     private void Initialize()
     {
-        _root = FindAnyObjectByType<UIDocument>().rootVisualElement;
+        _root = GameObject.Find("UIManager").GetComponent<UIDocument>().rootVisualElement;
 
         _notificationDataQueue = new Queue<NotificationData>();
 

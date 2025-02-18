@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using static DryingProcess.AgeDrying;
-using static DryingProcess;
-
+using static AgeDrying;
 
 public class DryingManager : MonoBehaviour
 {

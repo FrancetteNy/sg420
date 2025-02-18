@@ -33,7 +33,6 @@ public class HUDController : MonoBehaviour
         var saveGameButton = _root.Q<Button>("save-game-button");
         saveGameButton.clicked += GameStateManagerSingleton.Instance.Save;
         saveGameButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
-
     }
     private void SetupLabels()
     {

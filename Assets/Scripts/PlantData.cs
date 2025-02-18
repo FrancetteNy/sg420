@@ -3,7 +3,7 @@ using static Age;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using static DryingProcess;
+using UnityEditor.SceneManagement;
 
 [Serializable]
 public class PlantData
@@ -13,7 +13,6 @@ public class PlantData
     public Age Age;
     public Strain Strain;
     public Soil Soil;
-
 
     public PlantData()
     {
@@ -72,6 +71,12 @@ public class PlantData
             { "growthStage",  growthStage}
         };
         return data;
+    }
+
+    public void ResetData()
+    {
+        Age.ResetAge();
+        Soil.ResetSoil();
     }
 }
 
@@ -163,9 +168,6 @@ public enum Strain
     Sativa,
     Indica,
     Ruderalis,
-
-
-
 }
 
 [Serializable]
@@ -178,5 +180,11 @@ public class Soil
     {
         StoredWater = storedWater;
         StoredNutrients = storedNutrients;
+    }
+
+    public void ResetSoil()
+    {
+        StoredWater = 0;
+        StoredNutrients = 0;
     }
 }

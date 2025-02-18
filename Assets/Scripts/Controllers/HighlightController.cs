@@ -109,7 +109,6 @@ public class HighlightController : MonoBehaviour
                 OutlineColor = controller._outlineColor,
                 OutlineWidth = controller._outlineWidth,
                 MouseClickFunction = null,
-                Tag = objectToHighlight.tag
             };
         }
 
@@ -154,7 +153,6 @@ public class HighlightController : MonoBehaviour
         public Outline.Mode OutlineMode;
         public Color OutlineColor;
         public float OutlineWidth;
-        public string Tag;
         public Renderer[]? Renderers;
     }
 #nullable disable

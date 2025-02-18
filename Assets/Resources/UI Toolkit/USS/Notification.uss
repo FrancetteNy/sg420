@@ -2,7 +2,7 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    width: 25%;
+    width: 30%;
     height: 20%;
     background-color: rgb(159, 159, 159);
     transition-property: translate;

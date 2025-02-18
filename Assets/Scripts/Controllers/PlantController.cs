@@ -4,11 +4,6 @@ public class PlantController : MonoBehaviour
 {
     public PlantData PlantData;
     public Action StageChanged;
-    Outline _outline;
-    private void Start()
-    {
-        _outline = GetComponent<Outline>();
-    }
     public bool IsPlantable()
     {
         return PlantData == null || PlantData.Strain == Strain.None;

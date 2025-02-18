@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
 public class DetailViewController : MonoBehaviour
 {
     // Events
     public static Action PlantsChanged;
+    public static Action PlantDataChanged;
 
     // Camera and Managers
     public List<PlantController> PlantControllers;
@@ -29,13 +31,18 @@ public class DetailViewController : MonoBehaviour
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
-
+        PlantDataChanged += UpdateCurrentPlantData;
     }
 
 
     private void UpdatePlantControllers()
     {
         PlantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
+    }
+
+    private void UpdateCurrentPlantData()
+    {
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
     }
 
     public void Initialize(Camera detailViewCamera, PlantManager plantManager)
@@ -84,12 +91,12 @@ public class DetailViewController : MonoBehaviour
             case UIButton.PREVIOUSPLANT:
                 _detailViewplantManager.SwitchToPreviousPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                UpdateCurrentPlantData();
                 break;
             case UIButton.NEXTPLANT:
                 _detailViewplantManager.SwitchToNextPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                UpdateCurrentPlantData();
                 break;
             case UIButton.HARVESTPLANT :
                 PlantController plant = PlantControllers[_detailViewplantManager.CurrentPlantIndex];

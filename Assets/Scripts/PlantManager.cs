@@ -6,7 +6,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Age;
-using static DryingProcess.AgeDrying;
+using static AgeDrying;
 
 public class PlantManager : MonoBehaviour
 {
@@ -168,7 +168,7 @@ public class PlantManager : MonoBehaviour
             plantData.Age.Stage = plantData.Age.GetNextStage();
             ManagePlantStageModel(plant);
             plantData.Age.AgeNumber = 0;
-            plantController.StageChanged.Invoke();
+            plantController.StageChanged?.Invoke();
         }
     }
 
@@ -212,7 +212,6 @@ public class PlantManager : MonoBehaviour
 
     private void UpdateHighlightAndDetailView()
     {
-        //DetailViewController.PlantsChanged.Invoke();
         for (int i = 0; i < Plants.Count; i++)
         {
             ConstructPlantHighlightAndClickFunction(i);
@@ -222,6 +221,7 @@ public class PlantManager : MonoBehaviour
     public void ErntePlant(PlantController plant)
     {
         PlantData plantData = plant.PlantData;
+        string msg = "";
 
         if (plantData.Age.Stage == GrowthStage.EMPTY)
         {
@@ -235,12 +235,14 @@ public class PlantManager : MonoBehaviour
         }
         else if (plantData.Age.Stage == GrowthStage.FADED)
         {
-            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist verwelkt und past prime. Die Ernte kann nicht rückgängig gemacht werden!", () => ErnteAction(plant));
+            msg = "Die Pflanze ist verwelkt und past prime. Die Ernte kann nicht rückgängig gemacht werden!";
         }
         else
         {
-            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist nicht in einem optimalen Zustand für die Ernte! Die Ernte kann nicht rückgängig gemacht werden.", () => ErnteAction(plant));
+            msg = "Die Pflanze ist nicht in einem optimalen Zustand für die Ernte! Die Ernte kann nicht rückgängig gemacht werden."
         }
+
+        ModalController.Instance.ShowModal("Warnung", msg, () => ErnteAction(plant));
     }
     private void ErnteAction(PlantController plant)
     {
@@ -263,7 +265,8 @@ public class PlantManager : MonoBehaviour
             NotificationManagerSingleton.Instance.AddNotification(new NotificationData("Verwelkte Pflanze", "Diese Pflanze ist verwelkt und kann nicht mehr geerntet werden.", 6));
         }
 
-        plant.PlantData.Age.ResetAge();
+        plant.PlantData.ResetData();
+        DetailViewController.PlantDataChanged?.Invoke();
     }
 
     private void ConstructPlantHighlightAndClickFunction(int index)

@@ -1142,7 +1142,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190130271}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1200,10 +1200,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68243297321b9f4fa48e53a66b7deb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlantDriedData:
+  DriedPlantData:
     Age:
       Stage: 0
       AgeNumber: 0
+      Strain: 0
     Strain: 1
   PlantObject: {fileID: 2005370942}
 --- !u!65 &190130276
@@ -1979,8 +1980,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _outlineMode: 1
-  _outlineColor: {r: 1, g: 0.9063806, b: 0.015686274, a: 1}
-  _outlineWidth: 10
+  _outlineColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _outlineWidth: 5
 --- !u!4 &408432091
 Transform:
   m_ObjectHideFlags: 0
@@ -3781,10 +3782,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68243297321b9f4fa48e53a66b7deb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlantDriedData:
+  DriedPlantData:
     Age:
       Stage: 0
       AgeNumber: 0
+      Strain: 0
     Strain: 1
   PlantObject: {fileID: 1437619824}
 --- !u!23 &934443323
@@ -3794,7 +3796,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 934443320}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4101,7 +4103,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 995889512}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4159,10 +4161,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68243297321b9f4fa48e53a66b7deb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlantDriedData:
+  DriedPlantData:
     Age:
       Stage: 0
       AgeNumber: 0
+      Strain: 0
     Strain: 1
   PlantObject: {fileID: 871893291}
 --- !u!65 &995889517
@@ -7799,7 +7802,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786964522}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -7878,10 +7881,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68243297321b9f4fa48e53a66b7deb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlantDriedData:
+  DriedPlantData:
     Age:
       Stage: 0
       AgeNumber: 0
+      Strain: 0
     Strain: 1
   PlantObject: {fileID: 1231952906}
 --- !u!1001 &1793136038
