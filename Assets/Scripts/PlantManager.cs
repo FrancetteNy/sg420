@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using static Age;
 
@@ -24,7 +23,7 @@ public class PlantManager : MonoBehaviour
             plantPositions.Add(plantPosition);
         }
         var plantPrefab = Resources.Load<GameObject>("prefabs/plant_with_pot");
-        foreach (var (plantData, position) in GameStateManagerSingleton.Instance.GameState.PlantDataList.List.Zip(plantPositions, (a,b) => (a,b)))
+        foreach (var (plantData, position) in GameStateManagerSingleton.Instance.GameState.PlantDataList.List.Zip(plantPositions, (a, b) => (a, b)))
         {
             var inScene = Instantiate<GameObject>(plantPrefab, position);
             var controller = inScene.GetComponent<PlantController>();
@@ -37,14 +36,25 @@ public class PlantManager : MonoBehaviour
         //Make sure that everything is up to date if anything changes
         Plants.CollectionChanged += new NotifyCollectionChangedEventHandler((object sender, NotifyCollectionChangedEventArgs e) => UpdateHighlightAndDetailView());
         UpdateHighlightAndDetailView();
-        UIEvents.ShowDetailView += (_) => _highlightController.enabled = false;
+        UIEvents.ShowDetailView += DisableHighlightController;
+
 
         GameState.DayChanged += OnDayChanged;
     }
 
+    private void DisableHighlightController(int obj)
+    {
+        _highlightController.enabled = false;
+    }
+
+    private void OnDestroy()
+    {
+        UIEvents.ShowDetailView -= DisableHighlightController;
+        GameState.DayChanged -= OnDayChanged;
+    }
     private void OnDayChanged()
     {
-        foreach(var plant in Plants)
+        foreach (var plant in Plants)
         {
             PlantController plantController = plant.GetComponent<PlantController>();
             UpdatePlant(plant, plantController.PlantData);
@@ -103,7 +113,7 @@ public class PlantManager : MonoBehaviour
         {
             AgePlant(plant);
             var plantModel = GetCurrentPlantModel(plant).transform;
-            plantModel.localScale += new Vector3(0.1f,0.1f,0.1f);
+            plantModel.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
         UpdateModel(GetCurrentPlantModel(plant).transform, plantController.Age);
     }
@@ -125,9 +135,9 @@ public class PlantManager : MonoBehaviour
                 break;
             case GrowthStage.VEGETATIVEGROWTH:
                 vectorValue = CalculateVectorValue(
-                    PlantManagerConstants.MaxSeedlingValue, 
-                    PlantManagerConstants.MaxVegetativeGrowthValue, 
-                    PlantManagerConstants.MaximumAgePerGrowthStage[GrowthStage.VEGETATIVEGROWTH], 
+                    PlantManagerConstants.MaxSeedlingValue,
+                    PlantManagerConstants.MaxVegetativeGrowthValue,
+                    PlantManagerConstants.MaximumAgePerGrowthStage[GrowthStage.VEGETATIVEGROWTH],
                     age.AgeNumber);
                 break;
             case GrowthStage.FLOWERING:

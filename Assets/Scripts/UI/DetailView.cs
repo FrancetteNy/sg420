@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 class DetailView : UIView
 {
     DetailViewController _controller;
-    HighlightController _highlightController;
     public DetailView(VisualElement root, UIManager manager) : base(root, manager) { }
     override protected void Initialize()
     {
@@ -21,19 +21,18 @@ class DetailView : UIView
         _controller.Initialize(GameObject.Find("DetailView Camera").GetComponent<Camera>(), GameObject.FindAnyObjectByType<PlantManager>());
         _controller.enabled = false;
 
-        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
     }
     public override void Dispose()
     {
+        base.Dispose();
         Root.Remove(View);
         GameObject.Destroy(_controller);
     }
 
     public override void Hide()
     {
-        View.style.display = DisplayStyle.None;
+        base.Hide();
         _controller.TriggerDisabling();
-        _highlightController.enabled = true;
     }
 
     public void Show(int index)
@@ -44,15 +43,21 @@ class DetailView : UIView
 
     public override void Show()
     {
-        _controller.ActivateView(0, () => { });
+        _controller.ActivateView(-1, () => { });
         ShowView();
     }
 
     private void ShowView()
     {
+        base.Show();
         _controller.enabled = true;
-        View.style.display = DisplayStyle.Flex;
-        _highlightController.enabled = false;
 
+    }
+
+    public override void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        if (!IsOpen)
+            return;
+        _controller.CloseView();
     }
 }
