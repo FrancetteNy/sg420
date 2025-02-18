@@ -5,13 +5,13 @@
     <ui:VisualElement enabled="true" name="Bewässern" class="EncyclopediaEntry" >
         <ui:Label class="h1" text="Bewässern"/>
         <ui:Label class="h2" text="Wie viel Wasser braucht eine Cannabis Pflanze?"/>
-        <ui:Label class="paragraph" text="Wie viel wasser deine Pflanzen benötigen hängt von verschiedenen Faktoren ab. Dazu zählen Klima, Sorte, Menge und Art des Substrats, So wie die Wachstumsphase in der sich deine Pflanze befindet."/>
+        <ui:Label class="paragraph" text="Wie viel Wasser deine Pflanzen benötigen, hängt von verschiedenen Faktoren ab. Dazu zählen Klima, Sorte, Menge und Art des Substrats, sowie die Wachstumsphase, in der sich deine Pflanze befindet."/>
         <ui:Label class="h2" text="Wie solltest du deine Pflanze gießen?"/>
-        <ui:Label class="paragraph" text="Generell solltest du deine Pflanze gießen wenn das Substrat beginnt trocken zu werden, am einfachsten überprüfst du das mit deinem Finger. Du steckst deinen Finger in das Substrat und fühlst ob noch Feuchtigkeit vorhanden ist. Wenn sich das Substrat nicht mehr feucht anfühlt, solltest du gießen. Achte beim gießen darauf, wie viel du gießen musst, bis Wasser unten aus dem Topf fließt. Das möchtest du idealerweise vermeiden, da du sonst wertvolle Nährstoffe aus dem Substrat schwämmst"/>
+        <ui:Label class="paragraph" text="Generell solltest du deine Pflanze gießen, wenn das Substrat beginnt trocken zu werden, am einfachsten überprüfst du das mit deinem Finger. Du steckst deinen Finger in das Substrat und fühlst ob noch Feuchtigkeit vorhanden ist. Wenn sich das Substrat nicht mehr feucht anfühlt, solltest du gießen. Achte beim Gießen darauf, wie viel du gießen musst, bis Wasser unten aus dem Topf fließt. Das möchtest du idealerweise vermeiden, da du sonst wertvolle Nährstoffe aus dem Substrat schwemmst"/>
         <ui:Label class="h2" text="Anzeichen von Wassermangel oder Ueberschuss"/>
-        <ui:Label class="paragraph" text="Das Erste Anzeichen für Wassermangel ist wie erwähnt trockenes Substrat. Das Hauptanzeichen für einen Wassermangel sind schlaffe Blätter und Stängel. Die Pflanze lässt die die Blätter hängen, wird ein bisschen blass und kann leblos wirken. Sollte der Wassermangel andauern, rollen sich die Blätter nach oben ein, werden gelb und braun."/>
-        <ui:Label class="paragraph" text="Anzeichen für Überwässerung sehen auf den ersten Blick aus wie Anzeichen für Wassermangel. Die Pflanze ist schlaff und lässt die Blätter Hängen. im Gegensatz zum Wassermangel hat die Pflanze aber eine satt grüne Farbe und die blätter kringeln sich nach unten ein."/>
-        <ui:Label class="h2" text="Umsetzung im spiel"/>
+        <ui:Label class="paragraph" text="Das erste Anzeichen für Wassermangel ist wie erwähnt trockenes Substrat. Das Hauptanzeichen für einen Wassermangel sind schlaffe Blätter und Stängel. Die Pflanze lässt die Blätter hängen, wird ein bisschen blass und kann leblos wirken. Sollte der Wassermangel andauern, rollen sich die Blätter nach oben ein, werden gelb und braun."/>
+        <ui:Label class="paragraph" text="Anzeichen für Überwässerung sehen auf den ersten Blick aus wie Anzeichen für Wassermangel. Die Pflanze ist schlaff und lässt die Blätter Hängen. Im Gegensatz zum Wassermangel hat die Pflanze aber eine sattgrüne Farbe und die Blätter kringeln sich nach unten ein."/>
+        <ui:Label class="h2" text="Umsetzung im Spiel"/>
         <ui:Label class="paragraph" text=""/>
 
     </ui:VisualElement>
