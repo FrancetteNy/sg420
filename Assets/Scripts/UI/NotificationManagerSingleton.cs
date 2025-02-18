@@ -69,7 +69,7 @@ public class NotificationManagerSingleton : MonoBehaviour
         _notificationDataQueue = new Queue<NotificationData>();
 
         _availableNotifications = new Queue<Notification>();
-        foreach (var notification in new Notification[]{ new Notification(), new Notification(), new Notification() })
+        foreach (var notification in new Notification[] { new Notification(), new Notification(), new Notification() })
         {
             _availableNotifications.Enqueue(notification);
             _root.Add(notification);
@@ -78,11 +78,12 @@ public class NotificationManagerSingleton : MonoBehaviour
             if (_defaultTimeValue == null)
             {
                 _defaultTimeValue = notification.style.transitionDuration;
-                notification.RegisterCallbackOnce < GeometryChangedEvent >(OnGeometryChanged);
+                notification.RegisterCallbackOnce<GeometryChangedEvent>(OnGeometryChanged);
             }
             notification.style.transitionDuration = StyleKeyword.Initial;
             notification.style.display = DisplayStyle.None;
-            notification.RegisterCallback<MouseDownEvent>((_) => {
+            notification.RegisterCallback<MouseDownEvent>((_) =>
+            {
                 if (notification.OnClick == null)
                     return;
                 notification.OnClick.Invoke();
@@ -90,7 +91,7 @@ public class NotificationManagerSingleton : MonoBehaviour
             });
         }
 
-    _shownNotifications = new List<Notification>();
+        _shownNotifications = new List<Notification>();
     }
 
     private void OnGeometryChanged(GeometryChangedEvent evt)
@@ -105,7 +106,8 @@ public class NotificationManagerSingleton : MonoBehaviour
 
     private Action Close(Notification notification)
     {
-        return () => { 
+        return () =>
+        {
             if (!_shownNotifications.Contains(notification))
             {
                 return;
@@ -124,7 +126,7 @@ public class NotificationManagerSingleton : MonoBehaviour
     void Update()
     {
         while (_notificationDataQueue.Count > 0 && _availableNotifications.Count > 0)
-        { 
+        {
             var data = _notificationDataQueue.Dequeue();
             var notification = _availableNotifications.Dequeue();
             notification.UpdateNotification(data);
@@ -133,7 +135,7 @@ public class NotificationManagerSingleton : MonoBehaviour
             _shownNotifications.Insert(0, notification);
         }
         List<Notification> notificationsToClose = new List<Notification>();
-        for ( int i = 0; i <_shownNotifications.Count; i++)
+        for (int i = 0; i < _shownNotifications.Count; i++)
         {
             var notification = _shownNotifications[i];
             notification.style.translate = _notificationPositionToTranslate[i];
