@@ -3,6 +3,7 @@
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Encyclopedia.uss?fileID=7433441132597879392&amp;guid=c72bc6add74bfd44c9618da8f32e605d&amp;type=3#Encyclopedia" />
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement enabled="true" name="Anbau" class="EncyclopediaEntry" >
-        <ui:Label text="Ist schon nicht so schwer"/>
+        <ui:Label class="h1" text="Anbau"/>
+        <ui:Label class="paragraph" text="Beim anbau von Cannabis gibt es viel zu beachten aber lass dich davon nicht einschüchtern. Eine Ernte einzubringen ist nicht all zu schwer. Je mehr du aus deiner Pflanze herausholen möchtest, desto mehr gibt es allerdings zu beruecksichtigen."/>
     </ui:VisualElement>
 </ui:UXML>
