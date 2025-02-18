@@ -34,8 +34,6 @@ public class HUDController : MonoBehaviour
         saveGameButton.clicked += GameStateManagerSingleton.Instance.Save;
         saveGameButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        // Button zum Ernten hinzufügen
-        var harvestButton = _root.Q<Button>("harvest-button");
     }
     private void SetupLabels()
     {
