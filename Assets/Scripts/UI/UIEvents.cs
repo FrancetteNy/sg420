@@ -14,6 +14,8 @@ class UIEvents
     public static Action HideEncyclopedia;
     public static Action ShowInventar;
     public static Action HideInventar;
+    public static Action ShowChatView;
+    public static Action HideChatView;
 
     //Notification Events
     public static Action<NotificationData> AddNotification;

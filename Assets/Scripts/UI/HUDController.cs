@@ -28,6 +28,11 @@ public class HUDController : MonoBehaviour
         var inventarButton = _root.Q<Button>("inventar-button");
         inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         inventarButton.clicked += () => UIEvents.ShowInventar.Invoke();
+
+        var openChatButton = _root.Q<Button>("open-chat-button");
+        openChatButton.clicked += () => UIEvents.ShowChatView.Invoke();
+        openChatButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+
     }
 
     private void SetupLabels()
