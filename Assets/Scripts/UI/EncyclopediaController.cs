@@ -12,7 +12,6 @@ public class EncyclopediaController : MonoBehaviour
     private TextField _searchBar;    
     private List<IEntryOrCategory> _unlockedEntries;
     private Dictionary<string,VisualElement> _entries;
-    private StyleSheet _stylesheet;
 
     protected interface IEntryOrCategory
     {
@@ -98,23 +97,15 @@ public class EncyclopediaController : MonoBehaviour
         SetUpSearchBar();
         SetUpTreeView();
 
-        _stylesheet = (StyleSheet)Resources.Load("UI Toolkit/USS/Encyclopedia", typeof(StyleSheet));
 
         _entries = new Dictionary<string,VisualElement>();
         foreach (VisualTreeAsset entry in Resources.LoadAll("EncyclopediaEntries", typeof(VisualTreeAsset)))
         {
             VisualElement instantiatedEntry = entry.Instantiate();
-            instantiatedEntry.styleSheets.Add(_stylesheet);
             _entries.Add(entry.name, instantiatedEntry);
         }
 
         _entryView.Add(_entries["Home"]);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
 
     }
 
@@ -223,9 +214,8 @@ public class EncyclopediaController : MonoBehaviour
         var roots = new List<TreeViewItemData<IEntryOrCategory>>(entriesOrCategories.Count);
         foreach (var entryOrCategory in entriesOrCategories)
         {
-            if (entryOrCategory is Category)
+            if (entryOrCategory is Category category)
             {
-                var category = entryOrCategory as Category;
                 var entriesInCategory = GenerateTreeRoots(category.Entries, id);
                 id = entriesInCategory[entriesInCategory.Count - 1].id;
                 id++;
@@ -245,9 +235,8 @@ public class EncyclopediaController : MonoBehaviour
         var roots = new List<TreeViewItemData<IEntryOrCategory>>();
         foreach (var entryOrCategory in entriesOrCategories)
         {
-            if (entryOrCategory is Category)
+            if (entryOrCategory is Category category)
             {
-                var category = entryOrCategory as Category;
                 var entriesInCategory = GenerateTreeRoots(category.Entries, id);
                 var lastAddedMember = entriesInCategory[^1];
                 id = entriesInCategory[^1].id;
