@@ -24,7 +24,6 @@ using UnityEngine.UIElements;
 
 public class NotificationManagerSingleton : MonoBehaviour
 {
-    private VisualElement _notification_space;
     private VisualElement _root;
     private static NotificationManagerSingleton _instance;
     private Queue<NotificationData> _notificationDataQueue;
@@ -56,12 +55,17 @@ public class NotificationManagerSingleton : MonoBehaviour
                     _instance = inScene.AddComponent<NotificationManagerSingleton>();
                 // mark root as DontDestroyOnLoad();
                 DontDestroyOnLoad(_instance.transform.root.gameObject);
-                _instance.Initialize();
+                //_instance.Initialize();
             }
             return _instance;
         }
     }
-
+    
+    public void ReInitializeAfterLoad()
+    {
+        _defaultTimeValue = null;
+        Initialize();
+    }
     private void Initialize()
     {
         _root = FindAnyObjectByType<UIDocument>().rootVisualElement;
