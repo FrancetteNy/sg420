@@ -18,6 +18,7 @@ public class HUDController : MonoBehaviour
         GameState.InventorzChanged += OnInventorzChanged;
         GameState.ScoreChanged += OnScoreChanged;
         GameState.GetrocknetChanged += OnGetrocknetChanged;
+        //GameState.OnInventoryChanged += OnInventoryChanged;  // Abo für Inventaränderungen
 
         SetupButtons();
         SetupLabels();
