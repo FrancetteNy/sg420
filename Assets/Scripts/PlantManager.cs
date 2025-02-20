@@ -232,6 +232,7 @@ public class PlantManager : MonoBehaviour
         if (plantData.Age.Stage == GrowthStage.FLOWERING)
         {
             ErnteAction(plant);
+            return;
         }
         else if (plantData.Age.Stage == GrowthStage.FADED)
         {
@@ -239,7 +240,7 @@ public class PlantManager : MonoBehaviour
         }
         else
         {
-            msg = "Die Pflanze ist nicht in einem optimalen Zustand für die Ernte! Die Ernte kann nicht rückgängig gemacht werden."
+            msg = "Die Pflanze ist nicht in einem optimalen Zustand für die Ernte! Die Ernte kann nicht rückgängig gemacht werden.";
         }
 
         ModalController.Instance.ShowModal("Warnung", msg, () => ErnteAction(plant));
