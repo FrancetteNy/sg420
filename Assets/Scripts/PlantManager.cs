@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using static Age;
 using static AgeDrying;
@@ -25,7 +24,7 @@ public class PlantManager : MonoBehaviour
             plantPositions.Add(plantPosition);
         }
         var plantPrefab = Resources.Load<GameObject>("prefabs/plant_with_pot");
-        foreach (var (plantData, position) in GameStateManagerSingleton.Instance.GameState.PlantDataList.List.Zip(plantPositions, (a,b) => (a,b)))
+        foreach (var (plantData, position) in GameStateManagerSingleton.Instance.GameState.PlantDataList.List.Zip(plantPositions, (a, b) => (a, b)))
         {
             var inScene = Instantiate(plantPrefab, position);
             var controller = inScene.GetComponent<PlantController>();
@@ -38,14 +37,25 @@ public class PlantManager : MonoBehaviour
         //Make sure that everything is up to date if anything changes
         Plants.CollectionChanged += new NotifyCollectionChangedEventHandler((object sender, NotifyCollectionChangedEventArgs e) => UpdateHighlightAndDetailView());
         UpdateHighlightAndDetailView();
-        UIEvents.ShowDetailView += (_) => _highlightController.enabled = false;
+        UIEvents.ShowDetailView += DisableHighlightController;
+
 
         GameState.DayChanged += OnDayChanged;
     }
 
+    private void DisableHighlightController(int obj)
+    {
+        _highlightController.enabled = false;
+    }
+
+    private void OnDestroy()
+    {
+        UIEvents.ShowDetailView -= DisableHighlightController;
+        GameState.DayChanged -= OnDayChanged;
+    }
     private void OnDayChanged()
     {
-        foreach(var plant in Plants)
+        foreach (var plant in Plants)
         {
             PlantController plantController = plant.GetComponent<PlantController>();
             UpdatePlant(plant, plantController.PlantData);
@@ -60,12 +70,10 @@ public class PlantManager : MonoBehaviour
         if (plantController.Soil.StoredWater < PlantManagerConstants.MinWater)
         {
             Debug.Log($"Not enough water {plant}");
-            GameState.EncyclopediaEntryUnlocked("Bewässern");
         }
         else if (plantController.Soil.StoredWater > PlantManagerConstants.MaxWater)
         {
             Debug.Log($"Too much water {plant}");
-            GameState.EncyclopediaEntryUnlocked("Bewässern");
         }
         else
         {
@@ -81,12 +89,10 @@ public class PlantManager : MonoBehaviour
         if (plantController.Soil.StoredNutrients < PlantManagerConstants.MinNutrients)
         {
             Debug.Log($"Not enough Nutrients {plant}");
-            GameState.EncyclopediaEntryUnlocked("Nährstoffe");
         }
         else if (plantController.Soil.StoredNutrients > PlantManagerConstants.MaxNutrients)
         {
             Debug.Log($"Too much Nutrients {plant}");
-            GameState.EncyclopediaEntryUnlocked("Nährstoffe");
         }
         else
         {
@@ -105,7 +111,7 @@ public class PlantManager : MonoBehaviour
         {
             AgePlant(plant);
             var plantModel = GetCurrentPlantModel(plant).transform;
-            plantModel.localScale += new Vector3(0.1f,0.1f,0.1f);
+            plantModel.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
         UpdateModel(plant, plantController.Age);
     }
@@ -225,7 +231,7 @@ public class PlantManager : MonoBehaviour
 
         if (plantData.Age.Stage == GrowthStage.EMPTY)
         {
-            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist noch nicht gewachsen und kann nicht geerntet werden.", () => { });
+            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist noch nicht gewachsen und kann nicht geerntet werden.");
             return;
         }
 

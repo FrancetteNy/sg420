@@ -1,0 +1,538 @@
+{
+  "Lara Gruen": {
+    "Chats": [
+      {
+        "ID": "Lara_1",
+        "Requirements": {},
+        "UnlocksNeeded": [],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey Neuling, ich hab gehört, du machst im Keller deines Grossvates weiter. Willkommen in der Grow-Community!",
+              "Bevor du startest: Cannabis-Anbau ist komplex - du solltest dich gut zu verschiedenen Sachen auskennen.",
+              "Hast du schon Erfahrung mit Pflanzen?"
+            ],
+            "Answers": [
+              {
+                "Text": "Nein, bin komplett neu",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Grundlagen",
+                    "change": -1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Ich hab schon ein bisschen Ahnung, aber Auffrischung kann nicht schaden",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Grundlagen",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Auf jeden Fall keine Angst haben irgendwas Falsch zu machen!",
+              "Dein Grossvater hatte in seinem Keller dieses Buecherregal mit ganz vielen Buechern ueber Cannabis",
+              "Da kannst du dich Informieren, ich denke sinnvoll fuer den Anfang sind die Buecher zu",
+              "1. Anbau und Saatgut",
+              "2. Bewaessern",
+              "3. Naehrstoffe",
+              "4. Licht und Lichtzyklus"
+            ],
+            "Answers": [
+              {
+                "Text": "Das ist eine super Idee, da schaue ich gleich mal rein",
+                "NextQuestion": 2,
+                "Progress": [
+                  {
+                    "topic": "Grundlagen",
+                    "change": 2
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": [
+              "MechanicUnlocked:Enzyklopaedie",
+              "EnzyklopaedieUnlocked:Anbau",
+              "EnzyklopaedieUnlocked:Saatgut",
+              "EnzyklopaedieUnlocked:Bewaessern",
+              "EnzyklopaedieUnlocked:Naehrstoffe",
+              "EnzyklopaedieUnlocked:Licht"
+            ]
+          },
+          {
+            "ID": 2,
+            "Question": [],
+            "Answers": [
+              {
+                "Text": "Kannst du mir einen Tipp geben woher ich gute Samen bekomme?",
+                "NextQuestion": 3,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 3,
+            "Question": [
+              "Gute Genetik ist essentiell fuer Qualitaet!",
+              "Ich kann dir einen Kontakt vermitteln...",
+              "Hier ist die Nummer von Zoki",
+              "Wenn der Zeit hat, schreibt er dich an, lies dich so lange einfach ein paar Tage ein"
+            ],
+            "Answers": [
+              {
+                "Text": "Das ist eine super Hilfe, danke!",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [ "NPCUnlocked:Zoki" ]
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      },
+      {
+        "ID": "Lara_2",
+        "Requirements": {
+          "Grundlagen": 3
+        },
+        "UnlocksNeeded": [ "QuestDone:ErsteSamen" ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, wie laeuft's mit deinen ersten Pflanzen?",
+              "Ich seh schon - du hast dich gut eingearbeitet!",
+              "Vergiss nicht: Die vegetative Phase ist kritisch - kontrolliere regelmaessig die Blattfarbe!"
+            ],
+            "Answers": [
+              {
+                "Text": "Danke! Was sollte ich besonders beachten?",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Wachstumsphasen",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Alles klar, aber ich hab komische Flecken an den Blaettern...",
+                "NextQuestion": 2,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [ "QuestUnlocked:Blattdiagnose" ]
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Achte auf gleichmaessige Luftzirkulation und halte die Temperatur unter 27°C.",
+              "Zu viel Hitze stresst die Pflanzen und beguenstigt Schaedlinge!"
+            ],
+            "Answers": [
+              {
+                "Text": "Werde ich umsetzen!",
+                "NextQuestion": null,
+                "Progress": [
+                  {
+                    "topic": "Klimakontrolle",
+                    "change": 2
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": [ "MechanicUnlocked:Lueftungssteuerung" ]
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      },
+      {
+        "ID": "Lara_3",
+        "Requirements": {},
+        "UnlocksNeeded": [ "NPCUnlocked:Zoki" ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hast du schon in dem Buecherregal deines Grossvaters nachgeschaut?",
+              "Manche Kapitel enthalten wirklich spannende Techniken."
+            ],
+            "Answers": [
+              {
+                "Text": "Ja, ich habe einiges gelernt und neue Ideen gesammelt.",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Kenntnisse",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Nein, ich hatte bisher keine Zeit, mich damit auseinanderzusetzen.",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Kenntnisse",
+                    "change": 0
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Super, dann denk dran: Praxis ist der beste Lehrer.",
+              "Wenn du Fragen hast oder Unterstuetzung brauchst, bin ich fuer dich da."
+            ],
+            "Answers": [
+              {
+                "Text": "Danke, Lara! Ich komme bestimmt auf dich zu.",
+                "NextQuestion": 2,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "uebrigens, hast du schon von Felix Schwarz gehört? Er ist ein erfahrener Grower und hat viele Tricks auf Lager.",
+              "Möchtest du, dass ich dir seine Kontaktdaten gebe?"
+            ],
+            "Answers": [
+              {
+                "Text": "Ja, bitte, ich wuerde gerne mehr von Felix erfahren.",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [
+                  "NPCUnlocked:Felix Schwarz"
+                ]
+              },
+              {
+                "Text": "Nein, danke das brauche ich nicht.",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      }
+    ]
+  },
+
+  "Zoki": {
+    "Chats": [
+      {
+        "ID": "Zoki_1",
+        "Requirements": {},
+        "UnlocksNeeded": [],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, Lara hat mir deine Nummer gegeben",
+              "Sie hat gesagt du suchst Samen, ich kann dir welche verkaufen",
+              "Bestell sie einfach auf meiner Seite"
+            ],
+            "Answers": [
+              {
+                "Text": "Oh nice, werd ich tun",
+                "NextQuestion": 1,
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {},
+                "Unlocks": [
+                  "QuestUnlocked:ErsteSamen",
+                  "MechanicUnlocked:Shop"
+                ]
+              },
+              {
+                "Text": "Danke! Hast du noch irgendwelche Tipps mit was ich anfangen sollte?",
+                "NextQuestion": 2,
+                "Progress": [
+                  { "Grundlagen": 2 }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Na dann hoffe ich mal auf einen neuen Stammkunden ;-)"
+
+            ],
+            "Answers": [],
+            "Unlocks": [
+              "QuestUnlocked:ErsteSamen",
+              "MechanicUnlocked:Shop"
+            ]
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Immer doch, am besten suchst du dir einen feminisierten Sativa Samen heraus",
+              "Sativa sollte ganz gut fuer dich zu handeln sein",
+              "und wenn der Samen feminisiert ist, bekommst du wahrscheinlich auch sehr gute Ernte"
+            ],
+            "Answers": [
+              {
+                "Text": "Cool, danke fuer den Tipp!",
+                "NextQuestion": 1,
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      },
+      {
+        "ID": "Zoki_2",
+        "Requirements": {},
+        "UnlocksNeeded": [
+          "QuestDone:ErsteSamen"
+        ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Ich hoffe die Bestellung war so, wie du sie dir vorgestellt hast.",
+              "Hast du noch irgendwelche Fragen dazu?"
+            ],
+            "Answers": [
+              {
+                "Text": "Nein, ich weiss bestens bescheid!",
+                "NextQuestion": null,
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {"Grundlagen":  10},
+                "Unlocks": []
+              },
+              {
+                "Text": "Ja, auf was sollte ich beim Anbau achten?",
+                "NextQuestion": 1,
+                "Progress": [
+                  {}
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": [
+              "RudimentaeresAnbauwissen"
+            ]
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Da gibt es einiges zu beachten.",
+              "Lara hat gesagt du baust im Keller deines Grossvaters an – da sollte es ein Buecherregal mit einer Enzyklopaedie geben.",
+              "Ich hab die gleiche hier, die ist super.",
+              "Schau dir vor allem die Kapitel ueber Bewaessern und Naehrstoffe genau an!"
+            ],
+            "Answers": [],
+            "Unlocks": []
+          }
+        ]
+      },
+      {
+        "ID": "Zoki_3",
+        "Requirements": {},
+        "UnlocksNeeded": [
+          "QuestDone:ErsteSamen"
+        ],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, es freut mich, dass deine erste Bestellung erfolgreich war.",
+              "Wie laeuft dein Anbau? Konntest du schon erste Erfolge sehen?"
+            ],
+            "Answers": [
+              {
+                "Text": "Ja, die Pflanzen sehen gut aus, danke!",
+                "NextQuestion": 1,
+                "Progress": [
+                  {
+                    "topic": "Erfolg",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Noch nicht wirklich, ich brauche wohl noch mehr Tipps.",
+                "NextQuestion": 2,
+                "Progress": [
+                  {
+                    "topic": "Erfolg",
+                    "change": 0
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Freut mich, weiter so! Denk daran, Geduld ist der Schluessel im Grow."
+            ],
+            "Answers": [
+              {
+                "Text": "Werde ich im Hinterkopf behalten, danke!",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": [
+                  "MechanicUnlocked:ErnteTipps"
+                ]
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Kein Problem, jeder faengt mal klein an.",
+              "Schau dir mal an, wie ich meine Bewaesserung optimiere – vielleicht ist das auch was fuer dich."
+            ],
+            "Answers": [
+              {
+                "Text": "Das klingt gut, ich werde es ausprobieren.",
+                "NextQuestion": null,
+                "Progress": [
+                  {
+                    "topic": "Erfolg",
+                    "change": 1
+                  }
+                ],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      }
+    ]
+  },
+  "Felix Schwarz": {
+    "Chats": [
+      {
+        "ID": "Felix_1",
+        "Requirements": {},
+        "UnlocksNeeded": [],
+        "Dialogues": [
+          {
+            "ID": 0,
+            "Question": [
+              "Hey, ich bin Felix, ein alter Hase im Grow-Game.",
+              "Ich habe gehört, dass du gerade erst anfaengst. Wie laeuft’s bisher?"
+            ],
+            "Answers": [
+              {
+                "Text": "Ich bin noch am Lernen und brauche ein paar Tipps.",
+                "NextQuestion": 1,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              },
+              {
+                "Text": "Alles laeuft prima, aber ich bin offen fuer neue Ideen.",
+                "NextQuestion": 2,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 1,
+            "Question": [
+              "Gut, dass du lernbereit bist.",
+              "Mein erster Tipp: Achte auf die Qualitaet des Wassers – eine gute Wasserquelle ist Gold wert."
+            ],
+            "Answers": [
+              {
+                "Text": "Danke, das merke ich mir!",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          },
+          {
+            "ID": 2,
+            "Question": [
+              "Cool, dann habe ich hier noch einen weiteren Ratschlag fuer dich.",
+              "Informiere dich auch, wie man natuerliche Duenger herstellen kann – das kann deine Ernte wirklich verbessern."
+            ],
+            "Answers": [
+              {
+                "Text": "Klingt interessant, da schaue ich mal rein.",
+                "NextQuestion": null,
+                "Progress": [],
+                "Requirements": {},
+                "Unlocks": []
+              }
+            ],
+            "Unlocks": []
+          }
+        ]
+      }
+    ]
+  }
+}

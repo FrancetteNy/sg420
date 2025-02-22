@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // by @kurtdekker - to make a Unity singleton that has some
 // https://gist.github.com/kurtdekker/2f07be6f6a844cf82110fc42a774a625
@@ -50,12 +51,15 @@ public class GameStateManagerSingleton : MonoBehaviour
         }
     }
     public GameState GameState;
+    public bool IsGameLoaded = false;
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         GameState.EncyclopediaEntryUnlocked += UnlockEncyclopediaEntry;
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         GameState.EncyclopediaEntryUnlocked -= UnlockEncyclopediaEntry;
     }
 
@@ -64,7 +68,7 @@ public class GameStateManagerSingleton : MonoBehaviour
         GameState.CurrentDay++;
         GameState.DayChanged?.Invoke();
         Save();
-        UIEvents.AddNotification.Invoke(new NotificationData("Spiel gespeichert", $"Tag {GameState.CurrentDay} gestartet.", 3));
+        UIEvents.AddNotification?.Invoke(new NotificationData("Spiel gespeichert", $"Tag {GameState.CurrentDay} gestartet.", 3));
     }
 
     public void UpdateTreesCount(int num)
@@ -86,7 +90,6 @@ public class GameStateManagerSingleton : MonoBehaviour
     }
 
    
-
     private string _saveFilePath;
 
     public void Save()
@@ -96,12 +99,17 @@ public class GameStateManagerSingleton : MonoBehaviour
         File.WriteAllText(_saveFilePath, writeToFile);
     }
 
-    public void Load() {
+    public void Load()
+    {
+        if (IsGameLoaded)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         if (File.Exists(_saveFilePath))
         {
             string loadedData = File.ReadAllText(_saveFilePath);
             GameState = JsonUtility.FromJson<GameState>(loadedData);
-
+            IsGameLoaded = true;
         }
         else
         {
@@ -112,7 +120,8 @@ public class GameStateManagerSingleton : MonoBehaviour
     private void UnlockEncyclopediaEntry(string entry) 
     {
         List<String> currentEntries = GameState.UnlockedEncyclopediaEntries.List;
-        if (!currentEntries.Contains(entry)) {
+        if (!currentEntries.Contains(entry))
+        {
             GameState.UnlockedEncyclopediaEntries.List.Add(entry);
         }
     }

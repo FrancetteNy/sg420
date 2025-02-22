@@ -1,0 +1,116 @@
+#chat-list .unity-list-view__item:hover {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#chat-member-list .unity-list-view__item {
+    background-color: rgb(37, 85, 35);
+    font-size: 22px;
+}
+
+.chat-list__item {
+    font-size: 25px;
+    white-space: normal;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    flex-wrap: wrap;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.chat-list__item--npc {
+    align-self: flex-start;
+    background-color: rgb(93, 183, 222);
+}
+
+.chat-list__item--player {
+    align-self: flex-end;
+    background-color: rgb(241, 233, 219);
+}
+
+.chat-list__item--system {
+    -unity-text-align: upper-center;
+    color: rgb(140, 140, 140);
+}
+
+.chat-list__item-container {
+    width: 70%;
+}
+
+.chat-list__item-container--npc {
+    align-self: flex-start;
+}
+
+.chat-list__item-container--player {
+    align-self: flex-end;
+}
+
+.chat-list__item-container--system {
+    align-self: center;
+}
+
+.chat-list__item--first.chat-list__item--npc {
+    border-bottom-left-radius: 3px;
+}
+
+.chat-list__item--last.chat-list__item--npc {
+    border-top-left-radius: 3px;
+}
+
+.chat-list__item--multiple.chat-list__item--npc {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chat-list__item--first.chat-list__item--player {
+    border-bottom-right-radius: 3px;
+}
+
+.chat-list__item--last.chat-list__item--player {
+    border-top-right-radius: 3px;
+}
+
+.chat-list__item--multiple.chat-list__item--player {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatview--hidden {
+    scale: 0 0;
+}
+
+.chatview {
+    flex-grow: 1;
+    flex-direction: row;
+    background-color: rgb(2, 24, 0);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition-property: scale;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out-back;
+}
+
+.chat-list__item--first {
+    margin-bottom: 1px;
+}
+
+.chat-list__item--last {
+    margin-top: 1px;
+}
+
+.chat-list__item--multiple {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+#light-dropdown-field:active .unity-base-field__input {
+    background-color: rgb(37, 85, 35);
+}
+
+#light-dropdown-field:hover .unity-base-field__input {
+    background-color: rgb(37, 85, 35) !important;
+}

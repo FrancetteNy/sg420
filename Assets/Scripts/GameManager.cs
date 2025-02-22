@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     GameObject _mainRoom;
     GameObject _dryingRoom;
+
     private void Start()
     {
         _mainRoom = GameObject.Find("MainRoom");

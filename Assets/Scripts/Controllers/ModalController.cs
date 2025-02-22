@@ -10,6 +10,8 @@ public class ModalController : MonoBehaviour
     private Label _title;
     private Label _description;
 
+    Button _confirmBtn;
+
     private Action _confirmAction;
     private Action _cancelAction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,21 +25,19 @@ public class ModalController : MonoBehaviour
     }
     private void SetupButtons()
     {
-        Button confirmBtn = _root.Q<Button>("Confirm");
-        confirmBtn.clicked += () =>
+        _confirmBtn = _root.Q<Button>("Confirm");
+        _confirmBtn.clicked += () =>
         {
             _confirmAction?.Invoke();
-            HideModal();
         };
-        confirmBtn.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        Button cancelBtn = _root.Q<Button>("Cancel");
-        cancelBtn.clicked += () =>
+        Button _cancelBtn = _root.Q<Button>("Cancel");
+        _cancelBtn.clicked += () =>
         {
             _cancelAction?.Invoke();
             HideModal();
         };
-        cancelBtn.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _cancelBtn.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
         _root.RegisterCallback<ClickEvent>(evt =>
         {
@@ -53,12 +53,28 @@ public class ModalController : MonoBehaviour
         _description = _root.Q<Label>("Description");
     }
 
-    public void ShowModal(string title, string description, Action onConfirmAction, Action onCancelAction = null)
+    public void ShowModal(string title, string description, Action onConfirmAction = null, Action onCancelAction = null)
     {
+        _confirmAction = null;
+
+        if (onConfirmAction == null)
+        {
+            _confirmBtn.AddToClassList("disabled");
+        }
+        else
+        {
+            _confirmBtn.RemoveFromClassList("disabled");
+            _confirmAction += onConfirmAction;
+            _confirmAction += () =>
+            {
+                SoundManagerSingleton.Instance.PlaySound("Click");
+                HideModal();
+            };
+        }
+
         _title.text = title;
         _description.text = description;
 
-        _confirmAction = onConfirmAction;
         _cancelAction = onCancelAction;
 
         _root.RemoveFromClassList("hide");

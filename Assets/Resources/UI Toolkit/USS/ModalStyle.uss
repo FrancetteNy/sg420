@@ -18,30 +18,30 @@
     flex-basis: 1px;
 }
 
-.cancel {
+.unity-button.cancel {
     background-color: rgb(255, 64, 64);
 }
 
-.confirm {
-    background-color: rgb(52, 239, 81);
-    border-left-color: rgb(52, 239, 82);
-    border-right-color: rgb(52, 239, 82);
-    border-top-color: rgb(52, 239, 82);
-    border-bottom-color: rgb(52, 239, 82);
+.unity-button.confirm {
+    background-color: var(--color-interactable);
+    border-left-color: var(--color-interactable);
+    border-right-color: var(--color-interactable);
+    border-top-color: var(--color-interactable);
+    border-bottom-color: var(--color-interactable);
 }
 
-.cancel:hover {
+.unity-button.cancel:hover {
     background-color: rgba(255, 64, 64, 0);
     color: rgb(255, 64, 64);
 }
 
-.confirm:hover {
-    background-color: rgba(52, 239, 81, 0);
-    border-left-color: rgb(52, 239, 82);
-    border-right-color: rgb(52, 239, 82);
-    border-top-color: rgb(52, 239, 82);
-    border-bottom-color: rgb(52, 239, 82);
-    color: rgb(52, 239, 81);
+.unity-button.confirm:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: var(--color-interactable);
+    border-right-color: var(--color-interactable);
+    border-top-color: var(--color-interactable);
+    border-bottom-color: var(--color-interactable);
+    color: var(--color-interactable);
 }
 
 .modal {
@@ -70,4 +70,7 @@
     opacity: 0;
     transition-duration: 0.5s;
     visibility: hidden;
+}
+
+.unity-button.confirm.disabled {
 }

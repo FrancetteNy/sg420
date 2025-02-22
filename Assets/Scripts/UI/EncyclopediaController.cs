@@ -1,8 +1,5 @@
-using SG420UILibrary;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,16 +7,17 @@ public class EncyclopediaController : MonoBehaviour
 {
 
     private VisualElement _root;
-    private Label _textView;
+    private VisualElement _entryView;
     private TreeView _treeView;
     private TextField _searchBar;    
-    private List<Category> _unlockedEntries;
+    private List<IEntryOrCategory> _unlockedEntries;
+    private Dictionary<string,VisualElement> _entries;
 
     protected interface IEntryOrCategory
     {
         public string Name
         {
-           get; 
+            get;
         }
 
     }
@@ -28,13 +26,13 @@ public class EncyclopediaController : MonoBehaviour
     {
         public string Name
         {
-           get; 
+            get;
         }
 
-        public Entry(string name)
-        {
+        public Entry (string name) {
             this.Name = name;
         }
+
     }
 
     protected class Category : IEntryOrCategory
@@ -44,47 +42,46 @@ public class EncyclopediaController : MonoBehaviour
            get; 
         }
         
-        public List<Entry> Entries
+        public List<IEntryOrCategory> Entries
         {
            get; 
         }
 
-        public Category(string name, List<Entry> entries) {
+        public Category(string name, List<IEntryOrCategory> entries) {
             this.Name = name;
             this.Entries = entries;
         }
 
     }
   
-    protected static List<Category> Categories = new List<Category> {
-        new Category("Anbau", new List<Entry>
+    protected static List<IEntryOrCategory> Categories = new List<IEntryOrCategory> {
+        new Category("Anbau", new List<IEntryOrCategory>
         {
+            new Entry("Alter"),
             new Entry("Bewässern"),
-            new Entry("Nährstoffe"),
+            new Entry("Geschlecht"),
             new Entry("Krankheiten"),
             new Entry("Licht"),
+            new Entry("Nährstoffe"),
+            new Entry("Strains"),
+            new Category("Phasen", new List<IEntryOrCategory>
+            {
+                new Entry("Keimung"),
+                new Entry("Wachstum"),
+                new Entry("Blüte"),
+            }),
         }),
-        new Category("Ernteprozess", new List<Entry>
+        new Category("Ernteprozess", new List<IEntryOrCategory>
         {
             new Entry("Ernten"),
             new Entry("Trocknen"),
-        })
+        }),
+        new Category("Ausrüstung", new List<IEntryOrCategory>{
+            new Entry("Lampen"),
+            new Entry("Töpfe"),
+        }),
     };
 
-    protected static List<Entry> Entries
-    {
-        get
-        {
-            var retVal = new List<Entry>(6);
-            foreach (var category in Categories)
-            {
-                retVal.AddRange(category.Entries);
-            }
-            return retVal;
-        }
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Initialize(VisualElement root)
     {
         _root = root;
@@ -94,104 +91,109 @@ public class EncyclopediaController : MonoBehaviour
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideEncyclopedia.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        _textView = _root.Q<Label>("entry");
+        _entryView = _root.Q<VisualElement>("entry");
  
-        FilterLockedEntries();
+        _unlockedEntries = FilterLockedEntries(GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List, Categories);
         SetUpSearchBar();
         SetUpTreeView();
 
-        _textView.text = Resources.Load<TextAsset>("EncyclopediaEntries/Home").text;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _entries = new Dictionary<string,VisualElement>();
+        foreach (VisualTreeAsset entry in Resources.LoadAll("EncyclopediaEntries", typeof(VisualTreeAsset)))
+        {
+            VisualElement instantiatedEntry = entry.Instantiate();
+            _entries.Add(entry.name, instantiatedEntry);
+        }
+
+        _entryView.Add(_entries["Home"]);
+
     }
 
     void LoadEntry(IEntryOrCategory entry)
     {
-        string pathToContent = "EncyclopediaEntries/" + entry.Name;
-
-        _textView.text = Resources.Load<TextAsset>(pathToContent).text;
+        _entryView.Clear();
+        _entryView.Add(_entries[entry.Name]);
     }
 
-    void SetUpSearchBar() 
+    void SetUpSearchBar()
     {
         _searchBar = _root.Q<TextField>("search-bar");
 
         _searchBar.RegisterCallback<ChangeEvent<string>>((evt) =>
         {
             var search = evt.newValue;
-            var tempList = new List<Category>();
             if (search == "") {
                 _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
             }
-            else 
+            else
             {
-                foreach (var category in _unlockedEntries)
-                {
-                    if (category.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        tempList.Add(category);
-                    }
-                    else
-                    {
-                        var tempEntryList = new List<Entry>();
-                        int count = 0;
-                        foreach (var entry in category.Entries)
-                        {
-                            if (entry.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0)
-                            {
-                                tempEntryList.Add(entry);
-                                count++;
-                            }
-                        }
-                        if (count > 0)
-                        {
-                            tempList.Add(new Category(category.Name, tempEntryList));
-                        }
-                    }
-                }
-                _treeView.SetRootItems(GenerateTreeRoots(tempList));
+                _treeView.SetRootItems(GenerateTreeRoots(FilterEntries(search, _unlockedEntries)));
             }
-
             _treeView.Rebuild();
         });
 
     }
 
-    private void FilterLockedEntries()
+
+    private List<IEntryOrCategory> FilterEntries(string search, List<IEntryOrCategory> entriesOrCategories)
     {
-        List<String> unlockedEntryNames = GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List;
-        List<Category> filteredList = new List<Category>();
-        foreach (var category in Categories) 
+        List<IEntryOrCategory> filteredList = new List<IEntryOrCategory>();
+        foreach (var entryOrCategory in entriesOrCategories) 
         {
-            List<Entry> entries = new List<Entry>();
-            int count = 0;
-            foreach (var entry in category.Entries) 
+            if (entryOrCategory is Entry) 
             {
-                if (unlockedEntryNames.Contains(entry.Name)) 
+                if (entryOrCategory.Name.IndexOf(search, StringComparison.OrdinalIgnoreCase) >= 0) 
                 {
-                    entries.Add(entry);
-                    count++;
+                    filteredList.Add(entryOrCategory);
                 }
             }
-            if (count > 0) 
+            else
             {
-                filteredList.Add(new Category(category.Name, entries));
+                Category category = entryOrCategory as Category;
+                List<IEntryOrCategory> tmpList = FilterEntries(search, category.Entries);
+                if (tmpList.Count > 0)
+                {
+                    filteredList.Add(new Category(category.Name, tmpList));
+                }
             }
         }
-        _unlockedEntries = filteredList;
+        return filteredList;
     }
 
-    public void ReloadEntries() 
+    private List<IEntryOrCategory> FilterLockedEntries(List<String> unlockedEntryNames, List<IEntryOrCategory> entriesOrCategories)
     {
-        FilterLockedEntries();
-        SetUpTreeView();
+        List<IEntryOrCategory> filteredList = new List<IEntryOrCategory>();
+        foreach (var entryOrCategory in entriesOrCategories) 
+        {
+            if (entryOrCategory is Entry) 
+            {
+                if (unlockedEntryNames.Contains(entryOrCategory.Name)) 
+                {
+                    filteredList.Add(entryOrCategory);
+                }
+            }
+            else
+            {
+                Category category = entryOrCategory as Category;
+                List<IEntryOrCategory> tmpList = FilterLockedEntries(unlockedEntryNames, category.Entries);
+                if (tmpList.Count > 0)
+                {
+                    filteredList.Add(new Category(category.Name, tmpList));
+                }
+            }
+        }
+        return filteredList;
     }
 
-    void SetUpTreeView() 
+    public void ReloadEntries()
+    {
+        _unlockedEntries = FilterLockedEntries(GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List, Categories);
+        _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
+        _treeView.Rebuild();
+
+    }
+
+    void SetUpTreeView()
     {
         _treeView = _root.Query<TreeView>("tree-view");
         _treeView.SetRootItems(GenerateTreeRoots(_unlockedEntries));
@@ -206,19 +208,45 @@ public class EncyclopediaController : MonoBehaviour
     }
 
 
-    static IList<TreeViewItemData<IEntryOrCategory>> GenerateTreeRoots(List<Category> categories)
+    static IList<TreeViewItemData<IEntryOrCategory>> GenerateTreeRoots(List<IEntryOrCategory> entriesOrCategories)
     {
         int id = 0;
-        var roots = new List<TreeViewItemData<IEntryOrCategory>>(categories.Count);
-        foreach (var category in categories)
+        var roots = new List<TreeViewItemData<IEntryOrCategory>>(entriesOrCategories.Count);
+        foreach (var entryOrCategory in entriesOrCategories)
         {
-            var entriesInCategory = new List<TreeViewItemData<IEntryOrCategory>>(category.Entries.Count);
-            foreach (var entry in category.Entries)
+            if (entryOrCategory is Category category)
             {
-                entriesInCategory.Add(new TreeViewItemData<IEntryOrCategory>(id++, entry));
-            }
+                var entriesInCategory = GenerateTreeRoots(category.Entries, id);
+                id = entriesInCategory[entriesInCategory.Count - 1].id;
+                id++;
+                roots.Add(new TreeViewItemData<IEntryOrCategory>(id++, category, entriesInCategory));
+                var lastAddedMember = entriesInCategory[^1];
+            } 
+            else
+            {
+                roots.Add(new TreeViewItemData<IEntryOrCategory>(id++, entryOrCategory as Entry));
+            } 
+        }
+        return roots;
+    }
 
-            roots.Add(new TreeViewItemData<IEntryOrCategory>(id++, category, entriesInCategory));
+    static List<TreeViewItemData<IEntryOrCategory>> GenerateTreeRoots(List<IEntryOrCategory> entriesOrCategories, int id)
+    {
+        var roots = new List<TreeViewItemData<IEntryOrCategory>>();
+        foreach (var entryOrCategory in entriesOrCategories)
+        {
+            if (entryOrCategory is Category category)
+            {
+                var entriesInCategory = GenerateTreeRoots(category.Entries, id);
+                var lastAddedMember = entriesInCategory[^1];
+                id = entriesInCategory[^1].id;
+                id++;
+                roots.Add(new TreeViewItemData<IEntryOrCategory>(id++, category, entriesInCategory));
+            } 
+            else
+            {
+                roots.Add(new TreeViewItemData<IEntryOrCategory>(id++, entryOrCategory as Entry));
+            } 
         }
         return roots;
     }

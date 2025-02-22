@@ -1,11 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 class LightOverview : UIView
 {
     LightOverviewController _controller;
-    HighlightController _highlightController;
     public LightOverview(VisualElement root, UIManager manager) : base(root, manager) { }
     override protected void Initialize()
     {
@@ -21,28 +20,33 @@ class LightOverview : UIView
         _controller = Manager.gameObject.AddComponent<LightOverviewController>();
         _controller.Initialize(View);
 
-        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
         Hide();
     }
     public override void Dispose()
     {
+        base.Dispose();
         Root.Remove(View);
         GameObject.Destroy(_controller);
     }
 
     public override void Hide()
     {
-        View.style.display = DisplayStyle.None;
+        base.Hide();
         _controller.enabled = false;
-        _highlightController.enabled = true;
     }
 
 
     public override void Show()
     {
-        View.style.display = DisplayStyle.Flex;
+        base.Show();
         _controller.enabled = true;
-        _highlightController.enabled = false;
+    }
+
+    public override void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        if (!IsOpen)
+            return;
+        UIEvents.HideLightOverview();
     }
 }
 
