@@ -6,8 +6,8 @@
             <engine:Label text="Are you sure?" parse-escape-sequences="true" name="Title" class="text-color" style="align-self: center; align-items: center; font-size: 22px; -unity-font-style: bold; letter-spacing: -6px;" />
             <engine:Label text="Remove somthing from this game are you sure about it?" name="Description" class="text-color" style="flex-wrap: nowrap; white-space: normal; font-size: 13px;" />
             <engine:VisualElement name="VisualElement" style="height: 40px; flex-direction: row;">
-                <engine:Button text="Cancel" name="Cancel" class="modal-btn cancel" style="border-left-color: rgb(255, 64, 64); border-right-color: rgb(255, 64, 64); border-top-color: rgb(255, 64, 64); border-bottom-color: rgb(255, 64, 64);" />
-                <engine:Button text="Confirm" name="Confirm" class="modal-btn confirm" />
+                <engine:Button text="Abbrechen" name="Cancel" class="modal-btn cancel" style="border-left-color: rgb(255, 64, 64); border-right-color: rgb(255, 64, 64); border-top-color: rgb(255, 64, 64); border-bottom-color: rgb(255, 64, 64);" />
+                <engine:Button text="Bestätigen" name="Confirm" class="modal-btn confirm" />
             </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
