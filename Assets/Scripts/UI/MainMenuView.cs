@@ -1,9 +1,13 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class MainMenuView : UIView
 {
+    List<Button> _buttonList;
     public MainMenuView(VisualElement root, UIManager manager) : base(root, manager)
     {
 
@@ -22,6 +26,23 @@ public class MainMenuView : UIView
         //_controller = Manager.gameObject.AddComponent<HUDController>();
         //_controller.Initialize(View);
         RegisterButtonCallbacks();
+
+        SceneManager.sceneLoaded += EnableButtons;
+    }
+
+    private void EnableButtons(Scene _, LoadSceneMode __)
+    {
+        foreach (var button in _buttonList)
+        { 
+            button.SetEnabled(true);
+        }
+    }
+    private void DisableButtons()
+    {
+        foreach (var button in _buttonList)
+        {
+            button.SetEnabled(false);
+        }
     }
 
     public override void OnCancelPerformed(InputAction.CallbackContext context)
@@ -31,10 +52,19 @@ public class MainMenuView : UIView
 
     private void RegisterButtonCallbacks()
     {
-        View.Q<Button>("continue-button").clicked += OnContinueButtonClicked;
-        View.Q<Button>("save-button").clicked += OnSaveButtonClicked;
-        View.Q<Button>("load-button").clicked += OnLoadButtonClicked;
-        View.Q<Button>("close-button").clicked += OnCloseButtonClicked;
+        _buttonList = new List<Button>();
+        var continueButton = View.Q<Button>("continue-button");
+        continueButton.clicked += OnContinueButtonClicked;
+        _buttonList.Add(continueButton);
+        var saveButton = View.Q<Button>("save-button");
+        saveButton.clicked += OnSaveButtonClicked;
+        _buttonList.Add(saveButton);
+        var loadButton = View.Q<Button>("load-button");
+        loadButton.clicked += OnLoadButtonClicked;
+        _buttonList.Add(loadButton);
+        var closeButton = View.Q<Button>("close-button");
+        closeButton.clicked += OnCloseButtonClicked;
+        _buttonList.Add(closeButton);
     }
 
     private void OnCloseButtonClicked()
@@ -51,6 +81,7 @@ public class MainMenuView : UIView
     {
         GameStateManagerSingleton.Instance.Load();
         SoundManagerSingleton.Instance.PlaySound("Click");
+        DisableButtons();
     }
 
     private void OnSaveButtonClicked()
