@@ -78,10 +78,19 @@ public class SeedData
     public string Name { get; private set; }
     public int Quantity { get; private set; }
 
-    // Constructeur pour initialiser les valeurs
     public SeedData(string name, int quantity)
     {
         Name = name;
         Quantity = quantity;
     }
+    public void UpdateSeedQuantity(string seedName)
+{
+    var index = _seeds.FindIndex(s => s.name == seedName);
+    if (index >= 0)
+    {
+        _seeds[index] = (seedName, _seeds[index].quantity  - 1);
+        var seedElement = _content1.Children().ElementAt(index);
+        seedElement.Q<Label>("seedQuantity").text = newQuantity.ToString();
+    }
+}
 }

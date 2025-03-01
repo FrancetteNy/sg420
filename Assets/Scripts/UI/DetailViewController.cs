@@ -366,7 +366,6 @@ public class DetailViewUIManager
     private Button _previousPlantButton;
     private Button _nextPlantButton;
     private VisualElement _seedSelectionContainer;
-    private VisualElement _inventarcontainer;
     private VisualElement _plantInfo;
     private DropdownField _seedDropdown;
     public InventarController InventoryController; 
@@ -387,7 +386,6 @@ public class DetailViewUIManager
         _plantInfo = _background.Q<VisualElement>("plantinfo");
 
         SetupSeedContainer(onDetailHovered);
-        SetupInventarContainer(onDetailHovered);
 
         SetupSliders();
     }
@@ -398,11 +396,6 @@ public class DetailViewUIManager
         _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
         _seedSelectionContainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Die Aussaat"));
         _seedSelectionContainer.style.display = DisplayStyle.None;
-    }
-    private void SetupInventarContainer(Action<string> onDetailHovered){
-        _inventarcontainer = _background.Q<VisualElement>("inventory-container");
-        _inventarcontainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Das Inventar"));
-
     }
     private void SetupSliders()
     {
@@ -469,14 +462,12 @@ public class DetailViewUIManager
             {
                 _seedSelectionContainer.style.display = DisplayStyle.Flex;
                 _plantInfo.style.display = DisplayStyle.None;
-                _inventarcontainer.style.display = DisplayStyle.None;
-
+                
             }
             else
             {
                 _seedSelectionContainer.style.display = DisplayStyle.None;
                 _plantInfo.style.display = DisplayStyle.Flex;
-                _inventarcontainer.style.display = DisplayStyle.Flex;
 
             }
         }
