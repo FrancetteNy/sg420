@@ -8,8 +8,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
  
 
-public class InventarController : MonoBehaviour
+public class InventarController: MonoBehaviour
 {
+    public static InventarController Instance { get; private set; }
     private DetailViewUIManager _uiManager;
     private VisualElement _root;
     private Camera _inventarCamera;
@@ -18,8 +19,17 @@ public class InventarController : MonoBehaviour
     private VisualElement _content1, _content2, _content3;
     private int _seed;
     private Label _label;
-    List<(string name, int quantity)> _seeds = new List<(string, int)>();
-    public void Initialize(VisualElement root)
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }    public void Initialize(VisualElement root)
     {
         _root = root;
 
@@ -63,17 +73,17 @@ public class InventarController : MonoBehaviour
         selectedTab.AddToClassList("active");
         activeTab.style.display = DisplayStyle.Flex;
     }
-    public int UpdateSeedQuantity(string seedName)
+    public bool UpdateSeedQuantity(string seedName)
     {   
         _label = _root.Q<Label>(seedName);
         _seed = int.Parse(_label.text);
         if (_seed > 0){
             _seed--;
             _label.text = _seed.ToString();
-            return 1;
+            return true;
         }
         else{
-            return 0;
+            return false;
         }
     }
 }

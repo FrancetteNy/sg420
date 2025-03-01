@@ -16,8 +16,8 @@
                 <ui:Label name= "Indica" text="2" />
             </ui:VisualElement>
             <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px; font-color: white;">
-                <ui:Label name= "seedName" text="Saltiva" />
-                <ui:Label name= "Saltiva" text="2" />
+                <ui:Label name= "seedName" text="Sativa" />
+                <ui:Label name= "Sativa" text="2" />
             </ui:VisualElement>
             <ui:VisualElement style="width: 150px; height: 150px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px; font-color: white;">
                 <ui:Label name= "seedName" text="Ruderalis" />

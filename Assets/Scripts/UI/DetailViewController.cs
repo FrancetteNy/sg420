@@ -153,9 +153,17 @@ public class DetailViewController : MonoBehaviour
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.CONFIRMSEED:
-                _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
-                UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreiche Pflanzung", $"Der Samen {_uiManager.GetSeedValue()} wurde erfolgreich gepflanzt.", 5));
+                bool isPlantedSuccessfully = _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
+                if (isPlantedSuccessfully)
+                {
+                    _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                    UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreiche Pflanzung", $"Der Samen {_uiManager.GetSeedValue()} wurde erfolgreich gepflanzt.", 5));
+                } 
+                else
+                {
+                    UIEvents.AddNotification.Invoke(new NotificationData("Fehler bei der Pflanzung", $"Verifizieren Sie die Mengen des Samens {_uiManager.GetSeedValue()}.", 5));
+                }
+                
                 break;
             default:
                 Debug.Log("Button without associated action pressed");
@@ -701,9 +709,17 @@ public class DetailViewPlantManager
         {
             return false;
         }
-        // Pflanzt den Samen ein
-        currentPlant.PlantSeed(seedType);
-        return true;
+        bool plantable = InventarController.Instance.UpdateSeedQuantity(seedType.ToString());
+        if (plantable)
+        {
+            currentPlant.PlantSeed(seedType);
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+        
     }
 
 }
