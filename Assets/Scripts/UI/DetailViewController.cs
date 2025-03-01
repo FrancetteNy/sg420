@@ -198,6 +198,7 @@ public class DetailViewController : MonoBehaviour
     {
 
         _detailViewplantManager.SetCurrentPlant(plantControllerIndex);
+
         _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
         _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
 
@@ -216,7 +217,7 @@ public class DetailViewController : MonoBehaviour
         _uiManager.UpdateWikiText(wikiEntry);
     }
 
-    private void CloseView()
+    public void CloseView()
     {
         _uiManager.HideView();
         _detailViewCamera.enabled = false;
@@ -389,7 +390,7 @@ public class DetailViewUIManager
 
         SetupSliders();
     }
-    
+
 
     private void SetupSeedContainer(Action<string> onDetailHovered)
     {
@@ -529,7 +530,7 @@ public class DetailViewUIManager
 
     public Strain GetSeedValue()
     {
-        string selectedValue =_seedDropdown.value;
+        string selectedValue = _seedDropdown.value;
         if (Enum.TryParse<Strain>(selectedValue, out var strainValue))
             return strainValue;
         return Strain.None;
@@ -561,6 +562,10 @@ public class DetailViewPlantManager
 
     public void SetCurrentPlant(int plantIndex)
     {
+        if (plantIndex == -1 && CurrentPlantIndex != -1)
+            return;
+        else if (CurrentPlantIndex == -1)
+            plantIndex = 0;
         CurrentPlantIndex = plantIndex;
         _onPlantChanged.Invoke(CurrentPlantIndex);
         SavePlantTransform();

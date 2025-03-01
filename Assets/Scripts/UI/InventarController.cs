@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UIElements;
  
@@ -15,6 +16,8 @@ public class InventarController : MonoBehaviour
     private Action _closeAction;
     private Button _tab1, _tab2, _tab3;
     private VisualElement _content1, _content2, _content3;
+    private int _seed;
+    private Label _label;
     List<(string name, int quantity)> _seeds = new List<(string, int)>();
     public void Initialize(VisualElement root)
     {
@@ -42,20 +45,9 @@ public class InventarController : MonoBehaviour
         _tab3.clicked += () => ShowTab(_tab3, _content3);
         _tab3.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        Content1Get();
         ShowTab(_tab1, _content1);
     }
-      public List<(string seedName, int seedQuantity)> Content1Get(){
-        var seedElements = _content1.Children();
 
-        foreach (var seedElement in seedElements)
-        {
-            var seedName = seedElement.Q<Label>("seedName").text;
-            var seedQuantity = int.Parse(seedElement.Q<Label>("seedQuantity").text);
-            _seeds.Add((seedName, seedQuantity));
-        }
-        return _seeds;
-    }
     
     void ShowTab(Button selectedTab, VisualElement activeTab)
     {
@@ -71,6 +63,19 @@ public class InventarController : MonoBehaviour
         selectedTab.AddToClassList("active");
         activeTab.style.display = DisplayStyle.Flex;
     }
+    public int UpdateSeedQuantity(string seedName)
+    {   
+        _label = _root.Q<Label>(seedName);
+        _seed = int.Parse(_label.text);
+        if (_seed > 0){
+            _seed--;
+            _label.text = _seed.ToString();
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
 }
 
 public class SeedData
@@ -83,14 +88,5 @@ public class SeedData
         Name = name;
         Quantity = quantity;
     }
-    public void UpdateSeedQuantity(string seedName)
-{
-    var index = _seeds.FindIndex(s => s.name == seedName);
-    if (index >= 0)
-    {
-        _seeds[index] = (seedName, _seeds[index].quantity  - 1);
-        var seedElement = _content1.Children().ElementAt(index);
-        seedElement.Q<Label>("seedQuantity").text = newQuantity.ToString();
-    }
-}
+   
 }

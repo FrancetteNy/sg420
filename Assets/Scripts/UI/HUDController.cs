@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -28,6 +27,9 @@ public class HUDController : MonoBehaviour
         var inventarButton = _root.Q<Button>("inventar-button");
         inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         inventarButton.clicked += () => UIEvents.ShowInventar.Invoke();
+        var openMainmenuButton = _root.Q<Button>("open-mainmenu-button");
+        openMainmenuButton.clicked += () => UIEvents.ShowMainMenuView.Invoke();
+        openMainmenuButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
         var openChatButton = _root.Q<Button>("open-chat-button");
         openChatButton.clicked += () => UIEvents.ShowChatView.Invoke();

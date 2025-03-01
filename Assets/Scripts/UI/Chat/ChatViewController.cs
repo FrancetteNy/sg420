@@ -32,16 +32,13 @@ public class ChatViewController : MonoBehaviour
 
     #region Input System
     private InputSystem_Actions _actions;
-    private readonly ScrollValues _scrollValues = new();
     #endregion
 
 
     #region Unity Lifecycle
     private void Awake() => _actions = new InputSystem_Actions();
-    private void OnEnable() => _actions.Enable();
-    private void OnDisable() => _actions.Disable();
 
-    private void Update() => HandleScrollInput();
+    //private void Update() => HandleScrollInput();
 
     private void OnDestroy()
     {
@@ -108,6 +105,7 @@ public class ChatViewController : MonoBehaviour
     #region UI Setup
     private void SetupChatList()
     {
+        _root.RegisterCallback<NavigationMoveEvent>(HandleNavitagionMoveEvent);
         _chatList = _root.Q<ListView>("chat-list");
         if (_chatList == null)
         {
@@ -120,6 +118,8 @@ public class ChatViewController : MonoBehaviour
         _chatList.bindItem = BindChatListItem;
         _chatList.itemsSource = _chat;
     }
+
+
 
     private VisualElement CreateChatListItem()
     {
@@ -331,6 +331,7 @@ public class ChatViewController : MonoBehaviour
     private void ShowPlayerAnswers(List<Answer> answers)
     {
         _answerRequired = true;
+        _actions.UI.Enable();
         _centeredScrollView.SetTexts(answers.Select(ans => ConstructPlayerAnswer(ans)).ToList());
         _centeredScrollView.style.display = DisplayStyle.Flex;
     }
@@ -361,22 +362,19 @@ public class ChatViewController : MonoBehaviour
     #endregion
 
     #region Input Handling
-    private void HandleScrollInput()
+    private void HandleNavitagionMoveEvent(NavigationMoveEvent evt)
     {
-        if (!_answerRequired)
-            return;
-
-        Vector2 input = _actions.UI.Navigate.ReadValue<Vector2>();
-        int direction = GetScrollDirection(input);
-
+        int direction = GetScrollDirection(evt.move);
+        //This should be tab or left/right
         if (direction == 0)
         {
-            ResetScrollState();
             return;
         }
-
-        UpdateScrollNavigation(direction);
+        ExecuteScrollStep(direction);
+        //HandleScrollInput(evt.move);
+        _root.focusController.IgnoreEvent(evt);
     }
+
 
     private int GetScrollDirection(Vector2 input)
     {
@@ -385,47 +383,6 @@ public class ChatViewController : MonoBehaviour
         if (input.y > 0.2f)
             return -1;
         return 0;
-    }
-
-    private void ResetScrollState()
-    {
-        _scrollValues.CurrentDirection = 0;
-        _scrollValues.Timer = 0f;
-        _scrollValues.StepCount = 0;
-    }
-
-    private void UpdateScrollNavigation(int direction)
-    {
-        if (direction != _scrollValues.CurrentDirection)
-        {
-            UpdateScrollDirection(direction);
-            return;
-        }
-
-        _scrollValues.Timer += Time.deltaTime;
-        if (_scrollValues.Timer >= GetCurrentDelay())
-        {
-            ExecuteScrollStep(direction);
-            ResetScrollTimer();
-        }
-    }
-
-    private float GetCurrentDelay()
-    {
-        return _scrollValues.StepCount switch
-        {
-            0 => _scrollValues.InitialDelay,
-            < ScrollValues.StepsBeforeFast => _scrollValues.RepeatDelay,
-            _ => _scrollValues.FastRepeatDelay
-        };
-    }
-
-    private void UpdateScrollDirection(int direction)
-    {
-        _scrollValues.CurrentDirection = direction;
-        _scrollValues.Timer = 0f;
-        _scrollValues.StepCount = 0;
-        ExecuteScrollStep(direction);
     }
 
     private void ExecuteScrollStep(int direction)
@@ -440,17 +397,12 @@ public class ChatViewController : MonoBehaviour
         }
     }
 
-    private void ResetScrollTimer()
-    {
-        _scrollValues.Timer = 0f;
-        _scrollValues.StepCount++;
-    }
     #endregion
 
     #region Chat Operations
     private void ChooseAnswer(int answerIndex)
     {
-        if (!_answerRequired || !_centeredScrollView.IsIndexEnabled)
+        if (!_answerRequired || !_centeredScrollView.IsIndexEnabled || !enabled)
             return;
 
         var state = _npcConversationStates[_currentNPC];
@@ -463,6 +415,7 @@ public class ChatViewController : MonoBehaviour
 
         _centeredScrollView.style.display = DisplayStyle.None;
         _answerRequired = false;
+        _actions.UI.Disable();
         StartCoroutine(ContinueAfterDelay(state, chat));
     }
 
@@ -692,8 +645,9 @@ public class ChatViewController : MonoBehaviour
                     case "QuestUnlocked":
                         print($"unlocked Quest {split[1]}");
                         break;
-                    case "Enzyklop‰dieUnlocked":
-                        print($"unlocked enzyklop‰die eintrage {split[1]}");
+                    case "EnzyklopaedieUnlocked":
+                        print($"unlocked enzyklop√§die eintrage {split[1]}");
+                        GameState.EncyclopediaEntryUnlocked(split[1]);
                         break;
                     case "MechanicUnlocked":
                         print($"unlocked mechanic {split[1]}");
