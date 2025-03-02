@@ -643,7 +643,9 @@ public class ChatViewController : MonoBehaviour
 
                         break;
                     case "QuestUnlocked":
-                        print($"unlocked Quest {split[1]}");
+                        if (Enum.TryParse("Start" + split[1], out MessageSystemEvent evt)){
+                            MessageSystem.FireEvent(evt);
+                        }
                         break;
                     case "EnzyklopaedieUnlocked":
                         print($"unlocked enzyklopädie eintrage {split[1]}");

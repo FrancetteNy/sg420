@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
-using System;
 
 public class MessageSystem : SingletonViaPrefab<MessageSystem>
 {
@@ -10,30 +9,6 @@ public class MessageSystem : SingletonViaPrefab<MessageSystem>
     private Dictionary<MessageSystemEvent, UnityEvent<float>> _floatEventDictionary;
     private Dictionary<MessageSystemEvent, UnityEvent<GameObject>> _gameObjectEventDictionary;
     private Dictionary<MessageSystemEvent, UnityEvent<string>> _stringEventDictionary;
-
-    public static MessageSystem Instance
-    {
-        get
-        {
-            if (!Protected_Instance)
-            {
-                // NOTE: read docs to see directory requirements for Resources.Load!
-                var prefab = Resources.Load<GameObject>("EmptySingletonObject");
-                // create the prefab in your scene
-                var inScene = Instantiate<GameObject>(prefab);
-                // try find the instance inside the prefab
-                Protected_Instance = inScene.GetComponentInChildren<MessageSystem>();
-                // guess there isn't one, add one
-                if (!Protected_Instance)
-                    Protected_Instance = inScene.AddComponent<MessageSystem>();
-                inScene.name = Protected_Instance.GetType().Name;
-                // mark root as DontDestroyOnLoad();
-                DontDestroyOnLoad(Protected_Instance.transform.root.gameObject);
-            }
-            return Protected_Instance;
-        }
-    }
-
 
     protected override void InitializeSingleton()
     {
@@ -155,7 +130,7 @@ public class MessageSystem : SingletonViaPrefab<MessageSystem>
 
     public static void FireEvent(MessageSystemEvent eventName)
     {
-        //Debug.Log("want to fire event " + eventName);
+        Debug.Log("want to fire event " + eventName);
         UnityEvent thisEvent = null;
         if (Instance._eventDictionary.TryGetValue(eventName, out thisEvent))
         {
@@ -205,6 +180,13 @@ public class MessageSystem : SingletonViaPrefab<MessageSystem>
 /// Only add numbers higher then each other in a region.
 /// </summary>
 public enum MessageSystemEvent
-{ 
-    TEST = 0,
+{
+    #region Quests
+    StartErsteSamen = 000,
+    FinishErsteSamen = 001,
+    #endregion
+
+    #region Other
+    //start with 100 here!
+    #endregion
 }
