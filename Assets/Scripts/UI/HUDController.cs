@@ -54,16 +54,16 @@ public class HUDController : MonoBehaviour
 
     private void OnErnteAction()
     {
-        _ernteLabel.text = $"{GameStateManagerSingleton.Instance.GameState.TreesCount} 🌾";
+        _ernteLabel.text = $"{GameStateManagerSingleton.Instance.GameState.TreesCount}";
     }
 
     private void OnScoreChanged()
     {
-        _scoreLabel.text = $"{GameStateManagerSingleton.Instance.GameState.Score} ";
+        _scoreLabel.text = $"{GameStateManagerSingleton.Instance.GameState.Score}";
     }
     private void OnGetrocknetChanged()
     {
-        _getrocknetLabel.text = $"{GameStateManagerSingleton.Instance.GameState.Getrocknet} 🍂";
+        _getrocknetLabel.text = $"{GameStateManagerSingleton.Instance.GameState.Getrocknet}";
     }
     private void OnDayChanged()
     {

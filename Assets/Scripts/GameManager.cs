@@ -10,28 +10,46 @@ public class GameManager : MonoBehaviour
 {
     GameObject _mainRoom;
     GameObject _dryingRoom;
-
+    Light _globalLight;
+    bool _isDark = false;
     private void Start()
     {
         _mainRoom = GameObject.Find("MainRoom");
         _dryingRoom = FindInactiveObjectByName("DryingRoom");
+        _globalLight = GameObject.Find("GlobalLight").GetComponent<Light>();
 
-        PlayerController.Instance.GoingToDryingRoomAction = GoingToDryingRoom;
-        PlayerController.Instance.GoingToMainRoomAction = GoingToMainRoom;
+        PlayerController.Instance.GoingToDryingRoomAction += GoingToDryingRoom;
+        PlayerController.Instance.GoingToMainRoomAction += GoingToMainRoom;
     }
-    private void Update()
-    {
-    }
-
     void GoingToDryingRoom()
     {
         _mainRoom.SetActive(false);
         _dryingRoom.SetActive(true);
+
+        if(!_isDark)
+            ToggleGlobalLightDark();
     }
     void GoingToMainRoom()
     {
         _mainRoom.SetActive(true);
         _dryingRoom.SetActive(false);
+
+        if (_isDark)
+            ToggleGlobalLightDark();
+    }
+    void ToggleGlobalLightDark()
+    {
+        if (_isDark)
+        {
+            _isDark = false;
+            _globalLight.intensity = 2;
+            RenderSettings.ambientIntensity = 1;
+            return;
+        }
+
+        _isDark = true;
+        _globalLight.intensity = .5f;
+        RenderSettings.ambientIntensity = .3f;
     }
 
     GameObject FindInactiveObjectByName(string name)
