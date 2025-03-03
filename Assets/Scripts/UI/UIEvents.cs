@@ -18,7 +18,8 @@ class UIEvents
     public static Action HideEncyclopedia;
     public static Action ShowInventar;
     public static Action HideInventar;
-
+    public static Action ShowShop;
+    public static Action HideShop;
     public static Action ShowChatView;
     public static Action HideChatView;
 

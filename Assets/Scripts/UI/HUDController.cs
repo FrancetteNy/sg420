@@ -27,6 +27,11 @@ public class HUDController : MonoBehaviour
         var inventarButton = _root.Q<Button>("inventar-button");
         inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         inventarButton.clicked += () => UIEvents.ShowInventar.Invoke();
+
+        var ShopButton = _root.Q<Button>("shop-button");
+        inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        inventarButton.clicked += () => UIEvents.ShowShop.Invoke();
+
         var openMainmenuButton = _root.Q<Button>("open-mainmenu-button");
         openMainmenuButton.clicked += () => UIEvents.ShowMainMenuView.Invoke();
         openMainmenuButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");

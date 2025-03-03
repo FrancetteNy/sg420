@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     LightOverview _lightOverview;
     Encyclopedia _encyclopedia;
     Inventar _inventar;
+    Shop _shop;
     ChatView _chatView;
     MainMenuView _mainMenuView;
 
@@ -60,6 +61,7 @@ public class UIManager : MonoBehaviour
         _encyclopedia = new Encyclopedia(_root, this);
         _inventar = new Inventar(_root, this);
         _mainMenuView = new MainMenuView(_root, this);
+        _shop = new Shop(_root, this);
 
 
         UIEvents.ShowDetailView += OnDetailViewShown;
@@ -73,6 +75,9 @@ public class UIManager : MonoBehaviour
 
         UIEvents.ShowInventar += OnInventarShown;
         UIEvents.HideInventar += OnHudShown;
+
+        UIEvents.ShowShop += OnShopShown;
+        UIEvents.HideShop += OnHudShown;
         
         UIEvents.HideEncyclopedia += () => ShowView(_hudView);
         UIEvents.ShowEncyclopedia += OnEncyclopediaShown;
@@ -92,6 +97,7 @@ public class UIManager : MonoBehaviour
         _allUIViews.Add(_inventar);
         _allUIViews.Add(_chatView);
         _allUIViews.Add(_mainMenuView);
+        _allUIViews.Add(_shop);
 
         _currentView = _hudView;
         _previousView = _hudView;
@@ -105,6 +111,7 @@ public class UIManager : MonoBehaviour
     private void OnChatViewShown() => ShowView(_chatView);
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
     private void OnInventarShown () => ShowView(_inventar);
+    private void OnShopShown () => ShowView(_shop);
 
 
     private void OnDestroy()
@@ -126,6 +133,9 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowInventar -= OnInventarShown;
         UIEvents.HideInventar -= OnHudShown;
         _inventar.Dispose();
+        UIEvents.ShowShop -= OnShopShown;
+        UIEvents.HideShop -= OnHudShown;
+        _shop.Dispose();
         UIEvents.ShowChatView -= () => ShowView(_chatView);
         UIEvents.HideChatView -= () => ShowView(_hudView);
         UIEvents.ShowChatView -= OnChatViewShown;
