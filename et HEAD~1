@@ -1,0 +1,101 @@
+[33m1e21fbdb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mErnteUndTrocknung[m[33m, [m[1;31morigin/ErnteUndTrocknung[m[33m)[m HEAD@{0}: reset: moving to HEAD
+[33m1e21fbdb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mErnteUndTrocknung[m[33m, [m[1;31morigin/ErnteUndTrocknung[m[33m)[m HEAD@{1}: commit: Modal Control size angepasst
+[33me0e2ba1b[m HEAD@{2}: commit: button in Modal Control umbennent
+[33m2e9b51f7[m HEAD@{3}: commit (merge): merge letzte änderugen geholt un ddie konflikte ausgelöst
+[33mc1805930[m HEAD@{4}: commit: Test
+[33m9b16bf2a[m HEAD@{5}: rebase (abort): returning to refs/heads/ErnteUndTrocknung
+[33m6f8457ef[m HEAD@{6}: rebase (pick): MergeManuele
+[33md0fbe552[m[33m ([m[1;31morigin/main[m[33m)[m HEAD@{7}: rebase (start): checkout origin/main
+[33m9b16bf2a[m HEAD@{8}: commit: Test
+[33m02b9f87a[m HEAD@{9}: rebase (abort): returning to refs/heads/ErnteUndTrocknung
+[33m06827c6d[m HEAD@{10}: rebase (pick): MergeManuele
+[33md0fbe552[m[33m ([m[1;31morigin/main[m[33m)[m HEAD@{11}: rebase (start): checkout origin/main
+[33m02b9f87a[m HEAD@{12}: commit: ErntePlant funktion bei PlantManager angepasst
+[33me7537640[m HEAD@{13}: commit: removed material prefap of Notification and unused Code
+[33mda4ab596[m HEAD@{14}: commit: deleted unused code
+[33m62c0ae51[m HEAD@{15}: commit: changed ResetAge to ResetPlantData and reset the Strain
+[33mabe49125[m HEAD@{16}: commit: PlantData, Sativa zu None geändert, ich habe dies schon zu Satva nur um zu testen jetzt zum original Zustand gebracht
+[33m96a2d837[m HEAD@{17}: commit: optimisation von Quell Code Assets/Scripts/Controllers/Drying_Controller.cs
+[33m44d26ea6[m HEAD@{18}: commit: deleted /SingletonViaPrefab1.cs SingletonViaPrefab1.cs.meta TagManager.asset MyUILibrary.xsd unused
+[33m58fbb63a[m HEAD@{19}: commit: changed PlantDriedData => DriedPlantData
+[33m5a105700[m HEAD@{20}: commit: Refactor: Rename UpdateHighlight() to InitializeHighlight() for better clarity
+[33ma8df525f[m HEAD@{21}: commit: Refactor: Optimize DryingManager by directly using Plants list for Drying_Controller access
+[33m02333dea[m HEAD@{22}: commit: Removed automatic saving from SaveDataOfPlants method
+[33m661ae445[m HEAD@{23}: commit: ClimateSimulation.cs gelöscht, da nicht mehr benötigt.
+[33m2a6785a7[m HEAD@{24}: commit: Änderungen in LightOverviewController.cs rückgängig gemacht
+[33mb048fa81[m HEAD@{25}: commit: Entfernt die Start-Methode und vereinfacht die Initialisierung, indem alles in der Initialize-Methode zusammengefasst wird
+[33m12e8686f[m HEAD@{26}: commit: removed harvestButton -> HUDController.cs no needed
+[33m146739a2[m HEAD@{27}: commit: Entferne unnötige Nullability von nicht-nullbaren Feldern in HighlightData
+[33m938bf8cc[m HEAD@{28}: commit: correct filter settings in PanelSettings.asset
+[33m9acd51f8[m HEAD@{29}: commit: Restored Encyclopedia.uxml to its original version
+[33m407b05a7[m HEAD@{30}: commit: Renamed globals.uss to hud.uss and updated HUD.uxml references
+[33mc3e409a3[m HEAD@{31}: commit: deleted function save() from updatescore, upfatetreeofcount und updtaegetrockent
+[33me33f8775[m HEAD@{32}: commit: changed the condition of the state of Flowering phase in Modal Contorller
+[33mc286d1b1[m HEAD@{33}: commit: change in PlayerController SampleScene
+[33m54b47106[m HEAD@{34}: commit: see the Overview on Gitlab, deleted unused Folder Animation Blue_Polygone and Add new Skript for Input Sytem defined the Actions to move from Drying/Main_Room , the other chnaged are discrypied on the comment , on the plantmanager change hier wird einzelne Plaze wird gespeichert(voher war llist von Pflanzen), move logic of changing outline color from highlightController to (plant/drying)controller by adding OnStageChangedAction ,move the DryingRoom and MainRoom to Same Room ,changed names of somefunctions for more specifications, in PlantManagerConstants i created a dictionnary Score for every Growstage
+[33md10173b4[m HEAD@{35}: commit: unnötige Datei gelöscht
+[33m806f944b[m HEAD@{36}: commit: Adjusted camera position for consistency & deactivated drying room lights added EasyTrosition Folder needed for UI-Controller
+[33m82717fb9[m HEAD@{37}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m82717fb9[m HEAD@{38}: commit: The materials for the Points on the rope resoved
+[33me81ebc83[m HEAD@{39}: commit: Delete Folders : EasyTransitions, TextMeshPro, TutorialInfo, hookmodel
+[33m23b2e16b[m HEAD@{40}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m23b2e16b[m HEAD@{41}: commit: GameState modified
+[33mf573c1ae[m HEAD@{42}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33mf573c1ae[m HEAD@{43}: pull: Fast-forward
+[33m0a7fdcb5[m HEAD@{44}: checkout: moving from ErnteTrocknung to ErnteUndTrocknung
+[33m831be835[m[33m ([m[1;31morigin/ErnteTrocknung[m[33m, [m[1;32mErnteTrocknung[m[33m)[m HEAD@{45}: reset: moving to HEAD
+[33m831be835[m[33m ([m[1;31morigin/ErnteTrocknung[m[33m, [m[1;32mErnteTrocknung[m[33m)[m HEAD@{46}: checkout: moving from ErnteTrocknung to ErnteTrocknung
+[33m831be835[m[33m ([m[1;31morigin/ErnteTrocknung[m[33m, [m[1;32mErnteTrocknung[m[33m)[m HEAD@{47}: checkout: moving from ErnteUndTrocknung to ErnteTrocknung
+[33m0a7fdcb5[m HEAD@{48}: commit: mein Notification und NotificationManger gel;scht , neue Notification von Ruben Notification f[r Ernte und Trocknung hinyuf[gt
+[33m0efba24e[m HEAD@{49}: commit (merge): Merge Request
+[33m3a81c949[m HEAD@{50}: checkout: moving from main to ErnteUndTrocknung
+[33m9af6e0a5[m[33m ([m[1;32mmain[m[33m)[m HEAD@{51}: pull: Fast-forward
+[33m2986d2ef[m HEAD@{52}: checkout: moving from ErnteUndTrocknung to main
+[33m3a81c949[m HEAD@{53}: commit (merge): Git Konflickt gelöst
+[33m1b923f42[m HEAD@{54}: commit: Beschreibung Model Controller angepasst
+[33m8573262e[m HEAD@{55}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m8573262e[m HEAD@{56}: checkout: moving from 241c2a9797311564a8db8f215c795f22950c748c to ErnteUndTrocknung
+[33m241c2a97[m HEAD@{57}: checkout: moving from ErnteUndTrocknung to origin/feature/Notification
+[33m8573262e[m HEAD@{58}: reset: moving to HEAD
+[33m8573262e[m HEAD@{59}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m8573262e[m HEAD@{60}: reset: moving to HEAD
+[33m8573262e[m HEAD@{61}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m8573262e[m HEAD@{62}: reset: moving to HEAD
+[33m8573262e[m HEAD@{63}: checkout: moving from main to ErnteUndTrocknung
+[33m2986d2ef[m HEAD@{64}: pull: Fast-forward
+[33m3319e607[m HEAD@{65}: checkout: moving from ErnteUndTrocknung to main
+[33m8573262e[m HEAD@{66}: rebase (abort): returning to refs/heads/ErnteUndTrocknung
+[33mbd8f810a[m HEAD@{67}: rebase (pick): MergeManuele
+[33m241c2a97[m HEAD@{68}: rebase (start): checkout origin/feature/Notification
+[33m8573262e[m HEAD@{69}: commit: change the Library
+[33m1829c9df[m HEAD@{70}: pull origin main: updating HEAD
+[33m1829c9df[m HEAD@{71}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m1829c9df[m HEAD@{72}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m1829c9df[m HEAD@{73}: checkout: moving from 1829c9df76c4e2e248c40caa5f1b633f9be27c34 to ErnteUndTrocknung
+[33m1829c9df[m HEAD@{74}: checkout: moving from main to origin/ErnteUndTrocknung
+[33m3319e607[m HEAD@{75}: checkout: moving from ErnteUndTrocknung to main
+[33m1829c9df[m HEAD@{76}: commit: ModalCntroller Beschriebung angepasst
+[33m88fe9227[m HEAD@{77}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m88fe9227[m HEAD@{78}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m88fe9227[m HEAD@{79}: commit: remove Button Ernten from HUD
+[33m64d1aa99[m HEAD@{80}: commit: Add neu point on the Drying Room on the rope
+[33m1b08ed01[m HEAD@{81}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m1b08ed01[m HEAD@{82}: commit (merge): Skripte angepasst
+[33m962bbf1d[m HEAD@{83}: checkout: moving from main to ErnteUndTrocknung
+[33m3319e607[m HEAD@{84}: checkout: moving from ErnteUndTrocknung to main
+[33m962bbf1d[m HEAD@{85}: checkout: moving from ErnteUndTrocknung to ErnteUndTrocknung
+[33m962bbf1d[m HEAD@{86}: commit: model neu hinzufügt, skripte GameMangager gelöscht neue skript gemacht
+[33mb8a04f21[m HEAD@{87}: commit: change guid of DetailViewUSS
+[33m3630fee9[m HEAD@{88}: commit (amend): change objects to static and organise scene
+[33md57662a8[m HEAD@{89}: commit: change O
+[33mb218d2d5[m HEAD@{90}: rebase (finish): returning to refs/heads/ErnteUndTrocknung
+[33mb218d2d5[m HEAD@{91}: rebase (pick): Delete DryingScene
+[33m390076ee[m HEAD@{92}: rebase (pick): Merge Skripte
+[33mf04de61f[m HEAD@{93}: rebase (pick): MergeManuele
+[33m7358ad50[m[33m ([m[1;33mtag: [m[1;33mv0.1.1-alpha[m[33m)[m HEAD@{94}: rebase (start): checkout refs/remotes/origin/main
+[33mb37ad8b2[m HEAD@{95}: commit: Delete DryingScene
+[33m008f10e7[m HEAD@{96}: commit: Merge Skripte
+[33m764fdad9[m HEAD@{97}: commit: MergeManuele
+[33m4f6ef5ef[m HEAD@{98}: reset: moving to origin/ErnteUndTrocknung
+[33m30d7af68[m HEAD@{99}: reset: moving to HEAD
+[33m30d7af68[m HEAD@{100}: commit (initial): ErnteUndTrocknung

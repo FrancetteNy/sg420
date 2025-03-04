@@ -227,29 +227,15 @@ public class PlantManager : MonoBehaviour
     public void ErntePlant(PlantController plant)
     {
         PlantData plantData = plant.PlantData;
-        string msg = "";
 
         if (plantData.Age.Stage == GrowthStage.EMPTY)
         {
             ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist noch nicht gewachsen und kann nicht geerntet werden.");
-            return;
-        }
-
-        if (plantData.Age.Stage == GrowthStage.FLOWERING)
-        {
-            ErnteAction(plant);
-            return;
-        }
-        else if (plantData.Age.Stage == GrowthStage.FADED)
-        {
-            msg = "Die Pflanze ist verwelkt und past prime. Die Ernte kann nicht rückgängig gemacht werden!";
         }
         else
         {
-            msg = "Die Pflanze ist nicht in einem optimalen Zustand für die Ernte! Die Ernte kann nicht rückgängig gemacht werden.";
+            ModalController.Instance.ShowModal("Warnung", "Die Pflanze ist nicht in einem optimalen Zustand für die Ernte! Die Ernte kann nicht rückgängig gemacht werden.", () => ErnteAction(plant));
         }
-
-        ModalController.Instance.ShowModal("Warnung", msg, () => ErnteAction(plant));
     }
     private void ErnteAction(PlantController plant)
     {

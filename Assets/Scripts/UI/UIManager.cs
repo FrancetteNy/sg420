@@ -21,6 +21,9 @@ public class UIManager : MonoBehaviour
     UIView _currentView;
     UIView _previousView;
 
+    public static Action GoingToDryingRoomAction;
+    public static Action GoingToMainRoomAction;
+
     InputSystem_Actions _actions;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,10 +37,21 @@ public class UIManager : MonoBehaviour
     private void SetupActionSystem()
     {
         _actions = new InputSystem_Actions();
+        _actions.Player.Enable();
         _actions.UI.Enable();
         _actions.UI.Cancel.performed += OnCancelPerformed;
+        _actions.Player.MoveToDryingRoom.performed += MoveToDryingRoom_performed;
+        _actions.Player.MoveToMainRoom.performed += MoveToMainRoom_performed;
+    }
+    private void MoveToMainRoom_performed(InputAction.CallbackContext obj)
+    {
+        GoingToMainRoomAction?.Invoke();
     }
 
+    private void MoveToDryingRoom_performed(InputAction.CallbackContext obj)
+    {
+        GoingToDryingRoomAction?.Invoke();
+    }
     private void OnCancelPerformed(InputAction.CallbackContext context)
     {
         _currentView?.OnCancelPerformed(context);

@@ -74,7 +74,7 @@ public class GameStateManagerSingleton : MonoBehaviour
     public void UpdateTreesCount(int num)
     {
         GameState.TreesCount += num;
-        GameState.InventorzChanged?.Invoke();
+        GameState.ErnteAction?.Invoke();
     }
 
     public void UpdateScore(int score)

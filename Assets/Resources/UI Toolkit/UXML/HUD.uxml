@@ -7,16 +7,25 @@
                 <ui:Button text="Nächsten Tag starten" name="advance-day-button" class="custom-button text-color" style="margin-right: 0; margin-bottom: 0; align-self: auto; align-items: center; justify-content: center; align-content: center; margin-top: 0; margin-left: 0;" />
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 0; flex-direction: row; justify-content: center;">
-                <ui:Label text="0" name="score-label" class="text-color custom-label" style="align-self: center; font-size: 28px;" />
-                <ui:Label text="0 🌾" name="ernte-count-label" class="text-color custom-label" style="align-self: center; font-size: 28px;" />
-                <ui:Label text="0 🍂" name="getrocknet-count-label" class="text-color custom-label" style="align-self: center; font-size: 28px;" />
+                <ui:VisualElement name="ernte" style="flex-grow: 1; flex-direction: row; align-items: center; margin-left: 15px;">
+                    <ui:Label text="0" name="ernte-count-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-left: 0; padding-right: 8px;" />
+                    <ui:VisualElement name="ernte-count-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/rice-plant-clipart-lg.png?fileID=2800000&amp;guid=173e040455372b64f8a5737e87f322d7&amp;type=3#rice-plant-clipart-lg&quot;); background-size: 100% 100%; width: 40px; height: 40px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="getrocknet" style="flex-grow: 1; flex-direction: row; align-items: center; margin-left: 15px;">
+                    <ui:Label text="0" name="getrocknet-count-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-left: 0; padding-right: 8px;" />
+                    <ui:VisualElement name="getrocknet-count-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/autumn-2887556_1280-removebg-preview.png?fileID=2800000&amp;guid=bf350a5f46f2b9248a807e02b904adfc&amp;type=3#autumn-2887556_1280-removebg-preview&quot;); background-size: 100% 100%; width: 70px; height: 70px; margin-top: -12px; margin-right: -12px; margin-bottom: -12px; margin-left: -12px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="score" style="flex-grow: 1; align-items: center; flex-direction: row; margin-left: 15px;">
+                    <ui:Label text="0" name="score-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-right: 8px; padding-left: 0;" />
+                    <ui:VisualElement name="score-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/sheriffs-star-151699_1280.png?fileID=2800000&amp;guid=a7dbf1fab73877a41819e8fae3301415&amp;type=3#sheriffs-star-151699_1280&quot;); background-size: 100% 100%; width: 40px; height: 40px;" />
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement style="flex-grow: 0; flex-direction: row;">
                 <ui:Button name="open-chat-button" class="custom-button" style="background-image: url(&quot;project://database/Assets/Art/Textures/forum.png?fileID=2800000&amp;guid=0f06c7afd83ad4045aee1b0d5e5d97ab&amp;type=3#forum&quot;);" />
                 <ui:Button text="Hauptmenu öffnen" name="open-mainmenu-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement style="flex-grow: 1;" />
+        <ui:VisualElement style="flex-grow: 1; height: 70px;" />
         <ui:VisualElement style="flex-direction: row; justify-content: flex-end;" />
     </ui:VisualElement>
 </ui:UXML>

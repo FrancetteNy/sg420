@@ -35,3 +35,16 @@ If the outline appears off-center, please try the following:
 
 1. Set 'Read/Write Enabled' on each model's import settings.
 2. Disable 'Optimize Mesh Data' in the player settings.
+
+
+## Verwendete Medien
+- **Reispflanze Clipart** von Creazilla  
+  Quelle: [https://creazilla.com/de/media/clipart/7768301/reispflanze](https://creazilla.com/de/media/clipart/7768301/reispflanze)  
+  **Lizenz:** Frei für kommerzielle & nicht-kommerzielle Nutzung, keine Namensnennung erforderlich.
+- **Goldener Stern (Sheriff-Stern)**  
+  Quelle: [Pixabay](https://pixabay.com/de/vectors/sheriff-ist-sterne-stern-golden-151699/)  
+  **Lizenz:** Frei für kommerzielle & nicht-kommerzielle Nutzung, keine Namensnennung erforderlich  
+- **Herbstblatt**  
+  Quelle: [Pixabay](https://pixabay.com/de/photos/herbst-herbstblatt-2887556/)  
+  **Lizenz:** Frei für kommerzielle & nicht-kommerzielle Nutzung, keine Namensnennung erforderlich  
+
