@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -32,6 +31,7 @@ public class UIManager : MonoBehaviour
         AddAllUIViews();
         SetupNotificationManager();
         SetupActionSystem();
+        NotificationManagerSingleton.Instance.ReInitializeAfterLoad();
     }
 
     private void SetupActionSystem()
@@ -130,7 +130,12 @@ public class UIManager : MonoBehaviour
         UIEvents.HideMainMenuView -= OnHudShown;
         _mainMenuView.Dispose();
 
+<<<<<<< HEAD
+=======
+        _actions.UI.Disable();
+>>>>>>> e1a45cf4ba176c53dad5569c0d16d53ea40b5cfd
         _actions.UI.Cancel.performed -= OnCancelPerformed;
+        UIEvents.AddNotification -= _notificationManager.AddNotification;
     }
 
     private void ShowView(UIView view, int? index = null)
