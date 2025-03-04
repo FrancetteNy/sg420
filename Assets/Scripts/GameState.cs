@@ -15,8 +15,8 @@ public class GameState
 
     public ChatData ChatData;
 
-    public JsonableListWrapper<Quest> DoneQuestsList;
-    public JsonableListWrapper<Quest> ActiveQuestsList;
+    public JsonableListWrapper<QuestWithObjectiveIndex> DoneQuestsList;
+    public JsonableListWrapper<QuestWithObjectiveIndex> ActiveQuestsList;
 
 
 
@@ -70,6 +70,7 @@ public class JsonableListWrapper<T>
     public List<T> List;
     public JsonableListWrapper(List<T> list) => this.List = list;
 }
+
 
 [Serializable]
 /***

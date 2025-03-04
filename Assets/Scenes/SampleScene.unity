@@ -5622,11 +5622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d0aa9f612470b42873983d7bc3dedf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LockedQuests:
-  - {fileID: 0}
-  UnlockedQuests: []
-  ActiveQuests: []
-  FinishedQuests: []
+  LockedQuests: []
 --- !u!4 &1686073281
 Transform:
   m_ObjectHideFlags: 0

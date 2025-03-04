@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: ErsteSamen
   m_EditorClassIdentifier: 
   Questname: Erste Samen
-  Questdescription: 
+  Questdescription: Zoki hat dir den Auftrag gegeben im Shop ein paar Samen zu kaufen.
   EventThatStartsQuest: 0
   Objectives:
-  - ObjectiveDescription: 
+  - ObjectiveName: Samenkauf
+    ObjectiveDescription: "\xD6ffne den Shop und kaufe mindestens 4 Samen"
     EventThatFinishesObjective: 1
     FireEventWhenObjectIsFinished: 0
     EventAfterObjectiveCompleted: 1

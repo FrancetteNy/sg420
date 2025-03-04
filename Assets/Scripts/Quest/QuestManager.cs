@@ -7,8 +7,8 @@ using UnityEngine.Events;
 
 public class QuestManager : MonoBehaviour
 {
-    public List<Quest> LockedQuests;
-    private Dictionary<Quest, UnityAction> _startQuestActions;
+    private List<QuestWithObjectiveIndex> _lockedQuests;
+    private Dictionary<QuestWithObjectiveIndex, UnityAction> _startQuestActions;
     private Dictionary<Objective, UnityAction> _objectiveActions;
     GameState _gameState;
 
@@ -16,29 +16,29 @@ public class QuestManager : MonoBehaviour
     void Start()
     {
         _gameState = GameStateManagerSingleton.Instance.GameState;
-        _startQuestActions = new Dictionary<Quest, UnityAction>();
+        _startQuestActions = new Dictionary<QuestWithObjectiveIndex, UnityAction>();
         _objectiveActions = new Dictionary<Objective, UnityAction>();
-        LockedQuests = Resources.LoadAll<Quest>("").ToList();
-        foreach (Quest quest in _gameState.DoneQuestsList.List)
+        _lockedQuests = Resources.LoadAll<Quest>("").Select((Quest quest) => new QuestWithObjectiveIndex(quest)).ToList();
+        foreach (QuestWithObjectiveIndex quest in _gameState.DoneQuestsList.List)
         {
-            LockedQuests.Remove(quest);
+            _lockedQuests.Remove(quest);
         }
-        foreach (Quest quest in _gameState.ActiveQuestsList.List)
+        foreach (QuestWithObjectiveIndex quest in _gameState.ActiveQuestsList.List)
         {
             StartQuest(quest);
         }
-        foreach(Quest quest in LockedQuests)
+        foreach(QuestWithObjectiveIndex quest in _lockedQuests)
         {
             UnityAction action = () => StartQuest(quest);
             _startQuestActions[quest] = action;
-            MessageSystem.StartListening(quest.EventThatStartsQuest, action);
+            MessageSystem.StartListening(quest.Quest.EventThatStartsQuest, action);
         }
     }
-    private void StartQuest(Quest quest)
+    private void StartQuest(QuestWithObjectiveIndex quest)
     {
-        LockedQuests.Remove(quest);
+        _lockedQuests.Remove(quest);
         if (_startQuestActions.TryGetValue(quest, out var action)){
-            MessageSystem.StopListening(quest.EventThatStartsQuest, action);
+            MessageSystem.StopListening(quest.Quest.EventThatStartsQuest, action);
         }
         
         _startQuestActions.Remove(quest);
@@ -48,29 +48,29 @@ public class QuestManager : MonoBehaviour
         }
         
 
-        if (quest.Objectives.Count > 0) {
-            SetUpNextObjective(quest, 0);
+        if (quest.Quest.Objectives.Count > 0) {
+            SetUpCurrentObjective(quest);
         }
         else
         {
-            Debug.LogError($"{quest.Questname} hat kein Objective");
+            Debug.LogError($"{quest.Quest.Questname} hat kein Objective");
         }
         
     }
 
-    private void FinishObjective(Quest quest, int objectiveIndex)
+    private void FinishObjective(QuestWithObjectiveIndex quest)
     {
-        Objective objective = quest.Objectives[objectiveIndex];
+        Objective objective = quest.Quest.Objectives[quest.ObjectiveIndex];
+        quest.ObjectiveIndex += 1;
         MessageSystem.StopListening(objective.EventThatFinishesObjective, _objectiveActions[objective]);
         _objectiveActions.Remove(objective);
         if (objective.FireEventWhenObjectIsFinished)
         {
             MessageSystem.FireEvent(objective.EventAfterObjectiveCompleted);
         }
-        if (quest.Objectives.Count >= objectiveIndex)
+        if (quest.Quest.Objectives.Count > quest.ObjectiveIndex)
         {
-            SetUpNextObjective(quest, objectiveIndex + 1);
-
+            SetUpCurrentObjective(quest);
         }
         else
         {
@@ -80,10 +80,10 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    private void SetUpNextObjective(Quest quest, int objectiveIndex)
+    private void SetUpCurrentObjective(QuestWithObjectiveIndex quest)
     {
-        UnityAction action = () => FinishObjective(quest, objectiveIndex);
-        _objectiveActions[quest.Objectives[objectiveIndex]] = action;
-        MessageSystem.StartListening(quest.Objectives[objectiveIndex].EventThatFinishesObjective, action);
+        UnityAction action = () => FinishObjective(quest);
+        _objectiveActions[quest.Quest.Objectives[quest.ObjectiveIndex]] = action;
+        MessageSystem.StartListening(quest.Quest.Objectives[quest.ObjectiveIndex].EventThatFinishesObjective, action);
     }
 }
