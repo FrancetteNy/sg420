@@ -55,12 +55,12 @@ public class NotificationManagerSingleton : MonoBehaviour
                     _instance = inScene.AddComponent<NotificationManagerSingleton>();
                 // mark root as DontDestroyOnLoad();
                 DontDestroyOnLoad(_instance.transform.root.gameObject);
-                //_instance.Initialize();
+                _instance.Initialize();
             }
             return _instance;
         }
     }
-    
+
     public void ReInitializeAfterLoad()
     {
         _defaultTimeValue = null;
@@ -123,13 +123,10 @@ public class NotificationManagerSingleton : MonoBehaviour
             notification.style.transitionDuration = StyleKeyword.Initial;
         };
     }
-
-
-
     // Update is called once per frame
     void Update()
     {
-        while (_notificationDataQueue.Count > 0 && _availableNotifications.Count > 0)
+        while (_notificationDataQueue?.Count > 0 && _availableNotifications?.Count > 0)
         {
             var data = _notificationDataQueue.Dequeue();
             var notification = _availableNotifications.Dequeue();
@@ -139,7 +136,7 @@ public class NotificationManagerSingleton : MonoBehaviour
             _shownNotifications.Insert(0, notification);
         }
         List<Notification> notificationsToClose = new List<Notification>();
-        for (int i = 0; i < _shownNotifications.Count; i++)
+        for (int i = 0; i < _shownNotifications?.Count; i++)
         {
             var notification = _shownNotifications[i];
             notification.style.translate = _notificationPositionToTranslate[i];
