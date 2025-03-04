@@ -25,12 +25,12 @@ public class UIManager : MonoBehaviour
     public static Action GoingToMainRoomAction;
 
     InputSystem_Actions _actions;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
         AddAllUIViews();
-        SetupNotificationMananger();
+        SetupNotificationManager();
         SetupActionSystem();
     }
 
@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
         _actions.Player.MoveToDryingRoom.performed += MoveToDryingRoom_performed;
         _actions.Player.MoveToMainRoom.performed += MoveToMainRoom_performed;
     }
+
     private void MoveToMainRoom_performed(InputAction.CallbackContext obj)
     {
         GoingToMainRoomAction?.Invoke();
@@ -52,12 +53,13 @@ public class UIManager : MonoBehaviour
     {
         GoingToDryingRoomAction?.Invoke();
     }
+
     private void OnCancelPerformed(InputAction.CallbackContext context)
     {
         _currentView?.OnCancelPerformed(context);
     }
 
-    private void SetupNotificationMananger()
+    private void SetupNotificationManager()
     {
         _notificationManager = NotificationManagerSingleton.Instance;
         UIEvents.AddNotification += _notificationManager.AddNotification;
@@ -74,25 +76,18 @@ public class UIManager : MonoBehaviour
         _encyclopedia = new Encyclopedia(_root, this);
         _mainMenuView = new MainMenuView(_root, this);
 
-
         UIEvents.ShowDetailView += OnDetailViewShown;
         UIEvents.HideDetailView += OnHudShown;
-
         UIEvents.ShowHUDView += OnHudShown;
         UIEvents.HideHUDView += _hudView.Hide;
-
         UIEvents.ShowLightOverview += OnLightOverviewShown;
         UIEvents.HideLightOverview += OnHudShown;
-
         UIEvents.ShowEncyclopedia += OnEncyclopediaShown;
         UIEvents.HideEncyclopedia += OnHudShown;
-
         UIEvents.ShowChatView += OnChatViewShown;
         UIEvents.HideChatView += OnHudShown;
-
         UIEvents.ShowMainMenuView += OnMainMenuViewShown;
         UIEvents.HideMainMenuView += OnHudShown;
-
 
         _allUIViews.Add(_detailView);
         _allUIViews.Add(_hudView);
@@ -113,11 +108,9 @@ public class UIManager : MonoBehaviour
     private void OnChatViewShown() => ShowView(_chatView);
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
 
-
     private void OnDestroy()
     {
         UIEvents.ShowPreviousView -= ShowPreviousView;
-
         UIEvents.ShowDetailView -= OnDetailViewShown;
         UIEvents.HideDetailView -= OnHudShown;
         _detailView.Dispose();
@@ -137,7 +130,6 @@ public class UIManager : MonoBehaviour
         UIEvents.HideMainMenuView -= OnHudShown;
         _mainMenuView.Dispose();
 
-
         _actions.UI.Cancel.performed -= OnCancelPerformed;
     }
 
@@ -151,24 +143,20 @@ public class UIManager : MonoBehaviour
         _currentView = view;
 
         if (index.HasValue)
-            (view as DetailView).Show(index.Value);
+            (view as DetailView)?.Show(index.Value);
         else
             view.Show();
     }
 
     private void ShowPreviousView()
     {
-        if (_currentView == _previousView || _previousView is null || _currentView is null)
+        if (_currentView == _previousView || _previousView == null || _currentView == null)
             return;
         ShowView(_previousView);
     }
 
     private void HideCurrentView()
     {
-        if (_currentView != null)
-        {
-            _currentView.Hide();
-        }
+        _currentView?.Hide();
     }
-
 }
