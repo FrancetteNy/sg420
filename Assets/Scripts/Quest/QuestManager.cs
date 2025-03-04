@@ -76,7 +76,6 @@ public class QuestManager : MonoBehaviour
         {
             _gameState.ActiveQuestsList.List.Remove(quest);
             _gameState.DoneQuestsList.List.Add(quest);
-            print("quest finished");
         }
     }
 
