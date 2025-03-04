@@ -6,8 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     InputSystem_Actions _playerInput;
 
-    public Action GoingToDryingRoomAction;
-    public Action GoingToMainRoomAction;
+
 
     private static PlayerController _instance;
     public static PlayerController Instance
@@ -30,21 +29,11 @@ public class PlayerController : MonoBehaviour
                 _instance._playerInput = new InputSystem_Actions();
                 _instance._playerInput.Enable();
 
-                _instance._playerInput.Player.MoveToDryingRoom.performed += _instance.MoveToDryingRoom_performed;
-                _instance._playerInput.Player.MoveToMainRoom.performed += _instance.MoveToMainRoom_performed;
 
             }
             return _instance;
         }
     }
 
-    private void MoveToMainRoom_performed(InputAction.CallbackContext obj)
-    {
-        GoingToMainRoomAction?.Invoke();
-    }
 
-    private void MoveToDryingRoom_performed(InputAction.CallbackContext obj)
-    {
-        GoingToDryingRoomAction?.Invoke();
-    }
 }
