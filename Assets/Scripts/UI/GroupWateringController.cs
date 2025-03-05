@@ -59,6 +59,7 @@ public class GroupWateringController : MonoBehaviour
             case GroupWateringButton.WaterPlats:
                 _groupWateringViewplantManager.AddWater(_uiManager.GetWaterValue());
                 _uiManager.UpdatePlantData(PlantControllers);
+                CloseView();
                 break;
             default:
                 break;
