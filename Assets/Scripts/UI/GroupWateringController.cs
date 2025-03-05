@@ -60,6 +60,7 @@ public class GroupWateringController : MonoBehaviour
                 _groupWateringViewplantManager.AddWater(_uiManager.GetWaterValue());
                 _uiManager.UpdatePlantData(PlantControllers);
                 CloseView();
+                UIEvents.AddNotification.Invoke(new NotificationData("Pflanzen gieﬂen", $"Alle Pflanzen mit Wert {_uiManager.GetWaterValue()} gegossen.", 3));
                 break;
             default:
                 break;
