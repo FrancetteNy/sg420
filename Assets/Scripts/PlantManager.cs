@@ -67,14 +67,15 @@ public class PlantManager : MonoBehaviour
         var correctAmountOfNutrients = false;
         if (plantController.Soil.StoredWater < PlantManagerConstants.MinWater)
         {
-            Debug.Log($"Not enough water {plant}");
+            Debug.Log($"Not enough water {plant}. Current {plantController.Soil.StoredWater}");
         }
         else if (plantController.Soil.StoredWater > PlantManagerConstants.MaxWater)
         {
-            Debug.Log($"Too much water {plant}");
+            Debug.Log($"Too much water {plant}. Current: {plantController.Soil.StoredWater}");
         }
         else
         {
+            Debug.Log($"Enougth water {plant}. Current: {plantController.Soil.StoredWater}");
             if (plantController.Age.Stage == Age.GrowthStage.FLOWERING && plantController.Age.AgeNumber >= PlantManagerConstants.MaxFloweringAge)
             {
                 Debug.Log($"Plant too old to grow {plant}");
