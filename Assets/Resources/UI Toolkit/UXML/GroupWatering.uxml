@@ -4,7 +4,7 @@
         <engine:Label text="Gruppengießen" name="group-watering-titel-label" style="font-size: 20px; -unity-font-style: bold; margin-bottom: 15px;" />
         <engine:Label text="Wähle die Wassermenge, um alle Pflanzen gleichzeitig zu gießen" name="group-watering-explain-label" style="flex-wrap: wrap; margin-bottom: 35px;" />
         <engine:VisualElement name="group-water-slider-with-label" style="flex-direction: row; width: 500px; margin-bottom: 10px;">
-            <engine:Slider label="Wasser" value="10.12" high-value="20" inverted="false" low-value="1" name="water-slider" fill="true" style="flex-grow: 1;" />
+            <engine:Slider label="Wasser" value="10" high-value="20" inverted="false" low-value="1" name="water-slider" fill="true" style="flex-grow: 1;" />
             <engine:Label text="10" name="water-value-label" style="width: 50px;" />
         </engine:VisualElement>
         <engine:Button text="Gießen" name="group-watering-button" style="border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" />
