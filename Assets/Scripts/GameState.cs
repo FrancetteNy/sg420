@@ -14,7 +14,11 @@ public class GameState
     public static Action<string> EncyclopediaEntryUnlocked;
 
     public ChatData ChatData;
-    
+
+    public JsonableListWrapper<QuestWithObjectiveIndex> DoneQuestsList;
+    public JsonableListWrapper<QuestWithObjectiveIndex> ActiveQuestsList;
+
+
 
     public GameState()
     {
@@ -24,6 +28,8 @@ public class GameState
         UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;
         ChatData = new();
+        DoneQuestsList = new(new());
+        ActiveQuestsList = new(new());
     }
 }
 
@@ -64,6 +70,7 @@ public class JsonableListWrapper<T>
     public List<T> List;
     public JsonableListWrapper(List<T> list) => this.List = list;
 }
+
 
 [Serializable]
 /***

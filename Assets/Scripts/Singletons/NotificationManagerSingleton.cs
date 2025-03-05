@@ -5,27 +5,9 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-// by @kurtdekker - to make a Unity singleton that has some
-// https://gist.github.com/kurtdekker/2f07be6f6a844cf82110fc42a774a625
-// prefab-stored, data associated with it, eg a music manager
-//
-// To use: access with SingletonViaPrefab.Instance
-//
-// To set up:
-//	- Copy this file (duplicate it)
-//	- rename class SingletonViaPrefab to your own classname
-//	- rename CS file too
-//	- create the prefab asset associated with this singleton
-//		NOTE: read docs on Resources.Load() for where it must exist!!
-//
-// DO NOT DRAG THE PREFAB INTO A SCENE! THIS CODE AUTO-INSTANTIATES IT!
-//
-// I do not recommend subclassing unless you really know what you're doing.
-
-public class NotificationManagerSingleton : MonoBehaviour
+public class NotificationManagerSingleton : SingletonViaPrefab<NotificationManagerSingleton>
 {
     private VisualElement _root;
-    private static NotificationManagerSingleton _instance;
     private Queue<NotificationData> _notificationDataQueue;
     private Queue<Notification> _availableNotifications;
     private List<Notification> _shownNotifications;
@@ -37,29 +19,6 @@ public class NotificationManagerSingleton : MonoBehaviour
     };
     private static Translate _defaultTranslate = new Translate(0, 80);
     private static StyleList<TimeValue> _defaultTimeValue;
-
-    public static NotificationManagerSingleton Instance
-    {
-        get
-        {
-            if (!_instance)
-            {
-                // NOTE: read docs to see directory requirements for Resources.Load!
-                var prefab = Resources.Load<GameObject>("NotificationManagerSingleton");
-                // create the prefab in your scene
-                var inScene = Instantiate<GameObject>(prefab);
-                // try find the instance inside the prefab
-                _instance = inScene.GetComponentInChildren<NotificationManagerSingleton>();
-                // guess there isn't one, add one
-                if (!_instance)
-                    _instance = inScene.AddComponent<NotificationManagerSingleton>();
-                // mark root as DontDestroyOnLoad();
-                DontDestroyOnLoad(_instance.transform.root.gameObject);
-                //_instance.Initialize();
-            }
-            return _instance;
-        }
-    }
     
     public void ReInitializeAfterLoad()
     {
@@ -129,6 +88,7 @@ public class NotificationManagerSingleton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_notificationDataQueue == null || _availableNotifications == null) return;
         while (_notificationDataQueue.Count > 0 && _availableNotifications.Count > 0)
         {
             var data = _notificationDataQueue.Dequeue();
@@ -161,12 +121,12 @@ public class NotificationManagerSingleton : MonoBehaviour
 
     public void HideAndDisable()
     {
-        _instance.gameObject.SetActive(false);
+        Instance.gameObject.SetActive(false);
     }
 
     public void ShowAndEnable()
     {
-        _instance.gameObject.SetActive(true);
+        Instance.gameObject.SetActive(true);
     }
 
     public void AddNotification(NotificationData notificationData)

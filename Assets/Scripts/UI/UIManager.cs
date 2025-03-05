@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     Encyclopedia _encyclopedia;
     ChatView _chatView;
     MainMenuView _mainMenuView;
+    QuestLog _questLog;
 
     NotificationManagerSingleton _notificationManager;
 
@@ -58,7 +59,7 @@ public class UIManager : MonoBehaviour
         _lightOverview = new LightOverview(_root, this);
         _encyclopedia = new Encyclopedia(_root, this);
         _mainMenuView = new MainMenuView(_root, this);
-
+        _questLog = new QuestLog(_root, this);
 
         UIEvents.ShowDetailView += OnDetailViewShown;
         UIEvents.HideDetailView += OnHudShown;
@@ -78,6 +79,8 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowMainMenuView += OnMainMenuViewShown;
         UIEvents.HideMainMenuView += OnHudShown;
 
+        UIEvents.ShowQuestLog += OnQuestLogShown;
+        UIEvents.HideQuestLog += OnHudShown;
 
         _allUIViews.Add(_detailView);
         _allUIViews.Add(_hudView);
@@ -91,12 +94,14 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowMainMenuView.Invoke();
     }
 
+
     private void OnDetailViewShown(int index) => ShowView(_detailView, index);
     private void OnHudShown() => ShowView(_hudView);
     private void OnLightOverviewShown() => ShowView(_lightOverview);
     private void OnEncyclopediaShown() => ShowView(_encyclopedia);
     private void OnChatViewShown() => ShowView(_chatView);
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
+    private void OnQuestLogShown() => ShowView(_questLog);
 
 
     private void OnDestroy()
@@ -121,6 +126,9 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowMainMenuView -= OnMainMenuViewShown;
         UIEvents.HideMainMenuView -= OnHudShown;
         _mainMenuView.Dispose();
+        UIEvents.ShowQuestLog -= OnQuestLogShown;
+        UIEvents.HideQuestLog -= OnHudShown;
+        _questLog.Dispose();
 
         _actions.UI.Disable();
         _actions.UI.Cancel.performed -= OnCancelPerformed;
