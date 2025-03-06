@@ -1,13 +1,11 @@
 #QuestLog {
     flex-grow: 1;
     flex-direction: row;
-    width: 98%;
-    height: 98%;
     background-color: rgb(255, 255, 255);
-    right: 1%;
-    bottom: 1%;
-    left: 1%;
-    top: 1%;
+    right: 10%;
+    bottom: 10%;
+    left: 10%;
+    top: 10%;
     position: absolute;
     border-color: rgba(0, 0, 0, 0);
     border-width: 1px;

@@ -22,6 +22,8 @@ public class UIManager : MonoBehaviour
     UIView _currentView;
     UIView _previousView;
 
+    UIView _overlayView;
+
     InputSystem_Actions _actions;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,7 +43,15 @@ public class UIManager : MonoBehaviour
     }
     private void OnCancelPerformed(InputAction.CallbackContext context)
     {
-        _currentView?.OnCancelPerformed(context);
+        if (_overlayView != null)
+        { 
+            _overlayView.OnCancelPerformed(context);
+        }
+        else if (_currentView != null) 
+        {
+            _currentView?.OnCancelPerformed(context);
+        }
+        
     }
 
     private void SetupNotificationMananger()
@@ -104,12 +114,12 @@ public class UIManager : MonoBehaviour
 
     private void OnDetailViewShown(int index) => ShowView(_detailView, index);
     private void OnHudShown() => ShowView(_hudView);
-    private void OnLightOverviewShown() => ShowView(_lightOverview);
-    private void OnEncyclopediaShown() => ShowView(_encyclopedia);
+    private void OnLightOverviewShown() => ShowOverlay(_lightOverview);
+    private void OnEncyclopediaShown() => ShowOverlay(_encyclopedia);
     private void OnChatViewShown() => ShowView(_chatView);
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
-    private void OnQuestLogShown() => ShowView(_questLog);
-    private void OnGroupWateringShown() => ShowView(_groupWateringView);
+    private void OnQuestLogShown() => ShowOverlay(_questLog);
+    private void OnGroupWateringShown() => ShowOverlay(_groupWateringView);
 
 
     private void OnDestroy()
@@ -146,8 +156,26 @@ public class UIManager : MonoBehaviour
         UIEvents.AddNotification -= _notificationManager.AddNotification;
     }
 
+    private void ShowOverlay(UIView view)
+    {
+        if (view == _overlayView)
+            return;
+        if (_overlayView != null)
+        {
+            _overlayView.Hide();
+        }
+        view.BringToFront();
+        view.Show();
+        _overlayView = view;
+    }
+
     private void ShowView(UIView view, int? index = null)
     {
+        if (_overlayView != null)
+        {
+            _overlayView.Hide();
+            _overlayView = null;
+        }
         if (view == _currentView)
             return;
 
@@ -163,6 +191,11 @@ public class UIManager : MonoBehaviour
 
     private void ShowPreviousView()
     {
+        if (_overlayView != null)
+        {
+            _overlayView.Hide();
+            _overlayView = null;
+        }
         if (_currentView == _previousView || _previousView is null || _currentView is null)
             return;
         ShowView(_previousView);
