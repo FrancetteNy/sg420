@@ -1,7 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement name="MainMenuView" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/Background/background_FullHD.jpg?fileID=2800000&amp;guid=6ded5f254062f71429b63716d226a17a&amp;type=3#background_FullHD&quot;); position: absolute; top: 0; right: 0; bottom: 0; left: 0;">
-        <ui:VisualElement class="text-color" style="flex-grow: 1; position: absolute; height: 505px; width: 690px; top: 138px; left: 1184px; justify-content: space-around;">
+        <ui:VisualElement class="text-color" style="flex-grow: 1; position: absolute; height: 619px; width: 690px; top: 138px; left: 1184px; justify-content: space-around;">
+            <ui:Button text="Spiel neustarten" name="new-game-button" class="custom-button" style="font-size: 40px;" />
             <ui:Button text="Weiter" name="continue-button" class="custom-button" style="font-size: 40px;" />
             <ui:Button text="Speichern" name="save-button" class="custom-button" style="font-size: 40px;" />
             <ui:Button text="Laden" name="load-button" class="custom-button" style="font-size: 40px;" />

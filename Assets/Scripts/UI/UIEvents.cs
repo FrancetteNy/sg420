@@ -29,6 +29,9 @@ class UIEvents
     public static Action ShowGroupWateringView;
     public static Action HideGroupWateringView;
 
+    public static Action ShowOnboardingView;
+    public static Action HideOnboardingView;
+
     //Notification Events
     public static Action<NotificationData> AddNotification;
 

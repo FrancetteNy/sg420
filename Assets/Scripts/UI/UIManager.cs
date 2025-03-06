@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 public class UIManager : MonoBehaviour
 {
     VisualElement _root;
-    List<UIView> _allUIViews = new();
 
     DetailView _detailView;
     HUDView _hudView;
@@ -16,8 +15,9 @@ public class UIManager : MonoBehaviour
     MainMenuView _mainMenuView;
     QuestLog _questLog;
     GroupWateringView _groupWateringView;
+    OnboardingView _onboardingView;
 
-    NotificationManagerSingleton _notificationManager;
+    NotificationManager _notificationManager;
 
     UIView _currentView;
     UIView _previousView;
@@ -30,9 +30,9 @@ public class UIManager : MonoBehaviour
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
         AddAllUIViews();
+        _notificationManager = gameObject.AddComponent<NotificationManager>();
         SetupNotificationMananger();
         SetupActionSystem();
-        NotificationManagerSingleton.Instance.ReInitializeAfterLoad();
     }
 
     private void SetupActionSystem()
@@ -56,7 +56,6 @@ public class UIManager : MonoBehaviour
 
     private void SetupNotificationMananger()
     {
-        _notificationManager = NotificationManagerSingleton.Instance;
         UIEvents.AddNotification += _notificationManager.AddNotification;
     }
 
@@ -72,7 +71,7 @@ public class UIManager : MonoBehaviour
         _mainMenuView = new MainMenuView(_root, this);
         _questLog = new QuestLog(_root, this);
         _groupWateringView = new GroupWateringView(_root, this);
-
+        _onboardingView = new OnboardingView(_root, this);
 
         UIEvents.ShowDetailView += OnDetailViewShown;
         UIEvents.HideDetailView += OnHudShown;
@@ -94,21 +93,24 @@ public class UIManager : MonoBehaviour
 
         UIEvents.ShowQuestLog += OnQuestLogShown;
         UIEvents.HideQuestLog += OnHudShown;
+
         UIEvents.ShowGroupWateringView += OnGroupWateringShown;
         UIEvents.HideGroupWateringView += OnHudShown;
 
+        UIEvents.ShowOnboardingView += OnOnboardingViewShown;
+        UIEvents.HideOnboardingView += OnHudShown;
 
-        _allUIViews.Add(_detailView);
-        _allUIViews.Add(_hudView);
-        _allUIViews.Add(_lightOverview);
-        _allUIViews.Add(_encyclopedia);
-        _allUIViews.Add(_chatView);
-        _allUIViews.Add(_mainMenuView);
-        _allUIViews.Add(_groupWateringView);
-
-        _currentView = _hudView;
-        _previousView = _hudView;
-        UIEvents.ShowMainMenuView.Invoke();
+        _previousView = null;
+        if (GameStateManagerSingleton.Instance.IsGameLoaded)
+        {
+            _currentView = _mainMenuView;
+            UIEvents.ShowHUDView.Invoke();
+        }
+        else
+        {
+            _currentView = _hudView;
+            UIEvents.ShowMainMenuView.Invoke();
+        }
     }
 
 
@@ -120,6 +122,7 @@ public class UIManager : MonoBehaviour
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
     private void OnQuestLogShown() => ShowOverlay(_questLog);
     private void OnGroupWateringShown() => ShowOverlay(_groupWateringView);
+    private void OnOnboardingViewShown() => ShowOverlay(_onboardingView);
 
 
     private void OnDestroy()
@@ -150,6 +153,9 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowGroupWateringView -= OnGroupWateringShown;
         UIEvents.HideGroupWateringView -= OnHudShown;
         _groupWateringView.Dispose();
+        UIEvents.ShowOnboardingView -= OnOnboardingViewShown;
+        UIEvents.HideOnboardingView -= OnHudShown;
+        _onboardingView.Dispose();
 
         _actions.UI.Disable();
         _actions.UI.Cancel.performed -= OnCancelPerformed;
