@@ -1,0 +1,13 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
+    <engine:VisualElement name="GroupWatering" class="submenu-window text-color" style="flex-grow: 1; align-items: center; width: 650px; height: 250px; align-self: center; top: auto; margin-top: 300px; background-size: 100% 100px; align-content: flex-start; justify-content: flex-start; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; position: absolute; display: flex;">
+        <engine:Label text="Gruppengießen" name="group-watering-titel-label" style="font-size: 20px; -unity-font-style: bold; margin-bottom: 15px;" />
+        <engine:Label text="Wähle die Wassermenge, um alle Pflanzen gleichzeitig zu gießen" name="group-watering-explain-label" style="flex-wrap: wrap; margin-bottom: 35px;" />
+        <engine:VisualElement name="group-water-slider-with-label" style="flex-direction: row; width: 500px; margin-bottom: 10px;">
+            <engine:Slider label="Wasser" value="10" high-value="20" inverted="false" low-value="1" name="water-slider" fill="true" style="flex-grow: 1;" />
+            <engine:Label text="10" name="water-value-label" style="width: 50px;" />
+        </engine:VisualElement>
+        <engine:Button text="Gießen" name="group-watering-button" style="border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px;" />
+        <engine:Button text="X" name="group-watering-close-window-button" style="border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; margin-top: 0; margin-bottom: 0; position: absolute; top: 0; right: 0;" />
+    </engine:VisualElement>
+</engine:UXML>

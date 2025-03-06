@@ -42,5 +42,4 @@ public class Drying_Controller : MonoBehaviour
         _rendererMaterial.material.color = newColor;
         _rendererMaterial.material.SetColor("_EmissionColor", newColor);
     }
-
 }

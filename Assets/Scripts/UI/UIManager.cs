@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     Encyclopedia _encyclopedia;
     ChatView _chatView;
     MainMenuView _mainMenuView;
+    QuestLog _questLog;
+    GroupWateringView _groupWateringView;
 
     NotificationManagerSingleton _notificationManager;
 
@@ -73,7 +75,8 @@ public class UIManager : MonoBehaviour
         _lightOverview = new LightOverview(_root, this);
         _encyclopedia = new Encyclopedia(_root, this);
         _mainMenuView = new MainMenuView(_root, this);
-
+        _questLog = new QuestLog(_root, this);
+        _groupWateringView = new GroupWateringView(_root, this);
 
         UIEvents.ShowDetailView += OnDetailViewShown;
         UIEvents.HideDetailView += OnHudShown;
@@ -93,6 +96,11 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowMainMenuView += OnMainMenuViewShown;
         UIEvents.HideMainMenuView += OnHudShown;
 
+        UIEvents.ShowQuestLog += OnQuestLogShown;
+        UIEvents.HideQuestLog += OnHudShown;
+        UIEvents.ShowGroupWateringView += OnGroupWateringShown;
+        UIEvents.HideGroupWateringView += OnHudShown;
+
 
         _allUIViews.Add(_detailView);
         _allUIViews.Add(_hudView);
@@ -100,11 +108,13 @@ public class UIManager : MonoBehaviour
         _allUIViews.Add(_encyclopedia);
         _allUIViews.Add(_chatView);
         _allUIViews.Add(_mainMenuView);
+        _allUIViews.Add(_groupWateringView);
 
         _currentView = _hudView;
         _previousView = _hudView;
         UIEvents.ShowMainMenuView.Invoke();
     }
+
 
     private void OnDetailViewShown(int index) => ShowView(_detailView, index);
     private void OnHudShown() => ShowView(_hudView);
@@ -112,6 +122,8 @@ public class UIManager : MonoBehaviour
     private void OnEncyclopediaShown() => ShowView(_encyclopedia);
     private void OnChatViewShown() => ShowView(_chatView);
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
+    private void OnQuestLogShown() => ShowView(_questLog);
+    private void OnGroupWateringShown() => ShowView(_groupWateringView);
 
 
     private void OnDestroy()
@@ -136,6 +148,12 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowMainMenuView -= OnMainMenuViewShown;
         UIEvents.HideMainMenuView -= OnHudShown;
         _mainMenuView.Dispose();
+        UIEvents.ShowQuestLog -= OnQuestLogShown;
+        UIEvents.HideQuestLog -= OnHudShown;
+        _questLog.Dispose();
+        UIEvents.ShowGroupWateringView -= OnGroupWateringShown;
+        UIEvents.HideGroupWateringView -= OnHudShown;
+        _groupWateringView.Dispose();
 
 
         _actions.UI.Cancel.performed -= OnCancelPerformed;
