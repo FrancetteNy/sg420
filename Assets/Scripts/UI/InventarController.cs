@@ -88,15 +88,4 @@ public class InventarController: MonoBehaviour
     }
 }
 
-public class SeedData
-{
-    public string Name { get; private set; }
-    public int Quantity { get; private set; }
 
-    public SeedData(string name, int quantity)
-    {
-        Name = name;
-        Quantity = quantity;
-    }
-   
-}

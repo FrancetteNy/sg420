@@ -8,6 +8,7 @@ public class GameState
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
+    public JsonableListWrapper<Samen> SamenInventar;
     public Room Room;
 
     public static Action DayChanged;
@@ -15,7 +16,7 @@ public class GameState
 
     public ChatData ChatData;
     
-
+    
     public GameState()
     {
         CurrentDay = 1;
@@ -24,6 +25,12 @@ public class GameState
         UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;
         ChatData = new();
+        SamenInventar = new(new List<Samen>
+            {
+                new Samen("Indica", 2),
+                new Samen("Sativa", 2),
+                new Samen("Ruderalis", 2)
+            });
     }
 }
 
