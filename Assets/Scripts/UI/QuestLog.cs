@@ -40,7 +40,6 @@ class QuestLog : UIView
     {
         base.Show();
         _controller.enabled = true;
-        MessageSystem.FireEvent(MessageSystemEvent.FinishErsteSamen);
         _controller.RefreshView();
     }
 

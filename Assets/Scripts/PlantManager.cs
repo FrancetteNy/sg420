@@ -36,20 +36,14 @@ public class PlantManager : MonoBehaviour
         //Make sure that everything is up to date if anything changes
         Plants.CollectionChanged += new NotifyCollectionChangedEventHandler((object sender, NotifyCollectionChangedEventArgs e) => UpdateHighlightAndDetailView());
         UpdateHighlightAndDetailView();
-        UIEvents.ShowDetailView += DisableHighlightController;
 
 
         GameState.DayChanged += OnDayChanged;
     }
 
-    private void DisableHighlightController(int obj)
-    {
-        _highlightController.enabled = false;
-    }
 
     private void OnDestroy()
     {
-        UIEvents.ShowDetailView -= DisableHighlightController;
         GameState.DayChanged -= OnDayChanged;
     }
     private void OnDayChanged()

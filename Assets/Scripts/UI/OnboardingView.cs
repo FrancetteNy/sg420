@@ -1,10 +1,13 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.XR;
 using UnityEngine.UIElements;
 
 public class OnboardingView : UIView
 {
+    OnboardingController _controller;
+    HighlightController _highlightController;
     public OnboardingView(VisualElement root, UIManager manager) : base(root, manager)
     {
     }
@@ -19,14 +22,10 @@ public class OnboardingView : UIView
         Asset.CloneTree(Root);
         View = Root.Q<VisualElement>("Onboarding");
 
+        _controller = Manager.gameObject.AddComponent<OnboardingController>();
+        _controller.Initialize(View);
+        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
         Hide();
-    }
-
-    public override void OnCancelPerformed(InputAction.CallbackContext context)
-    {
-        if (!IsOpen)
-            return;
-        UIEvents.ShowMainMenuView();
     }
 
     public override void Dispose()
@@ -38,10 +37,24 @@ public class OnboardingView : UIView
     public override void Hide()
     {
         base.Hide();
+        _controller.enabled = false;
     }
-
+    public override void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        if (!IsOpen)
+            return;
+        UIEvents.HideOnboardingView();
+    }
     public override void Show()
     {
         base.Show();
+        _highlightController.enabled = false;
+        _controller.enabled = true;
+        _controller.StartOnboarding();
+    }
+
+    internal void SetData(List<OnboardingData> list)
+    {
+        _controller.SetData(list);
     }
 }
