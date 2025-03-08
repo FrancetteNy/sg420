@@ -40,6 +40,9 @@ public class HUDController : MonoBehaviour
         openChatButton.clicked += () => UIEvents.ShowChatView.Invoke();
         openChatButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
+        var openQuestLogButton = _root.Q<Button>("open-questlog-button");
+        openQuestLogButton.clicked += () => UIEvents.ShowQuestLog.Invoke();
+        openQuestLogButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
     }
 
     private void SetupLabels()

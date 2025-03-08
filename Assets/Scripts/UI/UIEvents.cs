@@ -26,6 +26,12 @@ class UIEvents
     public static Action ShowMainMenuView;
     public static Action HideMainMenuView;
 
+    public static Action ShowQuestLog;
+    public static Action HideQuestLog;
+
+    public static Action ShowGroupWateringView;
+    public static Action HideGroupWateringView;
+
     //Notification Events
     public static Action<NotificationData> AddNotification;
 

@@ -17,8 +17,12 @@ public class GameState
     public static Action<string> EncyclopediaEntryUnlocked;
 
     public ChatData ChatData;
-    
-    
+
+    public JsonableListWrapper<QuestWithObjectiveIndex> DoneQuestsList;
+    public JsonableListWrapper<QuestWithObjectiveIndex> ActiveQuestsList;
+
+
+
     public GameState()
     {
         CurrentDay = 1;
@@ -33,6 +37,8 @@ public class GameState
                 new Samen("Sativa", 2, true),
                 new Samen("Ruderalis", 2, true)
             });
+        DoneQuestsList = new(new());
+        ActiveQuestsList = new(new());
     }
 }
 
@@ -73,6 +79,7 @@ public class JsonableListWrapper<T>
     public List<T> List;
     public JsonableListWrapper(List<T> list) => this.List = list;
 }
+
 
 [Serializable]
 /***

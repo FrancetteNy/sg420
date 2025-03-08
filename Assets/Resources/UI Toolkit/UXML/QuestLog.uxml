@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/QuestLog.uss?fileID=7433441132597879392&amp;guid=559912befa2644148a597eace7222901&amp;type=3#QuestLog" />
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
+    <ui:VisualElement enabled="true" name="QuestLog" class="bg-color text-color" style="background-color: rgb(4, 24, 1); color: rgb(4, 24, 1); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px;">
+        <ui:ListView name="quest-listview" virtualization-method="DynamicHeight" />
+        <ui:Button text="X" name="close-button" class="custom-button text-color" style="position: absolute; top: 0; right: 0; padding-top: 7px; padding-bottom: 7px; padding-right: 15px; padding-left: 15px;" />
+        <ui:ScrollView name="entry-scroll-view" horizontal-scorller-visibility="Hidden" mode="vertical" class="text-color">
+            <ui:VisualElement name="quest-box" style="flex-grow: 1;">
+                <ui:Label text="QuestTitel&#10;" name="quest-title" class="h1" />
+                <ui:Label text="QuestBeschreibung" name="quest-description" class="h3" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>
