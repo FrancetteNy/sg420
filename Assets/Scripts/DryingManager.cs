@@ -55,17 +55,13 @@ public class DryingManager : MonoBehaviour
                 UIEvents.AddNotification(new("Keine geernteten Pflanzen verfügbar", "", 2));
                 return;
             }
-            //if (controller.DriedPlantData.DryingAge.Stage == DryingStage.Empty)
-            //{
+            PlantData harvestedData = _gameState.HarvestedPlantDataList.List[^1];
+            _gameState.HarvestedPlantDataList.List.Remove(harvestedData); //TODO Open selection menu
                 
-                PlantData harvestedData = _gameState.HarvestedPlantDataList.List[^1];
-                _gameState.HarvestedPlantDataList.List.Remove(harvestedData); //TODO Open selection menu
-                
-                DriedPlantData driedPlantData = _gameState.CurrentlyDryingPlants.List[index].Initialize(harvestedData);
-                driedPlantData.DryingAge.Stage = driedPlantData.DryingAge.GetNextStage();
-                controller.DriedPlantData = driedPlantData;
-                //return;
-            //}
+            DriedPlantData driedPlantData = _gameState.CurrentlyDryingPlants.List[index].Initialize(harvestedData);
+            driedPlantData.DryingAge.Stage = driedPlantData.DryingAge.GetNextStage();
+            controller.DriedPlantData = driedPlantData;
+            GameState.UpdateHUD?.Invoke();
             });
         highlightBuilder.Apply();
     }
@@ -83,6 +79,7 @@ public class DryingManager : MonoBehaviour
         _gameState.CurrentlyDryingPlants.List.Remove(controller.DriedPlantData);
         _gameState.CompletedDriedPlantDataList.List.Add(controller.DriedPlantData);
         controller.DriedPlantData = new();
+        GameState.UpdateHUD?.Invoke();
     }
 }
 

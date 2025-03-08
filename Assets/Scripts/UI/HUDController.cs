@@ -6,10 +6,16 @@ public class HUDController : MonoBehaviour
     private VisualElement _root;
 
     private Label _currentDayLabel;
+    private Label _harvestedPlantCountLabel;
+    private Label _finishedDriedCountLabel;
+    private Label _scoreLabel;
+    private GameState _gameState;
     public void Initialize(VisualElement root)
     {
         _root = root;
-        GameState.DayChanged += OnDayChanged;
+        _gameState = GameStateManagerSingleton.Instance.GameState;
+        GameState.DayChanged += UpdateHUD;
+        GameState.UpdateHUD += UpdateHUD;
         SetupButtons();
         SetupLabels();
         UpdateHUD();
@@ -36,17 +42,20 @@ public class HUDController : MonoBehaviour
     private void SetupLabels()
     {
         _currentDayLabel = _root.Q<Label>("current-day-label");
+        _harvestedPlantCountLabel = _root.Q<Label>("harvested-plants-count-label");
+        _finishedDriedCountLabel = _root.Q<Label>("dried-plants-count-label");
+        _scoreLabel = _root.Q<Label>("score-label");
 
     }
 
     private void UpdateHUD()
     {
-        OnDayChanged();
-    }
-
-
-    private void OnDayChanged()
-    {
         _currentDayLabel.text = $"Tag {GameStateManagerSingleton.Instance.GameState.CurrentDay}";
+        _harvestedPlantCountLabel.text = _gameState.HarvestedPlantCount.ToString();
+        _finishedDriedCountLabel.text = _gameState.CompletedDriedPlantsCount.ToString();
+        _scoreLabel.text = _gameState.CurrentScore.ToString();
     }
+
+
+
 }

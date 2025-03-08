@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UIElements;
 using static Age;
 
@@ -161,21 +162,26 @@ public class DetailViewController : MonoBehaviour
                 UIEvents.ShowModalView?.Invoke(
                     "Warnung",
                     "Du bist dabei diese Pflanze zu ernten. Die Ernte kann nicht rückgängig gemacht werden! Bist du dir sicher?",
-                    () => {
-                        var currentPlantData = _detailViewplantManager.GetCurrentPlantData();
-                        string notificationTitle = $"{currentPlantData.Strain} geerntet";
-                        int scoreToAdd = DetailViewConstants.ScorePerGrowthStage[currentPlantData.Age.Stage];
-                        GameStateManagerSingleton.Instance.GameState.CurrentScore += scoreToAdd;
-                        string notificationBody = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {GameStateManagerSingleton.Instance.GameState.CurrentScore} Punkte.";
-                        _detailViewplantManager.HarvestCurrentPlant();
-                        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
-                        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
-                    });
+                    HarvestPlant);
                 break;
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
         }
+    }
+
+    private void HarvestPlant()
+    {
+        var currentPlantData = _detailViewplantManager.GetCurrentPlantData();
+        string notificationTitle = $"{currentPlantData.Strain} geerntet";
+        int scoreToAdd = DetailViewConstants.ScorePerGrowthStage[currentPlantData.Age.Stage];
+        GameStateManagerSingleton.Instance.GameState.CurrentScore += scoreToAdd;
+        string notificationBody = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {GameStateManagerSingleton.Instance.GameState.CurrentScore} Punkte.";
+        _detailViewplantManager.HarvestCurrentPlant();
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
+        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
+        GameState.UpdateHUD?.Invoke();
+
     }
 
     private void OnButtonUp(UIButton buttonId)

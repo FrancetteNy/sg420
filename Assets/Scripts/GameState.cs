@@ -10,12 +10,14 @@ public class GameState
     public JsonableListWrapper<PlantData> HarvestedPlantDataList;
     public JsonableListWrapper<DriedPlantData> CurrentlyDryingPlants;
     public JsonableListWrapper<DriedPlantData> CompletedDriedPlantDataList;
-    public int HarvestedPlantCount => HarvestedPlantDataList.List.Count;
-    public int CompletedDriedPlants => CompletedDriedPlantDataList.List.Count;
+    public int HarvestedPlantCount => HarvestedPlantDataList?.List.Count ?? 0;
+    public int CompletedDriedPlantsCount => CompletedDriedPlantDataList?.List.Count ?? 0;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
 
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
+    public static Action UpdateHUD;
+
 
     public ChatData ChatData;
 
