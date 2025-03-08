@@ -64,6 +64,7 @@ public class ShopController : MonoBehaviour
 
         var buyButton = new Button();
         buyButton.text = "Kaufen";
+        buyButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         buyButton.clicked += () => OnBuyButtonClicked(item);
         buyButton.AddToClassList("shop-item-button");
         itemElement.Add(buyButton);
