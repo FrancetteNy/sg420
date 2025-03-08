@@ -7,6 +7,8 @@ public class GameState
     public Growlight Growlight;
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
+    public JsonableListWrapper<PlantData> HarvestedPlantDataList;
+    public int HarvestedPlantCount => HarvestedPlantDataList.List.Count;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
     public Room Room;
 
@@ -25,6 +27,7 @@ public class GameState
         CurrentDay = 1;
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
+        HarvestedPlantDataList = new(new());
         UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;
         ChatData = new();

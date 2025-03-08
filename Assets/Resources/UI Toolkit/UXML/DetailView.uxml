@@ -73,8 +73,8 @@
                                     <ui:Label name="value" text="-" class="property-text" />
                                 </ui:VisualElement>
                                 <ui:VisualElement name="empty" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                                    <ui:Label text="-" name="name" class="property-text" />
-                                    <ui:Label name="value" text="-" class="property-text" />
+                                    <ui:Label text="-" name="harvest-label" class="property-text" />
+                                    <ui:Button text="Ernten" name="harvest-button" class="property-text custom-button" style="height: 80%; align-self: center; flex-wrap: nowrap; width: 100%; padding-top: 7px; padding-right: 15px; padding-bottom: 7px; padding-left: 15px; font-size: 14px;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
