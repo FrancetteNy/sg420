@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static Age;
 
 public class DetailViewController : MonoBehaviour
 {
@@ -84,12 +85,12 @@ public class DetailViewController : MonoBehaviour
             case UIButton.PREVIOUSPLANT:
                 _detailViewplantManager.SwitchToPreviousPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.NEXTPLANT:
                 _detailViewplantManager.SwitchToNextPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.STARTSEXING:
                 Debug.Log("Starting the sexing minigame...");
@@ -135,7 +136,7 @@ public class DetailViewController : MonoBehaviour
                 break;
             case UIButton.WATERPLANTS:
                 _detailViewplantManager.AddWaterAndFertilizer(_uiManager.GetWaterValue(), _uiManager.GetFertilizerValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.OPENCHANGEPOTSUBMENU:
@@ -149,23 +150,26 @@ public class DetailViewController : MonoBehaviour
             case UIButton.CHANGETOMEDIUM:
             case UIButton.CHANGETOLARGE:
                 _detailViewplantManager.ChangePotSize(buttonId);
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.CONFIRMSEED:
                 _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.HARVEST:
                 UIEvents.ShowModalView?.Invoke(
                     "Warnung",
                     "Du bist dabei diese Pflanze zu ernten. Die Ernte kann nicht rückgängig gemacht werden! Bist du dir sicher?",
                     () => {
-                        string plantStrain = $"{_detailViewplantManager.GetCurrentPlantData()["strain"]} geerntet";
+                        var currentPlantData = _detailViewplantManager.GetCurrentPlantData();
+                        string notificationTitle = $"{currentPlantData.Strain} geerntet";
+                        int scoreToAdd = DetailViewConstants.ScorePerGrowthStage[currentPlantData.Age.Stage];
+                        GameStateManagerSingleton.Instance.GameState.CurrentScore += scoreToAdd;
+                        string notificationBody = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {GameStateManagerSingleton.Instance.GameState.CurrentScore} Punkte.";
                         _detailViewplantManager.HarvestCurrentPlant();
-                        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
-                        UIEvents.AddNotification(new NotificationData("Pflanze geerntet", plantStrain, 6));
-
+                        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
+                        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
                     });
                 break;
             default:
@@ -211,7 +215,7 @@ public class DetailViewController : MonoBehaviour
         _detailViewplantManager.SetCurrentPlant(plantControllerIndex);
 
         _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
 
         _uiManager.ShowView();
         _detailViewCamera.enabled = true;
@@ -324,7 +328,14 @@ public static class DetailViewConstants
         {Submenu.WATERINGSUBMENU, "watering-submenu" },
         {Submenu.CHANGEPOTSUBMENU, "change-pot-submenu"},
     };
-
+    public static Dictionary<GrowthStage, int> ScorePerGrowthStage = new Dictionary<GrowthStage, int> {
+            {GrowthStage.EMPTY, 0 },
+            {GrowthStage.GERMINATION, 2 },
+            {GrowthStage.SEEDLING, 4 },
+            {GrowthStage.VEGETATIVEGROWTH, 6 },
+            {GrowthStage.FLOWERING, 10 },
+            {GrowthStage.FADED, 3 },
+        };
 }
 
 public class DetailViewCameraController
@@ -691,11 +702,14 @@ public class DetailViewPlantManager
         return _plants[CurrentPlantIndex].transform.position;
     }
 
-    public Dictionary<string, object> GetCurrentPlantData()
+    public Dictionary<string, object> GetCurrentPlantDataAsDictionary()
     {
         return _plants[CurrentPlantIndex].PlantData.DataDictionary();
     }
-
+    public PlantData GetCurrentPlantData()
+    {
+        return _plants[CurrentPlantIndex].PlantData;
+    }
     public void AddWaterAndFertilizer(float waterAmount, float fertilizerAmount)
     {
         if (CurrentPlantIndex < 0)

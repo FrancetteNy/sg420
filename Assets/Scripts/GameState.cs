@@ -13,7 +13,6 @@ public class GameState
     public int HarvestedPlantCount => HarvestedPlantDataList.List.Count;
     public int CompletedDriedPlants => CompletedDriedPlantDataList.List.Count;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
-    public Room Room;
 
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
@@ -25,6 +24,9 @@ public class GameState
 
     public OnboardingDoneData OnboardingDoneData;
 
+    public int CurrentScore;
+
+
     public GameState()
     {
         CurrentDay = 1;
@@ -33,11 +35,11 @@ public class GameState
         HarvestedPlantDataList = new();
         CurrentlyDryingPlants = new(new() { new(), new(), new(), new() });
         UnlockedEncyclopediaEntries = new();
-        Room = Room.START;
         ChatData = new();
         DoneQuestsList = new();
         ActiveQuestsList = new();
         OnboardingDoneData = new();
+        CurrentScore = 0;
     }
 }
 
@@ -80,15 +82,6 @@ public class JsonableListWrapper<T>
     public JsonableListWrapper() : this(new()) { }
 }
 
-
-[Serializable]
-/***
- * This can represent where and how many Plants there are
- ***/
-public enum Room
-{
-    START
-}
 
 [Serializable]
 public class OnboardingDoneData

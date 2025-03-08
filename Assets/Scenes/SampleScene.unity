@@ -1585,7 +1585,7 @@ Transform:
   m_GameObject: {fileID: 329072479}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1, y: -3.127, z: 4.548}
+  m_LocalPosition: {x: 1, y: -2.814, z: 3.955}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1627,7 +1627,7 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 3
   m_Range: 10
-  m_SpotAngle: 179
+  m_SpotAngle: 131.6235
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
@@ -2199,19 +2199,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DriedPlantData:
-    OldPlantData:
-      Potsize: 500
-      Age:
-        Stage: 0
-        AgeNumber: 0
-      Strain: 0
-      Soil:
-        StoredWater: 0
-        StoredNutrients: 0
-    DryingAge:
-      Stage: 0
-      AgeNumber: 0
   PlantObject: {fileID: 1265318380}
 --- !u!4 &386403715 stripped
 Transform:
@@ -2608,7 +2595,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 490237490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2984e4b77d4e7c4885f3a2c45c5ed70, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a96570f43b0cb14d956895baf1b0b60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &491436099
@@ -2948,7 +2935,7 @@ GameObject:
   - component: {fileID: 603530194}
   - component: {fileID: 603530193}
   m_Layer: 0
-  m_Name: Directional Light (1)
+  m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4611,19 +4598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DriedPlantData:
-    OldPlantData:
-      Potsize: 500
-      Age:
-        Stage: 0
-        AgeNumber: 0
-      Strain: 0
-      Soil:
-        StoredWater: 0
-        StoredNutrients: 0
-    DryingAge:
-      Stage: 0
-      AgeNumber: 0
   PlantObject: {fileID: 1161882429}
 --- !u!1001 &1088584818
 PrefabInstance:
@@ -7094,19 +7068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DriedPlantData:
-    OldPlantData:
-      Potsize: 500
-      Age:
-        Stage: 0
-        AgeNumber: 0
-      Strain: 0
-      Soil:
-        StoredWater: 0
-        StoredNutrients: 0
-    DryingAge:
-      Stage: 0
-      AgeNumber: 0
   PlantObject: {fileID: 949131972}
 --- !u!1 &1709367630
 GameObject:
@@ -8190,19 +8151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DriedPlantData:
-    OldPlantData:
-      Potsize: 500
-      Age:
-        Stage: 0
-        AgeNumber: 0
-      Strain: 0
-      Soil:
-        StoredWater: 0
-        StoredNutrients: 0
-    DryingAge:
-      Stage: 0
-      AgeNumber: 0
   PlantObject: {fileID: 627073040}
 --- !u!1 &1918572286
 GameObject:

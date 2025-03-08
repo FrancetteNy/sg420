@@ -72,14 +72,13 @@ public class DryingManager : MonoBehaviour
 
     private void CollectPlant(DryingController controller)
     {
-
-        // Update Score für die Pflanze
-        //GameStateManagerSingleton.Instance.UpdateScore(DriedManagerConstants.ScorePerDryingStage[dryingController.DriedPlantData.Age.Stage]);
+        int scoreToAdd = DriedManagerConstants.ScorePerStage[controller.DriedPlantData.DryingAge.Stage];
+        _gameState.CurrentScore += scoreToAdd;
 
 
         string plantStrain = $"getrocknetes {controller.DriedPlantData.OldPlantData.Strain} geerntet";
-        //int totalScore = GameStateManagerSingleton.Instance.GameState.Getrocknet;
-        UIEvents.AddNotification(new NotificationData(plantStrain, "", 6));
+        string scoreString = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {_gameState.CurrentScore} Punkte.";
+        UIEvents.AddNotification(new NotificationData(plantStrain, scoreString, 3));
 
         _gameState.CurrentlyDryingPlants.List.Remove(controller.DriedPlantData);
         _gameState.CompletedDriedPlantDataList.List.Add(controller.DriedPlantData);
