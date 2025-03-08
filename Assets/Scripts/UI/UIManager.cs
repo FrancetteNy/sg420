@@ -29,6 +29,10 @@ public class UIManager : MonoBehaviour
     InputSystem_Actions _actions;
 
     HighlightController _highlightController;
+
+
+    GameObject _mainRoom;
+    GameObject _dryingRoom;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,6 +43,14 @@ public class UIManager : MonoBehaviour
         SetupNotificationMananger();
         SetupActionSystem();
         _highlightController = FindAnyObjectByType<HighlightController>();
+        SetupRoomGameObjects();
+    }
+
+    private void SetupRoomGameObjects()
+    {
+        _mainRoom = GameObject.Find("MainRoom");
+        _dryingRoom = GameObject.Find("DryingRoom");
+        _dryingRoom.SetActive(false);
     }
 
     private void SetupActionSystem()
@@ -46,7 +58,26 @@ public class UIManager : MonoBehaviour
         _actions = new InputSystem_Actions();
         _actions.UI.Enable();
         _actions.UI.Cancel.performed += OnCancelPerformed;
+        _actions.Player.MoveToDryingRoom.Enable();
+        _actions.Player.MoveToMainRoom.Enable();
+        _actions.Player.MoveToDryingRoom.performed += OnMoveToDryingRoom;
+        _actions.Player.MoveToMainRoom.performed += OnMoveToMainRoom;
     }
+
+    private void OnMoveToMainRoom(InputAction.CallbackContext context)
+    {
+        _dryingRoom.SetActive(false);
+        _mainRoom.SetActive(true);
+        RenderSettings.ambientIntensity = 1;
+    }
+
+    private void OnMoveToDryingRoom(InputAction.CallbackContext context)
+    {
+        _mainRoom.SetActive(false);
+        _dryingRoom.SetActive(true);
+        RenderSettings.ambientIntensity = .3f;
+    }
+
     private void OnCancelPerformed(InputAction.CallbackContext context)
     {
         if (!GameStateManagerSingleton.Instance.IsGameLoaded)
@@ -186,6 +217,12 @@ public class UIManager : MonoBehaviour
 
         _actions.UI.Disable();
         _actions.UI.Cancel.performed -= OnCancelPerformed;
+
+        _actions.Player.MoveToDryingRoom.Disable();
+        _actions.Player.MoveToMainRoom.Disable();
+        _actions.Player.MoveToDryingRoom.performed -= OnMoveToDryingRoom;
+        _actions.Player.MoveToMainRoom.performed -= OnMoveToMainRoom;
+
         UIEvents.AddNotification -= _notificationManager.AddNotification;
     }
 

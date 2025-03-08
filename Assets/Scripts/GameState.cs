@@ -8,7 +8,10 @@ public class GameState
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
     public JsonableListWrapper<PlantData> HarvestedPlantDataList;
+    public JsonableListWrapper<DriedPlantData> CurrentlyDryingPlants;
+    public JsonableListWrapper<DriedPlantData> CompletedDriedPlantDataList;
     public int HarvestedPlantCount => HarvestedPlantDataList.List.Count;
+    public int CompletedDriedPlants => CompletedDriedPlantDataList.List.Count;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
     public Room Room;
 
@@ -27,12 +30,13 @@ public class GameState
         CurrentDay = 1;
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
-        HarvestedPlantDataList = new(new());
-        UnlockedEncyclopediaEntries = new(new List <String> {});
+        HarvestedPlantDataList = new();
+        CurrentlyDryingPlants = new(new() { new(), new(), new(), new() });
+        UnlockedEncyclopediaEntries = new();
         Room = Room.START;
         ChatData = new();
-        DoneQuestsList = new(new());
-        ActiveQuestsList = new(new());
+        DoneQuestsList = new();
+        ActiveQuestsList = new();
         OnboardingDoneData = new();
     }
 }
@@ -73,6 +77,7 @@ public class JsonableListWrapper<T>
 {
     public List<T> List;
     public JsonableListWrapper(List<T> list) => this.List = list;
+    public JsonableListWrapper() : this(new()) { }
 }
 
 
