@@ -36,10 +36,13 @@ public class OnboardingController : MonoBehaviour
     {
         _nextButton = _view.Q<Button>("next-button");
         _nextButton.clicked += OnNextButtonClicked;
+        _nextButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         _previousButton = _view.Q<Button>("previous-button");
         _previousButton.clicked += OnPreviousButtonClicked;
+        _previousButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         _closeButton = _view.Q<Button>("close-button");
         _closeButton.clicked += StopOnboarding;
+        _closeButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
     }
 
     internal void SetData(List<OnboardingData> list)
@@ -145,37 +148,48 @@ public class OnboardingController : MonoBehaviour
 
     private void UpdateInformationBoxPosition(GeometryChangedEvent evt)
     {
-        var data = _data[_currentContainerElement];
-        var target = data.FocusedElement.worldBound;
-        var infoSize = _informationElement.worldBound.size;
+        var target = _data[_currentContainerElement].FocusedElement.worldBound;
+        var size = _informationElement.worldBound.size;
         const float margin = 30f;
 
-        bool FitsTop() => target.yMin >= infoSize.y + margin;
-        bool FitsBottom() => target.yMax + infoSize.y + margin <= Screen.height;
-        bool FitsLeft() => target.xMin >= infoSize.x + margin;
-        bool FitsRight() => target.xMax + infoSize.x + margin <= Screen.width;
+        var hCenter = target.center.x - size.x / 2;
+        var vCenter = target.center.y - size.y / 2;
+        var hFits = hCenter >= 0 && (hCenter + size.x) <= Screen.width;
+        var vFits = vCenter >= 0 && (vCenter + size.y) <= Screen.height;
 
-        var placements = new (Func<bool> Condition, (float top, float left) Position)[]
+        var placements = new (Func<bool> check, Action pos)[]
         {
-        (FitsTop,    (target.yMin - infoSize.y - margin, target.center.x - infoSize.x / 2)),
-        (FitsBottom, (target.yMax + margin, target.center.x - infoSize.x / 2)),
-        (FitsLeft,   (target.center.y - infoSize.y / 2, target.xMin - infoSize.x - margin)),
-        (FitsRight,  (target.center.y - infoSize.y / 2, target.xMax + margin)),
+        //Position at the top
+        (() => target.yMin >= size.y + margin && hFits,
+            () => SetPos(target.yMin - size.y - margin, hCenter)),
+        //Position at the Bottom
+        (() => target.yMax + size.y + margin <= Screen.height && hFits,
+            () => SetPos(target.yMax + margin, hCenter)),
+        //Position to the left
+        (() => target.xMin >= size.x + margin && vFits,
+            () => SetPos(vCenter, target.xMin - size.x - margin)),
+        //Position to the right
+        (() => target.xMax + size.x + margin <= Screen.width && vFits,
+            () => SetPos(vCenter, target.xMax + margin))
         };
 
         foreach (var placement in placements)
         {
-            if (!placement.Condition())
-                continue;
-
-            _informationElement.style.top = placement.Position.top;
-            _informationElement.style.left = placement.Position.left;
-            return;
+            if (placement.check())
+            {
+                placement.pos();
+                return;
+            }
         }
 
-        // Fallback to first position
-        _informationElement.style.top = placements[0].Position.top;
-        _informationElement.style.left = placements[0].Position.left;
+        // Fallback to top-center with horizontal clamping
+        SetPos(0, Mathf.Clamp(hCenter, 0, Screen.width - size.x));
+    }
+
+    private void SetPos(float top, float left)
+    {
+        _informationElement.style.top = top;
+        _informationElement.style.left = left;
     }
 
 }

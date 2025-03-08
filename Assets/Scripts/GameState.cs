@@ -18,7 +18,7 @@ public class GameState
     public JsonableListWrapper<QuestWithObjectiveIndex> DoneQuestsList;
     public JsonableListWrapper<QuestWithObjectiveIndex> ActiveQuestsList;
 
-
+    public OnboardingDoneData OnboardingDoneData;
 
     public GameState()
     {
@@ -30,6 +30,7 @@ public class GameState
         ChatData = new();
         DoneQuestsList = new(new());
         ActiveQuestsList = new(new());
+        OnboardingDoneData = new();
     }
 }
 
@@ -79,4 +80,14 @@ public class JsonableListWrapper<T>
 public enum Room
 {
     START
+}
+
+[Serializable]
+public class OnboardingDoneData
+{
+    public bool DetailviewOnboardingIsDone;
+    public OnboardingDoneData()
+    {
+        DetailviewOnboardingIsDone = false;
+    }
 }
