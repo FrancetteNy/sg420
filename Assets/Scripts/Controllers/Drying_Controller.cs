@@ -22,6 +22,11 @@ public class Drying_Controller : MonoBehaviour
     } 
     private void ColorMaterialUpdate()
     {
+        if (_rendererMaterial == null)
+        {
+            return;
+        }
+
         Color32 newColor = new Color32(160, 160, 160, 255); // Grauton
 
         DryingStage stage = DriedPlantData.Age.Stage;
