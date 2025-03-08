@@ -6,19 +6,18 @@ using System.IO;
 using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UIElements;
- 
 
-public class InventarController: MonoBehaviour
+public class InventarController : MonoBehaviour
 {
     public static InventarController Instance { get; private set; }
-    private DetailViewUIManager _uiManager;
     private VisualElement _root;
-    private Camera _inventarCamera;
-    private Action _closeAction;
     private Button _tab1, _tab2, _tab3;
     private VisualElement _content1, _content2, _content3;
     private int _seed;
     private Label _label;
+    public VisualTreeAsset inventoryItemTemplate;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -29,10 +28,11 @@ public class InventarController: MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }    public void Initialize(VisualElement root)
+    }
+
+    public void Initialize(VisualElement root)
     {
         _root = root;
-
         _root.style.display = DisplayStyle.None;
 
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideInventar.Invoke();
@@ -42,12 +42,10 @@ public class InventarController: MonoBehaviour
         _tab2 = _root.Q<Button>("tab2");
         _tab3 = _root.Q<Button>("tab3");
 
-        
         _content1 = _root.Q<VisualElement>("tab-content1");
         _content2 = _root.Q<VisualElement>("tab-content2");
         _content3 = _root.Q<VisualElement>("tab-content3");
 
-        
         _tab1.clicked += () => ShowTab(_tab1, _content1);
         _tab1.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         _tab2.clicked += () => ShowTab(_tab2, _content2);
@@ -56,12 +54,12 @@ public class InventarController: MonoBehaviour
         _tab3.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
         ShowTab(_tab1, _content1);
+
     }
 
-    
     void ShowTab(Button selectedTab, VisualElement activeTab)
     {
-        
+
         _content1.style.display = DisplayStyle.None;
         _content2.style.display = DisplayStyle.None;
         _content3.style.display = DisplayStyle.None;
@@ -70,22 +68,113 @@ public class InventarController: MonoBehaviour
         _tab2.RemoveFromClassList("active");
         _tab3.RemoveFromClassList("active");
 
+        activeTab.Clear();
+
+        if (activeTab == _content1)
+
+        {
+            var gameState = GameStateManagerSingleton.Instance.GameState;
+
+            if (gameState == null || gameState.SamenInventar == null || gameState.SamenInventar.List == null)
+            {
+                Debug.LogError("gameState ou SamenInventar non initialisé !");
+                return;
+            }
+
+            foreach (var item in gameState.SamenInventar.List)
+            {
+                Debug.Log($"Item: {item.Name}, Item: {item.Variete} Quantité: {item.Quantity}");
+                var itemElement = CreateInventoryItemElement(item);
+                activeTab.Add(itemElement);
+            }
+        }
+
+
         selectedTab.AddToClassList("active");
         activeTab.style.display = DisplayStyle.Flex;
     }
+
+    private VisualElement CreateInventoryItemElement(Samen item)
+    {
+
+        var itemElement = new VisualElement();
+        itemElement.AddToClassList("inventory-item");
+
+
+        var nameLabel = new Label(item.Name);
+        nameLabel.AddToClassList("item-name");
+        itemElement.Add(nameLabel);
+
+        var detailsLabel = new Label($"Variete: {item.Variete}, Feminisiert: {item.istFeminisiert}");
+        detailsLabel.AddToClassList("item-details");
+        itemElement.Add(detailsLabel);
+
+        var quantityLabel = new Label($"Quantity: {item.Quantity}");
+        quantityLabel.name = "item-quantity";
+        quantityLabel.AddToClassList("item-quantity");
+        itemElement.Add(quantityLabel);
+
+
+        return itemElement;
+    }
+
+
     public bool UpdateSeedQuantity(string seedName)
-    {   
-        _label = _root.Q<Label>(seedName);
-        _seed = int.Parse(_label.text);
-        if (_seed > 0){
-            _seed--;
-            _label.text = _seed.ToString();
+    {
+        var gameState = GameStateManagerSingleton.Instance.GameState;
+        if (gameState == null || gameState.SamenInventar == null || gameState.SamenInventar.List == null)
+        {
+            return false;
+        }
+
+        var seedItem = gameState.SamenInventar.List.Find(item => item.Variete == seedName);
+        if (seedItem == null)
+        {
+            return false;
+        }
+
+        if (seedItem.Quantity > 0)
+        {
+            seedItem.Quantity--;
+
+            UpdateSeedQuantityInUI(seedItem);
+
+            GameStateManagerSingleton.Instance.Save();
+
+            RefreshInventory();
             return true;
         }
-        else{
+        else
+        {
             return false;
+        }
+        
+    }
+
+    private void UpdateSeedQuantityInUI(Samen seedItem)
+    {
+        var itemElement = _content1.Q<VisualElement>(seedItem.Variete);
+        if (itemElement != null)
+        {
+            var quantityLabel = itemElement.Q<Label>("item-quantity");
+            quantityLabel.text = $"Quantité: {seedItem.Quantity}";
+        }
+    }
+
+
+    public void RefreshInventory()
+    {
+        _content1.Clear();
+        var gameState = GameStateManagerSingleton.Instance.GameState;
+        if (gameState == null || gameState.SamenInventar == null || gameState.SamenInventar.List == null)
+        {
+            return;
+        }
+
+        foreach (var item in gameState.SamenInventar.List)
+        {
+            var itemElement = CreateInventoryItemElement(item);
+            _content1.Add(itemElement);
         }
     }
 }
-
-

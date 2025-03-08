@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class GameState
@@ -10,6 +11,7 @@ public class GameState
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
     public JsonableListWrapper<Samen> SamenInventar;
     public Room Room;
+    public int Geld = 100;
 
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
@@ -27,9 +29,9 @@ public class GameState
         ChatData = new();
         SamenInventar = new(new List<Samen>
             {
-                new Samen("Indica", 2),
-                new Samen("Sativa", 2),
-                new Samen("Ruderalis", 2)
+                new Samen("Indica", 2, true),
+                new Samen("Sativa", 2, true),
+                new Samen("Ruderalis", 2, true)
             });
     }
 }
@@ -79,4 +81,26 @@ public class JsonableListWrapper<T>
 public enum Room
 {
     START
+}
+[Serializable]
+public abstract class InventoryItem
+{
+    public string Name;
+   
+}
+[Serializable]
+public class Samen : InventoryItem
+{
+    public string Variete; // Indica, Sativa, etc.
+    public bool istFeminisiert;
+    public int Quantity;
+
+    public Samen(string variete, int quantity, bool istFeminisiert = true)
+    {
+        Variete = variete;
+        istFeminisiert = istFeminisiert;
+        Name = $"{variete} Samen";
+        Quantity = quantity;
+        
+    }
 }
