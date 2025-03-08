@@ -55,22 +55,24 @@ public class PlantManager : MonoBehaviour
         }
     }
 
-    private void UpdatePlant(GameObject plant, PlantData plantController)
+    private void UpdatePlant(GameObject plant, PlantData plantData)
     {
         var correctAmountOfWater = false;
         var correctAmountOfNutrients = false;
-        if (plantController.Soil.StoredWater < PlantManagerConstants.MinWater)
+        if (plantData.Soil.StoredWater < PlantManagerConstants.MinWater)
         {
-            Debug.Log($"Not enough water {plant}. Current {plantController.Soil.StoredWater}");
+            plantData.Quality -= PlantManagerConstants.QualityPunishmentUnderWatering;
+            Debug.Log($"Not enough water {plant}. Current {plantData.Soil.StoredWater}");
         }
-        else if (plantController.Soil.StoredWater > PlantManagerConstants.MaxWater)
+        else if (plantData.Soil.StoredWater > PlantManagerConstants.MaxWater)
         {
-            Debug.Log($"Too much water {plant}. Current: {plantController.Soil.StoredWater}");
+            plantData.Quality -= PlantManagerConstants.QualityPunishmentOverWatering;
+            Debug.Log($"Too much water {plant}. Current: {plantData.Soil.StoredWater}");
         }
         else
         {
-            Debug.Log($"Enougth water {plant}. Current: {plantController.Soil.StoredWater}");
-            if (plantController.Age.Stage == Age.GrowthStage.FLOWERING && plantController.Age.AgeNumber >= PlantManagerConstants.MaxFloweringAge)
+            Debug.Log($"Enougth water {plant}. Current: {plantData.Soil.StoredWater}");
+            if (plantData.Age.Stage == Age.GrowthStage.FLOWERING && plantData.Age.AgeNumber >= PlantManagerConstants.MaxFloweringAge)
             {
                 Debug.Log($"Plant too old to grow {plant}");
             }
@@ -79,17 +81,19 @@ public class PlantManager : MonoBehaviour
                 correctAmountOfWater = true;
             }
         }
-        if (plantController.Soil.StoredNutrients < PlantManagerConstants.MinNutrients)
+        if (plantData.Soil.StoredNutrients < PlantManagerConstants.MinNutrients)
         {
+            plantData.Quality -= PlantManagerConstants.QualityPunishmentNotEnoughNutrients;
             Debug.Log($"Not enough Nutrients {plant}");
         }
-        else if (plantController.Soil.StoredNutrients > PlantManagerConstants.MaxNutrients)
+        else if (plantData.Soil.StoredNutrients > PlantManagerConstants.MaxNutrients)
         {
+            plantData.Quality -= PlantManagerConstants.QualityPunishmentTooMuchNutrients;
             Debug.Log($"Too much Nutrients {plant}");
         }
         else
         {
-            if (plantController.Age.Stage == Age.GrowthStage.FLOWERING && plantController.Age.AgeNumber >= PlantManagerConstants.MaxFloweringAge)
+            if (plantData.Age.Stage == Age.GrowthStage.FLOWERING && plantData.Age.AgeNumber >= PlantManagerConstants.MaxFloweringAge)
             {
                 Debug.Log($"Plant too old to grow {plant}");
             }
@@ -98,8 +102,9 @@ public class PlantManager : MonoBehaviour
                 correctAmountOfNutrients = true;
             }
         }
-        plantController.Soil.StoredWater = Math.Max(plantController.Soil.StoredWater - PlantManagerConstants.MinWater, 0);
-        plantController.Soil.StoredNutrients = Math.Max(plantController.Soil.StoredNutrients - PlantManagerConstants.MinNutrients, 0);
+        plantData.Quality = Math.Max(plantData.Quality, 0);
+        plantData.Soil.StoredWater = Math.Max(plantData.Soil.StoredWater - PlantManagerConstants.MinWater, 0);
+        plantData.Soil.StoredNutrients = Math.Max(plantData.Soil.StoredNutrients - PlantManagerConstants.MinNutrients, 0);
         var currentPlantModel = GetCurrentPlantModel(plant);
         if (correctAmountOfNutrients && correctAmountOfWater)
         {
@@ -107,7 +112,7 @@ public class PlantManager : MonoBehaviour
             var plantModel = currentPlantModel.transform;
             plantModel.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
-        UpdateModel(currentPlantModel.transform, plantController.Age);
+        UpdateModel(currentPlantModel.transform, plantData.Age);
     }
 
     private void UpdateModel(Transform transform, Age age)
@@ -251,4 +256,9 @@ public static class PlantManagerConstants
             {GrowthStage.VEGETATIVEGROWTH, 8 },
             {GrowthStage.FLOWERING, 5 },
         };
+    public const int QualityPunishmentUnderWatering = 3;
+    public const int QualityPunishmentOverWatering = 3;
+    public const int QualityPunishmentTooMuchNutrients = 1;
+    public const int QualityPunishmentNotEnoughNutrients = 1;
+
 }
