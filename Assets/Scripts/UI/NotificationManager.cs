@@ -5,26 +5,25 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 
-public class NotificationManagerSingleton : SingletonViaPrefab<NotificationManagerSingleton>
+public class NotificationManager : MonoBehaviour
 {
     private VisualElement _root;
     private Queue<NotificationData> _notificationDataQueue;
     private Queue<Notification> _availableNotifications;
     private List<Notification> _shownNotifications;
 
-    private static Dictionary<int, Translate> _notificationPositionToTranslate = new Dictionary<int, Translate>{
+    private Dictionary<int, Translate> _notificationPositionToTranslate = new Dictionary<int, Translate>{
         {0, new Translate(0,0)},
         {1, new Translate(0,-80)},
         {2, new Translate(0,-160)},
     };
-    private static Translate _defaultTranslate = new Translate(0, 80);
-    private static StyleList<TimeValue> _defaultTimeValue;
-    
-    public void ReInitializeAfterLoad()
+    private Translate _defaultTranslate = new Translate(0, 80);
+    private StyleList<TimeValue> _defaultTimeValue;
+    private void Awake()
     {
-        _defaultTimeValue = null;
         Initialize();
     }
+
     private void Initialize()
     {
         _root = FindAnyObjectByType<UIDocument>().rootVisualElement;
@@ -121,12 +120,12 @@ public class NotificationManagerSingleton : SingletonViaPrefab<NotificationManag
 
     public void HideAndDisable()
     {
-        Instance.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void ShowAndEnable()
     {
-        Instance.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void AddNotification(NotificationData notificationData)
