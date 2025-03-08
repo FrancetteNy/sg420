@@ -50,4 +50,8 @@ public abstract class UIView : IDisposable
     public virtual void Dispose()
     {
     }
+    public virtual void BringToFront()
+    {
+        Root.BringToFront();
+    }
 }
