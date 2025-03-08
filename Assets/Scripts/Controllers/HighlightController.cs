@@ -43,16 +43,16 @@ public class HighlightController : MonoBehaviour
         Destroy(data.Outline);
         return true;
     }
-    private void Start()
-    {
-        DontDestroyOnLoad(this.transform.root.gameObject);
-    }
+
     private void Update()
     {
         foreach (var data in _highlightData)
         {
+            //foreach (var renderer in data.Renderers)
+            //{
             if (IsMouseOver(data))
             {
+
                 data.Outline.enabled = true;
                 if (Input.GetMouseButtonDown(0) && data.MouseClickFunction != null)
                 {
@@ -65,7 +65,7 @@ public class HighlightController : MonoBehaviour
             {
                 data.Outline.enabled = false;
             }
-
+            //}
             if (!this.enabled)
             {
                 break;
@@ -108,7 +108,7 @@ public class HighlightController : MonoBehaviour
                 OutlineMode = controller._outlineMode,
                 OutlineColor = controller._outlineColor,
                 OutlineWidth = controller._outlineWidth,
-                MouseClickFunction = null,
+                MouseClickFunction = null
             };
         }
 
@@ -136,8 +136,6 @@ public class HighlightController : MonoBehaviour
             return this;
         }
 
- 
-
         public void Apply()
         {
             _controller.AddHighlightData(_data);
@@ -149,11 +147,11 @@ public class HighlightController : MonoBehaviour
     {
         public GameObject ObjectToHighlight;
         public Outline Outline;
-        public Action<HighlightData> MouseClickFunction;
+        public Action<HighlightData>? MouseClickFunction;
         public Outline.Mode OutlineMode;
         public Color OutlineColor;
         public float OutlineWidth;
-        public Renderer[]? Renderers;
+        public Renderer[] Renderers;
     }
 #nullable disable
 }

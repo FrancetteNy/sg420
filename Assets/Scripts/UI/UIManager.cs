@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
         AddAllUIViews();
         SetupNotificationMananger();
         SetupActionSystem();
+        NotificationManagerSingleton.Instance.ReInitializeAfterLoad();
     }
 
     private void SetupActionSystem()
@@ -77,6 +78,7 @@ public class UIManager : MonoBehaviour
         _mainMenuView = new MainMenuView(_root, this);
         _questLog = new QuestLog(_root, this);
         _groupWateringView = new GroupWateringView(_root, this);
+
 
         UIEvents.ShowDetailView += OnDetailViewShown;
         UIEvents.HideDetailView += OnHudShown;
@@ -155,8 +157,9 @@ public class UIManager : MonoBehaviour
         UIEvents.HideGroupWateringView -= OnHudShown;
         _groupWateringView.Dispose();
 
-
+        _actions.UI.Disable();
         _actions.UI.Cancel.performed -= OnCancelPerformed;
+        UIEvents.AddNotification -= _notificationManager.AddNotification;
     }
 
     private void ShowView(UIView view, int? index = null)
