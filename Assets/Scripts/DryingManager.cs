@@ -14,7 +14,32 @@ public class DryingManager : MonoBehaviour
         _gameState = GameStateManagerSingleton.Instance.GameState;
         InitializeDryingControllers();
         InitializeHighlight();
+        GameState.DayChanged += OnDayChanged;
+    }
 
+    private void OnDayChanged()
+    {
+        foreach (var controller in _dryingControllers)
+        { 
+            AgePlant(controller);
+        }
+    }
+
+    private void AgePlant(DryingController controller)
+    {
+        DriedPlantData driedPlantdata = controller.DriedPlantData;
+
+        if (driedPlantdata.DryingAge.Stage == DryingStage.Empty)
+            return;
+
+        driedPlantdata.DryingAge.AgeNumber += 1;
+
+        if (driedPlantdata.DryingAge.AgeNumber > DriedManagerConstants.MaximumAgePerStage[driedPlantdata.DryingAge.Stage])
+        {
+            driedPlantdata.DryingAge.Stage = driedPlantdata.DryingAge.GetNextStage();
+            driedPlantdata.DryingAge.AgeNumber = 0;
+            controller.UpdatePlantObject();
+        }
     }
 
     private void InitializeDryingControllers()

@@ -66,6 +66,8 @@ public class UIManager : MonoBehaviour
 
     private void OnMoveToMainRoom(InputAction.CallbackContext context)
     {
+        if (_currentView != _hudView || _overlayViews.Count > 0)
+            return;
         _dryingRoom.SetActive(false);
         _mainRoom.SetActive(true);
         RenderSettings.ambientIntensity = 1;
@@ -73,6 +75,8 @@ public class UIManager : MonoBehaviour
 
     private void OnMoveToDryingRoom(InputAction.CallbackContext context)
     {
+        if (_currentView != _hudView || _overlayViews.Count > 0)
+            return;
         _mainRoom.SetActive(false);
         _dryingRoom.SetActive(true);
         RenderSettings.ambientIntensity = .3f;
