@@ -36,6 +36,7 @@ public class GameState
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
         HarvestedPlantDataList = new();
         CurrentlyDryingPlants = new(new() { new(), new(), new(), new() });
+        CompletedDriedPlantDataList = new();
         UnlockedEncyclopediaEntries = new();
         ChatData = new();
         DoneQuestsList = new();
