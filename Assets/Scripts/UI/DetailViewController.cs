@@ -181,7 +181,7 @@ public class DetailViewController : MonoBehaviour
         _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
         UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
         GameState.UpdateHUD?.Invoke();
-
+        _plantManager.ManagePlantStageModel(_detailViewplantManager.GetCurrentPlantController().gameObject);
     }
 
     private void OnButtonUp(UIButton buttonId)
@@ -703,6 +703,10 @@ public class DetailViewPlantManager
                            currentPlant.z);
     }
 
+    public PlantController GetCurrentPlantController()
+    {
+        return _plants[CurrentPlantIndex];
+    }
     public Vector3 GetCurrentPlantPosition()
     {
         return _plants[CurrentPlantIndex].transform.position;

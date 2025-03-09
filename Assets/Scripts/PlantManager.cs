@@ -167,15 +167,13 @@ public class PlantManager : MonoBehaviour
         }
     }
 
-    private void ManagePlantStageModel(GameObject plant)
+    public void ManagePlantStageModel(GameObject plant)
     {
-        plant.transform.Find("Plant1").gameObject.SetActive(false);
-        plant.transform.Find("Plant2").gameObject.SetActive(false);
-        plant.transform.Find("Plant3").gameObject.SetActive(false);
-        plant.transform.Find("plant").gameObject.SetActive(false);
-
-        // Activate the current model
-        GetCurrentPlantModel(plant).SetActive(true);
+        var currentStage = plant.GetComponent<PlantController>().PlantData.Age.Stage;
+        plant.transform.Find("Plant1").gameObject.SetActive(currentStage == GrowthStage.GERMINATION);
+        plant.transform.Find("Plant2").gameObject.SetActive(currentStage == GrowthStage.SEEDLING);
+        plant.transform.Find("Plant3").gameObject.SetActive(currentStage == GrowthStage.VEGETATIVEGROWTH);
+        plant.transform.Find("plant").gameObject.SetActive(currentStage == GrowthStage.FLOWERING || currentStage == GrowthStage.FADED);
     }
 
     public GameObject GetCurrentPlantModel(GameObject plant)
