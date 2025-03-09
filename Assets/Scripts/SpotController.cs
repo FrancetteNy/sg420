@@ -10,8 +10,8 @@ public class SpotController : MonoBehaviour
         _highlightController = FindAnyObjectByType<HighlightController>();
         _spotLight = GetComponentInChildren<Light>();
         var lightRenderer = GetComponentInChildren<Renderer>();
-        _emmisiveMaterial = new Material(lightRenderer.materials[1]);
-        _emmisiveMaterial = lightRenderer.sharedMaterials[1]; // i dont understand why we need this, but we need this?
+        new Material(lightRenderer.materials[1]); // the constructor has somehow a sideffect that creates a new material for that renderer or something like that? idk
+        _emmisiveMaterial = lightRenderer.sharedMaterials[1];
         ConstructPlantHighlightAndClickFunction();
     }
 
