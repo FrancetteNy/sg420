@@ -4,11 +4,15 @@ using UnityEngine.UIElements;
 public class HUDController : MonoBehaviour
 {
     private VisualElement _root;
-
+    UIManager _manager;
     private Label _currentDayLabel;
     private Label _harvestedPlantCountLabel;
     private Label _finishedDriedCountLabel;
     private Label _scoreLabel;
+
+    private Button _changeToMainRoomButton;
+    private Button _changeToDryingRoomButton;
+
     private GameState _gameState;
     public void Initialize(VisualElement root)
     {
@@ -16,6 +20,7 @@ public class HUDController : MonoBehaviour
         _gameState = GameStateManagerSingleton.Instance.GameState;
         GameState.DayChanged += UpdateHUD;
         GameState.UpdateHUD += UpdateHUD;
+        _manager = FindAnyObjectByType<UIManager>();
         SetupButtons();
         SetupLabels();
         UpdateHUD();
@@ -26,6 +31,14 @@ public class HUDController : MonoBehaviour
         advanceDayButton.clicked += GameStateManagerSingleton.Instance.AdvanceDay;
         advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
+        
+
+        _changeToMainRoomButton = _root.Q<Button>("change-to-main-room-button");
+        _changeToMainRoomButton.clicked += _manager.ChangeToMainRoom;
+        _changeToMainRoomButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _changeToDryingRoomButton = _root.Q<Button>("change-to-drying-room-button");
+        _changeToDryingRoomButton.clicked += _manager.ChangeToDryingRoom;
+        _changeToDryingRoomButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         var openMainmenuButton = _root.Q<Button>("open-mainmenu-button");
         openMainmenuButton.clicked += () => UIEvents.ShowMainMenuView.Invoke();
         openMainmenuButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
@@ -54,6 +67,8 @@ public class HUDController : MonoBehaviour
         _harvestedPlantCountLabel.text = _gameState.HarvestedPlantCount.ToString();
         _finishedDriedCountLabel.text = _gameState.CompletedDriedPlantsCount.ToString();
         _scoreLabel.text = _gameState.CurrentScore.ToString();
+        _changeToMainRoomButton.SetEnabled(_manager.IsReadyToChangeRoom && _manager.DryingRoomIsActive);
+        _changeToDryingRoomButton.SetEnabled(_manager.IsReadyToChangeRoom && _manager.MainRoomIsActive);
     }
 
 
