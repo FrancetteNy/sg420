@@ -1,4 +1,3 @@
-using SG420UILibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,16 +30,8 @@ public class GroupWateringController : MonoBehaviour
         _root = root;
         _plantManager = plantManager;
         UpdatePlantControllers();
-        SetupButtons();
         _uiManager = new GroupWateringUIManager(GetComponent<UIDocument>(), OnButtonDown);
         _groupWateringViewplantManager = new GroupWateringViewPlantManager(PlantControllers);
-    }
-
-    private void SetupButtons()
-    {
-        var close_button = _root.Q<Button>("group-watering-close-window-button");
-        close_button.clicked += () => UIEvents.HideGroupWateringView.Invoke();
-        close_button.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
     }
 
     public enum GroupWateringButton
@@ -57,10 +48,10 @@ public class GroupWateringController : MonoBehaviour
                 CloseView();
                 break;
             case GroupWateringButton.WaterPlats:
-                _groupWateringViewplantManager.AddWater(_uiManager.GetWaterValue());
+                _groupWateringViewplantManager.AddWaterAndFertilize(_uiManager.GetWaterValue(), _uiManager.GetFertilizeValue());
                 _uiManager.UpdatePlantData(PlantControllers);
                 CloseView();
-                UIEvents.AddNotification.Invoke(new NotificationData("Pflanzen gießen", $"Alle Pflanzen mit Wert {_uiManager.GetWaterValue()} gegossen.", 3));
+                UIEvents.AddNotification.Invoke(new NotificationData("Gruppengießen und -düngen", $"Alle Pflanzen: {Environment.NewLine}Wassermenge +{_uiManager.GetWaterValue()}.{Environment.NewLine}Nährstoffe +{_uiManager.GetFertilizeValue()}.", 3));
                 break;
             default:
                 break;
@@ -89,6 +80,8 @@ public class GroupWateringController : MonoBehaviour
         {
             var waterValueLabel = _background.Q<Label>("water-value-label");
             _background.Q<Slider>("water-slider").RegisterValueChangedCallback(v => waterValueLabel.text = v.newValue.ToString());
+            var fertilizeValueLabel = _background.Q<Label>("fertilize-value-label");
+            _background.Q<Slider>("fertilize-slider").RegisterValueChangedCallback(v => fertilizeValueLabel.text = v.newValue.ToString());
         }
 
         private void SetupButtons(Action<GroupWateringButton> onButtonDown)
@@ -127,14 +120,17 @@ public class GroupWateringController : MonoBehaviour
         {
             return _background.Q<Slider>("water-slider").value;
         }
+
+        internal float GetFertilizeValue()
+        {
+            return _background.Q<Slider>("fertilize-slider").value;
+        }
     }
 
     public static class GroupWateringViewConstants
     {
-        public const float DefaultWaterValue = 10f;
-
         public static Dictionary<GroupWateringButton, string> NameOfButtons = new Dictionary<GroupWateringButton, string>() {
-        {GroupWateringButton.Close,"close-watering-submenu-button"  },
+        {GroupWateringButton.Close,"group-watering-close-window-button"  },
         {GroupWateringButton.WaterPlats,"group-watering-button"},
         };
     }
@@ -148,7 +144,7 @@ public class GroupWateringController : MonoBehaviour
             _plants = plants;
         }
 
-        public void AddWater(float waterAmount)
+        public void AddWaterAndFertilize(float waterAmount, float fertilizeAmount)
         {
             if (_plants == null || _plants.Count == 0)
                 return;
@@ -156,6 +152,7 @@ public class GroupWateringController : MonoBehaviour
             foreach (var plant in _plants)
             {
                 plant.PlantData.Soil.StoredWater += waterAmount;
+                plant.PlantData.Soil.StoredNutrients += fertilizeAmount;
             }
         }
 
