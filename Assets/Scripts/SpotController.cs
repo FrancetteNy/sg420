@@ -4,16 +4,14 @@ public class SpotController : MonoBehaviour
 {
     private HighlightController _highlightController;
     private Light _spotLight;
-    private Renderer _lightRenderer;
-    Material[] _materials;
+    Material _emmisiveMaterial;
     void Awake()
     {
         _highlightController = FindAnyObjectByType<HighlightController>();
         _spotLight = GetComponentInChildren<Light>();
-        _lightRenderer = GetComponentInChildren<Renderer>();
-        _materials = _lightRenderer.sharedMaterials;
-        _materials[1] = new Material(_lightRenderer.materials[1]);
-        _materials = _lightRenderer.sharedMaterials;
+        var lightRenderer = GetComponentInChildren<Renderer>();
+        _emmisiveMaterial = new Material(lightRenderer.materials[1]);
+        _emmisiveMaterial = lightRenderer.sharedMaterials[1]; // i dont understand why we need this, but we need this?
         ConstructPlantHighlightAndClickFunction();
     }
 
@@ -23,12 +21,11 @@ public class SpotController : MonoBehaviour
         var highlightBuilder = _highlightController.BeginHighlightObject(this.gameObject);
         highlightBuilder.WithClickAction((data) =>
         {
-            bool isEnabled = _spotLight.enabled;
-            _spotLight.enabled = !isEnabled;
-            if (!isEnabled)
-                _materials[1].EnableKeyword("_EMISSION");
+            _spotLight.enabled = !_spotLight.enabled;
+            if (_spotLight.enabled)
+                _emmisiveMaterial.EnableKeyword("_EMISSION");
             else
-                _materials[1].DisableKeyword("_EMISSION");
+                _emmisiveMaterial.DisableKeyword("_EMISSION");
         });
 
         highlightBuilder.Apply();
