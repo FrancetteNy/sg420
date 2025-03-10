@@ -13,9 +13,7 @@ public class InventarController : MonoBehaviour
     private VisualElement _root;
     private Button _tab1, _tab2, _tab3;
     private VisualElement _content1, _content2, _content3;
-    private int _seed;
-    private Label _label;
-    public VisualTreeAsset inventoryItemTemplate;
+    
 
 
     private void Awake()
@@ -105,7 +103,7 @@ public class InventarController : MonoBehaviour
         nameLabel.AddToClassList("item-name");
         itemElement.Add(nameLabel);
 
-        var detailsLabel = new Label($"Variete: {item.Variete}, Feminisiert: {item.istFeminisiert}");
+        var detailsLabel = new Label($"Variete: {item.Variete}");
         detailsLabel.AddToClassList("item-details");
         itemElement.Add(detailsLabel);
 
