@@ -627,8 +627,6 @@ public class DetailViewPlantManager
     {
         if (plantIndex == -1 && CurrentPlantIndex != -1)
             return;
-        else if (CurrentPlantIndex == -1)
-            plantIndex = 0;
         CurrentPlantIndex = plantIndex;
         _onPlantChanged.Invoke(CurrentPlantIndex);
         SavePlantTransform();
