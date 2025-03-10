@@ -12,7 +12,7 @@ public class DetailViewController : MonoBehaviour
     public static Action PlantsChanged;
 
     // Camera and Managers
-    public List<PlantController> PlantControllers;
+    private List<PlantController> _plantControllers;
     private Camera _detailViewCamera;
     private DetailViewCameraController _cameraController;
     private DetailViewUIManager _uiManager;
@@ -31,13 +31,12 @@ public class DetailViewController : MonoBehaviour
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
-
     }
 
 
     private void UpdatePlantControllers()
     {
-        PlantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
+        _plantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
     }
 
     public void Initialize(Camera detailViewCamera, PlantManager plantManager)
@@ -46,9 +45,10 @@ public class DetailViewController : MonoBehaviour
         _plantManager = plantManager;
         UpdatePlantControllers();
         _cameraController = new DetailViewCameraController(detailViewCamera, GetComponent<UIDocument>().rootVisualElement.Q<Image>("plant-view"));
-        _detailViewplantManager = new DetailViewPlantManager(PlantControllers, OnPlantChanged);
+        _detailViewplantManager = new DetailViewPlantManager(_plantControllers, OnPlantChanged);
         _uiManager = new DetailViewUIManager(GetComponent<UIDocument>(), OnButtonDown, OnButtonUp, OnDetailHovered);
         _isInitialized = true;
+        this.enabled = false;
     }
     private void Update()
     {
@@ -57,7 +57,9 @@ public class DetailViewController : MonoBehaviour
             return;
         }
         if (_detailViewplantManager.CurrentPlantIndex < 0)
+        {
             return;
+        }
 
         // Update Camera
         _cameraController.UpdatePosition(_cameraMoveVector,
