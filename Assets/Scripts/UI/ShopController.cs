@@ -58,7 +58,7 @@ public class ShopController : MonoBehaviour
         nameLabel.AddToClassList("shop-item-name");
         itemElement.Add(nameLabel);
 
-        var priceLabel = new Label($"Price : {item.Price} €");
+        var priceLabel = new Label($"Preis : {item.Price} €");
         priceLabel.AddToClassList("shop-item-price");
         itemElement.Add(priceLabel);
 

@@ -12,7 +12,6 @@ public class GameState
     public JsonableListWrapper<Samen> SamenInventar;
     public Room Room;
     public int Geld = 100;
-
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
 

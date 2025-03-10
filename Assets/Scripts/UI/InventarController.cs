@@ -81,7 +81,6 @@ public class InventarController : MonoBehaviour
 
             foreach (var item in gameState.SamenInventar.List)
             {
-                Debug.Log($"Item: {item.Name}, Item: {item.Variete} Quantité: {item.Quantity}");
                 var itemElement = CreateInventoryItemElement(item);
                 activeTab.Add(itemElement);
             }
@@ -103,11 +102,11 @@ public class InventarController : MonoBehaviour
         nameLabel.AddToClassList("item-name");
         itemElement.Add(nameLabel);
 
-        var detailsLabel = new Label($"Variete: {item.Variete}");
+        var detailsLabel = new Label($"Varietät: {item.Variete}");
         detailsLabel.AddToClassList("item-details");
         itemElement.Add(detailsLabel);
 
-        var quantityLabel = new Label($"Quantity: {item.Quantity}");
+        var quantityLabel = new Label($"Menge: {item.Quantity}");
         quantityLabel.name = "item-quantity";
         quantityLabel.AddToClassList("item-quantity");
         itemElement.Add(quantityLabel);
@@ -155,7 +154,7 @@ public class InventarController : MonoBehaviour
         if (itemElement != null)
         {
             var quantityLabel = itemElement.Q<Label>("item-quantity");
-            quantityLabel.text = $"Quantité: {seedItem.Quantity}";
+            quantityLabel.text = $"Menge: {seedItem.Quantity}";
         }
     }
 
