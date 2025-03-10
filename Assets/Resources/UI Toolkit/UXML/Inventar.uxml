@@ -7,39 +7,17 @@
             <ui:Button name="tab2" text="Ungetrokene Pflanzen" class="nav-link text-color" />
             <ui:Button name="tab3" text="Getrokente Pflanzen" class="nav-link text-color" />
             <ui:VisualElement style="display: flex; justify-content: flex-end;">
-                <ui:Button name="close-button" text="X"/>
+                <ui:Button name="close-button" class="text-color" text="X"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name= "tab-content1" class="text-color" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
             
         </ui:VisualElement>
         <ui:VisualElement name= "tab-content2" class="text-color" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            <ui:VisualElement style="width: 300px; height: 300px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px font-color: white;">
-                <ui:Label text="Indica" />
-                <ui:Label text="0" />
-            </ui:VisualElement>
-            <ui:VisualElement style="width: 300px; height: 300px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px; font-color: white;">
-                <ui:Label text="Saltiva" />
-                <ui:Label text="0" />
-            </ui:VisualElement>
-            <ui:VisualElement style="width: 300px; height: 300px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px; font-color: white;">
-                <ui:Label text="Ruderalis" />
-                <ui:Label text="0" />
-            </ui:VisualElement>
+            
         </ui:VisualElement>
         <ui:VisualElement name= "tab-content3" class="text-color" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            <ui:VisualElement style="width: 300px; height: 300px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px; font-color: white;">
-               <ui:Label text="Indica" />
-                <ui:Label text="0" />
-            </ui:VisualElement>
-            <ui:VisualElement style="width: 300px; height: 300px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px; font-color: white;">
-                <ui:Label text="Saltiva" />
-                <ui:Label text="0" />
-            </ui:VisualElement>
-            <ui:VisualElement style="width: 300px; height: 300px; border-width: 2px; border-color: white; justify-content: center; align-items: center; font-size: 20px; font-color: white;">
-                <ui:Label text="Ruderalis" />
-                <ui:Label text="0" />
-            </ui:VisualElement>
+            
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
