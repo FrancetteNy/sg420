@@ -214,6 +214,12 @@ public class DetailViewController : MonoBehaviour
         _detailViewCamera.enabled = true;
 
         _closeAction = closeAction;
+
+        if (!GameStateManagerSingleton.Instance.GameState.OnboardingDoneData.DetailviewOnboardingIsDone)
+        {
+            GameStateManagerSingleton.Instance.GameState.OnboardingDoneData.DetailviewOnboardingIsDone = true;
+            _uiManager.StartOnboarding();
+        }
     }
 
 
@@ -546,6 +552,25 @@ public class DetailViewUIManager
     internal float GetFertilizerValue()
     {
         return _background.Q<Slider>("fertilizer-slider").value;
+    }
+
+    internal void StartOnboarding()
+    {
+        var plantView = _background.Q<Image>("plant-view");
+        var rotateControlButtons = _background.Q<VisualElement>("rotate-control-buttons");
+        var cameraControlButtons = _background.Q<VisualElement>("camera-control-buttons");
+        var zoomControlButtons = _background.Q<VisualElement>("zoom-control-buttons");
+        var wiki = _background.Q<VisualElement>("wiki");
+        UIEvents.ShowOnboardingView(new() { 
+            new(plantView, "Pflanzenübersicht", "Hier kannst du dir die Pflanzen genauer anschauen"),
+            new(_previousPlantButton, "Vorherige Pflanze", "Mit diesem Button kannst du dir die vorherige Pflanze anschauen"),
+            new(_nextPlantButton, "Nächste Pflanze", "Hiermit kannst du zur nächsten Pflanze springen"),
+            new(cameraControlButtons, "Kamera bewegen", "Mit diesen Buttons kannst du die Kamera bewegen, um die Pflanze besser ins Bild zu rücken"),
+            new(rotateControlButtons, "Pflanze bewegen", "Mit diesen Buttons kannst du die Pflanze nach unten und oben bewegen und drehen"),
+            new(zoomControlButtons, "Heranzoomen", "Mit diesen Buttons kannst du die Zoomstufe einstellen"),
+            new(_seedSelectionContainer, "Anpflanzen einer Pflanze", "Hier kannst du eine neue Pflanze in den Topf anpflanzen. Danach erfährst du hier mehr Informationen über die Pflanze"),
+            new(wiki, "Enzyklopädie", "Wenn du über verschiedene Elemente mit der Maus fährst, kannst du hier weitere Informationen erhalten"),
+        });
     }
 }
 

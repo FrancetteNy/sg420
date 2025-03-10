@@ -49,7 +49,7 @@ public class ChatView : UIView
         View.schedule.Execute(() =>
         {
             _controller.enabled = true;
-        }).ExecuteLater(300);
+        }).ExecuteLater(350);
     }
 
     public override void OnCancelPerformed(InputAction.CallbackContext context)

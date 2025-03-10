@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
 
 class UIEvents
 {
@@ -31,6 +32,9 @@ class UIEvents
 
     public static Action ShowGroupWateringView;
     public static Action HideGroupWateringView;
+
+    public static Action<List<OnboardingData>> ShowOnboardingView;
+    public static Action HideOnboardingView;
 
     //Notification Events
     public static Action<NotificationData> AddNotification;

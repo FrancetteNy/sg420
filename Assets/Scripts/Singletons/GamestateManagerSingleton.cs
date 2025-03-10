@@ -10,12 +10,12 @@ public class GameStateManagerSingleton : SingletonViaPrefab<GameStateManagerSing
 {
     public GameState GameState;
     public bool IsGameLoaded = false;
+    public bool HasGameToLoad => File.Exists(_saveFilePath);
     protected override void InitializeSingleton()
     {
         base.InitializeSingleton();
         Instance._saveFilePath = Application.persistentDataPath + "/SaveData.json";
         Instance.GameState = new GameState();
-        Instance.Load();
     }
     private void OnEnable()
     {
@@ -47,20 +47,24 @@ public class GameStateManagerSingleton : SingletonViaPrefab<GameStateManagerSing
 
     public void Load()
     {
-        if (IsGameLoaded)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
         if (File.Exists(_saveFilePath))
         {
             string loadedData = File.ReadAllText(_saveFilePath);
             GameState = JsonUtility.FromJson<GameState>(loadedData);
-            IsGameLoaded = true;
         }
         else
         {
             Debug.Log("File does not exist " + _saveFilePath);
         }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        IsGameLoaded = true;
+    }
+
+    public void NewGame()
+    {
+        GameState = new GameState();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        IsGameLoaded = true;
     }
 
     private void UnlockEncyclopediaEntry(string entry)

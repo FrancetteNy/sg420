@@ -20,7 +20,7 @@ public class GameState
     public JsonableListWrapper<QuestWithObjectiveIndex> DoneQuestsList;
     public JsonableListWrapper<QuestWithObjectiveIndex> ActiveQuestsList;
 
-
+    public OnboardingDoneData OnboardingDoneData;
 
     public GameState()
     {
@@ -38,6 +38,7 @@ public class GameState
             });
         DoneQuestsList = new(new());
         ActiveQuestsList = new(new());
+        OnboardingDoneData = new();
     }
 }
 
@@ -107,6 +108,14 @@ public class Samen : InventoryItem
         istFeminisiert = istFeminisiert;
         Name = $"{variete} Samen";
         Quantity = quantity;
-        
+    }    
+}
+[Serializable]
+public class OnboardingDoneData
+{
+    public bool DetailviewOnboardingIsDone;
+    public OnboardingDoneData()
+    {
+        DetailviewOnboardingIsDone = false;
     }
 }

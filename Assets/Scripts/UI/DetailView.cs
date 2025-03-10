@@ -19,8 +19,7 @@ class DetailView : UIView
 
         _controller = Manager.gameObject.AddComponent<DetailViewController>();
         _controller.Initialize(GameObject.Find("DetailView Camera").GetComponent<Camera>(), GameObject.FindAnyObjectByType<PlantManager>());
-        _controller.enabled = false;
-
+        Hide();
     }
     public override void Dispose()
     {

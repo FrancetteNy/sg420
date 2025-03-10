@@ -1,24 +1,25 @@
 #Encyclopedia {
     flex-grow: 1;
     flex-direction: row;
-    width: 98%; height: 98%;
-    background-color: rgb(255, 255, 255); 
-    right: 1%; 
-    bottom: 1%; 
-    left: 1%; 
-    top: 1%; 
-    position: absolute; 
-    border-color: rgba(0, 0, 0, 0); 
-    border-width: 1px; 
+    width: auto;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    right: 10%;
+    bottom: 10%;
+    left: 10%;
+    top: 10%;
+    position: absolute;
+    border-color: rgba(0, 0, 0, 0);
+    border-width: 1px;
     border-radius: 15px;
 }
 
 #side-bar {
     height: 96%;
     width: 15%;
-    left: 2% ;
-    top: 2% ;
-    bottom: 2% ;
+    left: 2%;
+    top: 2%;
+    bottom: 2%;
 }
 
 #search-bar {
@@ -26,19 +27,18 @@
     border-radius: 15px;
     border-width: 2px;
     border-color: rgb(126, 126, 126);
-    font-size: 15px; 
+    font-size: 15px;
 }
 
 #entry-scroll-view {
     height: 96%;
-    width: 75%; 
-    left: 4% ;
-    top: 2% ;
+    width: 75%;
+    left: 4%;
+    top: 2%;
 }
 
 #entry {
     flex-grow: 1;
-
 }
 
 .h1 {
