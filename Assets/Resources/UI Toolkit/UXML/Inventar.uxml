@@ -10,14 +10,20 @@
                 <ui:Button name="close-button" class="text-color" text="X"/>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name= "tab-content1" class="text-color" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            
-        </ui:VisualElement>
-        <ui:VisualElement name= "tab-content2" class="text-color" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            
-        </ui:VisualElement>
-        <ui:VisualElement name= "tab-content3" class="text-color" style="flex-direction: row; justify-content: space-around; margin-top: 20px;">
-            
-        </ui:VisualElement>
+        <ui:ScrollView name="scroll-content" class="text-color" style="margin-top: 20px;">
+            <ui:VisualElement name= "tab-content1" class="text-color tab-content" style="flex-direction: row; justify-content: space-around;">
+                
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:ScrollView name="scroll-content" class="text-color" style="margin-top: 20px;">
+            <ui:VisualElement name= "tab-content2" class="text-color tab-content" style="flex-direction: row; justify-content: space-around;">
+                
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:ScrollView name="scroll-content" class="text-color" style="margin-top: 20px;">
+            <ui:VisualElement name= "tab-content3" class="text-color tab-content" style="flex-direction: row; justify-content: space-around;">
+                
+            </ui:VisualElement>
+        </ui:ScrollView>
     </ui:VisualElement>
 </ui:UXML>

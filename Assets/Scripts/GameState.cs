@@ -34,7 +34,7 @@ public class GameState
             {
                 new Samen("Indica", 2, true),
                 new Samen("Sativa", 2, true),
-                new Samen("Ruderalis", 2, true)
+                new Samen("Ruderalis", 2, true),    
             });
         DoneQuestsList = new(new());
         ActiveQuestsList = new(new());

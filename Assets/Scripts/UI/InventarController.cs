@@ -75,7 +75,6 @@ public class InventarController : MonoBehaviour
 
             if (gameState == null || gameState.SamenInventar == null || gameState.SamenInventar.List == null)
             {
-                Debug.LogError("gameState ou SamenInventar non initialisé !");
                 return;
             }
 
