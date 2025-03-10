@@ -100,13 +100,14 @@ public class PlantManager : MonoBehaviour
         }
         plantController.Soil.StoredWater = Math.Max(plantController.Soil.StoredWater - PlantManagerConstants.MinWater, 0);
         plantController.Soil.StoredNutrients = Math.Max(plantController.Soil.StoredNutrients - PlantManagerConstants.MinNutrients, 0);
+        var currentPlantModel = GetCurrentPlantModel(plant);
         if (correctAmountOfNutrients && correctAmountOfWater)
         {
             AgePlant(plant);
-            var plantModel = GetCurrentPlantModel(plant).transform;
+            var plantModel = currentPlantModel.transform;
             plantModel.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
-        UpdateModel(GetCurrentPlantModel(plant).transform, plantController.Age);
+        UpdateModel(currentPlantModel.transform, plantController.Age);
     }
 
     private void UpdateModel(Transform transform, Age age)
@@ -162,9 +163,9 @@ public class PlantManager : MonoBehaviour
         if (plantController.Age.AgeNumber > PlantManagerConstants.MaximumAgePerGrowthStage[plantController.Age.Stage])
         {
             plantController.Age.Stage = plantController.Age.GetNextStage();
-            ManagePlantStageModel(plant);
             plantController.Age.AgeNumber = 0;
         }
+        ManagePlantStageModel(plant);
     }
 
     public void ManagePlantStageModel(GameObject plant)
