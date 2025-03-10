@@ -5,6 +5,7 @@ using UnityEngine;
 public class DryingManager : MonoBehaviour
 {
     public GameObject[] PlantPoints;
+    List<HighlightController.HighlightBuilder> _highlightBuilders; 
     List<DryingController> _dryingControllers;
     HighlightController _highlightController;
     GameState _gameState;
@@ -12,11 +13,23 @@ public class DryingManager : MonoBehaviour
     void Start()
     {
         _gameState = GameStateManagerSingleton.Instance.GameState;
+        CreateHighlightBuilder();
         InitializeDryingControllers();
         InitializeHighlight();
         GameState.DayChanged += OnDayChanged;
     }
 
+    private void CreateHighlightBuilder()
+    {
+        _highlightController = FindAnyObjectByType<HighlightController>();
+        _highlightBuilders = new List<HighlightController.HighlightBuilder>();
+        for (int i = 0; i < PlantPoints.Length; i++)
+        {
+            GameObject plantPoint = PlantPoints[i];
+            var highlightBuilder = _highlightController.BeginHighlightObject(plantPoint);
+            _highlightBuilders.Add(highlightBuilder);
+        }
+    }
     private void OnDayChanged()
     {
         foreach (var controller in _dryingControllers)
@@ -56,7 +69,6 @@ public class DryingManager : MonoBehaviour
 
     private void InitializeHighlight()
     {
-        _highlightController = FindAnyObjectByType<HighlightController>();
         for (int i = 0; i < _dryingControllers.Count; i++)
         {
             ConstructPlantHighlightAndClickFunction(i);
@@ -65,9 +77,8 @@ public class DryingManager : MonoBehaviour
 
     private void ConstructPlantHighlightAndClickFunction(int index)
     {
-        GameObject plantPoint = PlantPoints[index];
         DryingController controller = _dryingControllers[index];
-        var highlightBuilder = _highlightController.BeginHighlightObject(plantPoint);
+        var highlightBuilder = _highlightBuilders[index];
         highlightBuilder.WithClickAction((data) =>
         {
             if (controller.DriedPlantData.DryingAge.Stage != DryingStage.Empty)

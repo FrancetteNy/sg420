@@ -7,6 +7,7 @@ public class DriedPlantData
     public DryingAge DryingAge;
     public DriedPlantData()
     {
+        OldPlantData = new PlantData();
         DryingAge = new();
     }
 
