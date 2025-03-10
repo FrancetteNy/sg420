@@ -152,8 +152,8 @@ public class UIManager : MonoBehaviour
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
     private void OnInventarShown () => ShowView(_inventar);
     private void OnShopShown () => ShowView(_shop);
-    private void OnQuestLogShown() => ShowView(_questLog);
-    private void OnGroupWateringShown() => ShowView(_groupWateringView);
+    private void OnQuestLogShown() => ShowOverlay(_questLog);
+    private void OnGroupWateringShown() => ShowOverlay(_groupWateringView);
     private void OnOnboardingViewShown(List<OnboardingData> list) {
         _onboardingView.SetData(list);
         ShowOverlay(_onboardingView);
