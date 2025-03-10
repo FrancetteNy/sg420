@@ -117,19 +117,6 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowOnboardingView += OnOnboardingViewShown;
         UIEvents.HideOnboardingView += HideOverlay;
 
-        _allUIViews.Add(_detailView);
-        _allUIViews.Add(_hudView);
-        _allUIViews.Add(_lightOverview);
-        _allUIViews.Add(_encyclopedia);
-        _allUIViews.Add(_inventar);
-        _allUIViews.Add(_chatView);
-        _allUIViews.Add(_mainMenuView);
-        _allUIViews.Add(_shop);
-        _allUIViews.Add(_groupWateringView);
-
-        _currentView = _hudView;
-        _previousView = _hudView;
-        UIEvents.ShowMainMenuView.Invoke();
         _previousView = null;
         if (GameStateManagerSingleton.Instance.IsGameLoaded)
         {
