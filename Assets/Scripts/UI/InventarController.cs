@@ -101,7 +101,7 @@ public class InventarController : MonoBehaviour
         nameLabel.AddToClassList("item-name");
         itemElement.Add(nameLabel);
 
-        var detailsLabel = new Label($"Varietät: {item.Variete}");
+        var detailsLabel = new Label($"Sorte: {item.Sorte}");
         detailsLabel.AddToClassList("item-details");
         itemElement.Add(detailsLabel);
 
@@ -123,7 +123,7 @@ public class InventarController : MonoBehaviour
             return false;
         }
 
-        var seedItem = gameState.SamenInventar.List.Find(item => item.Variete == seedName);
+        var seedItem = gameState.SamenInventar.List.Find(item => item.Sorte == seedName);
         if (seedItem == null)
         {
             return false;
@@ -149,7 +149,7 @@ public class InventarController : MonoBehaviour
 
     private void UpdateSeedQuantityInUI(Samen seedItem)
     {
-        var itemElement = _content1.Q<VisualElement>(seedItem.Variete);
+        var itemElement = _content1.Q<VisualElement>(seedItem.Sorte);
         if (itemElement != null)
         {
             var quantityLabel = itemElement.Q<Label>("item-quantity");

@@ -98,15 +98,15 @@ public abstract class InventoryItem
 [Serializable]
 public class Samen : InventoryItem
 {
-    public string Variete; // Indica, Sativa, etc.
+    public string Sorte; // Indica, Sativa, etc.
     public bool istFeminisiert;
     public int Quantity;
 
-    public Samen(string variete, int quantity, bool istFeminisiert = true)
+    public Samen(string sorte, int quantity, bool istFeminisiert = true)
     {
-        Variete = variete;
+        Sorte = sorte;
         istFeminisiert = istFeminisiert;
-        Name = $"{variete} Samen";
+        Name = $"{Sorte} Samen";
         Quantity = quantity;
     }    
 }

@@ -108,7 +108,7 @@ public class ShopController : MonoBehaviour
             return;
         }
 
-        var existingSeed = gameState.SamenInventar.List.Find(seed => seed.Variete == item.Name);
+        var existingSeed = gameState.SamenInventar.List.Find(seed => seed.Sorte == item.Name);
         if (existingSeed != null)
         {
             existingSeed.Quantity++; 
