@@ -41,21 +41,33 @@
     flex-grow: 1;
 }
 
+#tree-view{
+   flex-grow: 1;
+}
+
 .h1 {
-    font-size: 30;
-    font-wheight: bold;
+    font-size: 30px;
 }
 
 .h2 {
-    font-size: 20;
-    font-wheight: bold;
+    font-size: 20px;
 }
 
 .h3 {
-    font-size: 15;
-    font-wheight: bold;
+    font-size: 15px;
 }
 
 .paragraph {
     white-space: normal;
+}
+
+.image {
+    flex-shrink: 1;
+    align-self: center;
+}
+
+.image-box {
+    background-color: rgb(4, 24, 1);
+    flex-shrink: 1;
+    align-self: center;
 }
