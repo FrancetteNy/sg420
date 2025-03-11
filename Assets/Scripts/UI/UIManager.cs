@@ -137,8 +137,8 @@ public class UIManager : MonoBehaviour
     private void OnEncyclopediaShown() => ShowOverlay(_encyclopedia);
     private void OnChatViewShown() => ShowView(_chatView);
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
-    private void OnInventarShown () => ShowView(_inventar);
-    private void OnShopShown () => ShowView(_shop);
+    private void OnInventarShown () => ShowOverlay(_inventar);
+    private void OnShopShown () => ShowOverlay(_shop);
     private void OnQuestLogShown() => ShowOverlay(_questLog);
     private void OnGroupWateringShown() => ShowOverlay(_groupWateringView);
     private void OnOnboardingViewShown(List<OnboardingData> list) {
@@ -164,10 +164,10 @@ public class UIManager : MonoBehaviour
         UIEvents.HideEncyclopedia -= HideOverlay;
         _encyclopedia.Dispose();
         UIEvents.ShowInventar -= OnInventarShown;
-        UIEvents.HideInventar -= OnHudShown;
+        UIEvents.HideInventar -= HideOverlay;
         _inventar.Dispose();
         UIEvents.ShowShop -= OnShopShown;
-        UIEvents.HideShop -= OnHudShown;
+        UIEvents.HideShop -= HideOverlay;
         _shop.Dispose();
         UIEvents.ShowChatView -= () => ShowView(_chatView);
         UIEvents.HideChatView -= () => ShowView(_hudView);

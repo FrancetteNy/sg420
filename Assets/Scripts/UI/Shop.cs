@@ -1,11 +1,10 @@
 
 using UnityEngine;
 using UnityEngine.UIElements;
-
+using UnityEngine.InputSystem;
 class Shop : UIView
 {
     ShopController _controller;
-    HighlightController _highlightController;
     
     public Shop(VisualElement root, UIManager manager) : base(root, manager) { }
     override protected void Initialize()
@@ -22,7 +21,6 @@ class Shop : UIView
         _controller = Manager.gameObject.AddComponent<ShopController>();
         _controller.Initialize(View);
 
-        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
         Hide();
     }
     public override void Dispose()
@@ -35,7 +33,7 @@ class Shop : UIView
     {
         View.style.display = DisplayStyle.None;
         _controller.enabled = false;
-        _highlightController.enabled = true;
+        
     }
 
 
@@ -43,7 +41,13 @@ class Shop : UIView
     {
         _controller.enabled = true;
         View.style.display = DisplayStyle.Flex;
-        _highlightController.enabled = false;
+        
     }
 
+    public override void OnCancelPerformed(InputAction.CallbackContext context)
+    {
+        if (!IsOpen)
+            return;
+        UIEvents.ShowMainMenuView();
+    }
 }

@@ -87,8 +87,6 @@ public class ShopController : MonoBehaviour
 
             AddSeedToInventory(item);
 
-            GameStateManagerSingleton.Instance.Save();
-
             InventarController.Instance.RefreshInventory();
 
             UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreicher Einkauf", $"{item.Name}_Samen zum Inventar hinzugefügt.", 5));
