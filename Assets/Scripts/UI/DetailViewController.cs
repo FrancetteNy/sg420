@@ -160,7 +160,7 @@ public class DetailViewController : MonoBehaviour
                 bool isPlantedSuccessfully = _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
                 if (isPlantedSuccessfully)
                 {
-                    _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                    _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                     UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreiche Pflanzung", $"Der Samen {_uiManager.GetSeedValue()} wurde erfolgreich gepflanzt.", 5));
                 } 
                 else
