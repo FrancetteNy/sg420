@@ -157,7 +157,11 @@ public class PlantManager : MonoBehaviour
     public void AgePlant(GameObject plant)
     {
         PlantData plantController = plant.GetComponent<PlantController>().PlantData;
-
+        if (plantController.Age.Stage == GrowthStage.EMPTY)
+        {
+            ManagePlantStageModel(plant);
+            return;
+        }
         plantController.Age.AgeNumber += 1;
 
         if (plantController.Age.AgeNumber > PlantManagerConstants.MaximumAgePerGrowthStage[plantController.Age.Stage])
