@@ -100,13 +100,14 @@ public class PlantManager : MonoBehaviour
         }
         plantController.Soil.StoredWater = Math.Max(plantController.Soil.StoredWater - PlantManagerConstants.MinWater, 0);
         plantController.Soil.StoredNutrients = Math.Max(plantController.Soil.StoredNutrients - PlantManagerConstants.MinNutrients, 0);
+        var currentPlantModel = GetCurrentPlantModel(plant);
         if (correctAmountOfNutrients && correctAmountOfWater)
         {
             AgePlant(plant);
-            var plantModel = GetCurrentPlantModel(plant).transform;
+            var plantModel = currentPlantModel.transform;
             plantModel.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
-        UpdateModel(GetCurrentPlantModel(plant).transform, plantController.Age);
+        UpdateModel(currentPlantModel.transform, plantController.Age);
     }
 
     private void UpdateModel(Transform transform, Age age)
@@ -156,26 +157,28 @@ public class PlantManager : MonoBehaviour
     public void AgePlant(GameObject plant)
     {
         PlantData plantController = plant.GetComponent<PlantController>().PlantData;
-
+        if (plantController.Age.Stage == GrowthStage.EMPTY)
+        {
+            ManagePlantStageModel(plant);
+            return;
+        }
         plantController.Age.AgeNumber += 1;
 
         if (plantController.Age.AgeNumber > PlantManagerConstants.MaximumAgePerGrowthStage[plantController.Age.Stage])
         {
             plantController.Age.Stage = plantController.Age.GetNextStage();
-            ManagePlantStageModel(plant);
             plantController.Age.AgeNumber = 0;
         }
+        ManagePlantStageModel(plant);
     }
 
-    private void ManagePlantStageModel(GameObject plant)
+    public void ManagePlantStageModel(GameObject plant)
     {
-        plant.transform.Find("Plant1").gameObject.SetActive(false);
-        plant.transform.Find("Plant2").gameObject.SetActive(false);
-        plant.transform.Find("Plant3").gameObject.SetActive(false);
-        plant.transform.Find("plant").gameObject.SetActive(false);
-
-        // Activate the current model
-        GetCurrentPlantModel(plant).SetActive(true);
+        var currentStage = plant.GetComponent<PlantController>().PlantData.Age.Stage;
+        plant.transform.Find("Plant1").gameObject.SetActive(currentStage == GrowthStage.GERMINATION);
+        plant.transform.Find("Plant2").gameObject.SetActive(currentStage == GrowthStage.SEEDLING);
+        plant.transform.Find("Plant3").gameObject.SetActive(currentStage == GrowthStage.VEGETATIVEGROWTH);
+        plant.transform.Find("plant").gameObject.SetActive(currentStage == GrowthStage.FLOWERING || currentStage == GrowthStage.FADED);
     }
 
     public GameObject GetCurrentPlantModel(GameObject plant)

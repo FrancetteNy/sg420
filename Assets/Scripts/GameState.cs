@@ -8,12 +8,20 @@ public class GameState
     public Growlight Growlight;
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
+    public JsonableListWrapper<PlantData> HarvestedPlantDataList;
+    public JsonableListWrapper<DriedPlantData> CurrentlyDryingPlants;
+    public JsonableListWrapper<DriedPlantData> CompletedDriedPlantDataList;
+    public int HarvestedPlantCount => HarvestedPlantDataList?.List.Count ?? 0;
+    public int CompletedDriedPlantsCount => CompletedDriedPlantDataList?.List.Count ?? 0;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
     public JsonableListWrapper<Seed> SamenInventar;
     public Room Room;
     public int Geld = 100;
+
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
+    public static Action UpdateHUD;
+
 
     public ChatData ChatData;
 
@@ -22,13 +30,18 @@ public class GameState
 
     public OnboardingDoneData OnboardingDoneData;
 
+    public int CurrentScore;
+
+
     public GameState()
     {
         CurrentDay = 1;
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
-        UnlockedEncyclopediaEntries = new(new List <String> {});
-        Room = Room.START;
+        HarvestedPlantDataList = new();
+        CurrentlyDryingPlants = new(new() { new(), new(), new(), new() });
+        CompletedDriedPlantDataList = new();
+        UnlockedEncyclopediaEntries = new();
         ChatData = new();
         SamenInventar = new(new List<Seed>
             {
@@ -36,9 +49,11 @@ public class GameState
                 new Seed("Sativa", 2, true),
                 new Seed("Ruderalis", 2, true),    
             });
-        DoneQuestsList = new(new());
-        ActiveQuestsList = new(new());
+        
+        DoneQuestsList = new();
+        ActiveQuestsList = new();
         OnboardingDoneData = new();
+        CurrentScore = 0;
     }
 }
 
@@ -78,6 +93,7 @@ public class JsonableListWrapper<T>
 {
     public List<T> List;
     public JsonableListWrapper(List<T> list) => this.List = list;
+    public JsonableListWrapper() : this(new()) { }
 }
 
 
