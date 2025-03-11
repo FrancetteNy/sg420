@@ -3,6 +3,21 @@
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Encyclopedia.uss?fileID=7433441132597879392&amp;guid=c72bc6add74bfd44c9618da8f32e605d&amp;type=3#Encyclopedia" />
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement enabled="true" name="Geschlecht" class="EncyclopediaEntry" >
-        <ui:Label text="Männlich,\nWeiblich\nInter"/>
+        <ui:Label class="h1" text="Geschlecht von Cannabispflanzen"/>
+        <ui:Label class="paragraph" text="Cannabispflanzen pflanzen sich über Blüten die von Pollen bestäubt werden fort. Weibliche Pflanzen bilden blüeten aus und männliche Pflanzen bilden pollensäcke aus, die den Pollen liefern um die Blüte zu bestäuben. Es kommt auch vor, dass Cannabispflanzen sowohl männliche als auch weibliche Geschlechtsmerkmale ausbilden. Das kann eine Folge von äusserlichen umständen sein (Stress), oder eine genetische Veranlagung der Pflanze. " />
+        <ui:Label class="h2" text="Weiblich" />
+        <ui:Label class="paragraph" text="Die weibliche Cannabisblüte enthält mit Abstand das meiste THC und CBD. In der Natur ist sie dafür verantwortlich Samen auszubilden. Jede der rundlichen Samenkapseln kann einen Samen hervorbringen, wenn die aus ihnen hervorwachsenden, wie kleine härchen aussehenden, Stempel mit pollen bestäubt werden. Überall auf der Blüte befinden sich die Sogenannten Trichome, kleine kleine H^arzbällchen in denen sich Die Wirk- und Duft-Stoffe sammeln." />
+        <ui:Box class="image-box">
+            <ui:Image class="image" style="--unity-image: url('Images/flower.jpg'); height: 400px; width: 400;" />
+            <ui:Label text="Blüte einer weiblichen Cannabispflanze" />
+        </ui:Box>
+        <ui:Label class="h2" text="Männlich"/>
+        <ui:Label class="paragraph" text="Die Männliche Pflanze bildet keine Blüten aus sondern Pollensäcke. Da diese kein THC oder CBD enthalten sind diese eher uninteressant, es sei denn man möchte pflanzen kreuzen." />
+        <ui:Box class="image-box">
+            <ui:Image class="image" style="--unity-image: url('Images/pollen-sack.jpg'); height: 500px; width: 385px;" />
+            <ui:Label text="Blüte einer männlichen Cannabispflanze" />
+        </ui:Box>
+        <ui:Label class="h2" text="Geschlecht bestimmen" />
+        <ui:Label class="paragraph" text="Das Geschlecht einer Cannabispflanze zeigt sich erstmalig ungefähr nach der sechsten Woche nach der Keimung. Ab dann kann man an den Nodien, an den Stellen an denen Zweige vom Stiel der pflanze abgehen, die ersten Geschlechtsmerkmale erkennen. zeigen sich Samenkapseln aus denen ein weiße härchen wachsen, ist die Pflanze weiblich. Wachsen Pollensäcke so ist die Pflanze männlich. Aber nur weil die Pflanze anzeichen für ein Geschlecht zeigt, heißt das nicht dass sie nicht später und an anderen Stellen Merkmale des anderen Geschlechts ausbilden kann. deswegen lohnt es sich immer wieder das Geschlecht der Pflanze zu überprüfen." />
     </ui:VisualElement>
 </ui:UXML>

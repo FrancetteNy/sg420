@@ -3,6 +3,17 @@
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Encyclopedia.uss?fileID=7433441132597879392&amp;guid=c72bc6add74bfd44c9618da8f32e605d&amp;type=3#Encyclopedia" />
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement enabled="true" name="Keimung" class="EncyclopediaEntry" >
-        <ui:Label text="Einfach Samen in die Erde Stecken und gut gießen"/>
+        <ui:Label class="h1" text="Keimung"/>
+        <ui:Label class="paragraph" text="Die Keimung ist die erste Phase im Leben einer pflanze. Aber nicht jeder Samen schafft es zu einer Pflanze zu werden. Um die dem Samen die besten Bedingungen zu schaffen gibt es hauptsächlich drei Methoden. In der Regel dauert es 3 bis 7 Tage bis ein Sämling Keimt. Zu beginn hat der Keimling nur zwei rundliche Blätter. Nach ein paar Tagen bildet er dann die ersten richtigen Blattpaare und die Wachstumsphase beginnt."/>
+        <ui:Box class="image-box">
+            <ui:Image class="image" style="--unity-image: url('Images/sprout.jpg'); height: 300px; width: 400px;" />
+            <ui:Label text="Cannabis Keimling" />
+        </ui:Box>
+        <ui:Label class="h2" text="Keimung auf Wattepads oder Papiertüchern"/>
+        <ui:Label class="paragraph" text="Für die Keimung auf Papiertüchern oder wattepads befeuchtet man Papiertücher oder wattepads und Bedeckt den Samen von beiden Seiten mit den Papiertüchern oder Wattepads. Dann legt man alles zusammen in einen luftdichten behälter. Nach drei tagen hat sich eine Wurzel gebildet und man kann den Sämling vorsichtig, mit der wurzel nach unten in die erde Pflanzen und angießen. Der vorteil dieser Methode ist, dass es recht leicht ist die Bedingungen zu kontrollieren. Nachteil dieser Methode ist, dass man beim entfernen des sämlings vom Papier und besonders vom Wattepad, die Wurzel beschädigen kann."/>
+        <ui:Label class="h2" text="Keimung im Wasser"/>
+        <ui:Label class="paragraph" text="Die Keimiung im Wasser läuft ähnlich ab wie die keimung im auf Papiertüchern. Man gibt den samen in ein kleines gefäß mit wasser und wartet bis sich Wurzeln zeigen. Dann pflanzt man den Sämling in die Erde. Das Verletzungsrisiko für die Wurzel ist zwar kleiner als bei der Papiertuch Methode aber auch hier muss sich der Keimling nach dem Eintopfen neu orientieren."/>
+        <ui:Label class="h2" text="Keimung in der Erde"/>
+        <ui:Label class="paragraph" text="Die Keimung in der erde scheint am einfachsten zu sein. Man Pflanzt den samen zwar einfach in die Erde, aber hier ist die kontrolle der Bedingungen am schwierigsten. Dafür muss sich die Pflanze nicht mehr neu orientieren nach dem sie eingesetzr wurde."/>
     </ui:VisualElement>
 </ui:UXML>
