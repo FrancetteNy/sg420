@@ -26,21 +26,22 @@ class Inventar : UIView
     }
     public override void Dispose()
     {
+        base.Dispose();
         Root.Remove(View);
         GameObject.Destroy(_controller);
     }
 
     public override void Hide()
     {
-        View.style.display = DisplayStyle.None;
+        base.Hide();
         _controller.enabled = false;
     }
 
 
     public override void Show()
     {
+        base.Show();
         _controller.enabled = true;
-        View.style.display = DisplayStyle.Flex;
     }
 
     public override void OnCancelPerformed(InputAction.CallbackContext context)

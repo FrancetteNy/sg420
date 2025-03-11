@@ -90,7 +90,7 @@ public class InventarController : MonoBehaviour
         activeTab.style.display = DisplayStyle.Flex;
     }
 
-    private VisualElement CreateInventoryItemElement(Samen item)
+    private VisualElement CreateInventoryItemElement(Seed item)
     {
 
         var itemElement = new VisualElement();
@@ -101,11 +101,11 @@ public class InventarController : MonoBehaviour
         nameLabel.AddToClassList("item-name");
         itemElement.Add(nameLabel);
 
-        var detailsLabel = new Label($"Sorte: {item.Sorte}");
+        var detailsLabel = new Label($"Sorte: {item.Type}");
         detailsLabel.AddToClassList("item-details");
         itemElement.Add(detailsLabel);
 
-        var quantityLabel = new Label($"Menge: {item.Menge}");
+        var quantityLabel = new Label($"Menge: {item.Quantity}");
         quantityLabel.name = "item-quantity";
         quantityLabel.AddToClassList("item-quantity");
         itemElement.Add(quantityLabel);
@@ -123,15 +123,15 @@ public class InventarController : MonoBehaviour
             return false;
         }
 
-        var seedItem = gameState.SamenInventar.List.Find(item => item.Sorte == seedName);
+        var seedItem = gameState.SamenInventar.List.Find(item => item.Type == seedName);
         if (seedItem == null)
         {
             return false;
         }
 
-        if (seedItem.Menge > 0)
+        if (seedItem.Quantity > 0)
         {
-            seedItem.Menge--;
+            seedItem.Quantity--;
 
             UpdateSeedQuantityInUI(seedItem);
 
@@ -147,13 +147,13 @@ public class InventarController : MonoBehaviour
         
     }
 
-    private void UpdateSeedQuantityInUI(Samen seedItem)
+    private void UpdateSeedQuantityInUI(Seed seedItem)
     {
-        var itemElement = _content1.Q<VisualElement>(seedItem.Sorte);
+        var itemElement = _content1.Q<VisualElement>(seedItem.Type);
         if (itemElement != null)
         {
             var quantityLabel = itemElement.Q<Label>("item-quantity");
-            quantityLabel.text = $"Menge: {seedItem.Menge}";
+            quantityLabel.text = $"Menge: {seedItem.Quantity}";
         }
     }
 

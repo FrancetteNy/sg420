@@ -9,7 +9,7 @@ public class GameState
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
-    public JsonableListWrapper<Samen> SamenInventar;
+    public JsonableListWrapper<Seed> SamenInventar;
     public Room Room;
     public int Geld = 100;
     public static Action DayChanged;
@@ -30,11 +30,11 @@ public class GameState
         UnlockedEncyclopediaEntries = new(new List <String> {});
         Room = Room.START;
         ChatData = new();
-        SamenInventar = new(new List<Samen>
+        SamenInventar = new(new List<Seed>
             {
-                new Samen("Indica", 2, true),
-                new Samen("Sativa", 2, true),
-                new Samen("Ruderalis", 2, true),    
+                new Seed("Indica", 2, true),
+                new Seed("Sativa", 2, true),
+                new Seed("Ruderalis", 2, true),    
             });
         DoneQuestsList = new(new());
         ActiveQuestsList = new(new());
@@ -96,18 +96,18 @@ public abstract class InventoryItem
    
 }
 [Serializable]
-public class Samen : InventoryItem
+public class Seed : InventoryItem
 {
-    public string Sorte; // Indica, Sativa, etc.
-    public bool IstFeminisiert;
-    public int Menge;
+    public string Type; // Indica, Sativa, etc.
+    public bool IsFeminized;
+    public int Quantity;
 
-    public Samen(string sorte, int menge, bool istFeminisiert = true)
+    public Seed(string type, int quantity, bool isFeminized = true)
     {
-        Sorte = sorte;
-        IstFeminisiert = istFeminisiert;
-        Name = $"{Sorte} Samen";
-        Menge = menge;
+        Type = type;
+        IsFeminized = isFeminized;
+        Name = $"{Type} Samen";
+        Quantity = quantity;
     }    
 }
 [Serializable]

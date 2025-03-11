@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 class Shop : UIView
 {
     ShopController _controller;
-    
     public Shop(VisualElement root, UIManager manager) : base(root, manager) { }
     override protected void Initialize()
     {
@@ -25,13 +24,14 @@ class Shop : UIView
     }
     public override void Dispose()
     {
+        base.Dispose();
         Root.Remove(View);
         GameObject.Destroy(_controller);
     }
 
     public override void Hide()
     {
-        View.style.display = DisplayStyle.None;
+        base.Hide();
         _controller.enabled = false;
         
     }
@@ -39,8 +39,8 @@ class Shop : UIView
 
     public override void Show()
     {
+        base.Show();
         _controller.enabled = true;
-        View.style.display = DisplayStyle.Flex;
         
     }
 

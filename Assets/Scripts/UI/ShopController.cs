@@ -12,7 +12,7 @@ public class ShopController : MonoBehaviour
 {
     private DetailViewUIManager _uiManager;
     private VisualElement _root;
-    private VisualElement _tabContent1, _shopContainer;
+    private VisualElement _tabContent, _shopContainer;
     private GameState gameState;
 
     public void Initialize(VisualElement root)
@@ -23,7 +23,7 @@ public class ShopController : MonoBehaviour
         _root.style.display = DisplayStyle.None;
 
         _shopContainer = _root.Q<VisualElement>("Shop");
-        _tabContent1 = _root.Q<VisualElement>("tab-content1");
+        _tabContent = _root.Q<VisualElement>("tab-content");
 
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideShop.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
@@ -44,7 +44,7 @@ public class ShopController : MonoBehaviour
         foreach (var item in shopItems)
         {
             var itemElement = CreateShopItemElement(item);
-            _tabContent1.Add(itemElement);
+            _tabContent.Add(itemElement);
         }
     }
 
@@ -106,10 +106,10 @@ public class ShopController : MonoBehaviour
             return;
         }
 
-        var existingSeed = gameState.SamenInventar.List.Find(seed => seed.Sorte == item.Name);
+        var existingSeed = gameState.SamenInventar.List.Find(seed => seed.Type == item.Name);
         if (existingSeed != null)
         {
-            existingSeed.Menge++; 
+            existingSeed.Quantity++; 
         }
         
     }
