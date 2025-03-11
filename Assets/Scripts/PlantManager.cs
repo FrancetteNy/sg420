@@ -105,14 +105,13 @@ public class PlantManager : MonoBehaviour
         plantData.Quality = Math.Max(plantData.Quality, 0);
         plantData.Soil.StoredWater = Math.Max(plantData.Soil.StoredWater - PlantManagerConstants.MinWater, 0);
         plantData.Soil.StoredNutrients = Math.Max(plantData.Soil.StoredNutrients - PlantManagerConstants.MinNutrients, 0);
-        var currentPlantModel = GetCurrentPlantModel(plant);
         if (correctAmountOfNutrients && correctAmountOfWater)
         {
             AgePlant(plant);
-            var plantModel = currentPlantModel.transform;
+            var plantModel = GetCurrentPlantModel(plant).transform;
             plantModel.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
-        UpdateModel(currentPlantModel.transform, plantData.Age);
+        UpdateModel(GetCurrentPlantModel(plant).transform, plantData.Age);
     }
 
     private void UpdateModel(Transform transform, Age age)
