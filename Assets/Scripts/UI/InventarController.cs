@@ -105,7 +105,7 @@ public class InventarController : MonoBehaviour
         detailsLabel.AddToClassList("item-details");
         itemElement.Add(detailsLabel);
 
-        var quantityLabel = new Label($"Menge: {item.Quantity}");
+        var quantityLabel = new Label($"Menge: {item.Menge}");
         quantityLabel.name = "item-quantity";
         quantityLabel.AddToClassList("item-quantity");
         itemElement.Add(quantityLabel);
@@ -129,9 +129,9 @@ public class InventarController : MonoBehaviour
             return false;
         }
 
-        if (seedItem.Quantity > 0)
+        if (seedItem.Menge > 0)
         {
-            seedItem.Quantity--;
+            seedItem.Menge--;
 
             UpdateSeedQuantityInUI(seedItem);
 
@@ -153,7 +153,7 @@ public class InventarController : MonoBehaviour
         if (itemElement != null)
         {
             var quantityLabel = itemElement.Q<Label>("item-quantity");
-            quantityLabel.text = $"Menge: {seedItem.Quantity}";
+            quantityLabel.text = $"Menge: {seedItem.Menge}";
         }
     }
 

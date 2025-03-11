@@ -93,10 +93,10 @@ public class UIManager : MonoBehaviour
         UIEvents.HideLightOverview += HideOverlay;
 
         UIEvents.ShowInventar += OnInventarShown;
-        UIEvents.HideInventar += OnHudShown;
+        UIEvents.HideInventar += HideOverlay;
 
         UIEvents.ShowShop += OnShopShown;
-        UIEvents.HideShop += OnHudShown;
+        UIEvents.HideShop += HideOverlay;
         
         UIEvents.HideEncyclopedia += () => ShowView(_hudView);
         UIEvents.ShowEncyclopedia += OnEncyclopediaShown;

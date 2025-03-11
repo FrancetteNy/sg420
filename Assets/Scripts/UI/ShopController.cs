@@ -109,7 +109,7 @@ public class ShopController : MonoBehaviour
         var existingSeed = gameState.SamenInventar.List.Find(seed => seed.Sorte == item.Name);
         if (existingSeed != null)
         {
-            existingSeed.Quantity++; 
+            existingSeed.Menge++; 
         }
         
     }

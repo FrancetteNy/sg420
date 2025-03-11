@@ -26,7 +26,7 @@
     font-size: 18px; 
     width: 40px; 
     height: 40px; 
-    cursor: pointer;
+   
 }
 .nav-tabs {
     flex-direction: row;
@@ -38,7 +38,6 @@
 .nav {
     flex-grow: 1;
     padding: 10px;
-    text-align: center;
     border-width: 0;
     background-color: transparent;
     font-size: 26px;
