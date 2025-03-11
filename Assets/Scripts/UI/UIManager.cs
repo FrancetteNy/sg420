@@ -98,7 +98,6 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowShop += OnShopShown;
         UIEvents.HideShop += HideOverlay;
         
-        UIEvents.HideEncyclopedia += () => ShowView(_hudView);
         UIEvents.ShowEncyclopedia += OnEncyclopediaShown;
         UIEvents.HideEncyclopedia += HideOverlay;
 
@@ -169,8 +168,6 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowShop -= OnShopShown;
         UIEvents.HideShop -= HideOverlay;
         _shop.Dispose();
-        UIEvents.ShowChatView -= () => ShowView(_chatView);
-        UIEvents.HideChatView -= () => ShowView(_hudView);
         UIEvents.ShowChatView -= OnChatViewShown;
         UIEvents.HideChatView -= OnHudShown;
         _chatView.Dispose();
