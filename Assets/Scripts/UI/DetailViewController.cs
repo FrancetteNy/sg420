@@ -156,6 +156,18 @@ public class DetailViewController : MonoBehaviour
                 _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
                 break;
+            case UIButton.HARVEST:
+                UIEvents.ShowModalView?.Invoke(
+                    "Warnung",
+                    "Du bist dabei diese Pflanze zu ernten. Die Ernte kann nicht rückgängig gemacht werden! Bist du dir sicher?",
+                    () => {
+                        string plantStrain = $"{_detailViewplantManager.GetCurrentPlantData()["strain"]} geerntet";
+                        _detailViewplantManager.HarvestCurrentPlant();
+                        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                        UIEvents.AddNotification(new NotificationData("Pflanze geerntet", plantStrain, 6));
+
+                    });
+                break;
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
@@ -263,6 +275,7 @@ public enum UIButton
     CHANGETOMEDIUM,
     CHANGETOLARGE,
     CONFIRMSEED,
+    HARVEST,
 
 }
 // Constants for readability and configurability
@@ -304,6 +317,7 @@ public static class DetailViewConstants
         { UIButton.CHANGETOMEDIUM,"change-to-medium-pot-button" },
         { UIButton.CHANGETOLARGE,"change-to-large-pot-button" },
         { UIButton.CONFIRMSEED, "confirm-seed-button" },
+        { UIButton.HARVEST, "harvest-button" },
 
     };
     public static Dictionary<Submenu, string> NameOfSubmenues = new Dictionary<Submenu, string>() {
@@ -738,6 +752,15 @@ public class DetailViewPlantManager
         return true;
     }
 
+    internal void HarvestCurrentPlant()
+    {
+        var currentPlant = _plants[CurrentPlantIndex];
+        var gamestate = GameStateManagerSingleton.Instance.GameState;
+        gamestate.HarvestedPlantDataList.List.Add(currentPlant.PlantData);
+        PlantData emptyPlantData = new();
+        gamestate.PlantDataList.List[CurrentPlantIndex] = emptyPlantData;
+        _plants[CurrentPlantIndex].PlantData = emptyPlantData;
+    }
 }
 
 public class DummyWiki

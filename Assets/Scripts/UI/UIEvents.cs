@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using UnityEngine.Events;
 
 class UIEvents
 {
@@ -32,6 +33,9 @@ class UIEvents
 
     public static Action<List<OnboardingData>> ShowOnboardingView;
     public static Action HideOnboardingView;
+
+    public static Action<string, string, UnityAction> ShowModalView;
+    public static Action HideModalView;
 
     //Notification Events
     public static Action<NotificationData> AddNotification;

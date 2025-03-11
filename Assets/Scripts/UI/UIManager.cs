@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
@@ -17,6 +18,7 @@ public class UIManager : MonoBehaviour
     QuestLog _questLog;
     GroupWateringView _groupWateringView;
     OnboardingView _onboardingView;
+    ModalView _modalView;
 
     NotificationManager _notificationManager;
 
@@ -78,6 +80,7 @@ public class UIManager : MonoBehaviour
         _questLog = new QuestLog(_root, this);
         _groupWateringView = new GroupWateringView(_root, this);
         _onboardingView = new OnboardingView(_root, this);
+        _modalView = new ModalView(_root, this);
 
         UIEvents.ShowDetailView += OnDetailViewShown;
         UIEvents.HideDetailView += OnHudShown;
@@ -106,6 +109,9 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowOnboardingView += OnOnboardingViewShown;
         UIEvents.HideOnboardingView += HideOverlay;
 
+        UIEvents.ShowModalView += OnModalViewShown;
+        UIEvents.HideModalView += HideOverlay;
+
         _previousView = null;
         if (GameStateManagerSingleton.Instance.IsGameLoaded)
         {
@@ -120,6 +126,7 @@ public class UIManager : MonoBehaviour
     }
 
 
+
     private void OnDetailViewShown(int index) => ShowView(_detailView, index);
     private void OnHudShown() => ShowView(_hudView);
     private void OnLightOverviewShown() => ShowOverlay(_lightOverview);
@@ -132,7 +139,15 @@ public class UIManager : MonoBehaviour
         _onboardingView.SetData(list);
         ShowOverlay(_onboardingView);
     }
-
+    private void OnModalViewShown(string title, string description, UnityAction action)
+    {
+        if (_overlayViews.Contains(_modalView))
+            return;
+        _overlayViews.Push(_modalView);
+        _modalView.BringToFront();
+        _modalView.Show(title, description, action);
+        UpdateHighlightController();
+    }
 
     private void OnDestroy()
     {
@@ -165,6 +180,9 @@ public class UIManager : MonoBehaviour
         UIEvents.ShowOnboardingView -= OnOnboardingViewShown;
         UIEvents.HideOnboardingView -= HideOverlay;
         _onboardingView.Dispose();
+        UIEvents.ShowModalView -= OnModalViewShown;
+        UIEvents.HideModalView -= HideOverlay;
+        _modalView.Dispose();
 
         _actions.UI.Disable();
         _actions.UI.Cancel.performed -= OnCancelPerformed;
