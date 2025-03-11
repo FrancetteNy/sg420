@@ -4,8 +4,8 @@
     <ui:VisualElement name="Inventar" class="Inventar bg-color text-color" style="background-color: rgb(4, 24, 1); color: rgb(4, 24, 1);flex-grow: 1; display: none;" >
         <ui:VisualElement name="tab-container text-color" class="nav-tabs">
             <ui:Button name="tab1" text="Samen" class="nav-link text-color" />
-            <ui:Button name="tab2" text="Ungetrokene Pflanzen" class="nav-link text-color" />
-            <ui:Button name="tab3" text="Getrokente Pflanzen" class="nav-link text-color" />
+            <ui:Button name="tab2" text="Ungetrocknete Pflanzen" class="nav-link text-color" />
+            <ui:Button name="tab3" text="Getrocknete Pflanzen" class="nav-link text-color" />
             <ui:VisualElement style="display: flex; justify-content: flex-end;">
                 <ui:Button name="close-button" class="text-color" text="X"/>
             </ui:VisualElement>
