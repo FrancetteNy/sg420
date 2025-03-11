@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UIElements;
+using static Age;
 
 public class DetailViewController : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class DetailViewController : MonoBehaviour
     public static Action PlantsChanged;
 
     // Camera and Managers
-    public List<PlantController> PlantControllers;
+    private List<PlantController> _plantControllers;
     private Camera _detailViewCamera;
     private DetailViewCameraController _cameraController;
     private DetailViewUIManager _uiManager;
@@ -29,13 +31,12 @@ public class DetailViewController : MonoBehaviour
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
-
     }
 
 
     private void UpdatePlantControllers()
     {
-        PlantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
+        _plantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
     }
 
     public void Initialize(Camera detailViewCamera, PlantManager plantManager)
@@ -44,9 +45,10 @@ public class DetailViewController : MonoBehaviour
         _plantManager = plantManager;
         UpdatePlantControllers();
         _cameraController = new DetailViewCameraController(detailViewCamera, GetComponent<UIDocument>().rootVisualElement.Q<Image>("plant-view"));
-        _detailViewplantManager = new DetailViewPlantManager(PlantControllers, OnPlantChanged);
+        _detailViewplantManager = new DetailViewPlantManager(_plantControllers, OnPlantChanged);
         _uiManager = new DetailViewUIManager(GetComponent<UIDocument>(), OnButtonDown, OnButtonUp, OnDetailHovered);
         _isInitialized = true;
+        this.enabled = false;
     }
     private void Update()
     {
@@ -55,7 +57,9 @@ public class DetailViewController : MonoBehaviour
             return;
         }
         if (_detailViewplantManager.CurrentPlantIndex < 0)
+        {
             return;
+        }
 
         // Update Camera
         _cameraController.UpdatePosition(_cameraMoveVector,
@@ -84,12 +88,12 @@ public class DetailViewController : MonoBehaviour
             case UIButton.PREVIOUSPLANT:
                 _detailViewplantManager.SwitchToPreviousPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.NEXTPLANT:
                 _detailViewplantManager.SwitchToNextPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.STARTSEXING:
                 Debug.Log("Starting the sexing minigame...");
@@ -135,7 +139,7 @@ public class DetailViewController : MonoBehaviour
                 break;
             case UIButton.WATERPLANTS:
                 _detailViewplantManager.AddWaterAndFertilizer(_uiManager.GetWaterValue(), _uiManager.GetFertilizerValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.OPENCHANGEPOTSUBMENU:
@@ -149,29 +153,37 @@ public class DetailViewController : MonoBehaviour
             case UIButton.CHANGETOMEDIUM:
             case UIButton.CHANGETOLARGE:
                 _detailViewplantManager.ChangePotSize(buttonId);
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.CONFIRMSEED:
                 _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.HARVEST:
                 UIEvents.ShowModalView?.Invoke(
                     "Warnung",
                     "Du bist dabei diese Pflanze zu ernten. Die Ernte kann nicht rückgängig gemacht werden! Bist du dir sicher?",
-                    () => {
-                        string plantStrain = $"{_detailViewplantManager.GetCurrentPlantData()["strain"]} geerntet";
-                        _detailViewplantManager.HarvestCurrentPlant();
-                        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
-                        UIEvents.AddNotification(new NotificationData("Pflanze geerntet", plantStrain, 6));
-
-                    });
+                    HarvestPlant);
                 break;
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
         }
+    }
+
+    private void HarvestPlant()
+    {
+        var currentPlantData = _detailViewplantManager.GetCurrentPlantData();
+        string notificationTitle = $"{currentPlantData.Strain} geerntet";
+        int scoreToAdd = DetailViewConstants.ScorePerGrowthStage[currentPlantData.Age.Stage];
+        GameStateManagerSingleton.Instance.GameState.CurrentScore += scoreToAdd;
+        string notificationBody = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {GameStateManagerSingleton.Instance.GameState.CurrentScore} Punkte.";
+        _detailViewplantManager.HarvestCurrentPlant();
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
+        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
+        GameState.UpdateHUD?.Invoke();
+        _plantManager.ManagePlantStageModel(_detailViewplantManager.GetCurrentPlantController().gameObject);
     }
 
     private void OnButtonUp(UIButton buttonId)
@@ -211,7 +223,7 @@ public class DetailViewController : MonoBehaviour
         _detailViewplantManager.SetCurrentPlant(plantControllerIndex);
 
         _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
 
         _uiManager.ShowView();
         _detailViewCamera.enabled = true;
@@ -324,7 +336,14 @@ public static class DetailViewConstants
         {Submenu.WATERINGSUBMENU, "watering-submenu" },
         {Submenu.CHANGEPOTSUBMENU, "change-pot-submenu"},
     };
-
+    public static Dictionary<GrowthStage, int> ScorePerGrowthStage = new Dictionary<GrowthStage, int> {
+            {GrowthStage.EMPTY, 0 },
+            {GrowthStage.GERMINATION, 2 },
+            {GrowthStage.SEEDLING, 4 },
+            {GrowthStage.VEGETATIVEGROWTH, 6 },
+            {GrowthStage.FLOWERING, 10 },
+            {GrowthStage.FADED, 3 },
+        };
 }
 
 public class DetailViewCameraController
@@ -610,8 +629,6 @@ public class DetailViewPlantManager
     {
         if (plantIndex == -1 && CurrentPlantIndex != -1)
             return;
-        else if (CurrentPlantIndex == -1)
-            plantIndex = 0;
         CurrentPlantIndex = plantIndex;
         _onPlantChanged.Invoke(CurrentPlantIndex);
         SavePlantTransform();
@@ -686,16 +703,23 @@ public class DetailViewPlantManager
                            currentPlant.z);
     }
 
+    public PlantController GetCurrentPlantController()
+    {
+        return _plants[CurrentPlantIndex];
+    }
     public Vector3 GetCurrentPlantPosition()
     {
         return _plants[CurrentPlantIndex].transform.position;
     }
 
-    public Dictionary<string, object> GetCurrentPlantData()
+    public Dictionary<string, object> GetCurrentPlantDataAsDictionary()
     {
         return _plants[CurrentPlantIndex].PlantData.DataDictionary();
     }
-
+    public PlantData GetCurrentPlantData()
+    {
+        return _plants[CurrentPlantIndex].PlantData;
+    }
     public void AddWaterAndFertilizer(float waterAmount, float fertilizerAmount)
     {
         if (CurrentPlantIndex < 0)

@@ -103,7 +103,25 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveToDryingRoom"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a01ebcd-e041-4dca-8952-7f623773bbf8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveToMainRoom"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff03eea0-0dd0-41f7-ab4b-83bfb43593bf"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -492,6 +510,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""158475f4-e0fa-44f8-aad1-312181d31e4c"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveToDryingRoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b2f7bee-2339-4c47-a668-028ad5f48c2e"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveToMainRoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1088,6 +1128,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Previous = m_Player.FindAction("Previous", throwIfNotFound: true);
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_MoveToDryingRoom = m_Player.FindAction("MoveToDryingRoom", throwIfNotFound: true);
+        m_Player_MoveToMainRoom = m_Player.FindAction("MoveToMainRoom", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1176,6 +1218,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Previous;
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_MoveToDryingRoom;
+    private readonly InputAction m_Player_MoveToMainRoom;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1189,6 +1233,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Previous => m_Wrapper.m_Player_Previous;
         public InputAction @Next => m_Wrapper.m_Player_Next;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @MoveToDryingRoom => m_Wrapper.m_Player_MoveToDryingRoom;
+        public InputAction @MoveToMainRoom => m_Wrapper.m_Player_MoveToMainRoom;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1225,6 +1271,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @MoveToDryingRoom.started += instance.OnMoveToDryingRoom;
+            @MoveToDryingRoom.performed += instance.OnMoveToDryingRoom;
+            @MoveToDryingRoom.canceled += instance.OnMoveToDryingRoom;
+            @MoveToMainRoom.started += instance.OnMoveToMainRoom;
+            @MoveToMainRoom.performed += instance.OnMoveToMainRoom;
+            @MoveToMainRoom.canceled += instance.OnMoveToMainRoom;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1256,6 +1308,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @MoveToDryingRoom.started -= instance.OnMoveToDryingRoom;
+            @MoveToDryingRoom.performed -= instance.OnMoveToDryingRoom;
+            @MoveToDryingRoom.canceled -= instance.OnMoveToDryingRoom;
+            @MoveToMainRoom.started -= instance.OnMoveToMainRoom;
+            @MoveToMainRoom.performed -= instance.OnMoveToMainRoom;
+            @MoveToMainRoom.canceled -= instance.OnMoveToMainRoom;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1447,6 +1505,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnPrevious(InputAction.CallbackContext context);
         void OnNext(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnMoveToDryingRoom(InputAction.CallbackContext context);
+        void OnMoveToMainRoom(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -8,12 +8,16 @@ public class GameState
     public int CurrentDay;
     public JsonableListWrapper<PlantData> PlantDataList;
     public JsonableListWrapper<PlantData> HarvestedPlantDataList;
-    public int HarvestedPlantCount => HarvestedPlantDataList.List.Count;
+    public JsonableListWrapper<DriedPlantData> CurrentlyDryingPlants;
+    public JsonableListWrapper<DriedPlantData> CompletedDriedPlantDataList;
+    public int HarvestedPlantCount => HarvestedPlantDataList?.List.Count ?? 0;
+    public int CompletedDriedPlantsCount => CompletedDriedPlantDataList?.List.Count ?? 0;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
-    public Room Room;
 
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
+    public static Action UpdateHUD;
+
 
     public ChatData ChatData;
 
@@ -22,18 +26,23 @@ public class GameState
 
     public OnboardingDoneData OnboardingDoneData;
 
+    public int CurrentScore;
+
+
     public GameState()
     {
         CurrentDay = 1;
         Growlight = new();
         PlantDataList = new(new List<PlantData> { new(), new(), new(), new()});
-        HarvestedPlantDataList = new(new());
-        UnlockedEncyclopediaEntries = new(new List <String> {});
-        Room = Room.START;
+        HarvestedPlantDataList = new();
+        CurrentlyDryingPlants = new(new() { new(), new(), new(), new() });
+        CompletedDriedPlantDataList = new();
+        UnlockedEncyclopediaEntries = new();
         ChatData = new();
-        DoneQuestsList = new(new());
-        ActiveQuestsList = new(new());
+        DoneQuestsList = new();
+        ActiveQuestsList = new();
         OnboardingDoneData = new();
+        CurrentScore = 0;
     }
 }
 
@@ -73,17 +82,9 @@ public class JsonableListWrapper<T>
 {
     public List<T> List;
     public JsonableListWrapper(List<T> list) => this.List = list;
+    public JsonableListWrapper() : this(new()) { }
 }
 
-
-[Serializable]
-/***
- * This can represent where and how many Plants there are
- ***/
-public enum Room
-{
-    START
-}
 
 [Serializable]
 public class OnboardingDoneData

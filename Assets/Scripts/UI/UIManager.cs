@@ -22,23 +22,57 @@ public class UIManager : MonoBehaviour
 
     NotificationManager _notificationManager;
 
-    UIView _currentView;
+    private UIView _currentView;
+    public UIView CurrentView
+    {
+        get => _currentView;
+        private set
+        {
+            if (_currentView != value)
+            {
+                _currentView = value;
+                GameState.UpdateHUD?.Invoke();
+            }
+        }
+    }
     UIView _previousView;
 
-    Stack<UIView> _overlayViews;
+    ObservableStack<UIView> _overlayViews;
     InputSystem_Actions _actions;
 
     HighlightController _highlightController;
+
+
+    GameObject _mainRoom;
+    GameObject _dryingRoom;
+    public bool IsReadyToChangeRoom => _currentView == _hudView && _overlayViews.Count == 0;
+    public bool MainRoomIsActive => _mainRoom?.activeSelf ?? false;
+    public bool DryingRoomIsActive => _dryingRoom?.activeSelf ?? false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
-        _overlayViews = new Stack<UIView>();
+        _overlayViews = new ObservableStack<UIView>();
+        _overlayViews.CollectionChanged += OnOverlayViewsChanged;
         AddAllUIViews();
         _notificationManager = gameObject.AddComponent<NotificationManager>();
         SetupNotificationMananger();
         SetupActionSystem();
         _highlightController = FindAnyObjectByType<HighlightController>();
+        SetupRoomGameObjects();
+        GameState.UpdateHUD?.Invoke();
+    }
+
+    private void OnOverlayViewsChanged()
+    {
+        GameState.UpdateHUD?.Invoke();
+    }
+
+    private void SetupRoomGameObjects()
+    {
+        _mainRoom = GameObject.Find("MainRoom");
+        _dryingRoom = GameObject.Find("DryingRoom");
+        _dryingRoom.SetActive(false);
     }
 
     private void SetupActionSystem()
@@ -46,7 +80,33 @@ public class UIManager : MonoBehaviour
         _actions = new InputSystem_Actions();
         _actions.UI.Enable();
         _actions.UI.Cancel.performed += OnCancelPerformed;
+        _actions.Player.MoveToDryingRoom.Enable();
+        _actions.Player.MoveToMainRoom.Enable();
+        _actions.Player.MoveToDryingRoom.performed += OnMoveToDryingRoom;
+        _actions.Player.MoveToMainRoom.performed += OnMoveToMainRoom;
     }
+    public void ChangeToMainRoom()
+    {
+        if (!IsReadyToChangeRoom)
+            return;
+        _dryingRoom.SetActive(false);
+        _mainRoom.SetActive(true);
+        RenderSettings.ambientIntensity = 1;
+        GameState.UpdateHUD?.Invoke();
+    }
+    public void ChangeToDryingRoom()
+    {
+        if (!IsReadyToChangeRoom)
+            return;
+        _mainRoom.SetActive(false);
+        _dryingRoom.SetActive(true);
+        RenderSettings.ambientIntensity = .3f;
+        GameState.UpdateHUD?.Invoke();
+    }
+    private void OnMoveToMainRoom(InputAction.CallbackContext context) => ChangeToMainRoom();
+
+    private void OnMoveToDryingRoom(InputAction.CallbackContext context)=> ChangeToDryingRoom();
+
     private void OnCancelPerformed(InputAction.CallbackContext context)
     {
         if (!GameStateManagerSingleton.Instance.IsGameLoaded)
@@ -56,9 +116,9 @@ public class UIManager : MonoBehaviour
             var view = _overlayViews.Peek();
             view.OnCancelPerformed(context);
         }
-        else if (_currentView != null) 
+        else if (CurrentView != null) 
         {
-            _currentView?.OnCancelPerformed(context);
+            CurrentView?.OnCancelPerformed(context);
         }
     }
 
@@ -115,12 +175,12 @@ public class UIManager : MonoBehaviour
         _previousView = null;
         if (GameStateManagerSingleton.Instance.IsGameLoaded)
         {
-            _currentView = _mainMenuView;
+            CurrentView = _mainMenuView;
             UIEvents.ShowHUDView.Invoke();
         }
         else
         {
-            _currentView = _hudView;
+            CurrentView = _hudView;
             UIEvents.ShowMainMenuView.Invoke();
         }
     }
@@ -186,7 +246,15 @@ public class UIManager : MonoBehaviour
 
         _actions.UI.Disable();
         _actions.UI.Cancel.performed -= OnCancelPerformed;
+
+        _actions.Player.MoveToDryingRoom.Disable();
+        _actions.Player.MoveToMainRoom.Disable();
+        _actions.Player.MoveToDryingRoom.performed -= OnMoveToDryingRoom;
+        _actions.Player.MoveToMainRoom.performed -= OnMoveToMainRoom;
+
         UIEvents.AddNotification -= _notificationManager.AddNotification;
+
+        _overlayViews.CollectionChanged -= OnOverlayViewsChanged;
     }
 
     private void ShowOverlay(UIView view)
@@ -212,13 +280,13 @@ public class UIManager : MonoBehaviour
         {
             overlayView.Hide();
         }
-        if (view == _currentView)
+        if (view == CurrentView)
             return;
 
 
         HideCurrentView();
-        _previousView = _currentView;
-        _currentView = view;
+        _previousView = CurrentView;
+        CurrentView = view;
         UpdateHighlightController();
 
         if (index.HasValue)
@@ -231,7 +299,7 @@ public class UIManager : MonoBehaviour
     {
         if (_highlightController == null)
             return;
-        bool isHudView = _currentView == _hudView && _overlayViews.Count == 0;
+        bool isHudView = CurrentView == _hudView && _overlayViews.Count == 0;
         _highlightController.enabled = isHudView;
     }
 
@@ -241,17 +309,53 @@ public class UIManager : MonoBehaviour
         {
             overlayView.Hide();
         }
-        if (_currentView == _previousView || _previousView is null || _currentView is null)
+        if (CurrentView == _previousView || _previousView is null || CurrentView is null)
             return;
         ShowView(_previousView);
     }
 
     private void HideCurrentView()
     {
-        if (_currentView != null)
+        if (CurrentView != null)
         {
-            _currentView.Hide();
+            CurrentView.Hide();
         }
     }
 
+}
+
+
+public class ObservableStack<T>
+{
+    public event Action CollectionChanged;
+    private Stack<T> _stack;
+    public ObservableStack()
+    {
+        _stack = new Stack<T>();
+    }
+    public void Push(T item)
+    {
+        _stack.Push(item);
+        this.CollectionChanged();
+    }
+
+    public bool TryPop(out T item)
+    {
+        if (_stack.TryPop(out item))
+        {
+            this.CollectionChanged();
+            return true;
+        }
+        else
+        {
+            item = default;
+            return false;
+        }
+    }
+
+    public T Peek() => _stack.Peek();
+
+    public int Count => _stack.Count;
+
+    public bool Contains(T item) => _stack.Contains(item);
 }
