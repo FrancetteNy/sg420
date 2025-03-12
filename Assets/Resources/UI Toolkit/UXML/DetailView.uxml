@@ -105,7 +105,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="wiki" class="block" style="height: 25%; width: 100%;background-color: rgb(4, 24, 1);">
+            <ui:VisualElement name="wiki" class="block" style="height: 30%; width: 99.5%;background-color: rgb(4, 24, 1);">
                 <ui:ScrollView name="detail-view-entry-scroll-view" horizontal-scorller-visibility="Hidden" mode="vertical" class="text-color">
                     <ui:VisualElement name="wiki-text" />
                 </ui:ScrollView>
