@@ -108,16 +108,16 @@ public class DetailViewController : MonoBehaviour
                 _cameraMoveVector = Vector3.back;
                 break;
             case UIButton.MOVERIGHT:
-                _cameraMoveVector = Vector3.right;
-                break;
-            case UIButton.MOVELEFT:
                 _cameraMoveVector = Vector3.left;
                 break;
+            case UIButton.MOVELEFT:
+                _cameraMoveVector = Vector3.right;
+                break;
             case UIButton.MOVEUP:
-                _cameraMoveVector = Vector3.up;
+                _cameraMoveVector = Vector3.down;
                 break;
             case UIButton.MOVEDOWN:
-                _cameraMoveVector = Vector3.down;
+                _cameraMoveVector = Vector3.up;
                 break;
             case UIButton.ROTATERIGHT:
                 _rotateVector = Vector3.down;
