@@ -157,6 +157,17 @@ public class DetailViewController : MonoBehaviour
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.CONFIRMSEED:
+                bool isPlantedSuccessfully = _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
+                if (isPlantedSuccessfully)
+                {
+                    _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
+                    UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreiche Pflanzung", $"Der Samen {_uiManager.GetSeedValue()} wurde erfolgreich gepflanzt.", 5));
+                } 
+                else
+                {
+                    UIEvents.AddNotification.Invoke(new NotificationData("Fehler bei der Pflanzung", $"Verifizieren Sie die Mengen des Samens {_uiManager.GetSeedValue()}.", 5));
+                }
+                
                 _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
                 _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
@@ -401,16 +412,13 @@ public class DetailViewUIManager
 {
     private VisualElement _background;
     private Label _wikiTextLabel;
-    private Label _popupMessage;
-    private VisualElement _popupContainer;
-    private VisualElement _popupContent;
     private Dictionary<string, Label> _detailLabels = new();
     private Button _previousPlantButton;
     private Button _nextPlantButton;
     private VisualElement _seedSelectionContainer;
-    private string _seedTypeDropdown;
     private VisualElement _plantInfo;
     private DropdownField _seedDropdown;
+    public InventarController InventoryController; 
 
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
@@ -427,10 +435,6 @@ public class DetailViewUIManager
 
         _plantInfo = _background.Q<VisualElement>("plantinfo");
 
-        // Seed Container
-        _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
-
-        //Popup container
         SetupSeedContainer(onDetailHovered);
 
         SetupSliders();
@@ -443,7 +447,6 @@ public class DetailViewUIManager
         _seedSelectionContainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Die Aussaat"));
         _seedSelectionContainer.style.display = DisplayStyle.None;
     }
-
     private void SetupSliders()
     {
         var waterValueLabel = _background.Q<Label>("water-value-label");
@@ -509,7 +512,7 @@ public class DetailViewUIManager
             {
                 _seedSelectionContainer.style.display = DisplayStyle.Flex;
                 _plantInfo.style.display = DisplayStyle.None;
-
+                
             }
             else
             {
@@ -771,9 +774,17 @@ public class DetailViewPlantManager
         {
             return false;
         }
-        // Pflanzt den Samen ein
-        currentPlant.PlantSeed(seedType);
-        return true;
+        bool plantable = InventarController.Instance.UpdateSeedQuantity(seedType.ToString());
+        if (plantable)
+        {
+            currentPlant.PlantSeed(seedType);
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+        
     }
 
     internal void HarvestCurrentPlant()

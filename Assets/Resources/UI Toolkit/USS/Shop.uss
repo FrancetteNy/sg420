@@ -1,0 +1,58 @@
+:root {
+  --color-window:  rgb(4, 24, 1);
+  --color-interactable: rgb(37, 85, 35);
+  --color-hover: rgb(50, 112, 47);
+  --color-border: rgb(0, 0, 0);
+  --color-text: rgb(255, 255, 255);
+}
+
+.Shop{
+    position: absolute; 
+    width: 50%; 
+    height: 60%; 
+    left: 25%;
+    margin-top: 5%; 
+    background-color: rgb(200, 200, 200); 
+    flex-direction: column; 
+    padding: 10px; 
+    border-radius: 20px; 
+    border-width: 2px; 
+    border-color: white;
+        
+}
+.close-button{
+    background-color: transparent; 
+    border-width: 0; 
+    font-size: 18px; 
+    width: 40px; 
+    height: 40px; 
+   
+}
+.nav-tabs {
+    flex-direction: row;
+    border-bottom-width: 2px;
+    border-color: white;
+    margin-bottom: 10px;
+    
+}
+.nav {
+    flex-grow: 1;
+    padding: 10px;
+    border-width: 0;
+    background-color: transparent;
+    font-size: 26px;
+   
+}
+.shop-item-name{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.shop-item-price{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.shop-item-button{
+    font-size: 18px;
+}
