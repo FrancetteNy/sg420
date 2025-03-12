@@ -27,8 +27,8 @@
                 <ui:Button text="Shop" name="shop-button" class="custom-button text-color"/>    
             </ui:VisualElement>
             <ui:VisualElement style="flex-direction: row;">
-                <ui:Button text="Hauptraum" name="change-to-main-room-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
-                <ui:Button text="Trocknungsraum" name="change-to-drying-room-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
+                <ui:Button text="Hauptraum" name="change-to-main-room-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0; width: 215px;" />
+                <ui:Button text="Trocknungsraum" name="change-to-drying-room-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0; width: 215px;" />
                 <ui:Button text="Hauptmenu öffnen" name="open-mainmenu-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
             </ui:VisualElement>
         </ui:VisualElement>

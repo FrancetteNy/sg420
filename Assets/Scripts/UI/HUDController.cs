@@ -75,24 +75,24 @@ public class HUDController : MonoBehaviour
         _harvestedPlantCountLabel.text = _gameState.HarvestedPlantCount.ToString();
         _finishedDriedCountLabel.text = _gameState.CompletedDriedPlantsCount.ToString();
         _scoreLabel.text = _gameState.CurrentScore.ToString();
-        if (_manager.IsReadyToChangeRoom && _manager.DryingRoomIsActive)
+
+        if (!_manager.IsReadyToChangeRoom)
         {
-            _changeToMainRoomButton.style.display = DisplayStyle.Flex;
+            _changeToMainRoomButton.SetEnabled(false);
+            _changeToDryingRoomButton.SetEnabled(false);
         }
         else
         {
-            _changeToMainRoomButton.style.display = DisplayStyle.None;
-        }
-        if(_manager.IsReadyToChangeRoom && _manager.MainRoomIsActive)
-        {
-            _changeToDryingRoomButton.style.display = DisplayStyle.Flex;
-        }
-        else
-        {
-            _changeToDryingRoomButton.style.display = DisplayStyle.None;
+            UpdateButtonState(_changeToMainRoomButton, _manager.DryingRoomIsActive);
+            UpdateButtonState(_changeToDryingRoomButton, _manager.MainRoomIsActive);
         }
     }
-
+    void UpdateButtonState(Button button, bool canChange)
+    {
+        button.style.display = canChange ? DisplayStyle.Flex : DisplayStyle.None;
+        if (canChange)
+            button.SetEnabled(true);
+    }
 
 
 }
