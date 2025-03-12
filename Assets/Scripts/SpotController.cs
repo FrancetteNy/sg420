@@ -4,17 +4,23 @@ public class SpotController : MonoBehaviour
 {
     private HighlightController _highlightController;
     private Light _spotLight;
-    Material _emmisiveMaterial;
+    private Material _emissiveMaterial;
+
     void Awake()
     {
         _highlightController = FindAnyObjectByType<HighlightController>();
         _spotLight = GetComponentInChildren<Light>();
+
         var lightRenderer = GetComponentInChildren<Renderer>();
-        new Material(lightRenderer.materials[1]); // the constructor has somehow a sideffect that creates a new material for that renderer or something like that? idk
-        _emmisiveMaterial = lightRenderer.sharedMaterials[1];
+
+        // Material-Kopie erzeugen (instanziieren), damit Änderungen nur dieses Objekt betreffen
+        _emissiveMaterial = new Material(lightRenderer.materials[1]);
+        Material[] materials = lightRenderer.materials;
+        materials[1] = _emissiveMaterial;
+        lightRenderer.materials = materials;
+
         ConstructPlantHighlightAndClickFunction();
     }
-
 
     private void ConstructPlantHighlightAndClickFunction()
     {
@@ -23,12 +29,11 @@ public class SpotController : MonoBehaviour
         {
             _spotLight.enabled = !_spotLight.enabled;
             if (_spotLight.enabled)
-                _emmisiveMaterial.EnableKeyword("_EMISSION");
+                _emissiveMaterial.EnableKeyword("_EMISSION");
             else
-                _emmisiveMaterial.DisableKeyword("_EMISSION");
+                _emissiveMaterial.DisableKeyword("_EMISSION");
         });
 
         highlightBuilder.Apply();
-
     }
 }
