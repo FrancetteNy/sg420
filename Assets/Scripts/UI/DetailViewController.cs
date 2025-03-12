@@ -195,9 +195,13 @@ public class DetailViewController : MonoBehaviour
 
     public void ActivateView(int plantControllerIndex, Action closeAction)
     {
-
         _detailViewplantManager.SetCurrentPlant(plantControllerIndex);
-
+        
+        foreach (var plant in PlantControllers)
+        {
+            plant.GetComponentInChildren<PlantGenerator>().SetLayerMask();
+        }
+        
         _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
         _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
 

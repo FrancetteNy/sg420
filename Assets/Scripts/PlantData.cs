@@ -12,7 +12,8 @@ public class PlantData
     public Strain Strain;
     public Soil Soil;
 
-
+    public List<CannabisBranch> CannabisBranches;
+    
     public PlantData()
     {
         this.Sex = false;
@@ -20,6 +21,7 @@ public class PlantData
         this.Age = new(GrowthStage.EMPTY, 0);
         this.Strain = Strain.None;
         this.Soil = new(0, 0);
+        this.CannabisBranches = new List<CannabisBranch>();
     }
 
     public Dictionary<string, object> DataDictionary()

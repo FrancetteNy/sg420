@@ -33,6 +33,7 @@ public class PlantManager : MonoBehaviour
             ManagePlantStageModel(inScene);
             UpdateModel(GetCurrentPlantModel(inScene).transform, plantData.Age);
         }
+        
         //Make sure that everything is up to date if anything changes
         Plants.CollectionChanged += new NotifyCollectionChangedEventHandler((object sender, NotifyCollectionChangedEventArgs e) => UpdateHighlightAndDetailView());
         UpdateHighlightAndDetailView();
@@ -112,11 +113,17 @@ public class PlantManager : MonoBehaviour
             var plantModel = GetCurrentPlantModel(plant).transform;
             plantModel.localScale += new Vector3(0.1f, 0.1f, 0.1f);
         }
+        else
+        {
+            PlantGenerator plantGenerator = plant.GetComponentInChildren<PlantGenerator>();
+            plantGenerator.RemodelCannabisPlant(correctAmountOfNutrients, correctAmountOfWater);
+        }
         UpdateModel(GetCurrentPlantModel(plant).transform, plantController.Age);
     }
 
     private void UpdateModel(Transform transform, Age age)
     {
+        
         float vectorValue;
         switch (age.Stage)
         {
@@ -171,6 +178,8 @@ public class PlantManager : MonoBehaviour
             ManagePlantStageModel(plant);
             plantController.Age.AgeNumber = 0;
         }
+        PlantGenerator plantGenerator = plant.GetComponentInChildren<PlantGenerator>();
+        plantGenerator.GenerateCannabisPlant();
     }
 
     private void ManagePlantStageModel(GameObject plant)
@@ -204,7 +213,10 @@ public class PlantManager : MonoBehaviour
 
     private void SetLayerOfAllChildren(GameObject gameObject)
     {
-        gameObject.layer = _plantLayer;
+        if (gameObject.name != "pot") {
+            gameObject.layer = _plantLayer;
+        }
+        
         foreach (Transform child in gameObject.transform)
         {
             SetLayerOfAllChildren(child.gameObject);
