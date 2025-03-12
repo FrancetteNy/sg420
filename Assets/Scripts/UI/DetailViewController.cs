@@ -232,7 +232,7 @@ public class DetailViewController : MonoBehaviour
     {
         _detailViewplantManager.SetCurrentPlant(plantControllerIndex);
         
-        foreach (var plant in PlantControllers)
+        foreach (var plant in _plantControllers)
         {
             plant.GetComponentInChildren<PlantGenerator>().SetLayerMask();
         }
