@@ -48,6 +48,6 @@ class Shop : UIView
     {
         if (!IsOpen)
             return;
-        UIEvents.ShowMainMenuView();
+        UIEvents.HideShop();
     }
 }
