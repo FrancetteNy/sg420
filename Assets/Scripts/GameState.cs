@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class GameState
@@ -13,6 +14,9 @@ public class GameState
     public int HarvestedPlantCount => HarvestedPlantDataList?.List.Count ?? 0;
     public int CompletedDriedPlantsCount => CompletedDriedPlantDataList?.List.Count ?? 0;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
+    public JsonableListWrapper<Seed> SamenInventar;
+    public Room Room;
+    public int Geld = 100;
 
     public static Action DayChanged;
     public static Action<string> EncyclopediaEntryUnlocked;
@@ -39,6 +43,13 @@ public class GameState
         CompletedDriedPlantDataList = new();
         UnlockedEncyclopediaEntries = new();
         ChatData = new();
+        SamenInventar = new(new List<Seed>
+            {
+                new Seed("Indica", 2, true),
+                new Seed("Sativa", 2, true),
+                new Seed("Ruderalis", 2, true),    
+            });
+        
         DoneQuestsList = new();
         ActiveQuestsList = new();
         OnboardingDoneData = new();
@@ -86,6 +97,35 @@ public class JsonableListWrapper<T>
 }
 
 
+[Serializable]
+/***
+ * This can represent where and how many Plants there are
+ ***/
+public enum Room
+{
+    START
+}
+[Serializable]
+public abstract class InventoryItem
+{
+    public string Name;
+   
+}
+[Serializable]
+public class Seed : InventoryItem
+{
+    public string Type; // Indica, Sativa, etc.
+    public bool IsFeminized;
+    public int Quantity;
+
+    public Seed(string type, int quantity, bool isFeminized = true)
+    {
+        Type = type;
+        IsFeminized = isFeminized;
+        Name = $"{Type} Samen";
+        Quantity = quantity;
+    }    
+}
 [Serializable]
 public class OnboardingDoneData
 {

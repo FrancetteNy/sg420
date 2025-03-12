@@ -30,6 +30,14 @@ public class HUDController : MonoBehaviour
         var advanceDayButton = _root.Q<Button>("advance-day-button");
         advanceDayButton.clicked += GameStateManagerSingleton.Instance.AdvanceDay;
         advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        
+        var inventarButton = _root.Q<Button>("inventar-button");
+        inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        inventarButton.clicked += () => UIEvents.ShowInventar.Invoke();
+
+        var shopButton = _root.Q<Button>("shop-button");
+        shopButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        shopButton.clicked += () => UIEvents.ShowShop.Invoke();
 
         
 
