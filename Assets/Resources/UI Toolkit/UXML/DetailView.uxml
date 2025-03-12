@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
-    <ui:VisualElement name="DetailView" style="flex-grow: 1; display: none;">
+    <ui:VisualElement name="DetailView" style="flex-grow: 1;">
         <ui:VisualElement name="background" enabled="true" class="text-color" style="background-color: rgb(28, 51, 27); flex-grow: 1; display: flex; flex-direction: column; color: rgb(253, 255, 253);">
             <ui:VisualElement name="top-row" style="width: 100%; flex-direction: row; height: 70%;">
                 <ui:Image name="plant-view" enabled="true" class="block" style="position: relative; -unity-background-scale-mode: scale-to-fit; height: auto; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 55%; background-color: rgb(4, 24, 1);">
@@ -21,7 +21,7 @@
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="rotate-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down-bold.png?fileID=2800000&amp;guid=6a9b37e4993dcdb4585ce71605c167e6&amp;type=3#arrow-down-bold" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                             </ui:VisualElement>
-                            <ui:Label text="Pflanze" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
+                            <ui:Label text="ROTATION" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="camera-control-buttons" style="flex-grow: 1; position: absolute; height: 115px; width: 80px; top: auto; left: 0; bottom: 0; right: auto; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 10px;">
                             <ui:VisualElement name="first-row" class="d-pad-row">
@@ -37,11 +37,11 @@
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="move-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down.png?fileID=2800000&amp;guid=8120d92f71ff08f40a9ac0c372dc8b55&amp;type=3#arrow-down" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                             </ui:VisualElement>
-                            <ui:Label text="Kamera&#10;" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
+                            <ui:Label text="POSITION" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="zoom-control-buttons" style="position: absolute; top: 0; left: auto; width: 40px; height: 80px; flex-direction: column; right: 0; padding-top: 0; margin-top: 10px; margin-right: 10px;">
-                            <ui:Button name="zoom-in-button" icon-image="project://database/Assets/Art/Textures/magnify-plus.png?fileID=2800000&amp;guid=d984076e25c756941b526b134c93e334&amp;type=3#magnify-plus" class="no-spacing no-background custom-button" style="height: 50%; margin-bottom: 15px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
-                            <ui:Button name="zoom-out-button" icon-image="project://database/Assets/Art/Textures/magnify-minus.png?fileID=2800000&amp;guid=c0d63cf30cab5dd4e95e9e520d1ae63c&amp;type=3#magnify-minus" class="no-spacing no-background custom-button" style="height: 50%; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+                        <ui:VisualElement name="zoom-control-buttons" style="position: absolute; top: 0; left: auto; width: 50px; height: 107px; flex-direction: column; right: 0; padding-top: 0; justify-content: space-evenly; align-items: center;">
+                            <ui:Button name="zoom-in-button" icon-image="project://database/Assets/Art/Textures/magnify-plus.png?fileID=2800000&amp;guid=d984076e25c756941b526b134c93e334&amp;type=3#magnify-plus" class="no-spacing no-background custom-button" style="height: 40px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 40px;" />
+                            <ui:Button name="zoom-out-button" icon-image="project://database/Assets/Art/Textures/magnify-minus.png?fileID=2800000&amp;guid=c0d63cf30cab5dd4e95e9e520d1ae63c&amp;type=3#magnify-minus" class="no-spacing no-background custom-button" style="height: 40px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 40px;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:Image>
@@ -50,22 +50,22 @@
                         <ui:VisualElement name="plantinfo" style="flex-grow: 1; flex-direction: row;">
                             <ui:VisualElement name="left" style="flex-grow: 1; flex-direction: column; max-width: 50%;">
                                 <ui:VisualElement name="growthStage" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                                    <ui:Label text="Phase" name="name" class="property-text" />
+                                    <ui:Label text="Phase:" name="name" class="property-text" />
                                     <ui:Label name="value" text="-" class="property-text" />
                                 </ui:VisualElement>
                                 <ui:VisualElement name="strain" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                                    <ui:Label text="Sorte" name="name" class="property-text" />
+                                    <ui:Label text="Sorte:" name="name" class="property-text" />
                                     <ui:Label name="value" text="-" class="property-text" />
                                 </ui:VisualElement>
                                 <ui:VisualElement name="sex" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                                    <ui:Label text="Geschlecht" name="name" class="property-text" />
+                                    <ui:Label text="Geschlecht:" name="name" class="property-text" />
                                     <ui:Label name="value" text="-" class="property-text" style="display: none;" />
                                     <ui:Button text="Geschlecht Bestimmen" name="start-sexing-button" class="property-text custom-button" style="height: 80%; align-self: center; flex-wrap: nowrap; width: 100%; padding-top: 7px; padding-right: 15px; padding-bottom: 7px; padding-left: 15px; font-size: 14px;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="right" style="flex-grow: 1; max-width: 50%;">
                                 <ui:VisualElement name="age" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                                    <ui:Label text="Alter" name="name" class="property-text" />
+                                    <ui:Label text="Alter:" name="name" class="property-text" />
                                     <ui:Label name="value" text="-" class="property-text" />
                                 </ui:VisualElement>
                                 <ui:VisualElement name="empty" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
@@ -73,8 +73,8 @@
                                     <ui:Label name="value" text="-" class="property-text" />
                                 </ui:VisualElement>
                                 <ui:VisualElement name="empty" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                                    <ui:Label text="-" name="name" class="property-text" />
-                                    <ui:Label name="value" text="-" class="property-text" />
+                                    <ui:Label text="-" name="harvest-label" class="property-text" />
+                                    <ui:Button text="Ernten" name="harvest-button" class="property-text custom-button" style="height: 80%; align-self: center; flex-wrap: nowrap; width: 100%; padding-top: 7px; padding-right: 15px; padding-bottom: 7px; padding-left: 15px; font-size: 14px;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                         </ui:VisualElement>
@@ -87,15 +87,15 @@
                     <ui:VisualElement name="soil" class="block" style="flex-grow: 1; width: auto; background-color: rgb(4, 24, 1);">
                         <ui:Label text="Bodenwerte" name="title" class="block-header" style="-unity-font-style: bold; font-size: 30px;" />
                         <ui:VisualElement name="water" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                            <ui:Label text="Wasser" name="name" class="property-text" />
+                            <ui:Label text="Wasser:" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
                         <ui:VisualElement name="nutrients" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                            <ui:Label text="Nährstoffe" name="name" class="property-text" />
+                            <ui:Label text="Nährstoffe:" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
                         <ui:VisualElement name="potsize" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
-                            <ui:Label text="Topfgröße" name="name" class="property-text" />
+                            <ui:Label text="Topfgröße:" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
                         <ui:VisualElement name="potsize" class="name-and-value" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; align-content: center; width: 50%;">

@@ -1,9 +1,9 @@
 :root {
-  --color-window:  rgb(4, 24, 1);
-  --color-interactable: rgb(37, 85, 35);
-  --color-hover: rgb(50, 112, 47);
-  --color-border: rgb(0, 0, 0);
-  --color-text: rgb(255, 255, 255);
+    --color-window: rgb(4, 24, 1);
+    --color-interactable: rgb(37, 85, 35);
+    --color-hover: rgb(50, 112, 47);
+    --color-border: rgb(0, 0, 0);
+    --color-text: rgb(255, 255, 255);
 }
 
 .property-text {
@@ -48,7 +48,7 @@
 
 .switch-plant-button:hover {
     transition-property: scale;
-    transition-duration: .3s;
+    transition-duration: 0.3s;
     scale: 1.1 1.1;
 }
 
@@ -126,6 +126,13 @@
     background-color: var(--color-hover);
 }
 
+.unity-button:hover:disabled {
+    background-color: var(--color-interactable);
+    -unity-font-style: bold;
+    border-color: var(--color-border);
+    border-width: 3px;
+}
+
 .unity-tree-view__item:hover {
     background-color: var(--color-window);
 }
@@ -145,4 +152,31 @@
 .unity-base-text-field__input:hover {
     background-color: var(--color-hover);
     border-color: var(--color-border);
+}
+
+.unity-base-slider__tracker {
+    background-color: rgb(28, 51, 27);
+    border-color: var(--color-border);
+}
+
+.unity-base-slider__dragger {
+    background-color: var(--color-interactable);
+    border-color: var(--color-border);
+    border-width: 5px;
+    border-radius: 7px;
+    left: 0px;
+}
+
+.unity-scroller__low-button {
+    background-color: var(--color-interactable);
+    border-color: var(--color-border);
+    border-width: 5px;
+    border-radius: 7px;
+}
+
+.unity-scroller__high-button {
+    background-color: var(--color-interactable);
+    border-color: var(--color-border);
+    border-width: 5px;
+    border-radius: 7px;
 }

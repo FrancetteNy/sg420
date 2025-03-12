@@ -5,7 +5,6 @@ using UnityEngine.UIElements;
 public class HUDView : UIView
 {
     HUDController _controller;
-    HighlightController _highlightController;
     public HUDView(VisualElement root, UIManager manager) : base(root, manager)
     {
     }
@@ -23,7 +22,6 @@ public class HUDView : UIView
 
         _controller = Manager.gameObject.AddComponent<HUDController>();
         _controller.Initialize(View);
-        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
         Hide();
     }
     public override void OnCancelPerformed(InputAction.CallbackContext context)
@@ -43,13 +41,11 @@ public class HUDView : UIView
     {
         base.Hide();
         _controller.enabled = false;
-        _highlightController.enabled = false;
     }
 
     public override void Show()
     {
         base.Show();
         _controller.enabled = true;
-        _highlightController.enabled = true;
     }
 }

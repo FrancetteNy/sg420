@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/ModalStyle.uss?fileID=7433441132597879392&amp;guid=3cd5248176a5ff2488b2c7c0af077fb9&amp;type=3#ModalStyle" />
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
+    <ui:VisualElement name="Modal" class="modal" style="-unity-text-align: upper-center;">
+        <ui:VisualElement class="bg-color" style="flex-grow: 1; width: 500px; height: auto; position: absolute; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
+            <ui:Label text="Are you sure?" parse-escape-sequences="true" name="Title" class="text-color" style="align-self: center; align-items: center; font-size: 38px; -unity-font-style: bold; letter-spacing: -6px;" />
+            <ui:Label text="Remove somthing from this game are you sure about it?" name="Description" class="text-color" style="flex-wrap: nowrap; white-space: normal; font-size: 26px; margin-bottom: 16px; margin-top: 8px;" />
+            <ui:VisualElement name="VisualElement" style="height: 55px; flex-direction: row;">
+                <ui:Button text="Abbrechen" name="Cancel" class="modal-btn cancel" style="border-left-color: rgb(255, 64, 64); border-right-color: rgb(255, 64, 64); border-top-color: rgb(255, 64, 64); border-bottom-color: rgb(255, 64, 64);" />
+                <ui:Button text="Bestätigen" name="Confirm" class="modal-btn confirm" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

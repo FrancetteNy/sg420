@@ -1,4 +1,4 @@
-﻿
+
 using static Age;
 using System.Collections.Generic;
 using System;
@@ -11,9 +11,10 @@ public class PlantData
     public Age Age;
     public Strain Strain;
     public Soil Soil;
-
     public List<CannabisBranch> CannabisBranches;
-    
+    public int Quality;
+    private const int _startQuality = 100;
+
     public PlantData()
     {
         this.Sex = false;
@@ -22,6 +23,8 @@ public class PlantData
         this.Strain = Strain.None;
         this.Soil = new(0, 0);
         this.CannabisBranches = new List<CannabisBranch>();
+        this.Quality = _startQuality;
+
     }
 
     public Dictionary<string, object> DataDictionary()

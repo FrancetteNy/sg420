@@ -1,16 +1,45 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
     <ui:VisualElement name="HUD" style="flex-grow: 1; justify-content: flex-end;">
-        <ui:VisualElement name="VisualElement" class="bg-color" style="flex-direction: row; justify-content: space-between; height: 90px; padding-top: 15px; padding-bottom: 15px;">
-            <ui:VisualElement style="flex-direction: row; align-self: center; align-items: center; justify-content: flex-start; align-content: auto; flex-grow: 1;">
-                <ui:Label text="Tag 1" name="current-day-label" class="text-color custom-label" style="align-self: center; font-size: 24px;" />
+        <ui:VisualElement name="VisualElement" class="bg-color" style="flex-direction: row; justify-content: flex-start; height: 90px; padding-top: 15px; padding-bottom: 15px; padding-right: 15px; padding-left: 15px;">
+            <ui:VisualElement style="flex-direction: row; align-self: center; align-items: center; justify-content: flex-start; align-content: auto;">
                 <ui:Button text="Nächsten Tag starten" name="advance-day-button" class="custom-button text-color" style="margin-right: 0; margin-bottom: 0; align-self: auto; align-items: center; justify-content: center; align-content: center; margin-top: 0; margin-left: 0;" />
+                <ui:Label text="Tag 1" name="current-day-label" class="text-color custom-label" style="align-self: center; font-size: 24px; width: 200px;" />
             </ui:VisualElement>
-            <ui:Button name="open-questlog-button" class="custom-button" style="background-image: url(&quot;project://database/Assets/Art/Textures/quest.png?fileID=2800000&amp;guid=fd2763ce0a3190c4e8d89f6c54d46662&amp;type=3#quest&quot;); background-size: 70% 70%;" />
-            <ui:Button name="open-chat-button" class="custom-button" style="background-image: url(&quot;project://database/Assets/Art/Textures/forum.png?fileID=2800000&amp;guid=0f06c7afd83ad4045aee1b0d5e5d97ab&amp;type=3#forum&quot;); background-size: 80% 80%;" />
-            <ui:Button text="Hauptmenu öffnen" name="open-mainmenu-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
+            <ui:VisualElement style="flex-grow: 0; flex-direction: row; justify-content: center; position: relative; align-items: stretch; align-self: center; align-content: auto; margin-right: 150px; margin-left: 150px;">
+                <ui:VisualElement name="harvested-plants" style="flex-grow: 1; flex-direction: row; align-items: center; margin-left: 15px;">
+                    <ui:Label text="0" name="harvested-plants-count-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-left: 0; padding-right: 8px; width: 100px; -unity-text-align: upper-right;" />
+                    <ui:VisualElement name="harvested-plants-count-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/rice-plant-clipart-lg.png?fileID=2800000&amp;guid=8045e606380513c4d8eca537f795edd3&amp;type=3#rice-plant-clipart-lg&quot;); background-size: 100% 100%; width: 40px; height: 40px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="dried-plants" style="flex-grow: 1; flex-direction: row; align-items: center; margin-left: 15px;">
+                    <ui:Label text="0" name="dried-plants-count-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-left: 0; padding-right: 8px; -unity-text-align: upper-right; width: 100px;" />
+                    <ui:VisualElement name="dried-plants-count-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/autumn-2887556_1280-removebg-preview.png?fileID=2800000&amp;guid=653b338b0d00df047852329e8863b8d3&amp;type=3#autumn-2887556_1280-removebg-preview&quot;); background-size: 100% 100%; width: 70px; height: 70px; margin-top: -12px; margin-right: -12px; margin-bottom: -12px; margin-left: -12px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="score" style="flex-grow: 1; align-items: center; flex-direction: row; margin-left: 15px;">
+                    <ui:Label text="0" name="score-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-right: 8px; padding-left: 0; width: 100px; -unity-text-align: upper-right;" />
+                    <ui:VisualElement name="score-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/sheriffs-star-151699_1280.png?fileID=2800000&amp;guid=1ac79a5fc9b2a9f4bb6a1adf659a0967&amp;type=3#sheriffs-star-151699_1280&quot;); background-size: 100% 100%; width: 40px; height: 40px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="VisualElement" style="flex-direction: row; position: absolute; right: 0; margin-right: 15px;">
+                <ui:Button text="Hauptmenu öffnen" name="open-mainmenu-button" class="custom-button text-color" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement style="flex-grow: 1;" />
-        <ui:VisualElement style="flex-direction: row; justify-content: flex-end;" />
+        <ui:VisualElement name="VisualElement" class="bg-color" style="flex-direction: row; justify-content: center; height: 90px; padding-top: 15px; padding-bottom: 15px; padding-right: 15px; padding-left: 15px; align-self: auto; align-items: stretch;">
+            <ui:VisualElement name="VisualElement" style="flex-direction: row; margin-right: 0; margin-left: 400px; margin-top: 0; margin-bottom: 0;">
+                <ui:Button name="open-questlog-button" class="custom-button" style="background-image: url(&quot;project://database/Assets/Art/Textures/quest.png?fileID=2800000&amp;guid=fd2763ce0a3190c4e8d89f6c54d46662&amp;type=3#quest&quot;); background-size: 70% 70%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="VisualElement" style="flex-direction: row; margin-right: 0; margin-left: 0; margin-top: 0; margin-bottom: 0;">
+                <ui:Button name="open-chat-button" class="custom-button" style="background-image: url(&quot;project://database/Assets/Art/Textures/forum.png?fileID=2800000&amp;guid=0f06c7afd83ad4045aee1b0d5e5d97ab&amp;type=3#forum&quot;); background-size: 80% 80%;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="VisualElement" style="flex-grow: 1; position: relative; left: 15px; bottom: auto; flex-direction: row; align-self: center; width: 150px;">
+                <ui:Button text="Shop" name="shop-button" class="custom-button text-color" style="margin-left: 250px; margin-right: 20px;" />
+                <ui:Button text="Inventar" name="inventar-button" class="custom-button text-color" />
+                <ui:VisualElement style="flex-grow: 1; flex-direction: row; width: 100px; margin-left: 200px;">
+                    <ui:Button text="Hauptraum" name="change-to-main-room-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
+                    <ui:Button text="Trocknungsraum" name="change-to-drying-room-button" class="custom-button text-color" style="margin-top: 0; margin-right: 15px; margin-bottom: 0; margin-left: 0;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

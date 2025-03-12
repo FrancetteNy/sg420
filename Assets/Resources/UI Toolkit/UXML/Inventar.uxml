@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Inventar.uss?fileID=7433441132597879392&amp;guid=59a3109c6c2ba4315914910ae08f9c57&amp;type=3#Inventar" />
+    <ui:VisualElement name="Inventar" class="Inventar bg-color text-color" style="background-color: rgb(4, 24, 1); color: rgb(4, 24, 1); flex-grow: 1; display: none; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0);">
+        <ui:VisualElement name="tab-container text-color" class="nav-tabs">
+            <ui:Button name="tab1" text="Samen" class="nav-link text-color" />
+            <ui:Button name="tab2" text="Ungetrocknete Pflanzen" class="nav-link text-color" />
+            <ui:Button name="tab3" text="Getrocknete Pflanzen" class="nav-link text-color" />
+            <ui:VisualElement style="display: flex; justify-content: flex-end;">
+                <ui:Button name="close-button" text="X" class="text-color" style="border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; background-color: rgb(37, 85, 35); font-size: 15px; -unity-font-style: bold; width: 40px; position: absolute; top: 0; right: 0; display: flex;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:ScrollView name="scroll-content" class="text-color" style="margin-top: 20px;">
+            <ui:VisualElement name="tab-content1" class="text-color tab-content" style="flex-direction: row; justify-content: space-around;" />
+        </ui:ScrollView>
+        <ui:ScrollView name="scroll-content" class="text-color" style="margin-top: 20px;">
+            <ui:VisualElement name="tab-content2" class="text-color tab-content" style="flex-direction: row; justify-content: space-around;" />
+        </ui:ScrollView>
+        <ui:ScrollView name="scroll-content" class="text-color" style="margin-top: 20px;">
+            <ui:VisualElement name="tab-content3" class="text-color tab-content" style="flex-direction: row; justify-content: space-around;" />
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

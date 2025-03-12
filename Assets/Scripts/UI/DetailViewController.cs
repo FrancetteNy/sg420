@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UIElements;
+using static Age;
 
 public class DetailViewController : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class DetailViewController : MonoBehaviour
     public static Action PlantsChanged;
 
     // Camera and Managers
-    public List<PlantController> PlantControllers;
+    private List<PlantController> _plantControllers;
     private Camera _detailViewCamera;
     private DetailViewCameraController _cameraController;
     private DetailViewUIManager _uiManager;
@@ -29,13 +31,12 @@ public class DetailViewController : MonoBehaviour
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
-
     }
 
 
     private void UpdatePlantControllers()
     {
-        PlantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
+        _plantControllers = _plantManager.Plants.Select((plant) => plant.GetComponent<PlantController>()).ToList();
     }
 
     public void Initialize(Camera detailViewCamera, PlantManager plantManager)
@@ -44,9 +45,10 @@ public class DetailViewController : MonoBehaviour
         _plantManager = plantManager;
         UpdatePlantControllers();
         _cameraController = new DetailViewCameraController(detailViewCamera, GetComponent<UIDocument>().rootVisualElement.Q<Image>("plant-view"));
-        _detailViewplantManager = new DetailViewPlantManager(PlantControllers, OnPlantChanged);
+        _detailViewplantManager = new DetailViewPlantManager(_plantControllers, OnPlantChanged);
         _uiManager = new DetailViewUIManager(GetComponent<UIDocument>(), OnButtonDown, OnButtonUp, OnDetailHovered);
         _isInitialized = true;
+        this.enabled = false;
     }
     private void Update()
     {
@@ -55,7 +57,9 @@ public class DetailViewController : MonoBehaviour
             return;
         }
         if (_detailViewplantManager.CurrentPlantIndex < 0)
+        {
             return;
+        }
 
         // Update Camera
         _cameraController.UpdatePosition(_cameraMoveVector,
@@ -84,12 +88,12 @@ public class DetailViewController : MonoBehaviour
             case UIButton.PREVIOUSPLANT:
                 _detailViewplantManager.SwitchToPreviousPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.NEXTPLANT:
                 _detailViewplantManager.SwitchToNextPlant();
                 _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.STARTSEXING:
                 Debug.Log("Starting the sexing minigame...");
@@ -104,16 +108,16 @@ public class DetailViewController : MonoBehaviour
                 _cameraMoveVector = Vector3.back;
                 break;
             case UIButton.MOVERIGHT:
-                _cameraMoveVector = Vector3.right;
-                break;
-            case UIButton.MOVELEFT:
                 _cameraMoveVector = Vector3.left;
                 break;
+            case UIButton.MOVELEFT:
+                _cameraMoveVector = Vector3.right;
+                break;
             case UIButton.MOVEUP:
-                _cameraMoveVector = Vector3.up;
+                _cameraMoveVector = Vector3.down;
                 break;
             case UIButton.MOVEDOWN:
-                _cameraMoveVector = Vector3.down;
+                _cameraMoveVector = Vector3.up;
                 break;
             case UIButton.ROTATERIGHT:
                 _rotateVector = Vector3.down;
@@ -135,7 +139,7 @@ public class DetailViewController : MonoBehaviour
                 break;
             case UIButton.WATERPLANTS:
                 _detailViewplantManager.AddWaterAndFertilizer(_uiManager.GetWaterValue(), _uiManager.GetFertilizerValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.OPENCHANGEPOTSUBMENU:
@@ -149,17 +153,48 @@ public class DetailViewController : MonoBehaviour
             case UIButton.CHANGETOMEDIUM:
             case UIButton.CHANGETOLARGE:
                 _detailViewplantManager.ChangePotSize(buttonId);
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.CONFIRMSEED:
+                bool isPlantedSuccessfully = _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
+                if (isPlantedSuccessfully)
+                {
+                    _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
+                    UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreiche Pflanzung", $"Der Samen {_uiManager.GetSeedValue()} wurde erfolgreich gepflanzt.", 5));
+                } 
+                else
+                {
+                    UIEvents.AddNotification.Invoke(new NotificationData("Fehler bei der Pflanzung", $"Verifizieren Sie die Mengen des Samens {_uiManager.GetSeedValue()}.", 5));
+                }
+                
                 _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
+                break;
+            case UIButton.HARVEST:
+                UIEvents.ShowModalView?.Invoke(
+                    "Warnung",
+                    "Du bist dabei diese Pflanze zu ernten. Die Ernte kann nicht rückgängig gemacht werden! Bist du dir sicher?",
+                    HarvestPlant);
                 break;
             default:
                 Debug.Log("Button without associated action pressed");
                 break;
         }
+    }
+
+    private void HarvestPlant()
+    {
+        var currentPlantData = _detailViewplantManager.GetCurrentPlantData();
+        string notificationTitle = $"{currentPlantData.Strain} geerntet";
+        int scoreToAdd = DetailViewConstants.ScorePerGrowthStage[currentPlantData.Age.Stage];
+        GameStateManagerSingleton.Instance.GameState.CurrentScore += scoreToAdd;
+        string notificationBody = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {GameStateManagerSingleton.Instance.GameState.CurrentScore} Punkte.";
+        _detailViewplantManager.HarvestCurrentPlant();
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
+        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
+        GameState.UpdateHUD?.Invoke();
+        _plantManager.ManagePlantStageModel(_detailViewplantManager.GetCurrentPlantController().gameObject);
     }
 
     private void OnButtonUp(UIButton buttonId)
@@ -203,12 +238,18 @@ public class DetailViewController : MonoBehaviour
         }
         
         _cameraController.SetInitialPosition(_detailViewplantManager.GetCurrentPlantPosition());
-        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantData());
+        _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
 
         _uiManager.ShowView();
         _detailViewCamera.enabled = true;
 
         _closeAction = closeAction;
+
+        if (!GameStateManagerSingleton.Instance.GameState.OnboardingDoneData.DetailviewOnboardingIsDone)
+        {
+            GameStateManagerSingleton.Instance.GameState.OnboardingDoneData.DetailviewOnboardingIsDone = true;
+            _uiManager.StartOnboarding();
+        }
     }
 
 
@@ -261,6 +302,7 @@ public enum UIButton
     CHANGETOMEDIUM,
     CHANGETOLARGE,
     CONFIRMSEED,
+    HARVEST,
 
 }
 // Constants for readability and configurability
@@ -302,13 +344,21 @@ public static class DetailViewConstants
         { UIButton.CHANGETOMEDIUM,"change-to-medium-pot-button" },
         { UIButton.CHANGETOLARGE,"change-to-large-pot-button" },
         { UIButton.CONFIRMSEED, "confirm-seed-button" },
+        { UIButton.HARVEST, "harvest-button" },
 
     };
     public static Dictionary<Submenu, string> NameOfSubmenues = new Dictionary<Submenu, string>() {
         {Submenu.WATERINGSUBMENU, "watering-submenu" },
         {Submenu.CHANGEPOTSUBMENU, "change-pot-submenu"},
     };
-
+    public static Dictionary<GrowthStage, int> ScorePerGrowthStage = new Dictionary<GrowthStage, int> {
+            {GrowthStage.EMPTY, 0 },
+            {GrowthStage.GERMINATION, 2 },
+            {GrowthStage.SEEDLING, 4 },
+            {GrowthStage.VEGETATIVEGROWTH, 6 },
+            {GrowthStage.FLOWERING, 10 },
+            {GrowthStage.FADED, 3 },
+        };
 }
 
 public class DetailViewCameraController
@@ -366,16 +416,13 @@ public class DetailViewUIManager
 {
     private VisualElement _background;
     private Label _wikiTextLabel;
-    private Label _popupMessage;
-    private VisualElement _popupContainer;
-    private VisualElement _popupContent;
     private Dictionary<string, Label> _detailLabels = new();
     private Button _previousPlantButton;
     private Button _nextPlantButton;
     private VisualElement _seedSelectionContainer;
-    private string _seedTypeDropdown;
     private VisualElement _plantInfo;
     private DropdownField _seedDropdown;
+    public InventarController InventoryController; 
 
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
@@ -392,10 +439,6 @@ public class DetailViewUIManager
 
         _plantInfo = _background.Q<VisualElement>("plantinfo");
 
-        // Seed Container
-        _seedSelectionContainer = _background.Q<VisualElement>("seed-selection-container");
-
-        //Popup container
         SetupSeedContainer(onDetailHovered);
 
         SetupSliders();
@@ -408,7 +451,6 @@ public class DetailViewUIManager
         _seedSelectionContainer.RegisterCallback<MouseEnterEvent>((_) => onDetailHovered("Die Aussaat"));
         _seedSelectionContainer.style.display = DisplayStyle.None;
     }
-
     private void SetupSliders()
     {
         var waterValueLabel = _background.Q<Label>("water-value-label");
@@ -474,7 +516,7 @@ public class DetailViewUIManager
             {
                 _seedSelectionContainer.style.display = DisplayStyle.Flex;
                 _plantInfo.style.display = DisplayStyle.None;
-
+                
             }
             else
             {
@@ -550,6 +592,25 @@ public class DetailViewUIManager
     {
         return _background.Q<Slider>("fertilizer-slider").value;
     }
+
+    internal void StartOnboarding()
+    {
+        var plantView = _background.Q<Image>("plant-view");
+        var rotateControlButtons = _background.Q<VisualElement>("rotate-control-buttons");
+        var cameraControlButtons = _background.Q<VisualElement>("camera-control-buttons");
+        var zoomControlButtons = _background.Q<VisualElement>("zoom-control-buttons");
+        var wiki = _background.Q<VisualElement>("wiki");
+        UIEvents.ShowOnboardingView(new() { 
+            new(plantView, "Pflanzenübersicht", "Hier kannst du dir die Pflanzen genauer anschauen"),
+            new(_previousPlantButton, "Vorherige Pflanze", "Mit diesem Button kannst du dir die vorherige Pflanze anschauen"),
+            new(_nextPlantButton, "Nächste Pflanze", "Hiermit kannst du zur nächsten Pflanze springen"),
+            new(cameraControlButtons, "Kamera bewegen", "Mit diesen Buttons kannst du die Kamera bewegen, um die Pflanze besser ins Bild zu rücken"),
+            new(rotateControlButtons, "Pflanze bewegen", "Mit diesen Buttons kannst du die Pflanze nach unten und oben bewegen und drehen"),
+            new(zoomControlButtons, "Heranzoomen", "Mit diesen Buttons kannst du die Zoomstufe einstellen"),
+            new(_seedSelectionContainer, "Anpflanzen einer Pflanze", "Hier kannst du eine neue Pflanze in den Topf anpflanzen. Danach erfährst du hier mehr Informationen über die Pflanze"),
+            new(wiki, "Enzyklopädie", "Wenn du über verschiedene Elemente mit der Maus fährst, kannst du hier weitere Informationen erhalten"),
+        });
+    }
 }
 
 
@@ -575,8 +636,6 @@ public class DetailViewPlantManager
     {
         if (plantIndex == -1 && CurrentPlantIndex != -1)
             return;
-        else if (CurrentPlantIndex == -1)
-            plantIndex = 0;
         CurrentPlantIndex = plantIndex;
         _onPlantChanged.Invoke(CurrentPlantIndex);
         SavePlantTransform();
@@ -651,16 +710,23 @@ public class DetailViewPlantManager
                            currentPlant.z);
     }
 
+    public PlantController GetCurrentPlantController()
+    {
+        return _plants[CurrentPlantIndex];
+    }
     public Vector3 GetCurrentPlantPosition()
     {
         return _plants[CurrentPlantIndex].transform.position;
     }
 
-    public Dictionary<string, object> GetCurrentPlantData()
+    public Dictionary<string, object> GetCurrentPlantDataAsDictionary()
     {
         return _plants[CurrentPlantIndex].PlantData.DataDictionary();
     }
-
+    public PlantData GetCurrentPlantData()
+    {
+        return _plants[CurrentPlantIndex].PlantData;
+    }
     public void AddWaterAndFertilizer(float waterAmount, float fertilizerAmount)
     {
         if (CurrentPlantIndex < 0)
@@ -712,11 +778,28 @@ public class DetailViewPlantManager
         {
             return false;
         }
-        // Pflanzt den Samen ein
-        currentPlant.PlantSeed(seedType);
-        return true;
+        bool plantable = InventarController.Instance.UpdateSeedQuantity(seedType.ToString());
+        if (plantable)
+        {
+            currentPlant.PlantSeed(seedType);
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+        
     }
 
+    internal void HarvestCurrentPlant()
+    {
+        var currentPlant = _plants[CurrentPlantIndex];
+        var gamestate = GameStateManagerSingleton.Instance.GameState;
+        gamestate.HarvestedPlantDataList.List.Add(currentPlant.PlantData);
+        PlantData emptyPlantData = new();
+        gamestate.PlantDataList.List[CurrentPlantIndex] = emptyPlantData;
+        _plants[CurrentPlantIndex].PlantData = emptyPlantData;
+    }
 }
 
 public class DummyWiki

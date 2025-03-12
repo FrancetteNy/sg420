@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System;
+using UnityEngine.Events;
 
 class UIEvents
 {
@@ -16,7 +18,10 @@ class UIEvents
 
     public static Action ShowEncyclopedia;
     public static Action HideEncyclopedia;
-
+    public static Action ShowInventar;
+    public static Action HideInventar;
+    public static Action ShowShop;
+    public static Action HideShop;
     public static Action ShowChatView;
     public static Action HideChatView;
 
@@ -28,6 +33,12 @@ class UIEvents
 
     public static Action ShowGroupWateringView;
     public static Action HideGroupWateringView;
+
+    public static Action<List<OnboardingData>> ShowOnboardingView;
+    public static Action HideOnboardingView;
+
+    public static Action<string, string, UnityAction> ShowModalView;
+    public static Action HideModalView;
 
     //Notification Events
     public static Action<NotificationData> AddNotification;
