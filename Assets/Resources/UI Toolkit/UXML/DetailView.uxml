@@ -21,7 +21,7 @@
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="rotate-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down-bold.png?fileID=2800000&amp;guid=6a9b37e4993dcdb4585ce71605c167e6&amp;type=3#arrow-down-bold" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                             </ui:VisualElement>
-                            <ui:Label text="Pflanze" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
+                            <ui:Label text="ROTATION" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="camera-control-buttons" style="flex-grow: 1; position: absolute; height: 115px; width: 80px; top: auto; left: 0; bottom: 0; right: auto; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 10px;">
                             <ui:VisualElement name="first-row" class="d-pad-row">
@@ -37,7 +37,7 @@
                                 <ui:VisualElement name="spacer" class="d-pad-button" />
                                 <ui:Button name="move-down-button" icon-image="project://database/Assets/Art/Textures/arrow-down.png?fileID=2800000&amp;guid=8120d92f71ff08f40a9ac0c372dc8b55&amp;type=3#arrow-down" class="d-pad-button no-spacing no-background custom-button" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
                             </ui:VisualElement>
-                            <ui:Label text="Kamera&#10;" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
+                            <ui:Label text="POSITION" style="-unity-text-align: upper-center; -unity-font-style: bold; font-size: 15px; margin-top: 8px;" />
                         </ui:VisualElement>
                         <ui:VisualElement name="zoom-control-buttons" style="position: absolute; top: 0; left: auto; width: 50px; height: 107px; flex-direction: column; right: 0; padding-top: 0; justify-content: space-evenly; align-items: center;">
                             <ui:Button name="zoom-in-button" icon-image="project://database/Assets/Art/Textures/magnify-plus.png?fileID=2800000&amp;guid=d984076e25c756941b526b134c93e334&amp;type=3#magnify-plus" class="no-spacing no-background custom-button" style="height: 40px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 40px;" />
