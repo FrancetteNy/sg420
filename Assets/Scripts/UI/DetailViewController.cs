@@ -434,8 +434,6 @@ public class DetailViewUIManager
 
         // Collect and Configure Detail Labels
         _wikiText = _background.Q<VisualElement>("wiki-text");
-        LoadWikiEntries();
-
 
         SetupDetailLabels(onDetailHovered);
 
@@ -583,6 +581,8 @@ public class DetailViewUIManager
 
     public void ShowView()
     {
+        _wikiText.Clear();
+        LoadWikiEntries();
         _background.style.display = DisplayStyle.Flex;
     }
 
