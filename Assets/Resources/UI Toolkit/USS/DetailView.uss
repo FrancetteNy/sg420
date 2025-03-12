@@ -153,3 +153,30 @@
     background-color: var(--color-hover);
     border-color: var(--color-border);
 }
+
+.unity-base-slider__tracker {
+    background-color: rgb(28, 51, 27);
+    border-color: var(--color-border);
+}
+
+.unity-base-slider__dragger {
+    background-color: var(--color-interactable);
+    border-color: var(--color-border);
+    border-width: 5px;
+    border-radius: 7px;
+    left: 0px;
+}
+
+.unity-scroller__low-button {
+    background-color: var(--color-interactable);
+    border-color: var(--color-border);
+    border-width: 5px;
+    border-radius: 7px;
+}
+
+.unity-scroller__high-button {
+    background-color: var(--color-interactable);
+    border-color: var(--color-border);
+    border-width: 5px;
+    border-radius: 7px;
+}
