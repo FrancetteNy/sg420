@@ -111,10 +111,15 @@ public class DryingManager : MonoBehaviour
         string plantStrain = $"getrocknetes {controller.DriedPlantData.OldPlantData.Strain} geerntet";
         string scoreString = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {_gameState.CurrentScore} Punkte.";
         UIEvents.AddNotification(new NotificationData(plantStrain, scoreString, 3));
-
-        _gameState.CurrentlyDryingPlants.List.Remove(controller.DriedPlantData);
-        _gameState.CompletedDriedPlantDataList.List.Add(controller.DriedPlantData);
-        controller.DriedPlantData = new();
+        DriedPlantData oldData = controller.DriedPlantData;
+        DriedPlantData newData = new();
+        _gameState.CompletedDriedPlantDataList.List.Add(oldData);
+        int index = _gameState.CurrentlyDryingPlants.List.IndexOf(oldData);
+        if (index != -1)
+        {
+            _gameState.CurrentlyDryingPlants.List[index] = newData;
+            controller.DriedPlantData = newData;
+        }
         GameState.UpdateHUD?.Invoke();
     }
 }
