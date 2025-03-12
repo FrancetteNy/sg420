@@ -12,7 +12,7 @@
         <ui:Label class="h2" text="Nährstoffmängel erkennen"/>
         <ui:Label class="paragraph" text="Nährstoffmängel zeigen sich häufig in Form von Verfärbung und Verformung von Blättern so wie reduziertem Wachstum. Mängel von unterschiedliche Nährstoffen können zu unterschiedlichen Symptomen führen. Um diese korrekt zu identifizieren solltest du dich mit den unterschiedlichen Nährstoffen auseinander setzen so wie mit mobilen bzw. nicht mobilen Nährstoffen."/>
         <ui:Box class="image-box">
-            <ui:Image class="image" style="--unity-image: url('Images/sprout.jpg'); height: 300px; width: 400px;" />
+            <ui:Image class="image" style="--unity-image: url('Images/nutrient-deficiency.jpg'); height: 300px; width: 400px;" />
             <ui:Label text="Möglicher Stickstoffmangel" />
         </ui:Box>
         <ui:Label class="h2" text="Umsetzung im Spiel"/>
