@@ -139,7 +139,6 @@
 
 .unity-tree-view__item {
     background-color: var(--color-window);
-    margin-bottom: 3px;
 }
 
 .unity-button {
