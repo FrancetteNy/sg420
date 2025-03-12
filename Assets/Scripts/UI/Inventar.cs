@@ -48,7 +48,7 @@ class Inventar : UIView
     {
         if (!IsOpen)
             return;
-        UIEvents.ShowMainMenuView();
+        UIEvents.HideInventar();
     }
 
 }

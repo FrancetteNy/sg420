@@ -1,5 +1,6 @@
-using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -39,7 +40,7 @@ public class UIManager : MonoBehaviour
     }
     UIView _previousView;
 
-    ObservableStack<UIView> _overlayViews;
+    ObservableCollection<UIView> _overlayViews;
     InputSystem_Actions _actions;
 
     HighlightController _highlightController;
@@ -50,22 +51,22 @@ public class UIManager : MonoBehaviour
     public bool IsReadyToChangeRoom => _currentView == _hudView && _overlayViews.Count == 0;
     public bool MainRoomIsActive => _mainRoom?.activeSelf ?? false;
     public bool DryingRoomIsActive => _dryingRoom?.activeSelf ?? false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
-        _overlayViews = new ObservableStack<UIView>();
+        _overlayViews = new();
         _overlayViews.CollectionChanged += OnOverlayViewsChanged;
         AddAllUIViews();
         _notificationManager = gameObject.AddComponent<NotificationManager>();
         SetupNotificationMananger();
         SetupActionSystem();
         _highlightController = FindAnyObjectByType<HighlightController>();
+        _highlightController.enabled = false;
         SetupRoomGameObjects();
         GameState.UpdateHUD?.Invoke();
     }
 
-    private void OnOverlayViewsChanged()
+    private void OnOverlayViewsChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         GameState.UpdateHUD?.Invoke();
     }
@@ -115,7 +116,7 @@ public class UIManager : MonoBehaviour
             return;
         if(_overlayViews.Count > 0)
         {
-            var view = _overlayViews.Peek();
+            var view = _overlayViews[^1];
             view.OnCancelPerformed(context);
         }
         else if (CurrentView != null) 
@@ -153,16 +154,16 @@ public class UIManager : MonoBehaviour
         UIEvents.HideHUDView += _hudView.Hide;
 
         UIEvents.ShowLightOverview += OnLightOverviewShown;
-        UIEvents.HideLightOverview += HideOverlay;
+        UIEvents.HideLightOverview += OnLightOverviewHidden;
 
         UIEvents.ShowInventar += OnInventarShown;
-        UIEvents.HideInventar += HideOverlay;
+        UIEvents.HideInventar += OnInventarHidden;
 
         UIEvents.ShowShop += OnShopShown;
-        UIEvents.HideShop += HideOverlay;
+        UIEvents.HideShop += OnShopHidden;
         
         UIEvents.ShowEncyclopedia += OnEncyclopediaShown;
-        UIEvents.HideEncyclopedia += HideOverlay;
+        UIEvents.HideEncyclopedia += OnEncyclopediaHidden;
 
         UIEvents.ShowChatView += OnChatViewShown;
         UIEvents.HideChatView += OnHudShown;
@@ -171,16 +172,16 @@ public class UIManager : MonoBehaviour
         UIEvents.HideMainMenuView += OnHudShown;
 
         UIEvents.ShowQuestLog += OnQuestLogShown;
-        UIEvents.HideQuestLog += HideOverlay;
+        UIEvents.HideQuestLog += OnQuestLogHidden;
 
         UIEvents.ShowGroupWateringView += OnGroupWateringShown;
-        UIEvents.HideGroupWateringView += HideOverlay;
+        UIEvents.HideGroupWateringView += OnGroupWateringHidden;
 
         UIEvents.ShowOnboardingView += OnOnboardingViewShown;
-        UIEvents.HideOnboardingView += HideOverlay;
+        UIEvents.HideOnboardingView += OnOnboardingHidden;
 
         UIEvents.ShowModalView += OnModalViewShown;
-        UIEvents.HideModalView += HideOverlay;
+        UIEvents.HideModalView += OnModelViewHidden;
 
         _previousView = null;
         if (GameStateManagerSingleton.Instance.IsGameLoaded)
@@ -195,7 +196,22 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void OnModelViewHidden() => HideOverlay(_modalView);
 
+
+    private void OnOnboardingHidden() => HideOverlay(_onboardingView);
+
+    private void OnGroupWateringHidden() => HideOverlay(_groupWateringView);
+
+    private void OnQuestLogHidden() => HideOverlay(_questLog);
+
+    private void OnEncyclopediaHidden() => HideOverlay(_encyclopedia);
+
+    private void OnShopHidden() => HideOverlay(_shop);
+
+    private void OnInventarHidden() => HideOverlay(_inventar);
+
+    private void OnLightOverviewHidden() => HideOverlay(_lightOverview);
 
     private void OnDetailViewShown(int index) => ShowView(_detailView, index);
     private void OnHudShown() => ShowView(_hudView);
@@ -214,8 +230,11 @@ public class UIManager : MonoBehaviour
     private void OnModalViewShown(string title, string description, UnityAction action)
     {
         if (_overlayViews.Contains(_modalView))
-            return;
-        _overlayViews.Push(_modalView);
+        {
+            Debug.LogError("cant handle 2 modalviews shown at the same time");
+
+        }
+        _overlayViews.Add(_modalView);
         _modalView.BringToFront();
         _modalView.Show(title, description, action);
         UpdateHighlightController();
@@ -232,16 +251,16 @@ public class UIManager : MonoBehaviour
         UIEvents.HideHUDView -= _hudView.Hide;
         _hudView.Dispose();
         UIEvents.ShowLightOverview -= OnLightOverviewShown;
-        UIEvents.HideLightOverview -= HideOverlay;
+        UIEvents.HideLightOverview -= OnLightOverviewHidden;
         _lightOverview.Dispose();
         UIEvents.ShowEncyclopedia -= OnEncyclopediaShown;
-        UIEvents.HideEncyclopedia -= HideOverlay;
+        UIEvents.HideEncyclopedia -= OnEncyclopediaHidden;
         _encyclopedia.Dispose();
         UIEvents.ShowInventar -= OnInventarShown;
-        UIEvents.HideInventar -= HideOverlay;
+        UIEvents.HideInventar -= OnInventarHidden;
         _inventar.Dispose();
         UIEvents.ShowShop -= OnShopShown;
-        UIEvents.HideShop -= HideOverlay;
+        UIEvents.HideShop -= OnShopHidden;
         _shop.Dispose();
         UIEvents.ShowChatView -= OnChatViewShown;
         UIEvents.HideChatView -= OnHudShown;
@@ -250,16 +269,16 @@ public class UIManager : MonoBehaviour
         UIEvents.HideMainMenuView -= OnHudShown;
         _mainMenuView.Dispose();
         UIEvents.ShowQuestLog -= OnQuestLogShown;
-        UIEvents.HideQuestLog -= HideOverlay;
+        UIEvents.HideQuestLog -= OnQuestLogHidden;
         _questLog.Dispose();
         UIEvents.ShowGroupWateringView -= OnGroupWateringShown;
-        UIEvents.HideGroupWateringView -= HideOverlay;
+        UIEvents.HideGroupWateringView -= OnGroupWateringHidden;
         _groupWateringView.Dispose();
         UIEvents.ShowOnboardingView -= OnOnboardingViewShown;
-        UIEvents.HideOnboardingView -= HideOverlay;
+        UIEvents.HideOnboardingView -= OnOnboardingHidden;
         _onboardingView.Dispose();
         UIEvents.ShowModalView -= OnModalViewShown;
-        UIEvents.HideModalView -= HideOverlay;
+        UIEvents.HideModalView -= OnModelViewHidden;
         _modalView.Dispose();
 
         _actions.UI.Disable();
@@ -277,27 +296,38 @@ public class UIManager : MonoBehaviour
 
     private void ShowOverlay(UIView view)
     {
-        if (_overlayViews.Contains(view))
+        if (_overlayViews.Remove(view))
+        {
+            _overlayViews.Add(view);
+            view.BringToFront();
+            UpdateHighlightController();
             return;
-        _overlayViews.Push(view);
+        }
+        _overlayViews.Add(view);
         view.BringToFront();
         view.Show();
         UpdateHighlightController();
     }
     private void HideOverlay()
     {
-        if (_overlayViews.TryPop(out var overlayView))
-        {
-            overlayView.Hide();
-        }
+        if (_overlayViews.Count == 0)
+            return;
+        HideOverlay(_overlayViews[^1]);
+    }
+    private void HideOverlay(UIView view)
+    {
+        if (!_overlayViews.Remove(view))
+            return;
+        view.Hide();
         UpdateHighlightController();
     }
     private void ShowView(UIView view, int? index = null)
     {
-        while (_overlayViews.TryPop(out var overlayView))
+        foreach(var overlayView in _overlayViews)
         {
             overlayView.Hide();
         }
+        _overlayViews.Clear();
         if (view == CurrentView)
             return;
 
@@ -323,10 +353,11 @@ public class UIManager : MonoBehaviour
 
     private void ShowPreviousView()
     {
-        while (_overlayViews.TryPop(out var overlayView))
+        foreach (var overlayView in _overlayViews)
         {
             overlayView.Hide();
         }
+        _overlayViews.Clear();
         if (CurrentView == _previousView || _previousView is null || CurrentView is null)
             return;
         ShowView(_previousView);
@@ -340,40 +371,4 @@ public class UIManager : MonoBehaviour
         }
     }
 
-}
-
-
-public class ObservableStack<T>
-{
-    public event Action CollectionChanged;
-    private Stack<T> _stack;
-    public ObservableStack()
-    {
-        _stack = new Stack<T>();
-    }
-    public void Push(T item)
-    {
-        _stack.Push(item);
-        this.CollectionChanged();
-    }
-
-    public bool TryPop(out T item)
-    {
-        if (_stack.TryPop(out item))
-        {
-            this.CollectionChanged();
-            return true;
-        }
-        else
-        {
-            item = default;
-            return false;
-        }
-    }
-
-    public T Peek() => _stack.Peek();
-
-    public int Count => _stack.Count;
-
-    public bool Contains(T item) => _stack.Contains(item);
 }
