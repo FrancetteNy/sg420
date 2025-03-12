@@ -825,7 +825,7 @@ Camera:
   m_Depth: -0.03
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 136
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1943,7 +1943,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -2400,6 +2400,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _driedPlantData:
+    OldPlantData:
+      Potsize: 500
+      Age:
+        Stage: 0
+        AgeNumber: 0
+      Strain: 0
+      Soil:
+        StoredWater: 0
+        StoredNutrients: 0
+      CannabisBranches: []
+      Quality: 100
+    DryingAge:
+      Stage: 0
+      AgeNumber: 0
 --- !u!4 &386403715 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1110166751322874430, guid: 20fb32c38fa4cf14c98f0e754db93073, type: 3}
@@ -4882,6 +4897,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _driedPlantData:
+    OldPlantData:
+      Potsize: 500
+      Age:
+        Stage: 0
+        AgeNumber: 0
+      Strain: 0
+      Soil:
+        StoredWater: 0
+        StoredNutrients: 0
+      CannabisBranches: []
+      Quality: 100
+    DryingAge:
+      Stage: 0
+      AgeNumber: 0
 --- !u!1001 &1088584818
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7618,6 +7648,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _driedPlantData:
+    OldPlantData:
+      Potsize: 500
+      Age:
+        Stage: 0
+        AgeNumber: 0
+      Strain: 0
+      Soil:
+        StoredWater: 0
+        StoredNutrients: 0
+      CannabisBranches: []
+      Quality: 100
+    DryingAge:
+      Stage: 0
+      AgeNumber: 0
 --- !u!1 &1709367630
 GameObject:
   m_ObjectHideFlags: 0
@@ -9012,6 +9057,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e599a40682765ce448d6ebdefe9ba7c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _driedPlantData:
+    OldPlantData:
+      Potsize: 500
+      Age:
+        Stage: 0
+        AgeNumber: 0
+      Strain: 0
+      Soil:
+        StoredWater: 0
+        StoredNutrients: 0
+      CannabisBranches: []
+      Quality: 100
+    DryingAge:
+      Stage: 0
+      AgeNumber: 0
 --- !u!1 &1918572286
 GameObject:
   m_ObjectHideFlags: 0
