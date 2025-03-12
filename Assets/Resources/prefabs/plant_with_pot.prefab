@@ -1,5 +1,156 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1060180403548057207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 958807113268621261}
+  - component: {fileID: 4375436335545762351}
+  m_Layer: 0
+  m_Name: plantGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &958807113268621261
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060180403548057207}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0036, y: 0.2463, z: -0.0019}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1803825867349177103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4375436335545762351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060180403548057207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bccd2ba2ea43d34dbc6f549eae20b6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshGenerator: {fileID: 2995177186695056911}
+  _radiusSize:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.5047188
+      outSlope: -0.5047188
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.49528122
+      inSlope: -0.5047188
+      outSlope: -0.5047188
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _materials:
+  - {fileID: 2100000, guid: 35c7dae43145e0240bcabea664e43b13, type: 2}
+  - {fileID: 2100000, guid: 0b98ff66662accf4589488129fd00a7d, type: 2}
+  - {fileID: 2100000, guid: b0821a573b8dd2346882dbc7574eec6b, type: 2}
+  - {fileID: 2100000, guid: f527d10f5247f5b488a85ab1b85e4d58, type: 2}
+  - {fileID: 2100000, guid: 0f66a884792731d48a436e7e71309aba, type: 2}
+  RADIUS: 0.001
+  CIRCLE_SEGMENTS: 20
+  SPLINE_SEGMENTS: 20
+  leafPrefabs:
+  - {fileID: 2268271379132757629, guid: 0cad20289ba769143b0fb3330d434842, type: 3}
+  - {fileID: 7974879309952787365, guid: 2981fda9f19533d438f4bb050e7bb123, type: 3}
+  phase: 0
+  ageNumber: 0
+--- !u!1 &7615873406889889084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7209563040105404014}
+  - component: {fileID: 2995177186695056911}
+  m_Layer: 0
+  m_Name: meshGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7209563040105404014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7615873406889889084}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.10160794, y: 0.7443065, z: 0.011789441}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1803825867349177103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2995177186695056911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7615873406889889084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ccf35d9ae4d69b4fbcf0012b03f9301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _radiusSize:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.500277
+      outSlope: -0.500277
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0041585
+      value: 0.4976426
+      inSlope: -0.500277
+      outSlope: -0.500277
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &2198534440001426660
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -74,7 +225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4184989066816401638, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       propertyPath: m_Name
@@ -108,6 +259,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3553228278574770526}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 958807113268621261}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7209563040105404014}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
       insertIndex: -1
@@ -145,6 +302,8 @@ MonoBehaviour:
     Soil:
       StoredWater: 0
       StoredNutrients: 0
+    CannabisBranches: []
+    Quality: 100
 --- !u!4 &1803825867349177103 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a282cb069192b704a8faffb80e52fa00, type: 3}
