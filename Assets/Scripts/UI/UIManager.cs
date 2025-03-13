@@ -53,6 +53,8 @@ public class UIManager : MonoBehaviour
     public bool DryingRoomIsActive => _dryingRoom?.activeSelf ?? false;
     void Start()
     {
+        _highlightController = FindAnyObjectByType<HighlightController>();
+        _highlightController.enabled = false;
         _root = GetComponent<UIDocument>().rootVisualElement;
         _overlayViews = new();
         _overlayViews.CollectionChanged += OnOverlayViewsChanged;
@@ -60,8 +62,6 @@ public class UIManager : MonoBehaviour
         _notificationManager = gameObject.AddComponent<NotificationManager>();
         SetupNotificationMananger();
         SetupActionSystem();
-        _highlightController = FindAnyObjectByType<HighlightController>();
-        _highlightController.enabled = false;
         SetupRoomGameObjects();
         GameState.UpdateHUD?.Invoke();
     }

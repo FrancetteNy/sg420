@@ -16,6 +16,9 @@ public class OnboardingController : MonoBehaviour
     Label _title;
     Label _information;
     int _currentContainerElement = -1;
+    const int _screenWidth = 1920;
+    const int _screenHeight = 1080;
+
     internal void Initialize(VisualElement view)
     {
         _view = view;
@@ -114,9 +117,9 @@ public class OnboardingController : MonoBehaviour
     {
         OnboardingData data = _data[_currentContainerElement];
         VisualElement focusedElement = data.FocusedElement;
-        var top = focusedElement.worldBound.yMin - Screen.height;
+        var top = focusedElement.worldBound.yMin - _screenHeight;
         var bottom = -focusedElement.worldBound.yMax;
-        var left = focusedElement.worldBound.xMin - Screen.width;
+        var left = focusedElement.worldBound.xMin - _screenWidth;
         var right = - focusedElement.worldBound.xMax;
         _containerElement.style.top = top;
         _containerElement.style.bottom = bottom;
@@ -154,8 +157,8 @@ public class OnboardingController : MonoBehaviour
 
         var hCenter = target.center.x - size.x / 2;
         var vCenter = target.center.y - size.y / 2;
-        var hFits = hCenter >= 0 && (hCenter + size.x) <= Screen.width;
-        var vFits = vCenter >= 0 && (vCenter + size.y) <= Screen.height;
+        var hFits = hCenter >= 0 && (hCenter + size.x) <= _screenWidth;
+        var vFits = vCenter >= 0 && (vCenter + size.y) <= _screenHeight;
 
         var placements = new (Func<bool> check, Action pos)[]
         {
@@ -163,13 +166,13 @@ public class OnboardingController : MonoBehaviour
         (() => target.yMin >= size.y + margin && hFits,
             () => SetPos(target.yMin - size.y - margin, hCenter)),
         //Position at the Bottom
-        (() => target.yMax + size.y + margin <= Screen.height && hFits,
+        (() => target.yMax + size.y + margin <= _screenHeight && hFits,
             () => SetPos(target.yMax + margin, hCenter)),
         //Position to the left
         (() => target.xMin >= size.x + margin && vFits,
             () => SetPos(vCenter, target.xMin - size.x - margin)),
         //Position to the right
-        (() => target.xMax + size.x + margin <= Screen.width && vFits,
+        (() => target.xMax + size.x + margin <= _screenWidth && vFits,
             () => SetPos(vCenter, target.xMax + margin))
         };
 
@@ -183,7 +186,7 @@ public class OnboardingController : MonoBehaviour
         }
 
         // Fallback to top-center with horizontal clamping
-        SetPos(0, Mathf.Clamp(hCenter, 0, Screen.width - size.x));
+        SetPos(0, Mathf.Clamp(hCenter, 0, _screenWidth - size.x));
     }
 
     private void SetPos(float top, float left)
