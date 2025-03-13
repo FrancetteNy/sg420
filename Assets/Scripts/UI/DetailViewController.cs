@@ -27,7 +27,6 @@ public class DetailViewController : MonoBehaviour
 
 
 
-    private bool _willBeDisabled = false;
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
@@ -69,18 +68,13 @@ public class DetailViewController : MonoBehaviour
 
         // Update Plant Rotation
         _detailViewplantManager.UpdateRotations(_rotateVector);
-
-        if (_willBeDisabled && !_detailViewplantManager.HasPlantsToReset)
-        {
-            this.enabled = false;
-        }
     }
 
-    private void OnEnable()
+    private void OnDisable()
     {
-        _willBeDisabled = false;
+        _detailViewplantManager.ResetCurrentPlantTransform();
+        _detailViewplantManager.ResetAllPlants();
     }
-
     private void OnButtonDown(UIButton buttonId)
     {
         switch (buttonId)
@@ -276,10 +270,6 @@ public class DetailViewController : MonoBehaviour
         _closeAction?.Invoke();
     }
 
-    public void TriggerDisabling()
-    {
-        _willBeDisabled = true;
-    }
 }
 
 public enum UIButton
@@ -672,6 +662,17 @@ public class DetailViewPlantManager
         CurrentPlantIndex++;
         _onPlantChanged.Invoke(CurrentPlantIndex);
         SavePlantTransform();
+    }
+
+    public void ResetAllPlants()
+    {
+        foreach (var (plantIndex, savedRotation) in _plantsToReset)
+        {
+            var plant = _plants[plantIndex];
+
+            plant.transform.rotation = savedRotation;
+        }
+        _plantsToReset.Clear();
     }
 
     public void UpdateRotations(Vector3 rotationVector)
