@@ -186,15 +186,21 @@ public class DetailViewController : MonoBehaviour
     private void HarvestPlant()
     {
         var currentPlantData = _detailViewplantManager.GetCurrentPlantData();
-        string notificationTitle = $"{currentPlantData.Strain} geerntet";
+
         int scoreToAdd = DetailViewConstants.ScorePerGrowthStage[currentPlantData.Age.Stage];
         GameStateManagerSingleton.Instance.GameState.CurrentScore += scoreToAdd;
+
+        string notificationTitle = $"{currentPlantData.Strain} geerntet";
         string notificationBody = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {GameStateManagerSingleton.Instance.GameState.CurrentScore} Punkte.";
+        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
+
         _detailViewplantManager.HarvestCurrentPlant();
         _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
-        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
-        GameState.UpdateHUD?.Invoke();
         _plantManager.ManagePlantStageModel(_detailViewplantManager.GetCurrentPlantController().gameObject);
+        GameState.UpdateHUD?.Invoke();
+
+        PlantGenerator plantGenerator = _detailViewplantManager.GetCurrentPlantController().gameObject.GetComponentInChildren<PlantGenerator>();
+        plantGenerator.GenerateCannabisPlant();
     }
 
     private void OnButtonUp(UIButton buttonId)
