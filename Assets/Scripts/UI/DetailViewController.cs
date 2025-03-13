@@ -304,7 +304,7 @@ public enum UIButton
 // Constants for readability and configurability
 public static class DetailViewConstants
 {
-    public const float CameraClampOffset = 0.3f;
+    public const float CameraClampOffset = 0.5f;
     public const float CameraLerpSpeed = 5f;
     public const float CameraZoomFactor = 2f;
     public const float RotationSpeedFactor = 0.5f;
