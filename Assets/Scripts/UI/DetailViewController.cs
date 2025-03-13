@@ -61,13 +61,13 @@ public class DetailViewController : MonoBehaviour
         }
 
         // Update Camera
-        _cameraController.UpdatePosition(_cameraMoveVector,
+        _cameraController.UpdatePosition(Vector3.Scale(_cameraMoveVector, DetailViewConstants.CameraSpeedFactor),
             _detailViewplantManager.GetCurrentPlantClampMin(),
             _detailViewplantManager.GetCurrentPlantClampMax(),
             DetailViewConstants.CameraLerpSpeed);
 
         // Update Plant Rotation
-        _detailViewplantManager.UpdateRotations(_rotateVector);
+        _detailViewplantManager.UpdateRotations(_rotateVector * DetailViewConstants.RotationSpeedFactor);
     }
 
     private void OnDisable()
@@ -306,8 +306,8 @@ public static class DetailViewConstants
 {
     public const float CameraClampOffset = 0.5f;
     public const float CameraLerpSpeed = 5f;
-    public const float CameraZoomFactor = 2f;
-    public const float RotationSpeedFactor = 0.5f;
+    public static Vector3 CameraSpeedFactor = new(1,1,2);
+    public const float RotationSpeedFactor = 100.0f;
     public const float DefaultWaterValue = 10f;
     public const float DefaultFertilizerValue = 0f;
     public const float MaximumSlowdown = 0.3f;
@@ -681,7 +681,7 @@ public class DetailViewPlantManager
             return;
 
         var currentPlant = _plants[CurrentPlantIndex];
-        currentPlant.transform.Rotate(rotationVector, Space.World);
+        currentPlant.transform.Rotate(rotationVector * Time.deltaTime, Space.World);
 
 
         List<int> entriesToRemoveFromPlantsToReset = new();
