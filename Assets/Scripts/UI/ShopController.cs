@@ -1,19 +1,12 @@
-using SG420UILibrary;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 
 public class ShopController : MonoBehaviour
 {
-    private DetailViewUIManager _uiManager;
     private VisualElement _root;
     private VisualElement _tabContent, _shopContainer;
-    private GameState gameState;
 
     public void Initialize(VisualElement root)
     {
