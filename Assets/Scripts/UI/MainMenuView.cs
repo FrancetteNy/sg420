@@ -63,7 +63,15 @@ public class MainMenuView : UIView
     private void OnNewGameButtonClicked()
     {
         SoundManagerSingleton.Instance.PlaySound("Click");
-        UIEvents.ShowModalView("Warnung", "Den alten Spielstand sicher überschreiben?", () => StartNewGame());
+        if (GameStateManagerSingleton.Instance.HasGameToLoad)
+        {
+            UIEvents.ShowModalView("Warnung", "Den alten Spielstand sicher überschreiben?", () => StartNewGame());
+        }
+        else
+        {
+            StartNewGame();
+        }
+        
     }
 
     private void StartNewGame()
