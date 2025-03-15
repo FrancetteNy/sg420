@@ -9,6 +9,7 @@ public class HUDController : MonoBehaviour
     private Label _harvestedPlantCountLabel;
     private Label _finishedDriedCountLabel;
     private Label _scoreLabel;
+    private Label _moneyLabel;
 
     private Button _changeToMainRoomButton;
     private Button _changeToDryingRoomButton;
@@ -66,6 +67,7 @@ public class HUDController : MonoBehaviour
         _harvestedPlantCountLabel = _root.Q<Label>("harvested-plants-count-label");
         _finishedDriedCountLabel = _root.Q<Label>("dried-plants-count-label");
         _scoreLabel = _root.Q<Label>("score-label");
+        _moneyLabel = _root.Q<Label>("money-label");
 
     }
 
@@ -75,6 +77,7 @@ public class HUDController : MonoBehaviour
         _harvestedPlantCountLabel.text = _gameState.HarvestedPlantCount.ToString();
         _finishedDriedCountLabel.text = _gameState.CompletedDriedPlantsCount.ToString();
         _scoreLabel.text = _gameState.CurrentScore.ToString();
+        _moneyLabel.text = _gameState.Money.ToString();
 
         if (!_manager.IsReadyToChangeRoom)
         {

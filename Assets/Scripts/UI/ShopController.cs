@@ -74,9 +74,9 @@ public class ShopController : MonoBehaviour
             return;
         }
 
-        if (gameState.Geld >= item.Price)
+        if (gameState.Money >= item.Price)
         {
-            gameState.Geld -= item.Price;
+            gameState.Money -= item.Price;
 
             AddSeedToInventory(item);
 
@@ -86,8 +86,9 @@ public class ShopController : MonoBehaviour
         }
         else
         {
-            UIEvents.AddNotification.Invoke(new NotificationData("Ungenügendes Geld.", $"Sie haben {gameState.Geld} nur verfügbar.", 5));
+            UIEvents.AddNotification.Invoke(new NotificationData("Ungenügendes Geld.", $"Sie haben {gameState.Money} nur verfügbar.", 5));
         }
+        GameState.UpdateHUD?.Invoke();
     }
 
 

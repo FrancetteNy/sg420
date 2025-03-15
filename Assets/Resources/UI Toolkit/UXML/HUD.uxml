@@ -19,6 +19,10 @@
                     <ui:Label text="0" name="score-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-right: 8px; padding-left: 0; width: 100px; -unity-text-align: upper-right;" />
                     <ui:VisualElement name="score-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/sheriffs-star-151699_1280.png?fileID=2800000&amp;guid=1ac79a5fc9b2a9f4bb6a1adf659a0967&amp;type=3#sheriffs-star-151699_1280&quot;); background-size: 100% 100%; width: 40px; height: 40px;" />
                 </ui:VisualElement>
+                <ui:VisualElement name="money" style="flex-grow: 1; align-items: center; flex-direction: row; margin-left: 15px;">
+                    <ui:Label text="0" name="money-label" class="text-color custom-label" style="align-self: center; font-size: 28px; padding-right: 8px; padding-left: 0; width: 100px; -unity-text-align: upper-right;" />
+                    <ui:VisualElement name="money-image" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Art/Textures/coin.png?fileID=2800000&amp;guid=dbbdf3ae060f3314b95d9e8fcb0830ed&amp;type=3#coin&quot;); background-size: 100% 100%; width: 40px; height: 40px;" />
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="VisualElement" style="flex-direction: row; position: absolute; right: 0; margin-right: 15px;">
                 <ui:Button text="Hauptmenu öffnen" name="open-mainmenu-button" class="custom-button text-color" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
