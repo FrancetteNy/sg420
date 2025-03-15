@@ -101,6 +101,7 @@ public class NotificationManager : MonoBehaviour
         for (int i = 0; i < _shownNotifications.Count; i++)
         {
             var notification = _shownNotifications[i];
+            notification.BringToFront();
             notification.style.translate = _notificationPositionToTranslate[i];
             if (notification.TimeUntilNotificationCloses > 0)
             {
