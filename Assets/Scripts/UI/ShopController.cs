@@ -16,7 +16,7 @@ public class ShopController : MonoBehaviour
         _root.style.display = DisplayStyle.None;
 
         _shopContainer = _root.Q<VisualElement>("Shop");
-        _tabContent = _root.Q<VisualElement>("tab-content");
+        _tabContent = _root.Q<VisualElement>("content");
 
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideShop.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
@@ -25,14 +25,7 @@ public class ShopController : MonoBehaviour
     }
     private void LoadShopItems()
     {
-       
-        var shopItems = new List<ShopItem>
-        {
-            new ShopItem("Indica", 10),
-            new ShopItem("Sativa", 10),
-            new ShopItem("Ruderalis", 10)
-        };
-
+        var shopItems = Resources.LoadAll<ShopItem>("");
         
         foreach (var item in shopItems)
         {
@@ -47,7 +40,7 @@ public class ShopController : MonoBehaviour
         var itemElement = new VisualElement();
         itemElement.AddToClassList("shop-item");
 
-        var nameLabel = new Label(item.Name);
+        var nameLabel = new Label(item.InventoryItem.Name);
         nameLabel.AddToClassList("shop-item-name");
         itemElement.Add(nameLabel);
 
@@ -78,47 +71,17 @@ public class ShopController : MonoBehaviour
         {
             gameState.Money -= item.Price;
 
-            AddSeedToInventory(item);
+            gameState.Inventory.List.Add(item.InventoryItem);
 
-            InventarController.Instance.RefreshInventory();
-
-            UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreicher Einkauf", $"{item.Name}_Samen zum Inventar hinzugefügt.", 5));
+            UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreicher Einkauf", $"{item.InventoryItem.Name} zum Inventar hinzugefügt.", 5));
         }
         else
         {
-            UIEvents.AddNotification.Invoke(new NotificationData("Ungenügendes Geld.", $"Sie haben {gameState.Money} nur verfügbar.", 5));
+            UIEvents.AddNotification.Invoke(new NotificationData("Ungenügendes Geld.", $"Sie haben nur {gameState.Money}€, aber {item.InventoryItem.Name} kostet {item.Price}€.", 5));
         }
         GameState.UpdateHUD?.Invoke();
+        MessageSystem.FireEvent(MessageSystemEvent.InventoryUpdated);
     }
 
-
-    private void AddSeedToInventory(ShopItem item)
-    {
-        var gameState = GameStateManagerSingleton.Instance.GameState;
-        if (gameState == null || gameState.SamenInventar == null || gameState.SamenInventar.List == null)
-        {
-            return;
-        }
-
-        var existingSeed = gameState.SamenInventar.List.Find(seed => seed.Type == item.Name);
-        if (existingSeed != null)
-        {
-            existingSeed.Quantity++; 
-        }
-        
-    }
-}
-public class ShopItem
-{
-    public string Name { get; }
-    public int Price { get; }
-   
-
-    public ShopItem(string name, int price)
-    {
-        Name = name;
-        Price = price;
-       
-    }
 }
 

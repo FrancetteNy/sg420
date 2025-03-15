@@ -1,80 +1,65 @@
 :root {
-  --color-window:  rgb(4, 24, 1);
-  --color-interactable: rgb(37, 85, 35);
-  --color-hover: rgb(50, 112, 47);
-  --color-border: rgb(0, 0, 0);
-  --color-text: rgb(255, 255, 255);
+    --color-window: rgb(4, 24, 1);
+    --color-interactable: rgb(37, 85, 35);
+    --color-hover: rgb(50, 112, 47);
+    --color-border: rgb(0, 0, 0);
+    --color-text: rgb(255, 255, 255);
 }
 
-.Inventar{
-    position: absolute; 
-    width: 60%; 
-    height: 60%; 
-    left: 25%;
-    margin-top: 5%; 
-    background-color: rgb(200, 200, 200); 
-    flex-direction: column; 
-    padding: 10px; 
-    border-radius: 20px; 
-    border-width: 2px; 
-    border-color: white;     
-}
-
-.close-button{
-    background-color: transparent; 
-    border-width: 0; 
-    font-size: 20px; 
-    width: 40px; 
-    height: 40px; 
+.inventory-window {
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 20px;
+    border-width: 2px;
+    border-color: white;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    position: absolute;
 }
 
 .nav-tabs {
     flex-direction: row;
     border-bottom-width: 2px;
     border-color: white;
-    margin-bottom: 10px;
-    
 }
 
 .nav-link {
-    flex-grow: 1;
     padding: 10px;
     border-width: 0;
-    background-color: transparent;
     font-size: 26px;
+    width: 474px;
 }
 
 .active {
-    background-color:  rgb(50, 112, 47);
+    background-color: rgb(50, 112, 47);
 }
 
 .tab-content {
-    display: none;
     font-size: 20px;
-    flex-wrap: wrap;    
-}
-
-.scroll-content{
-    height: 96%;
-    width: 75%;
-    left: 4%;
-    top: 2%;
-}
-
-.tab-content.active {
-    display: flex;   
-}
-
-.text-color {
-    color:  rgb(255, 255, 255);
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .inventory-item {
-    width: 200px;
     padding: 10px;
     border-radius: 5px;
-    border-color : white;
-    margin: 10px;   
+    border-color: white;
+    margin: 10px;
+    width: 400px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    border-bottom-right-radius: 17px;
+    border-bottom-left-radius: 17px;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
 }
 
 .item-name {
@@ -87,7 +72,7 @@
     margin-bottom: 10px;
 }
 
-.item-quantity{
+.item-quantity {
     font-size: 18px;
     margin-bottom: 10px;
 }

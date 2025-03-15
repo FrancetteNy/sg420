@@ -1,22 +1,24 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
-class Shop : UIView
+class InventoryView : UIView
 {
-    ShopController _controller;
-    public Shop(VisualElement root, UIManager manager) : base(root, manager) { }
+    InventoryController _controller;
+
+    
+    public InventoryView(VisualElement root, UIManager manager) : base(root, manager) { }
     override protected void Initialize()
     {
         base.Initialize();
-        Asset = Resources.Load<VisualTreeAsset>("UI Toolkit/UXML/Shop");
+        Asset = Resources.Load<VisualTreeAsset>("UI Toolkit/UXML/Inventory");
         if (Asset == null)
         {
-            Debug.LogError("Failed to load VisualTreeAsset: UI Toolkit/UXML/Shop");
+            Debug.LogError("Failed to load VisualTreeAsset: UI Toolkit/UXML/Inventory");
         }
         Asset.CloneTree(Root);
-        View = Root.Q<VisualElement>("Shop");
+        View = Root.Q<VisualElement>("Inventory");
 
-        _controller = Manager.gameObject.AddComponent<ShopController>();
+        _controller = Manager.gameObject.AddComponent<InventoryController>();
         _controller.Initialize(View);
 
         Hide();
@@ -32,7 +34,6 @@ class Shop : UIView
     {
         base.Hide();
         _controller.enabled = false;
-        
     }
 
 
@@ -40,13 +41,14 @@ class Shop : UIView
     {
         base.Show();
         _controller.enabled = true;
-        
+        _controller.RefreshInventory();
     }
 
     public override void OnCancelPerformed(InputAction.CallbackContext context)
     {
         if (!IsOpen)
             return;
-        UIEvents.HideShop();
+        UIEvents.HideInventar();
     }
+
 }

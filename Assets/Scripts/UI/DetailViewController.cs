@@ -151,19 +151,18 @@ public class DetailViewController : MonoBehaviour
                 _uiManager.CloseCurrentSubmenu();
                 break;
             case UIButton.CONFIRMSEED:
-                bool isPlantedSuccessfully = _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
-                if (isPlantedSuccessfully)
+                var seedToPlant = _uiManager.GetSeedValue();
+                if (seedToPlant != null)
                 {
+                    _detailViewplantManager.PlantSeedInCurrentPot(seedToPlant);
                     _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
-                    UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreiche Pflanzung", $"Der Samen {_uiManager.GetSeedValue()} wurde erfolgreich gepflanzt.", 5));
+                    UIEvents.AddNotification.Invoke(new NotificationData($"{seedToPlant.Name} wurde erfolgreich gepflanzt.",""));
                 } 
                 else
                 {
-                    UIEvents.AddNotification.Invoke(new NotificationData("Fehler bei der Pflanzung", $"Verifizieren Sie die Mengen des Samens {_uiManager.GetSeedValue()}.", 5));
+                    UIEvents.AddNotification.Invoke(new NotificationData("Fehler bei der Pflanzung", "Wenden sie sich an die Devs, das sollten sie niemals sehen :)", -1));
                 }
                 
-                _detailViewplantManager.PlantSeedInCurrentPot(_uiManager.GetSeedValue());
-                _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
                 break;
             case UIButton.HARVEST:
                 UIEvents.ShowModalView?.Invoke(
@@ -421,11 +420,13 @@ public class DetailViewUIManager
     private VisualElement _seedSelectionContainer;
     private VisualElement _plantInfo;
     private DropdownField _seedDropdown;
-    public InventarController InventoryController; 
+    public InventoryController InventoryController; 
 
+    private GameState _gameState;
 
     public DetailViewUIManager(UIDocument document, Action<UIButton> onButtonDown, Action<UIButton> onButtonUp, Action<string> onDetailHovered)
     {
+        _gameState = GameStateManagerSingleton.Instance.GameState;
         _background = document.rootVisualElement.Q<VisualElement>("background");
 
         // Configure Buttons
@@ -514,6 +515,7 @@ public class DetailViewUIManager
 
             if (strainString.Equals("None", StringComparison.OrdinalIgnoreCase))
             {
+                UpdateSeedSelectionDropdown();
                 _seedSelectionContainer.style.display = DisplayStyle.Flex;
                 _plantInfo.style.display = DisplayStyle.None;
                 
@@ -532,6 +534,29 @@ public class DetailViewUIManager
         }
 
     }
+
+
+    private void UpdateSeedSelectionDropdown()
+    {
+        List<string> choices = new List<string>();
+        foreach (var (seed, amount) in _gameState.AvailableSeedsPerType)
+        {
+            choices.Add($"{seed.Name} ({amount})");
+        }
+        if (choices.Count > 0)
+        {
+            _seedSelectionContainer.SetEnabled(true);
+            _seedDropdown.choices = choices;
+        }
+        else
+        {
+            _seedSelectionContainer.SetEnabled(false);
+            
+        }
+        _seedDropdown.index = -1;
+        _seedDropdown.value = "";
+    }
+
     public void UpdatePlantNavigationButtons(bool canGoPrevious, bool canGoNext)
     {
         _previousPlantButton.SetEnabled(canGoPrevious);
@@ -619,12 +644,12 @@ public class DetailViewUIManager
         return _background.Q<Slider>("water-slider").value;
     }
 
-    public Strain GetSeedValue()
+    public Seed GetSeedValue()
     {
-        string selectedValue = _seedDropdown.value;
-        if (Enum.TryParse<Strain>(selectedValue, out var strainValue))
-            return strainValue;
-        return Strain.None;
+        var selectedIndex = _seedDropdown.index;
+        if (selectedIndex < 0)
+            return null;
+        return _gameState.AvailableSeedsPerType.ToList()[selectedIndex].Key;
     }
     internal float GetFertilizerValue()
     {
@@ -816,7 +841,7 @@ public class DetailViewPlantManager
         var currentPlant = _plants[CurrentPlantIndex];
         _savedPlantRotation = currentPlant.transform.rotation;
     }
-    public bool PlantSeedInCurrentPot(Strain seedType)
+    public bool PlantSeedInCurrentPot(Seed seedToPlant)
     {
         if (CurrentPlantIndex < 0 || CurrentPlantIndex >= _plants.Count)
         {
@@ -827,10 +852,9 @@ public class DetailViewPlantManager
         {
             return false;
         }
-        bool plantable = InventarController.Instance.UpdateSeedQuantity(seedType.ToString());
-        if (plantable)
+        if (GameStateManagerSingleton.Instance.GameState.Inventory.List.Remove(seedToPlant))
         {
-            currentPlant.PlantSeed(seedType);
+            currentPlant.PlantSeed(seedToPlant);
             return true;
         }
         else 

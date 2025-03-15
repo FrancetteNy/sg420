@@ -14,8 +14,8 @@ public class UIManager : MonoBehaviour
     HUDView _hudView;
     LightOverview _lightOverview;
     Encyclopedia _encyclopedia;
-    Inventar _inventar;
-    Shop _shop;
+    InventoryView _inventar;
+    ShopView _shop;
     ChatView _chatView;
     MainMenuView _mainMenuView;
     QuestLog _questLog;
@@ -139,9 +139,9 @@ public class UIManager : MonoBehaviour
         _hudView = new HUDView(_root, this);
         _lightOverview = new LightOverview(_root, this);
         _encyclopedia = new Encyclopedia(_root, this);
-        _inventar = new Inventar(_root, this);
+        _inventar = new InventoryView(_root, this);
         _mainMenuView = new MainMenuView(_root, this);
-        _shop = new Shop(_root, this);
+        _shop = new ShopView(_root, this);
         _questLog = new QuestLog(_root, this);
         _groupWateringView = new GroupWateringView(_root, this);
         _onboardingView = new OnboardingView(_root, this);

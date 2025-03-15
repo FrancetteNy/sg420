@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class PlantController : MonoBehaviour
@@ -10,17 +9,11 @@ public class PlantController : MonoBehaviour
         return PlantData == null || PlantData.Strain == Strain.None;
     }
 
-    public void PlantSeed(Strain strain)
+    public void PlantSeed(Seed seed)
     {
-        if (PlantData == null)
-        {
-            PlantData = new PlantData();
-        }
-        PlantData.Strain = strain;
-        PlantData.Age.Stage = Age.GrowthStage.GERMINATION;
-        PlantData.Potsize = Potsize.Cultivation;
-        PlantData.Sex = false;
-        PlantData.Soil = new(0, 0);
+
+        PlantData = new PlantData(seed.Type, 100, Age.GrowthStage.GERMINATION);
+
     }
 
 }

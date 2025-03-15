@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -11,10 +12,13 @@ public class GameState
     public JsonableListWrapper<PlantData> HarvestedPlantDataList;
     public JsonableListWrapper<DriedPlantData> CurrentlyDryingPlants;
     public JsonableListWrapper<DriedPlantData> CompletedDriedPlantDataList;
-    public int HarvestedPlantCount => HarvestedPlantDataList?.List.Count ?? 0;
-    public int CompletedDriedPlantsCount => CompletedDriedPlantDataList?.List.Count ?? 0;
+    public int HarvestedPlantCount => HarvestedPlantDataList.List.Count;
+    public int CompletedDriedPlantsCount => CompletedDriedPlantDataList.List.Count;
     public JsonableListWrapper<string> UnlockedEncyclopediaEntries;
-    public JsonableListWrapper<Seed> SamenInventar;
+    public JsonableListWrapper<InventoryItem> Inventory;
+    public List<Seed> SeedsInInventory => Inventory.List.FindAll((item) => item is Seed).Select((item) => item as Seed).ToList();
+    public Dictionary<Seed, int> AvailableSeedsPerType => SeedsInInventory.GroupBy(seed => seed, seed => seed.GetType()).ToDictionary(group => group.Key, group => group.Count()); 
+
     public Room Room;
     public int Money = 100;
 
@@ -44,12 +48,7 @@ public class GameState
         UnlockedEncyclopediaEntries = new();
         UnlockedEncyclopediaEntries.List.Add("DetailViewDefault");
         ChatData = new();
-        SamenInventar = new(new List<Seed>
-            {
-                new Seed("Indica", 2, true),
-                new Seed("Sativa", 2, true),
-                new Seed("Ruderalis", 2, true),    
-            });
+        Inventory = new();
         
         DoneQuestsList = new();
         ActiveQuestsList = new();
@@ -105,27 +104,6 @@ public class JsonableListWrapper<T>
 public enum Room
 {
     START
-}
-[Serializable]
-public abstract class InventoryItem
-{
-    public string Name;
-   
-}
-[Serializable]
-public class Seed : InventoryItem
-{
-    public string Type; // Indica, Sativa, etc.
-    public bool IsFeminized;
-    public int Quantity;
-
-    public Seed(string type, int quantity, bool isFeminized = true)
-    {
-        Type = type;
-        IsFeminized = isFeminized;
-        Name = $"{Type} Samen";
-        Quantity = quantity;
-    }    
 }
 [Serializable]
 public class OnboardingDoneData
