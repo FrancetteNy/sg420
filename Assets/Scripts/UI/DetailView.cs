@@ -31,7 +31,7 @@ class DetailView : UIView
     public override void Hide()
     {
         base.Hide();
-        _controller.TriggerDisabling();
+        _controller.enabled = false;
     }
 
     public void Show(int index)

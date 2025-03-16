@@ -181,7 +181,6 @@ public class PlantManager : MonoBehaviour
             plantController.Age.AgeNumber = 0;
         }
         PlantGenerator plantGenerator = plant.GetComponentInChildren<PlantGenerator>();
-        Debug.Log("Hallo :)");
         plantGenerator.GenerateCannabisPlant();
         ManagePlantStageModel(plant);
     }

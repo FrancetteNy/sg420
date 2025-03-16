@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
@@ -48,6 +47,6 @@ class Shop : UIView
     {
         if (!IsOpen)
             return;
-        UIEvents.ShowMainMenuView();
+        UIEvents.HideShop();
     }
 }

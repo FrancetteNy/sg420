@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 public class OnboardingView : UIView
 {
     OnboardingController _controller;
-    HighlightController _highlightController;
     public OnboardingView(VisualElement root, UIManager manager) : base(root, manager)
     {
     }
@@ -24,7 +23,6 @@ public class OnboardingView : UIView
 
         _controller = Manager.gameObject.AddComponent<OnboardingController>();
         _controller.Initialize(View);
-        _highlightController = GameObject.FindAnyObjectByType<HighlightController>();
         Hide();
     }
 
@@ -48,7 +46,6 @@ public class OnboardingView : UIView
     public override void Show()
     {
         base.Show();
-        _highlightController.enabled = false;
         _controller.enabled = true;
         _controller.StartOnboarding();
     }

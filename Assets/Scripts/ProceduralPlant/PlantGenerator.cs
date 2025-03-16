@@ -34,14 +34,17 @@ public class PlantGenerator : MonoBehaviour
     private Vector3 _initialPosition;
     private float _length = 0.009f ;
     private float _radius = 0.001f;
-    
 
+    private void Awake()
+    {
+        _plantLayer = LayerMask.NameToLayer("ProceduralPlant");
+
+    }
     private void Start()
     {
         _plantController = GetComponentInParent<PlantController>();
         _initialPosition = transform.position;
         RebuildCannabisPlant();
-        _plantLayer = LayerMask.NameToLayer("ProceduralPlant");
     }
     
     
@@ -52,7 +55,6 @@ public class PlantGenerator : MonoBehaviour
         switch (phase) {
             case Age.GrowthStage.GERMINATION:
                 if (ageNumber == 1) {
-                    Debug.Log("funktioniert");
                     CannabisBranch stem1 = new CannabisBranch(0);
                     for (int i = 0; i <= 5; i++) {
                         Vector3 newSplinePointB = (_initialPosition + Vector3.up * _length) +
@@ -537,8 +539,10 @@ public class PlantGenerator : MonoBehaviour
                 
                 
                 break;
+            case Age.GrowthStage.EMPTY:
+                RebuildCannabisPlant();
+                break;
             default:
-                Debug.LogError("Invalid growing phase!" + phase);
                 break;
         }
         GenerateMesh(_materials[0]);
@@ -590,7 +594,6 @@ public class PlantGenerator : MonoBehaviour
 
     private void ChangeLeafs(Material material)
     {
-        Debug.Log("Test");
         DeleteAllLeafes();
         foreach (CannabisBranch branch in _cannabisBranches)
         {
@@ -644,14 +647,12 @@ public class PlantGenerator : MonoBehaviour
             if (_plantController.PlantData.Soil.StoredNutrients < PlantManagerConstants.MinNutrients)
             {
                 //not enough nutrients -> colour of the cannabisbranches turn brighter and yellowish
-                Debug.Log("zu wenig nutrients material change");
                 GenerateMesh(_materials[1]);
             }
 
             if (_plantController.PlantData.Soil.StoredNutrients > PlantManagerConstants.MaxNutrients)
             {
                 //too many nutrients -> colour of the cannabisbranches turn to a brighter green
-                Debug.Log("zu viel nutrients material change");
                 GenerateMesh(_materials[2]);
             }
         }
@@ -661,14 +662,12 @@ public class PlantGenerator : MonoBehaviour
             if (_plantController.PlantData.Soil.StoredWater < PlantManagerConstants.MinWater)
             {
                 //not enough water -> colour of leafs turn darker and leafs hang down
-                Debug.Log("zu wenig wasser  change");
                 ChangeLeafs(_materials[3]);
             }
 
             if (_plantController.PlantData.Soil.StoredWater > PlantManagerConstants.MaxWater)
             {
                 //too much water -> colour of leafs turn brighter and leafs hang down
-                Debug.Log("zu viel water change");
                 ChangeLeafs(_materials[4]);
 
             }
@@ -679,10 +678,6 @@ public class PlantGenerator : MonoBehaviour
     
 
 
-
-    private void Update() {
-        ShowSplines(_cannabisBranches);
-    }
     
     private void ShowSplines(List<CannabisBranch> cannabisBranches) {
         for (int i = 0; i <= cannabisBranches.Count - 1; i++) {
@@ -751,7 +746,6 @@ public class PlantGenerator : MonoBehaviour
     }
     
     public void GenerateMesh(Material material) {
-        _plantController.PlantData.CannabisBranches = _cannabisBranches;
         GameObject[] allObjects = GameObject.FindObjectsByType<GameObject>(FindObjectsSortMode.None);
         
         foreach (Transform child in transform)
@@ -761,7 +755,6 @@ public class PlantGenerator : MonoBehaviour
             }
         }
         
-        Debug.Log(_cannabisBranches.Count);
         for (int i = 0; i <= _cannabisBranches.Count - 1; i++) {
             Mesh tubeMesh = meshGenerator.GenerateMesh(_cannabisBranches[i].catmullRomSplinePoints, _radius, CIRCLE_SEGMENTS);
             GameObject tubeObject = new GameObject("Branch");

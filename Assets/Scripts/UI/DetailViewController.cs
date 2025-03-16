@@ -27,7 +27,6 @@ public class DetailViewController : MonoBehaviour
 
 
 
-    private bool _willBeDisabled = false;
     private void Start()
     {
         PlantsChanged += UpdatePlantControllers;
@@ -62,25 +61,20 @@ public class DetailViewController : MonoBehaviour
         }
 
         // Update Camera
-        _cameraController.UpdatePosition(_cameraMoveVector,
+        _cameraController.UpdatePosition(Vector3.Scale(_cameraMoveVector, DetailViewConstants.CameraSpeedFactor),
             _detailViewplantManager.GetCurrentPlantClampMin(),
             _detailViewplantManager.GetCurrentPlantClampMax(),
             DetailViewConstants.CameraLerpSpeed);
 
         // Update Plant Rotation
-        _detailViewplantManager.UpdateRotations(_rotateVector);
-
-        if (_willBeDisabled && !_detailViewplantManager.HasPlantsToReset)
-        {
-            this.enabled = false;
-        }
+        _detailViewplantManager.UpdateRotations(_rotateVector * DetailViewConstants.RotationSpeedFactor);
     }
 
-    private void OnEnable()
+    private void OnDisable()
     {
-        _willBeDisabled = false;
+        _detailViewplantManager.ResetCurrentPlantTransform();
+        _detailViewplantManager.ResetAllPlants();
     }
-
     private void OnButtonDown(UIButton buttonId)
     {
         switch (buttonId)
@@ -186,15 +180,21 @@ public class DetailViewController : MonoBehaviour
     private void HarvestPlant()
     {
         var currentPlantData = _detailViewplantManager.GetCurrentPlantData();
-        string notificationTitle = $"{currentPlantData.Strain} geerntet";
+
         int scoreToAdd = DetailViewConstants.ScorePerGrowthStage[currentPlantData.Age.Stage];
         GameStateManagerSingleton.Instance.GameState.CurrentScore += scoreToAdd;
+
+        string notificationTitle = $"{currentPlantData.Strain} geerntet";
         string notificationBody = $"Das hat dir {scoreToAdd} Punkte gegeben. Du hast jetzt {GameStateManagerSingleton.Instance.GameState.CurrentScore} Punkte.";
+        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
+
         _detailViewplantManager.HarvestCurrentPlant();
         _uiManager.UpdatePlantData(_detailViewplantManager.GetCurrentPlantDataAsDictionary());
-        UIEvents.AddNotification(new NotificationData(notificationTitle, notificationBody, 3));
-        GameState.UpdateHUD?.Invoke();
         _plantManager.ManagePlantStageModel(_detailViewplantManager.GetCurrentPlantController().gameObject);
+        GameState.UpdateHUD?.Invoke();
+
+        PlantGenerator plantGenerator = _detailViewplantManager.GetCurrentPlantController().gameObject.GetComponentInChildren<PlantGenerator>();
+        plantGenerator.GenerateCannabisPlant();
     }
 
     private void OnButtonUp(UIButton buttonId)
@@ -270,10 +270,6 @@ public class DetailViewController : MonoBehaviour
         _closeAction?.Invoke();
     }
 
-    public void TriggerDisabling()
-    {
-        _willBeDisabled = true;
-    }
 }
 
 public enum UIButton
@@ -308,10 +304,10 @@ public enum UIButton
 // Constants for readability and configurability
 public static class DetailViewConstants
 {
-    public const float CameraClampOffset = 0.3f;
+    public const float CameraClampOffset = 0.5f;
     public const float CameraLerpSpeed = 5f;
-    public const float CameraZoomFactor = 2f;
-    public const float RotationSpeedFactor = 0.5f;
+    public static Vector3 CameraSpeedFactor = new(1,1,2);
+    public const float RotationSpeedFactor = 100.0f;
     public const float DefaultWaterValue = 10f;
     public const float DefaultFertilizerValue = 0f;
     public const float MaximumSlowdown = 0.3f;
@@ -668,13 +664,24 @@ public class DetailViewPlantManager
         SavePlantTransform();
     }
 
+    public void ResetAllPlants()
+    {
+        foreach (var (plantIndex, savedRotation) in _plantsToReset)
+        {
+            var plant = _plants[plantIndex];
+
+            plant.transform.rotation = savedRotation;
+        }
+        _plantsToReset.Clear();
+    }
+
     public void UpdateRotations(Vector3 rotationVector)
     {
         if (CurrentPlantIndex < 0)
             return;
 
         var currentPlant = _plants[CurrentPlantIndex];
-        currentPlant.transform.Rotate(rotationVector, Space.World);
+        currentPlant.transform.Rotate(rotationVector * Time.deltaTime, Space.World);
 
 
         List<int> entriesToRemoveFromPlantsToReset = new();

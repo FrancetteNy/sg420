@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
@@ -48,7 +47,7 @@ class Inventar : UIView
     {
         if (!IsOpen)
             return;
-        UIEvents.ShowMainMenuView();
+        UIEvents.HideInventar();
     }
 
 }
