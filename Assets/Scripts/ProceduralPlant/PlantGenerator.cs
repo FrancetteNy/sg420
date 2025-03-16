@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -792,3 +792,4 @@ public class PlantGenerator : MonoBehaviour
             _catmullRomSplineReference.CalculateCatmullRomSplinePoints(branch.splineParts, 20));
     }
 }
+

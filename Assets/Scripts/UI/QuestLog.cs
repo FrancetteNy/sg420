@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
@@ -47,6 +47,7 @@ class QuestLog : UIView
     {
         if (!IsOpen)
             return;
-        UIEvents.HideEncyclopedia();
+        UIEvents.HideQuestLog();
     }
 }
+

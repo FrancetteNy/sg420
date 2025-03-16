@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
@@ -59,3 +59,4 @@ public class ChatView : UIView
         UIEvents.HideChatView();
     }
 }
+

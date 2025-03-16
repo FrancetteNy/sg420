@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class CatmullRomSpline
@@ -40,3 +40,4 @@ public class CatmullRomSpline
         return catmullRomSplinePoints;
     }
 }
+

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,6 +18,7 @@ public class OnboardingController : MonoBehaviour
     int _currentContainerElement = -1;
     const int _screenWidth = 1920;
     const int _screenHeight = 1080;
+    bool _firstScreen = true;
 
     internal void Initialize(VisualElement view)
     {
@@ -61,6 +62,7 @@ public class OnboardingController : MonoBehaviour
         _informationElement.style.transitionDuration = StyleKeyword.Initial;
         _containerElement.style.transitionDuration = StyleKeyword.Initial;
         _currentContainerElement = 0;
+        _firstScreen = true;
         UpdateOnboardingElements();
     }
 
@@ -97,7 +99,7 @@ public class OnboardingController : MonoBehaviour
         VisualElement focusedElement = data.FocusedElement;
         UpdateInformationText();
         UpdateButtons();
-        focusedElement.RegisterCallback<GeometryChangedEvent>(UpdateFocusElement);
+        focusedElement?.RegisterCallback<GeometryChangedEvent>(UpdateFocusElement);
         UpdateFocusElement(null);
     }
 
@@ -115,21 +117,25 @@ public class OnboardingController : MonoBehaviour
     }
     private void UpdateFocusElement(GeometryChangedEvent evt)
     {
+        if (!_firstScreen)
+        {
+            ResetTransitionDurationTime();
+        }
+        else
+        {
+            _firstScreen = false;
+        }
         OnboardingData data = _data[_currentContainerElement];
         VisualElement focusedElement = data.FocusedElement;
-        var top = focusedElement.worldBound.yMin - _screenHeight;
-        var bottom = -focusedElement.worldBound.yMax;
-        var left = focusedElement.worldBound.xMin - _screenWidth;
-        var right = - focusedElement.worldBound.xMax;
+        Single top = focusedElement?.worldBound.yMin - _screenHeight ?? 0;
+        Single bottom = -focusedElement?.worldBound.yMax ?? 0;
+        Single left = focusedElement?.worldBound.xMin - _screenWidth ?? 0;
+        Single right = - focusedElement?.worldBound.xMax ?? 0;
         _containerElement.style.top = top;
         _containerElement.style.bottom = bottom;
         _containerElement.style.left = left;
         _containerElement.style.right = right;
         UpdateInformationBoxPosition(null);
-        if (evt != null)
-        {
-            ResetTransitionDurationTime();
-        }
     }
 
     private void ResetTransitionDurationTime()
@@ -146,12 +152,12 @@ public class OnboardingController : MonoBehaviour
         }
         OnboardingData data = _data[_currentContainerElement];
         VisualElement focusedElement = data.FocusedElement;
-        focusedElement.UnregisterCallback<GeometryChangedEvent>(UpdateFocusElement);
+        focusedElement?.UnregisterCallback<GeometryChangedEvent>(UpdateFocusElement);
     }
 
     private void UpdateInformationBoxPosition(GeometryChangedEvent evt)
     {
-        var target = _data[_currentContainerElement].FocusedElement.worldBound;
+        var target = _data[_currentContainerElement].FocusedElement?.worldBound ?? new Rect(new(_screenWidth / 2, _screenHeight / 2), new(0,0));
         var size = _informationElement.worldBound.size;
         const float margin = 30f;
 
@@ -160,20 +166,37 @@ public class OnboardingController : MonoBehaviour
         var hFits = hCenter >= 0 && (hCenter + size.x) <= _screenWidth;
         var vFits = vCenter >= 0 && (vCenter + size.y) <= _screenHeight;
 
+        var fitsTop = target.yMin - size.y - margin >= 0;
+        var fitsBelow = target.yMax + size.y + margin <= _screenHeight;
+        var fitsRight = target.xMax + size.x + margin <= _screenWidth;
+        var fitsLeft = target.xMin - size.x - margin >= 0;
+
         var placements = new (Func<bool> check, Action pos)[]
         {
         //Position at the top
-        (() => target.yMin >= size.y + margin && hFits,
+        (() => fitsTop && hFits,
             () => SetPos(target.yMin - size.y - margin, hCenter)),
         //Position at the Bottom
-        (() => target.yMax + size.y + margin <= _screenHeight && hFits,
+        (() => fitsBelow && hFits,
             () => SetPos(target.yMax + margin, hCenter)),
         //Position to the left
-        (() => target.xMin >= size.x + margin && vFits,
+        (() => fitsLeft && vFits,
             () => SetPos(vCenter, target.xMin - size.x - margin)),
         //Position to the right
-        (() => target.xMax + size.x + margin <= _screenWidth && vFits,
-            () => SetPos(vCenter, target.xMax + margin))
+        (() => fitsRight && vFits,
+            () => SetPos(vCenter, target.xMax + margin)),
+        //Position to the top, but shifted to the middle in horizontal
+        (() => fitsTop,
+            () => SetPos(target.yMin - size.y - margin, Mathf.Clamp(hCenter, 0, _screenWidth - size.x))),
+        //Position at the Bottom, but shifted to the middle in horizontal
+        (() => fitsBelow,
+            () => SetPos(target.yMax + margin, Mathf.Clamp(hCenter, 0, _screenWidth - size.x))),
+        //Position to the left, but shifted to the middle in vertical
+        (() => fitsLeft && vFits,
+            () => SetPos(Mathf.Clamp(vCenter, 0, _screenHeight - size.x), target.xMin - size.x - margin)),
+        //Position to the right, but shifted to the middle in vertical
+        (() => fitsRight && vFits,
+            () => SetPos(Mathf.Clamp(vCenter, 0, _screenHeight - size.x), target.xMax + margin)),
         };
 
         foreach (var placement in placements)
@@ -185,8 +208,8 @@ public class OnboardingController : MonoBehaviour
             }
         }
 
-        // Fallback to top-center with horizontal clamping
-        SetPos(0, Mathf.Clamp(hCenter, 0, _screenWidth - size.x));
+        // Fallback to middle
+        SetPos(_screenHeight/2 - size.y/2, _screenWidth / 2 - size.x/2);
     }
 
     private void SetPos(float top, float left)

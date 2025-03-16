@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // by @kurtdekker - to make a Unity singleton that has some
 // https://gist.github.com/kurtdekker/2f07be6f6a844cf82110fc42a774a625

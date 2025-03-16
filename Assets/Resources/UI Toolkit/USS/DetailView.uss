@@ -6,6 +6,25 @@
     --color-text: rgb(255, 255, 255);
 }
 
+.interactable {
+    background-color: var(--color-interactable);
+    border-color: var(--color-border);
+}
+
+.interactable:hover {
+    background-color: var(--color-hover);
+}
+.interactable:hover:disabled {
+    background-color: var(--color-interactable);
+}
+
+.interactable:checked {
+    background-color: var(--color-hover);
+}
+.interactable:checked:disabled {
+    background-color: var(--color-interactable);
+}
+
 .property-text {
     font-size: 20px;
     flex-grow: 1;

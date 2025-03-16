@@ -1,7 +1,6 @@
 #QuestLog {
     flex-grow: 1;
     flex-direction: row;
-    background-color: rgb(255, 255, 255);
     right: 10%;
     bottom: 10%;
     left: 10%;
@@ -14,23 +13,16 @@
 
 #quest-listview {
     height: 96%;
-    width: 15%;
+    width: 25%;
     left: 2%;
     top: 2%;
     bottom: 2%;
-}
-
-#search-bar {
-    height: 3%;
-    border-radius: 15px;
-    border-width: 2px;
-    border-color: rgb(126, 126, 126);
-    font-size: 15px;
+    -unity-text-align: middle-center;
 }
 
 #entry-scroll-view {
     height: 96%;
-    width: 75%;
+    width: 69%;
     left: 4%;
     top: 2%;
 }
@@ -44,6 +36,8 @@
     padding-right: 5px;
     padding-bottom: 5px;
     padding-left: 5px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .objective--done {
@@ -72,4 +66,18 @@
 
 .objective-description {
     margin-left: 30px;
+}
+
+.quest-label {
+    height: 50px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+    font-size: 20px;
+    -unity-font-style: bold;
 }

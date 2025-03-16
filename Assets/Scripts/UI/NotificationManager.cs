@@ -1,4 +1,4 @@
-using SG420UILibrary;
+﻿using SG420UILibrary;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -101,6 +101,7 @@ public class NotificationManager : MonoBehaviour
         for (int i = 0; i < _shownNotifications.Count; i++)
         {
             var notification = _shownNotifications[i];
+            notification.BringToFront();
             notification.style.translate = _notificationPositionToTranslate[i];
             if (notification.TimeUntilNotificationCloses > 0)
             {
@@ -142,7 +143,7 @@ public class NotificationData
     public float TimeToShowNotification;
     public Action OnClick;
 
-    public NotificationData(string title, string message, float timeToShowNotification = -1, Action onClick = null)
+    public NotificationData(string title, string message, float timeToShowNotification = 3, Action onClick = null)
     {
         Title = title;
         Message = message;

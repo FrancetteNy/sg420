@@ -60,3 +60,4 @@ class DetailView : UIView
         _controller.CloseView();
     }
 }
+

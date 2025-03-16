@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -55,3 +55,4 @@ public abstract class UIView : IDisposable
         View.BringToFront();
     }
 }
+

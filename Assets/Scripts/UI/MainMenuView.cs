@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -65,7 +65,7 @@ public class MainMenuView : UIView
         SoundManagerSingleton.Instance.PlaySound("Click");
         if (GameStateManagerSingleton.Instance.HasGameToLoad)
         {
-            UIEvents.ShowModalView("Warnung", "Den alten Spielstand sicher �berschreiben?", () => StartNewGame());
+            UIEvents.ShowModalView("Warnung", "Den alten Spielstand sicher überschreiben?", () => StartNewGame());
         }
         else
         {
@@ -125,3 +125,4 @@ public class MainMenuView : UIView
     }
 
 }
+

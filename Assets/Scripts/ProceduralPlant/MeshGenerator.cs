@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -39,7 +39,7 @@ public class MeshGenerator : MonoBehaviour
                 for (int i = 1; i <= circleSegments; i++) {
                     triangles.Add(0); // Mittelpunkt
                     triangles.Add(i); // aktueller Punkt
-                    triangles.Add(i + 1); // nächster Punkt
+                    triangles.Add(i + 1); // nÃ¤chster Punkt
                 }
             }
 
@@ -95,3 +95,4 @@ public class MeshGenerator : MonoBehaviour
         
     }
 }
+

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LightController : MonoBehaviour
 {
@@ -24,3 +24,4 @@ public class LightController : MonoBehaviour
 
     }
 }
+

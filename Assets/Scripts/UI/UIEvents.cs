@@ -44,3 +44,4 @@ class UIEvents
     public static Action<NotificationData> AddNotification;
 
 }
+

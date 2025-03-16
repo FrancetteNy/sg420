@@ -1,4 +1,4 @@
-
+﻿
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
@@ -182,11 +182,19 @@ public class MessageSystem : SingletonViaPrefab<MessageSystem>
 public enum MessageSystemEvent
 {
     #region Quests
+    //start with 000 here!
     StartErsteSamen = 000,
     FinishErsteSamen = 001,
+    BuyFeminizedSeed = 002,
+    ObjectiveFinished = 003,
     #endregion
 
     #region Other
     //start with 100 here!
+    #endregion
+
+    #region UIEvents
+    //start with 200 here!
+    InventoryUpdated = 200,
     #endregion
 }

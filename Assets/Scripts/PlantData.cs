@@ -1,4 +1,4 @@
-
+﻿
 using static Age;
 using System.Collections.Generic;
 using System;
@@ -15,18 +15,20 @@ public class PlantData
     public int Quality;
     private const int _startQuality = 100;
 
-    public PlantData()
+    public PlantData() : this(Strain.None, _startQuality, GrowthStage.EMPTY)
+    {
+    }
+    public PlantData(Strain strain, int quality, GrowthStage growthStage)
     {
         this.Sex = false;
         this.Potsize = Potsize.Cultivation;
-        this.Age = new(GrowthStage.EMPTY, 0);
-        this.Strain = Strain.None;
-        this.Soil = new(0, 0);
+        this.Age = new(growthStage, 0);
+        this.Strain = strain;
+        this.Soil = new();
         this.CannabisBranches = new List<CannabisBranch>();
-        this.Quality = _startQuality;
+        this.Quality = quality;
 
     }
-
     public Dictionary<string, object> DataDictionary()
     {
         string growthStage = string.Empty;
@@ -157,9 +159,6 @@ public enum Strain
     Sativa,
     Indica,
     Ruderalis,
-
-
-
 }
 
 [Serializable]
@@ -168,9 +167,12 @@ public class Soil
     public float StoredWater;
     public float StoredNutrients;
 
+    public Soil() : this(0, 0) { }
+
     public Soil(float storedWater, float storedNutrients)
     {
         StoredWater = storedWater;
         StoredNutrients = storedNutrients;
     }
 }
+

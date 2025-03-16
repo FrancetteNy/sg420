@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -83,12 +83,12 @@ public class DryingManager : MonoBehaviour
         {
             if (controller.DriedPlantData.DryingAge.Stage != DryingStage.Empty)
             {
-                UIEvents.ShowModalView("Warnung", "Die Trocknungsphase wirklich abschließen? Die Trocknung kann nicht rückgängig gemacht werden.", () => CollectPlant(controller));
+                UIEvents.ShowModalView("Warnung", "Die Trocknungsphase wirklich abschlieÃŸen? Die Trocknung kann nicht rÃ¼ckgÃ¤ngig gemacht werden.", () => CollectPlant(controller));
                 return;
             }
             if (_gameState.HarvestedPlantCount == 0)
             {
-                UIEvents.AddNotification(new("Keine geernteten Pflanzen verfügbar", "", 2));
+                UIEvents.AddNotification(new("Keine geernteten Pflanzen verfÃ¼gbar", "", 2));
                 return;
             }
             PlantData harvestedData = _gameState.HarvestedPlantDataList.List[^1];

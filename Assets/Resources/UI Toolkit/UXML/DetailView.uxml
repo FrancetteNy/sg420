@@ -60,7 +60,7 @@
                                 <ui:VisualElement name="sex" class="name-and-value" style="flex-grow: 1; flex-direction: row;">
                                     <ui:Label text="Geschlecht:" name="name" class="property-text" />
                                     <ui:Label name="value" text="-" class="property-text" style="display: none;" />
-                                    <ui:Button text="Geschlecht Bestimmen" name="start-sexing-button" class="property-text custom-button" style="height: 80%; align-self: center; flex-wrap: nowrap; width: 100%; padding-top: 7px; padding-right: 15px; padding-bottom: 7px; padding-left: 15px; font-size: 14px;" />
+                                    <ui:Button text="Geschlecht Bestimmen" name="start-sexing-button" enabled="false" class="property-text custom-button" style="height: 80%; align-self: center; flex-wrap: nowrap; width: 100%; padding-top: 7px; padding-right: 15px; padding-bottom: 7px; padding-left: 15px; font-size: 14px;" />
                                 </ui:VisualElement>
                             </ui:VisualElement>
                             <ui:VisualElement name="right" style="flex-grow: 1; max-width: 50%;">
@@ -98,14 +98,15 @@
                             <ui:Label text="Topfgröße:" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="potsize" class="name-and-value" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; align-content: center; width: 50%;">
+                        <ui:VisualElement name="plant-controls" class="name-and-value" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; align-content: center; width: 650px;">
                             <ui:Button text="Umtopfen" name="open-change-pot-submenu-button" class="custom-button" style="flex-grow: 1;" />
                             <ui:Button text="Gießen" name="open-watering-submenu-button" class="custom-button" style="flex-grow: 1;" />
+                            <ui:Button text="Erde erneuern" name="purge-water-and-nutrients-button" class="custom-button" style="flex-grow: 1;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="wiki" class="block" style="height: 30%; width: 99.5%;background-color: rgb(4, 24, 1);">
+            <ui:VisualElement name="wiki" class="block" style="height: 30%; width: 99.5%; background-color: rgb(4, 24, 1);">
                 <ui:ScrollView name="detail-view-entry-scroll-view" horizontal-scorller-visibility="Hidden" mode="vertical" class="text-color">
                     <ui:VisualElement name="wiki-text" />
                 </ui:ScrollView>

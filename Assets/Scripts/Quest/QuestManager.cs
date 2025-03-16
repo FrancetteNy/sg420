@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -59,10 +59,16 @@ public class QuestManager : MonoBehaviour
     private void FinishObjective(QuestWithObjectiveIndex quest)
     {
         Objective objective = quest.Quest.Objectives[quest.ObjectiveIndex];
+        quest.ObjectiveProgress += 1;
+        if (objective.RepeatsNeeded > quest.ObjectiveProgress)
+        {
+            MessageSystem.FireEvent(MessageSystemEvent.ObjectiveFinished);
+            return;
+        }
         quest.ObjectiveIndex += 1;
         MessageSystem.StopListening(objective.EventThatFinishesObjective, _objectiveActions[objective]);
         _objectiveActions.Remove(objective);
-        if (objective.FireEventWhenObjectIsFinished)
+        if (objective.FireEventWhenObjectiveIsFinished)
         {
             MessageSystem.FireEvent(objective.EventAfterObjectiveCompleted);
         }
@@ -74,7 +80,16 @@ public class QuestManager : MonoBehaviour
         {
             _gameState.ActiveQuestsList.List.Remove(quest);
             _gameState.DoneQuestsList.List.Add(quest);
+            _gameState.Money += quest.Quest.MoneyReward;
+            var notificationMessage = $"{quest.Quest.Questname} beendet.";
+            if (quest.Quest.MoneyReward > 0)
+            {
+                notificationMessage += $" Du hast {quest.Quest.MoneyReward}€ verdient.";
+            }
+            UIEvents.AddNotification(new("Quest beendet", notificationMessage));
+            GameState.UpdateHUD?.Invoke();
         }
+        MessageSystem.FireEvent(MessageSystemEvent.ObjectiveFinished);
     }
 
     private void SetUpCurrentObjective(QuestWithObjectiveIndex quest)
@@ -84,3 +99,4 @@ public class QuestManager : MonoBehaviour
         MessageSystem.StartListening(quest.Quest.Objectives[quest.ObjectiveIndex].EventThatFinishesObjective, action);
     }
 }
+

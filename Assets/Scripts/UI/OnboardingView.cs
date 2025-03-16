@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -39,9 +39,7 @@ public class OnboardingView : UIView
     }
     public override void OnCancelPerformed(InputAction.CallbackContext context)
     {
-        if (!IsOpen)
-            return;
-        UIEvents.HideOnboardingView();
+        return;
     }
     public override void Show()
     {
@@ -55,3 +53,4 @@ public class OnboardingView : UIView
         _controller.SetData(list);
     }
 }
+

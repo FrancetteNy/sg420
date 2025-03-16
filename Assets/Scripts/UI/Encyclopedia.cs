@@ -1,4 +1,4 @@
-
+﻿
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -51,3 +51,4 @@ class Encyclopedia : UIView
         UIEvents.HideEncyclopedia();
     }
 }
+

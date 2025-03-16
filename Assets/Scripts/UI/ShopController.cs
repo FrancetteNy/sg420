@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -7,33 +8,38 @@ public class ShopController : MonoBehaviour
 {
     private VisualElement _root;
     private VisualElement _tabContent, _shopContainer;
+    private GameState _gameState;
+    private Dictionary<Button, Action> _onclickedActions;
 
     public void Initialize(VisualElement root)
     {
-
+        _gameState = GameStateManagerSingleton.Instance.GameState;
         _root = root;
 
         _root.style.display = DisplayStyle.None;
 
         _shopContainer = _root.Q<VisualElement>("Shop");
-        _tabContent = _root.Q<VisualElement>("tab-content");
+        _tabContent = _root.Q<VisualElement>("content");
 
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideShop.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _onclickedActions = new Dictionary<Button, Action>();
         LoadShopItems();
-
+        MessageSystem.StartListening(MessageSystemEvent.InventoryUpdated, LoadShopItems);
+    }
+    private void OnDestroy()
+    {
+        MessageSystem.StopListening(MessageSystemEvent.InventoryUpdated, LoadShopItems);
+        foreach (var (button, action) in _onclickedActions)
+        {
+            button.clicked -= action;
+        }
+        _onclickedActions.Clear();
     }
     private void LoadShopItems()
     {
-       
-        var shopItems = new List<ShopItem>
-        {
-            new ShopItem("Indica", 10),
-            new ShopItem("Sativa", 10),
-            new ShopItem("Ruderalis", 10)
-        };
-
-        
+        var shopItems = Resources.LoadAll<ShopItem>("");
+        _tabContent.Clear();
         foreach (var item in shopItems)
         {
             var itemElement = CreateShopItemElement(item);
@@ -41,13 +47,26 @@ public class ShopController : MonoBehaviour
         }
     }
 
-   
+
     private VisualElement CreateShopItemElement(ShopItem item)
     {
         var itemElement = new VisualElement();
         itemElement.AddToClassList("shop-item");
 
-        var nameLabel = new Label(item.Name);
+        var nameText = item.InventoryItem.Name;
+        if (item.InventoryItem is Seed seed)
+        {
+            if (_gameState.AvailableSeedsPerType.TryGetValue(seed, out var amount))
+            {
+                nameText += $" ({amount})";
+            }
+            else
+            {
+                nameText += $" (0)";
+            }
+        }
+
+        var nameLabel = new Label(nameText);
         nameLabel.AddToClassList("shop-item-name");
         itemElement.Add(nameLabel);
 
@@ -57,15 +76,20 @@ public class ShopController : MonoBehaviour
 
         var buyButton = new Button();
         buyButton.text = "Kaufen";
-        buyButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
-        buyButton.clicked += () => OnBuyButtonClicked(item);
+        Action onclickAction = () =>
+        {
+            SoundManagerSingleton.Instance.PlaySound("Click");
+            OnBuyButtonClicked(item);
+        };
+        buyButton.clicked += onclickAction;
+        _onclickedActions[buyButton] = onclickAction;
         buyButton.AddToClassList("shop-item-button");
         itemElement.Add(buyButton);
 
         return itemElement;
     }
 
-    
+
     private void OnBuyButtonClicked(ShopItem item)
     {
         var gameState = GameStateManagerSingleton.Instance.GameState;
@@ -74,50 +98,28 @@ public class ShopController : MonoBehaviour
             return;
         }
 
-        if (gameState.Geld >= item.Price)
+        if (gameState.Money >= item.Price)
         {
-            gameState.Geld -= item.Price;
+            gameState.Money -= item.Price;
 
-            AddSeedToInventory(item);
+            gameState.Inventory.List.Add(item.InventoryItem);
 
-            InventarController.Instance.RefreshInventory();
-
-            UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreicher Einkauf", $"{item.Name}_Samen zum Inventar hinzugefügt.", 5));
+            if (item.InventoryItem is Seed seed)
+            {
+                if (seed.IsFeminized)
+                {
+                    MessageSystem.FireEvent(MessageSystemEvent.BuyFeminizedSeed);
+                }
+            }
         }
         else
         {
-            UIEvents.AddNotification.Invoke(new NotificationData("Ungenügendes Geld.", $"Sie haben {gameState.Geld} nur verfügbar.", 5));
+            UIEvents.AddNotification.Invoke(new NotificationData("UngenÃ¼gendes Geld.", $"Sie haben nur {gameState.Money}€, aber {item.InventoryItem.Name} kostet {item.Price}€.", 5));
         }
+        GameState.UpdateHUD?.Invoke();
+        MessageSystem.FireEvent(MessageSystemEvent.InventoryUpdated);
     }
 
-
-    private void AddSeedToInventory(ShopItem item)
-    {
-        var gameState = GameStateManagerSingleton.Instance.GameState;
-        if (gameState == null || gameState.SamenInventar == null || gameState.SamenInventar.List == null)
-        {
-            return;
-        }
-
-        var existingSeed = gameState.SamenInventar.List.Find(seed => seed.Type == item.Name);
-        if (existingSeed != null)
-        {
-            existingSeed.Quantity++; 
-        }
-        
-    }
 }
-public class ShopItem
-{
-    public string Name { get; }
-    public int Price { get; }
-   
 
-    public ShopItem(string name, int price)
-    {
-        Name = name;
-        Price = price;
-       
-    }
-}
 
