@@ -185,6 +185,7 @@ public enum MessageSystemEvent
     //start with 000 here!
     StartErsteSamen = 000,
     FinishErsteSamen = 001,
+    BuyFeminizedSeed = 002,
     #endregion
 
     #region Other

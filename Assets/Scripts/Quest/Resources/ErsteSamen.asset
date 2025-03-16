@@ -18,6 +18,8 @@ MonoBehaviour:
   Objectives:
   - ObjectiveName: Samenkauf
     ObjectiveDescription: "\xD6ffne den Shop und kaufe mindestens 4 Samen"
-    EventThatFinishesObjective: 1
+    EventThatFinishesObjective: 2
     FireEventWhenObjectIsFinished: 0
     EventAfterObjectiveCompleted: 1
+    RepeatsNeeded: 4
+  MoneyReward: 100

@@ -7,10 +7,11 @@ public class ShopController : MonoBehaviour
 {
     private VisualElement _root;
     private VisualElement _tabContent, _shopContainer;
+    private GameState _gameState;
 
     public void Initialize(VisualElement root)
     {
-
+        _gameState = GameStateManagerSingleton.Instance.GameState;
         _root = root;
 
         _root.style.display = DisplayStyle.None;
@@ -21,12 +22,16 @@ public class ShopController : MonoBehaviour
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideShop.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         LoadShopItems();
-
+        MessageSystem.StartListening(MessageSystemEvent.InventoryUpdated, LoadShopItems);
+    }
+    private void OnDestroy()
+    {
+        MessageSystem.StopListening(MessageSystemEvent.InventoryUpdated, LoadShopItems);
     }
     private void LoadShopItems()
     {
         var shopItems = Resources.LoadAll<ShopItem>("");
-        
+        _tabContent.Clear();
         foreach (var item in shopItems)
         {
             var itemElement = CreateShopItemElement(item);
@@ -40,7 +45,20 @@ public class ShopController : MonoBehaviour
         var itemElement = new VisualElement();
         itemElement.AddToClassList("shop-item");
 
-        var nameLabel = new Label(item.InventoryItem.Name);
+        var nameText = item.InventoryItem.Name;
+        if (item.InventoryItem is Seed seed)
+        {
+            if (_gameState.AvailableSeedsPerType.TryGetValue(seed, out var amount))
+            {
+                nameText += $" ({amount})";
+            }
+            else
+            {
+                nameText += $" (0)";
+            }
+        }
+
+        var nameLabel = new Label(nameText);
         nameLabel.AddToClassList("shop-item-name");
         itemElement.Add(nameLabel);
 
@@ -73,7 +91,13 @@ public class ShopController : MonoBehaviour
 
             gameState.Inventory.List.Add(item.InventoryItem);
 
-            UIEvents.AddNotification.Invoke(new NotificationData("Erfolgreicher Einkauf", $"{item.InventoryItem.Name} zum Inventar hinzugefügt.", 5));
+            if (item.InventoryItem is Seed seed)
+            {
+                if (seed.IsFeminized)
+                {
+                    MessageSystem.FireEvent(MessageSystemEvent.BuyFeminizedSeed);
+                }
+            }
         }
         else
         {

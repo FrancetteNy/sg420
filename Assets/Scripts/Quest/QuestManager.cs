@@ -59,6 +59,11 @@ public class QuestManager : MonoBehaviour
     private void FinishObjective(QuestWithObjectiveIndex quest)
     {
         Objective objective = quest.Quest.Objectives[quest.ObjectiveIndex];
+        quest.ObjectiveProgress += 1;
+        if (objective.RepeatsNeeded > quest.ObjectiveProgress)
+        {
+            return;
+        }
         quest.ObjectiveIndex += 1;
         MessageSystem.StopListening(objective.EventThatFinishesObjective, _objectiveActions[objective]);
         _objectiveActions.Remove(objective);
@@ -74,6 +79,14 @@ public class QuestManager : MonoBehaviour
         {
             _gameState.ActiveQuestsList.List.Remove(quest);
             _gameState.DoneQuestsList.List.Add(quest);
+            _gameState.Money += quest.Quest.MoneyReward;
+            var notificationMessage = $"{quest.Quest.Questname} beendet.";
+            if (quest.Quest.MoneyReward > 0)
+            {
+                notificationMessage += $" Du hast {quest.Quest.MoneyReward}€ verdient.";
+            }
+            UIEvents.AddNotification(new("Quest beendet", notificationMessage));
+            GameState.UpdateHUD?.Invoke();
         }
     }
 

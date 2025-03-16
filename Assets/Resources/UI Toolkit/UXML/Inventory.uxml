@@ -6,7 +6,7 @@
             <ui:Button name="seed-inventory-button" text="Samen" class="nav-link" />
             <ui:Button name="harvested-plants-inventory-button" text="Ungetrocknete Pflanzen" class="nav-link" />
             <ui:Button name="dried-plants-inventory-button" text="Getrocknete Pflanzen" class="nav-link" />
-            <ui:Button name="close-button" text="X" style="border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; background-color: rgb(37, 85, 35); font-size: 15px; -unity-font-style: bold; width: 40px; position: absolute; top: 1px; right: 2px; display: flex;" />
+            <ui:Button name="close-button" text="X" class="custom-button" style="border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 3px; border-right-width: 3px; border-bottom-width: 3px; border-left-width: 3px; border-top-left-radius: 15px; border-top-right-radius: 15px; border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; background-color: rgb(37, 85, 35); font-size: 15px; -unity-font-style: bold; width: 40px; position: absolute; top: 1px; right: 2px; display: flex;" />
         </ui:VisualElement>
         <ui:ScrollView name="inventory" style="margin-top: 20px;">
             <ui:VisualElement name="scroll-content" class="tab-content" style="flex-direction: row;" />
