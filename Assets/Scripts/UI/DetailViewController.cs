@@ -451,6 +451,8 @@ public class DetailViewUIManager
         SetupSeedContainer(onDetailHovered);
 
         SetupSliders();
+
+        _background.Q<Button>(DetailViewConstants.NameOfButtons[UIButton.CONFIRMSEED]).SetEnabled(false);
     }
 
 
@@ -495,8 +497,13 @@ public class DetailViewUIManager
         {
             SoundManagerSingleton.Instance.PlaySound("Click");
         });
+        _seedDropdown.RegisterValueChangedCallback(UpdateSeedSelectionButton);
     }
 
+    private void UpdateSeedSelectionButton(ChangeEvent<string> evt)
+    {
+        _background.Q<Button>(DetailViewConstants.NameOfButtons[UIButton.CONFIRMSEED]).SetEnabled(evt.newValue != "");
+    }
 
     private void SetupDetailLabels(Action<string> onDetailHovered)
     {
