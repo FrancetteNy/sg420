@@ -166,6 +166,7 @@ public class ChatViewController : MonoBehaviour
     {
         var item = (_chatMemberAsset?.Instantiate() as VisualElement) ?? new Label("Error");
         item.userData = new ChatListEntryController();
+        item.AddToClassList("interactable");
         ((ChatListEntryController)item.userData).SetVisualElement(item);
         return item;
     }

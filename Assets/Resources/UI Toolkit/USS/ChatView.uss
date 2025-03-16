@@ -3,8 +3,7 @@
 }
 
 #chat-member-list .unity-list-view__item {
-    background-color: rgb(37, 85, 35);
-    font-size: 22px;
+    font-size: 20px;
 }
 
 .chat-list__item {
@@ -15,18 +14,22 @@
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
     flex-wrap: wrap;
-    padding-right: 5px;
-    padding-left: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .chat-list__item--npc {
     align-self: flex-start;
     background-color: rgb(93, 183, 222);
+    color: rgb(0, 0, 0);
 }
 
 .chat-list__item--player {
     align-self: flex-end;
     background-color: rgb(241, 233, 219);
+    color: rgb(0, 0, 0);
 }
 
 .chat-list__item--system {
@@ -96,6 +99,7 @@
 
 .chat-list__item--first {
     margin-bottom: 1px;
+    margin-top: 5px;
 }
 
 .chat-list__item--last {
@@ -112,5 +116,5 @@
 }
 
 #light-dropdown-field:hover .unity-base-field__input {
-    background-color: rgb(37, 85, 35) !important;
+    background-color: rgb(37, 85, 35);
 }

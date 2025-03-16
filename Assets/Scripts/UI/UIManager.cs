@@ -166,7 +166,7 @@ public class UIManager : MonoBehaviour
         UIEvents.HideEncyclopedia += OnEncyclopediaHidden;
 
         UIEvents.ShowChatView += OnChatViewShown;
-        UIEvents.HideChatView += OnHudShown;
+        UIEvents.HideChatView += OnChatViewHidden;
 
         UIEvents.ShowMainMenuView += OnMainMenuViewShown;
         UIEvents.HideMainMenuView += OnHudShown;
@@ -217,7 +217,8 @@ public class UIManager : MonoBehaviour
     private void OnHudShown() => ShowView(_hudView);
     private void OnLightOverviewShown() => ShowOverlay(_lightOverview);
     private void OnEncyclopediaShown() => ShowOverlay(_encyclopedia);
-    private void OnChatViewShown() => ShowView(_chatView);
+    private void OnChatViewShown() => ShowOverlay(_chatView);
+    private void OnChatViewHidden() => HideOverlay(_chatView);
     private void OnMainMenuViewShown() => ShowView(_mainMenuView);
     private void OnInventarShown () => ShowOverlay(_inventar);
     private void OnShopShown () => ShowOverlay(_shop);
