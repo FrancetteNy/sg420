@@ -62,6 +62,7 @@ public class QuestManager : MonoBehaviour
         quest.ObjectiveProgress += 1;
         if (objective.RepeatsNeeded > quest.ObjectiveProgress)
         {
+            MessageSystem.FireEvent(MessageSystemEvent.FinishObjective);
             return;
         }
         quest.ObjectiveIndex += 1;
@@ -88,6 +89,7 @@ public class QuestManager : MonoBehaviour
             UIEvents.AddNotification(new("Quest beendet", notificationMessage));
             GameState.UpdateHUD?.Invoke();
         }
+        MessageSystem.FireEvent(MessageSystemEvent.FinishObjective);
     }
 
     private void SetUpCurrentObjective(QuestWithObjectiveIndex quest)

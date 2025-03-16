@@ -186,6 +186,7 @@ public enum MessageSystemEvent
     StartErsteSamen = 000,
     FinishErsteSamen = 001,
     BuyFeminizedSeed = 002,
+    FinishObjective = 003,
     #endregion
 
     #region Other
