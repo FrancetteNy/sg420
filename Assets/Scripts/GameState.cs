@@ -42,6 +42,7 @@ public class GameState
         CurrentlyDryingPlants = new(new() { new(), new(), new(), new() });
         CompletedDriedPlantDataList = new();
         UnlockedEncyclopediaEntries = new();
+        UnlockedEncyclopediaEntries.List.Add("DetailViewDefault");
         ChatData = new();
         SamenInventar = new(new List<Seed>
             {

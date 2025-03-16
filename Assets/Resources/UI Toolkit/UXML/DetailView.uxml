@@ -105,9 +105,10 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="wiki" class="block" style="flex-grow: 1; max-height: 47.5%; flex-shrink: 0; height: auto; background-color: rgb(4, 24, 1);">
-                <ui:Label text="Enzyklopädie" name="title" class="block-header" style="font-size: 30px; -unity-font-style: bold;" />
-                <ui:Label text="Fahre über etwas um Informationen zu erhalten" name="wiki-text" style="font-size: 20px;" />
+            <ui:VisualElement name="wiki" class="block" style="height: 30%; width: 99.5%;background-color: rgb(4, 24, 1);">
+                <ui:ScrollView name="detail-view-entry-scroll-view" horizontal-scorller-visibility="Hidden" mode="vertical" class="text-color">
+                    <ui:VisualElement name="wiki-text" />
+                </ui:ScrollView>
             </ui:VisualElement>
             <ui:VisualElement name="submenues" class="bg-color text-color" style="flex-grow: 1; position: absolute; width: 100%; height: 100%; justify-content: center; background-color: rgba(0, 0, 0, 0.46); display: none;">
                 <ui:VisualElement name="watering-submenu" class="submenu-window" style="width: 75%; align-self: center; background-color: rgb(4, 24, 1); height: 75%; display: none;">

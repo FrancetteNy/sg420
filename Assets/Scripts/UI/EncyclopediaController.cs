@@ -58,25 +58,26 @@ public class EncyclopediaController : MonoBehaviour
         new Category("Anbau", new List<IEntryOrCategory>
         {
             new Entry("Alter"),
-            new Entry("Bewässern"),
+            new Entry("Bewaessern"),
             new Entry("Geschlecht"),
             new Entry("Krankheiten"),
             new Entry("Licht"),
-            new Entry("Nährstoffe"),
-            new Entry("Strains"),
+            new Entry("Naehrstoffe"),
+            new Entry("Sorten"),
+            new Entry("Saatgut"),
             new Category("Phasen", new List<IEntryOrCategory>
             {
                 new Entry("Keimung"),
                 new Entry("Wachstum"),
-                new Entry("Blüte"),
+                new Entry("Bluete"),
             }),
         }),
-        new Category("Ernteprozess", new List<IEntryOrCategory>
+        new Category("Verarbeitung", new List<IEntryOrCategory>
         {
             new Entry("Ernten"),
             new Entry("Trocknen"),
         }),
-        new Category("Ausrüstung", new List<IEntryOrCategory>{
+        new Category("Ausruestung", new List<IEntryOrCategory>{
             new Entry("Lampen"),
             new Entry("Töpfe"),
         }),
@@ -150,7 +151,7 @@ public class EncyclopediaController : MonoBehaviour
             else
             {
                 Category category = entryOrCategory as Category;
-                List<IEntryOrCategory> tmpList = FilterEntries(search, category.Entries);
+                List<IEntryOrCategory> tmpList = FilterEntries("", category.Entries);
                 if (tmpList.Count > 0)
                 {
                     filteredList.Add(new Category(category.Name, tmpList));

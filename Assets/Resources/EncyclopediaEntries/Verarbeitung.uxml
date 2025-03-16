@@ -1,8 +1,9 @@
+
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/Encyclopedia.uss?fileID=7433441132597879392&amp;guid=c72bc6add74bfd44c9618da8f32e605d&amp;type=3#Encyclopedia" />
     <Style src="project://database/Assets/Resources/UI%20Toolkit/USS/DetailView.uss?fileID=7433441132597879392&amp;guid=5a6aaa73482568247a7b6bebc707b661&amp;type=3#DetailView" />
-    <ui:VisualElement enabled="true" name="Home" class="EncyclopediaEntry" >
-        <ui:Label class="h1" text="Enzyklopädie"/>
-        <ui:Label class="paragraph" text="Du schaust dir das Bücherregal deines Grossvaters an. Hier sind einige Bücher zum Anbau von Pflanzen, vielleicht findest du hier ja die ein oder andere nützliche Information?"/>
+    <ui:VisualElement enabled="true" name="Verarbeitung" class="EncyclopediaEntry" >
+        <ui:Label class="h1" text="Verarbeitung"/>
+        <ui:Label class="paragraph" text="Nach dem eigentlichen Anbau gibt es immer noch einiges zu beachten. Die Ernte, die Vorbereitung dieser, die Trocknung, die Veredelung und schlussendlich die Lagerung."/>
     </ui:VisualElement>
 </ui:UXML>

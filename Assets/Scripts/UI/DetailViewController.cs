@@ -224,7 +224,7 @@ public class DetailViewController : MonoBehaviour
         _uiManager.UpdatePlantNavigationButtons(
            currentIndex > 0,
            currentIndex < _detailViewplantManager.Plantcount - 1
-       );
+        );
 
     }
 
@@ -257,8 +257,7 @@ public class DetailViewController : MonoBehaviour
 
     private void OnDetailHovered(string detailName)
     {
-        string wikiEntry = DummyWiki.GetWikiEntry(detailName);
-        _uiManager.UpdateWikiText(wikiEntry);
+        _uiManager.UpdateWikiText(detailName);
     }
 
     public void CloseView()
@@ -411,7 +410,11 @@ public enum Submenu
 public class DetailViewUIManager
 {
     private VisualElement _background;
-    private Label _wikiTextLabel;
+    private VisualElement _wikiText;
+    private Dictionary<string,VisualElement> _wikiEntries;
+    private Label _popupMessage;
+    private VisualElement _popupContainer;
+    private VisualElement _popupContent;
     private Dictionary<string, Label> _detailLabels = new();
     private Button _previousPlantButton;
     private Button _nextPlantButton;
@@ -430,7 +433,8 @@ public class DetailViewUIManager
         SetupDropDowns();
 
         // Collect and Configure Detail Labels
-        _wikiTextLabel = _background.Q<Label>("wiki-text");
+        _wikiText = _background.Q<VisualElement>("wiki-text");
+
         SetupDetailLabels(onDetailHovered);
 
         _plantInfo = _background.Q<VisualElement>("plantinfo");
@@ -534,13 +538,51 @@ public class DetailViewUIManager
         _nextPlantButton.SetEnabled(canGoNext);
     }
 
-    public void UpdateWikiText(string text)
+    public void UpdateWikiText(string entryName)
     {
-        _wikiTextLabel.text = text;
+        _wikiText.Clear();
+        _wikiText.Add(_wikiEntries[entryName]);
+    }
+
+    public void LoadWikiEntry(string entryName, string entryID) {
+        
+        List<string> unlockedEntryNames = GameStateManagerSingleton.Instance.GameState.UnlockedEncyclopediaEntries.List;
+
+        if (unlockedEntryNames.Contains(entryName))
+        {
+            VisualTreeAsset entry = (VisualTreeAsset)Resources.Load("EncyclopediaEntries/" + entryName);
+            VisualElement instantiatedEntry = entry.Instantiate();
+            _wikiEntries.Add(entryID, instantiatedEntry);
+        } 
+        else
+        {
+            VisualElement entry = new Label("Der eintrag für " + entryName + " ist noch nicht Freigeschaltet");
+            _wikiEntries.Add(entryID, entry);
+        }
+    }
+
+    public void LoadWikiEntries() 
+    {
+        _wikiEntries = new Dictionary<string,VisualElement>();
+
+        LoadWikiEntry("DetailViewDefault", "home");
+        LoadWikiEntry("Bewaessern", "water");
+        LoadWikiEntry("Topf", "potsize");
+        LoadWikiEntry("Naehrstoffe", "nutrients");
+        LoadWikiEntry("Saatgut", "strain");
+        LoadWikiEntry("Geschlecht", "sex");
+        LoadWikiEntry("Alter", "age");
+        LoadWikiEntry("Phase", "growthStage");
+        LoadWikiEntry("Keimung", "Die Aussaat");
+
+        _wikiText.Add(_wikiEntries["home"]);
+
     }
 
     public void ShowView()
     {
+        _wikiText.Clear();
+        LoadWikiEntries();
         _background.style.display = DisplayStyle.Flex;
     }
 
