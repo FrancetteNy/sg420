@@ -39,9 +39,7 @@ public class OnboardingView : UIView
     }
     public override void OnCancelPerformed(InputAction.CallbackContext context)
     {
-        if (!IsOpen)
-            return;
-        UIEvents.HideOnboardingView();
+        return;
     }
     public override void Show()
     {
