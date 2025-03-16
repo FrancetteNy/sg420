@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
@@ -49,3 +49,4 @@ public class HUDView : UIView
         _controller.enabled = true;
     }
 }
+

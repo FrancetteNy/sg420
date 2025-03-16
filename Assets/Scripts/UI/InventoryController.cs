@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -111,7 +111,7 @@ public class InventoryController : MonoBehaviour
         nameLabel.AddToClassList("item-name");
         itemElement.Add(nameLabel);
 
-        var amountLabel = new Label($"Qualit�t: {plant.Quality}");
+        var amountLabel = new Label($"Qualität: {plant.Quality}");
         itemElement.Add(amountLabel);
 
         return itemElement;

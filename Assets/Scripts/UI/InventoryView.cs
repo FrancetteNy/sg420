@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
 class InventoryView : UIView
@@ -52,3 +52,4 @@ class InventoryView : UIView
     }
 
 }
+

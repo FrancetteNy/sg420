@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using SG420UILibrary;
 using System;
 using System.Collections;
@@ -648,7 +648,6 @@ public class ChatViewController : MonoBehaviour
                         }
                         break;
                     case "EnzyklopaedieUnlocked":
-                        print($"unlocked enzyklopädie eintrage {split[1]}");
                         GameState.EncyclopediaEntryUnlocked(split[1]);
                         break;
                     case "MechanicUnlocked":

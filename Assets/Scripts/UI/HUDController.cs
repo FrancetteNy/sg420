@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -45,17 +45,17 @@ public class HUDController : MonoBehaviour
     private void StartOnboarding()
     {
         UIEvents.ShowOnboardingView(new() {
-            new(null, "Willkommen", "Herzlich willkommen! Du bist der Erbe eines sehr beliebten Growers: Deinem Großvater. Er hat dir seinen Growroom und einige Bücher vererbt."),
-            new(null, "Willkommen", "Dir stehen bis zu vier Töpfe zur Verfügung, in denen du Cannabis anbauen kannst!"),
+            new(null, "Willkommen", "Herzlich willkommen! Du bist der Erbe eines sehr beliebten Growers: Deinem GroÃŸvater. Er hat dir seinen Growroom und einige BÃ¼cher vererbt."),
+            new(null, "Willkommen", "Dir stehen bis zu vier TÃ¶pfe zur VerfÃ¼gung, in denen du Cannabis anbauen kannst!"),
             new(null, "Willkommen", "Dir sollte in ein paar Tagen Lara Gruen schreiben und dich einweisen, bis dahin kannst du dich schonmal umschauen."),
-            new(null, "Willkommen", "Übrigens: Alle Fenster kannst du einfach mit Esc schließen! (außer dieses hier :) )"),
-            new(_advanceDayButton, "Nächster Tage", "Hier kannst du den nächsten Tag starten"),
+            new(null, "Willkommen", "Ãœbrigens: Alle Fenster kannst du einfach mit Esc schlieÃŸen! (auÃŸer dieses hier :) )"),
+            new(_advanceDayButton, "NÃ¤chster Tage", "Hier kannst du den nÃ¤chsten Tag starten"),
             new(_currentDayLabel, "Aktueller Tag", "Hier siehst du welcher Tag heute ist"),
             new(_harvestedPlantCountLabel.parent, "Geerntete Pflanzen", "Hier siehst du wieviele ungetrocknete Pflanzen du hast"),
             new(_finishedDriedCountLabel.parent, "Getrocknete Pflanzen", "Hier siehst du wieviele getrocknete Pflanzen du hast"),
             new(_scoreLabel.parent, "Punkte", "Hier siehst wieviele Punkte du gesammelt hast"),
             new(_moneyLabel.parent, "Geld", "Hier siehst du wieviel Geld du hast"),
-            new(_openMainmenuButton, "Hauptmenü", "Hier kannst du das Hauptmenü öffnen, um zu speichern, zu laden oder das Spiel zu beenden."),
+            new(_openMainmenuButton, "HauptmenÃ¼", "Hier kannst du das HauptmenÃ¼ Ã¶ffnen, um zu speichern, zu laden oder das Spiel zu beenden."),
             new(_openChatButton, "Chat", "Hier kannst du mit Freunden chatten"),
             new(_openQuestLogButton, "Questlog", "Hier siehst du alle aktuellen Quests"),
             new(_shopButton, "Shop", "Hier kannst du Dinge kaufen"),

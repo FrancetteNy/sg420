@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -51,7 +51,7 @@ public class GroupWateringController : MonoBehaviour
                 _groupWateringViewplantManager.AddWaterAndFertilize(_uiManager.GetWaterValue(), _uiManager.GetFertilizeValue());
                 _uiManager.UpdatePlantData(PlantControllers);
                 CloseView();
-                UIEvents.AddNotification.Invoke(new NotificationData("Gruppengieﬂen und -d¸ngen", $"Alle Pflanzen: {Environment.NewLine}Wassermenge +{_uiManager.GetWaterValue()}.{Environment.NewLine}N‰hrstoffe +{_uiManager.GetFertilizeValue()}.", 3));
+                UIEvents.AddNotification.Invoke(new NotificationData("Gruppengie√üen und -d√ºngen", $"Alle Pflanzen: {Environment.NewLine}Wassermenge +{_uiManager.GetWaterValue()}.{Environment.NewLine}N√§hrstoffe +{_uiManager.GetFertilizeValue()}.", 3));
                 break;
             default:
                 break;
@@ -158,3 +158,4 @@ public class GroupWateringController : MonoBehaviour
 
     }
 }
+

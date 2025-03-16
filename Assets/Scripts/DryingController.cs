@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using static Age;
 
@@ -90,3 +90,4 @@ public class DryingController : MonoBehaviour
         }
     }
 }
+

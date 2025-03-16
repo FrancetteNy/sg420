@@ -1,4 +1,4 @@
-
+﻿
 using static Age;
 using System.Collections.Generic;
 using System;
@@ -175,3 +175,4 @@ public class Soil
         StoredNutrients = storedNutrients;
     }
 }
+

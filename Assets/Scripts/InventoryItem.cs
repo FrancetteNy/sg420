@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 
@@ -7,3 +7,4 @@ public class InventoryItem: ScriptableObject
 {
     public string Name;
 }
+

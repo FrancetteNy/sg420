@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
 class ShopView : UIView
@@ -50,3 +50,4 @@ class ShopView : UIView
         UIEvents.HideShop();
     }
 }
+

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 [Serializable]
 public class CannabisSplinePart
@@ -21,3 +21,4 @@ public class CannabisSplinePart
 
     }
 }
+

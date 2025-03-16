@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -114,11 +114,12 @@ public class ShopController : MonoBehaviour
         }
         else
         {
-            UIEvents.AddNotification.Invoke(new NotificationData("Ungenügendes Geld.", $"Sie haben nur {gameState.Money}€, aber {item.InventoryItem.Name} kostet {item.Price}€.", 5));
+            UIEvents.AddNotification.Invoke(new NotificationData("UngenÃ¼gendes Geld.", $"Sie haben nur {gameState.Money}€, aber {item.InventoryItem.Name} kostet {item.Price}€.", 5));
         }
         GameState.UpdateHUD?.Invoke();
         MessageSystem.FireEvent(MessageSystemEvent.InventoryUpdated);
     }
 
 }
+
 

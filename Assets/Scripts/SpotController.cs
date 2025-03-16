@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpotController : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class SpotController : MonoBehaviour
 
         var lightRenderer = GetComponentInChildren<Renderer>();
 
-        // Material-Kopie erzeugen (instanziieren), damit �nderungen nur dieses Objekt betreffen
+        // Material-Kopie erzeugen (instanziieren), damit Änderungen nur dieses Objekt betreffen
         _emissiveMaterial = new Material(lightRenderer.materials[1]);
         Material[] materials = lightRenderer.materials;
         materials[1] = _emissiveMaterial;
@@ -37,3 +37,4 @@ public class SpotController : MonoBehaviour
         highlightBuilder.Apply();
     }
 }
+

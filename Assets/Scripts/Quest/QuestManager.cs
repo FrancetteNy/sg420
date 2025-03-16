@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -84,7 +84,7 @@ public class QuestManager : MonoBehaviour
             var notificationMessage = $"{quest.Quest.Questname} beendet.";
             if (quest.Quest.MoneyReward > 0)
             {
-                notificationMessage += $" Du hast {quest.Quest.MoneyReward}� verdient.";
+                notificationMessage += $" Du hast {quest.Quest.MoneyReward}€ verdient.";
             }
             UIEvents.AddNotification(new("Quest beendet", notificationMessage));
             GameState.UpdateHUD?.Invoke();
@@ -99,3 +99,4 @@ public class QuestManager : MonoBehaviour
         MessageSystem.StartListening(quest.Quest.Objectives[quest.ObjectiveIndex].EventThatFinishesObjective, action);
     }
 }
+

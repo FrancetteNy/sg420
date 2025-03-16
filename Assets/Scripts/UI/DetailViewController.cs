@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -535,11 +535,6 @@ public class DetailViewUIManager
 
             }
         }
-        else
-        {
-            Debug.LogWarning("Der Schlüssel 'Strain' fehlt oder ist in plantData nicht korrekt.");
-            _seedSelectionContainer.style.display = DisplayStyle.None;
-        }
 
     }
 
@@ -896,7 +891,8 @@ public class DummyWiki
 {
     public static string GetWikiEntry(string entryTitle)
     {
-        return $"Das ist ein Enzyklop�dieeintrag f�r {entryTitle}.";
+        return $"Das ist ein Enzyklopï¿½dieeintrag fï¿½r {entryTitle}.";
     }
 }
+
 
