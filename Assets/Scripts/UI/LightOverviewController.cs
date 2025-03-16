@@ -8,7 +8,6 @@ using UnityEngine.UIElements;
 public class LightOverviewController : MonoBehaviour
 {
     private VisualElement _root;
-    private Label _lightLabel;
     private DropdownField _lightDropdownField;
     private SlideToggle _slideToggle;
     private Dictionary<GrowlightType, string> _lighttypeStrings = new Dictionary<GrowlightType, string> { { GrowlightType.NONE, "Kein Licht" }, { GrowlightType.LED, "LED Lampe" } };
@@ -16,7 +15,6 @@ public class LightOverviewController : MonoBehaviour
     {
         _root = root;
         SetupButtons();
-        SetupLabels();
         SetupDropDowns();
         SetupToggles();
         UpdateOverview();
@@ -72,13 +70,8 @@ public class LightOverviewController : MonoBehaviour
     private void OnLightTypeChanged(ChangeEvent<string> evt)
     {
         GameStateManagerSingleton.Instance.GameState.Growlight.Type = _lighttypeStrings.FirstOrDefault(pair => pair.Value == evt.newValue).Key;
-        _lightLabel.text = DummyWiki.GetWikiEntry(evt.newValue);
     }
 
-    private void SetupLabels()
-    {
-        _lightLabel = _root.Q<Label>("light-label");
-    }
 
     private void SetupButtons()
     {

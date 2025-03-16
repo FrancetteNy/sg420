@@ -887,12 +887,3 @@ public class DetailViewPlantManager
     }
 }
 
-public class DummyWiki
-{
-    public static string GetWikiEntry(string entryTitle)
-    {
-        return $"Das ist ein Enzyklopï¿½dieeintrag fï¿½r {entryTitle}.";
-    }
-}
-
-
