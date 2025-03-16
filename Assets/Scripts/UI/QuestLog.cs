@@ -47,7 +47,7 @@ class QuestLog : UIView
     {
         if (!IsOpen)
             return;
-        UIEvents.HideEncyclopedia();
+        UIEvents.HideQuestLog();
     }
 }
 
