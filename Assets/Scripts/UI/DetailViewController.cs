@@ -664,13 +664,15 @@ public class DetailViewUIManager
         var zoomControlButtons = _background.Q<VisualElement>("zoom-control-buttons");
         var wiki = _background.Q<VisualElement>("wiki");
         UIEvents.ShowOnboardingView(new() { 
+            new(null, "Pflanzenmanagement", "Hier hast du einen Überblick, wie es den einzelnen Pflanzen geht"),
+            new(null, "Pflanzenmanagement", "Achte darauf, dass das Wasser zwischen 10 und 30 und der Dünger zwischen 5 und 20 liegt, damit deine Pflanzen gesund bleiben!"),
             new(plantView, "Pflanzenübersicht", "Hier kannst du dir die Pflanzen genauer anschauen"),
             new(_previousPlantButton, "Vorherige Pflanze", "Mit diesem Button kannst du dir die vorherige Pflanze anschauen"),
             new(_nextPlantButton, "Nächste Pflanze", "Hiermit kannst du zur nächsten Pflanze springen"),
             new(cameraControlButtons, "Kamera bewegen", "Mit diesen Buttons kannst du die Kamera bewegen, um die Pflanze besser ins Bild zu rücken"),
             new(rotateControlButtons, "Pflanze bewegen", "Mit diesen Buttons kannst du die Pflanze nach unten und oben bewegen und drehen"),
             new(zoomControlButtons, "Heranzoomen", "Mit diesen Buttons kannst du die Zoomstufe einstellen"),
-            new(_seedSelectionContainer, "Anpflanzen einer Pflanze", "Hier kannst du eine neue Pflanze in den Topf anpflanzen. Danach erfährst du hier mehr Informationen über die Pflanze"),
+            new(_seedSelectionContainer, "Anpflanzen einer Pflanze", "Hier kannst du eine neue Pflanze in den Topf anpflanzen. Das Anpflanzen ist natürlich nur möglich, wenn du Samen hast!"),
             new(wiki, "Enzyklopädie", "Wenn du über verschiedene Elemente mit der Maus fährst, kannst du hier weitere Informationen erhalten"),
         });
     }

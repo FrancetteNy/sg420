@@ -109,8 +109,10 @@ public enum Room
 public class OnboardingDoneData
 {
     public bool DetailviewOnboardingIsDone;
+    public bool HudOnboardingIsDone;
     public OnboardingDoneData()
     {
         DetailviewOnboardingIsDone = false;
+        HudOnboardingIsDone = false;
     }
 }

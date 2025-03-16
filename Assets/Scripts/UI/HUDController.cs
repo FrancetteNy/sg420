@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,15 +7,15 @@ public class HUDController : MonoBehaviour
     private VisualElement _root;
     UIManager _manager;
     private Label _currentDayLabel;
-    private Label _harvestedPlantCountLabel;
-    private Label _finishedDriedCountLabel;
-    private Label _scoreLabel;
-    private Label _moneyLabel;
+    private Label _harvestedPlantCountLabel, _finishedDriedCountLabel, _scoreLabel, _moneyLabel;
 
-    private Button _changeToMainRoomButton;
-    private Button _changeToDryingRoomButton;
+    private Button _changeToMainRoomButton, _changeToDryingRoomButton,
+        _advanceDayButton, _shopButton, _inventoryButton,
+        _openMainmenuButton, _openChatButton, _openQuestLogButton;
 
     private GameState _gameState;
+
+    private bool _isInitialized;
     public void Initialize(VisualElement root)
     {
         _root = root;
@@ -25,20 +26,56 @@ public class HUDController : MonoBehaviour
         SetupButtons();
         SetupLabels();
         UpdateHUD();
+        _isInitialized = true;
     }
+
+    private void OnEnable()
+    {
+        if (GameStateManagerSingleton.Instance.IsGameLoaded && _isInitialized)
+        {
+
+            if (!_gameState.OnboardingDoneData.HudOnboardingIsDone)
+            {
+                _gameState.OnboardingDoneData.HudOnboardingIsDone = true;
+                StartOnboarding();
+            }
+        }
+    }
+
+    private void StartOnboarding()
+    {
+        UIEvents.ShowOnboardingView(new() {
+            new(null, "Willkommen", "Herzlich willkommen! Du bist der Erbe eines sehr beliebten Growers: Deinem Großvater. Er hat dir seinen Growroom und einige Bücher vererbt."),
+            new(null, "Willkommen", "Dir stehen bis zu vier Töpfe zur Verfügung, in denen du Cannabis anbauen kannst!"),
+            new(null, "Willkommen", "Dir sollte in ein paar Tagen Lara Gruen schreiben und dich einweisen, bis dahin kannst du dich schonmal umschauen."),
+            new(null, "Willkommen", "Übrigens: Alle Fenster kannst du einfach mit Esc schließen! (außer dieses hier :) )"),
+            new(_advanceDayButton, "Nächster Tage", "Hier kannst du den nächsten Tag starten"),
+            new(_currentDayLabel, "Aktueller Tag", "Hier siehst du welcher Tag heute ist"),
+            new(_harvestedPlantCountLabel.parent, "Geerntete Pflanzen", "Hier siehst du wieviele ungetrocknete Pflanzen du hast"),
+            new(_finishedDriedCountLabel.parent, "Getrocknete Pflanzen", "Hier siehst du wieviele getrocknete Pflanzen du hast"),
+            new(_scoreLabel.parent, "Punkte", "Hier siehst wieviele Punkte du gesammelt hast"),
+            new(_moneyLabel.parent, "Geld", "Hier siehst du wieviel Geld du hast"),
+            new(_openMainmenuButton, "Hauptmenü", "Hier kannst du das Hauptmenü öffnen, um zu speichern, zu laden oder das Spiel zu beenden."),
+            new(_openChatButton, "Chat", "Hier kannst du mit Freunden chatten"),
+            new(_openQuestLogButton, "Questlog", "Hier siehst du alle aktuellen Quests"),
+            new(_shopButton, "Shop", "Hier kannst du Dinge kaufen"),
+            new(_inventoryButton, "Inventar", "Hier kannst du dein Inventar anschauen"),
+        });
+    }
+
     private void SetupButtons()
     {
-        var advanceDayButton = _root.Q<Button>("advance-day-button");
-        advanceDayButton.clicked += GameStateManagerSingleton.Instance.AdvanceDay;
-        advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _advanceDayButton = _root.Q<Button>("advance-day-button");
+        _advanceDayButton.clicked += GameStateManagerSingleton.Instance.AdvanceDay;
+        _advanceDayButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
         
-        var inventarButton = _root.Q<Button>("inventar-button");
-        inventarButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
-        inventarButton.clicked += () => UIEvents.ShowInventar.Invoke();
+        _inventoryButton = _root.Q<Button>("inventar-button");
+        _inventoryButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _inventoryButton.clicked += () => UIEvents.ShowInventar.Invoke();
 
-        var shopButton = _root.Q<Button>("shop-button");
-        shopButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
-        shopButton.clicked += () => UIEvents.ShowShop.Invoke();
+        _shopButton = _root.Q<Button>("shop-button");
+        _shopButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _shopButton.clicked += () => UIEvents.ShowShop.Invoke();
 
         
 
@@ -48,17 +85,17 @@ public class HUDController : MonoBehaviour
         _changeToDryingRoomButton = _root.Q<Button>("change-to-drying-room-button");
         _changeToDryingRoomButton.clicked += _manager.ChangeToDryingRoom;
         _changeToDryingRoomButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
-        var openMainmenuButton = _root.Q<Button>("open-mainmenu-button");
-        openMainmenuButton.clicked += () => UIEvents.ShowMainMenuView.Invoke();
-        openMainmenuButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _openMainmenuButton = _root.Q<Button>("open-mainmenu-button");
+        _openMainmenuButton.clicked += () => UIEvents.ShowMainMenuView.Invoke();
+        _openMainmenuButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        var openChatButton = _root.Q<Button>("open-chat-button");
-        openChatButton.clicked += () => UIEvents.ShowChatView.Invoke();
-        openChatButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _openChatButton = _root.Q<Button>("open-chat-button");
+        _openChatButton.clicked += () => UIEvents.ShowChatView.Invoke();
+        _openChatButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
 
-        var openQuestLogButton = _root.Q<Button>("open-questlog-button");
-        openQuestLogButton.clicked += () => UIEvents.ShowQuestLog.Invoke();
-        openQuestLogButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _openQuestLogButton = _root.Q<Button>("open-questlog-button");
+        _openQuestLogButton.clicked += () => UIEvents.ShowQuestLog.Invoke();
+        _openQuestLogButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
     }
 
     private void SetupLabels()
