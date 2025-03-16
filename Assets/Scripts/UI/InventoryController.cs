@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -82,17 +83,42 @@ public class InventoryController : MonoBehaviour
                 }
                 break;
             case InventoryTab.HarvestedPlants:
+                foreach (var plant in _gameState.HarvestedPlantDataList.List)
+                {
+                    var plantElement = CreatePlantElement(plant);
+                    _inventoryContent.Add(plantElement);
+                }
                 break;
             case InventoryTab.DriedPlants:
+                foreach (var plant in _gameState.CompletedDriedPlantDataList.List)
+                {
+                    var plantElement = CreatePlantElement(plant.OldPlantData);
+                    _inventoryContent.Add(plantElement);
+                }
                 break;
             default:
                 break;
         }
     }
 
+    private VisualElement CreatePlantElement(PlantData plant)
+    {
+        var itemElement = new VisualElement();
+        itemElement.AddToClassList("inventory-item");
+
+
+        var nameLabel = new Label(plant.Strain.ToString());
+        nameLabel.AddToClassList("item-name");
+        itemElement.Add(nameLabel);
+
+        var amountLabel = new Label($"Qualität: {plant.Quality}");
+        itemElement.Add(amountLabel);
+
+        return itemElement;
+    }
+
     private VisualElement CreateSeedElement(Seed seed, int amount)
     {
-
         var itemElement = new VisualElement();
         itemElement.AddToClassList("inventory-item");
 
