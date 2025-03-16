@@ -24,7 +24,7 @@ public class PlantData
         this.Potsize = Potsize.Cultivation;
         this.Age = new(growthStage, 0);
         this.Strain = strain;
-        this.Soil = new(0, 0);
+        this.Soil = new();
         this.CannabisBranches = new List<CannabisBranch>();
         this.Quality = quality;
 
@@ -166,6 +166,8 @@ public class Soil
 {
     public float StoredWater;
     public float StoredNutrients;
+
+    public Soil() : this(0, 0) { }
 
     public Soil(float storedWater, float storedNutrients)
     {

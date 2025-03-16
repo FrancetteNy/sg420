@@ -98,9 +98,10 @@
                             <ui:Label text="Topfgröße:" name="name" class="property-text" />
                             <ui:Label name="value" text="-" class="property-text" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="potsize" class="name-and-value" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; align-content: center; width: 50%;">
+                        <ui:VisualElement name="plant-controls" class="name-and-value" style="flex-grow: 1; flex-direction: row; align-items: center; justify-content: flex-start; align-self: center; align-content: center; width: 650px;">
                             <ui:Button text="Umtopfen" name="open-change-pot-submenu-button" class="custom-button" style="flex-grow: 1;" />
                             <ui:Button text="Gießen" name="open-watering-submenu-button" class="custom-button" style="flex-grow: 1;" />
+                            <ui:Button text="Erde erneuern" name="purge-water-and-nutrients-button" class="custom-button" style="flex-grow: 1;" />
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
