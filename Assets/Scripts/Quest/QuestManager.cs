@@ -62,13 +62,13 @@ public class QuestManager : MonoBehaviour
         quest.ObjectiveProgress += 1;
         if (objective.RepeatsNeeded > quest.ObjectiveProgress)
         {
-            MessageSystem.FireEvent(MessageSystemEvent.FinishObjective);
+            MessageSystem.FireEvent(MessageSystemEvent.ObjectiveFinished);
             return;
         }
         quest.ObjectiveIndex += 1;
         MessageSystem.StopListening(objective.EventThatFinishesObjective, _objectiveActions[objective]);
         _objectiveActions.Remove(objective);
-        if (objective.FireEventWhenObjectIsFinished)
+        if (objective.FireEventWhenObjectiveIsFinished)
         {
             MessageSystem.FireEvent(objective.EventAfterObjectiveCompleted);
         }
@@ -89,7 +89,7 @@ public class QuestManager : MonoBehaviour
             UIEvents.AddNotification(new("Quest beendet", notificationMessage));
             GameState.UpdateHUD?.Invoke();
         }
-        MessageSystem.FireEvent(MessageSystemEvent.FinishObjective);
+        MessageSystem.FireEvent(MessageSystemEvent.ObjectiveFinished);
     }
 
     private void SetUpCurrentObjective(QuestWithObjectiveIndex quest)

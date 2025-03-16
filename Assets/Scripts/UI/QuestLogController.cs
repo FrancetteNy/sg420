@@ -56,11 +56,11 @@ public class QuestLogController : MonoBehaviour
         _gameState = GameStateManagerSingleton.Instance.GameState;
         _activeQuestsList = _gameState.ActiveQuestsList.List;
         SetUpListView();
-        MessageSystem.StartListening(MessageSystemEvent.FinishObjective, RefreshView);
+        MessageSystem.StartListening(MessageSystemEvent.ObjectiveFinished, RefreshView);
     }
     private void OnDestroy()
     {
-        MessageSystem.StopListening(MessageSystemEvent.FinishObjective, RefreshView);
+        MessageSystem.StopListening(MessageSystemEvent.ObjectiveFinished, RefreshView);
     }
     public void RefreshView()
     {

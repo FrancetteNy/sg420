@@ -19,7 +19,7 @@ public class Objective
     public string ObjectiveName;
     [TextArea(3, 10)] public string ObjectiveDescription;
     public MessageSystemEvent EventThatFinishesObjective;
-    public bool FireEventWhenObjectIsFinished;
+    public bool FireEventWhenObjectiveIsFinished;
     public MessageSystemEvent EventAfterObjectiveCompleted;
     public int RepeatsNeeded;
 }

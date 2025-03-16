@@ -143,7 +143,7 @@ public class NotificationData
     public float TimeToShowNotification;
     public Action OnClick;
 
-    public NotificationData(string title, string message, float timeToShowNotification = -1, Action onClick = null)
+    public NotificationData(string title, string message, float timeToShowNotification = 3, Action onClick = null)
     {
         Title = title;
         Message = message;

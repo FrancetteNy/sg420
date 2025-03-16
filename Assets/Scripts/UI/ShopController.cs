@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,6 +9,7 @@ public class ShopController : MonoBehaviour
     private VisualElement _root;
     private VisualElement _tabContent, _shopContainer;
     private GameState _gameState;
+    private Dictionary<Button, Action> _onclickedActions;
 
     public void Initialize(VisualElement root)
     {
@@ -21,12 +23,18 @@ public class ShopController : MonoBehaviour
 
         _root.Q<Button>("close-button").clicked += () => UIEvents.HideShop.Invoke();
         _root.Q<Button>("close-button").clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
+        _onclickedActions = new Dictionary<Button, Action>();
         LoadShopItems();
         MessageSystem.StartListening(MessageSystemEvent.InventoryUpdated, LoadShopItems);
     }
     private void OnDestroy()
     {
         MessageSystem.StopListening(MessageSystemEvent.InventoryUpdated, LoadShopItems);
+        foreach (var (button, action) in _onclickedActions)
+        {
+            button.clicked -= action;
+        }
+        _onclickedActions.Clear();
     }
     private void LoadShopItems()
     {
@@ -39,7 +47,7 @@ public class ShopController : MonoBehaviour
         }
     }
 
-   
+
     private VisualElement CreateShopItemElement(ShopItem item)
     {
         var itemElement = new VisualElement();
@@ -68,15 +76,20 @@ public class ShopController : MonoBehaviour
 
         var buyButton = new Button();
         buyButton.text = "Kaufen";
-        buyButton.clicked += () => SoundManagerSingleton.Instance.PlaySound("Click");
-        buyButton.clicked += () => OnBuyButtonClicked(item);
+        Action onclickAction = () =>
+        {
+            SoundManagerSingleton.Instance.PlaySound("Click");
+            OnBuyButtonClicked(item);
+        };
+        buyButton.clicked += onclickAction;
+        _onclickedActions[buyButton] = onclickAction;
         buyButton.AddToClassList("shop-item-button");
         itemElement.Add(buyButton);
 
         return itemElement;
     }
 
-    
+
     private void OnBuyButtonClicked(ShopItem item)
     {
         var gameState = GameStateManagerSingleton.Instance.GameState;
