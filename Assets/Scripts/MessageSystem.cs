@@ -130,12 +130,12 @@ public class MessageSystem : SingletonViaPrefab<MessageSystem>
 
     public static void FireEvent(MessageSystemEvent eventName)
     {
-        Debug.Log("want to fire event " + eventName);
+        //Debug.Log("want to fire event " + eventName);
         UnityEvent thisEvent = null;
         if (Instance._eventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke();
-            Debug.Log($"Firing event {eventName}");
+            //Debug.Log($"Firing event {eventName}");
         }
     }
     /*
@@ -168,7 +168,7 @@ public class MessageSystem : SingletonViaPrefab<MessageSystem>
         if (Instance._stringEventDictionary.TryGetValue(eventName, out thisEvent))
         {
             thisEvent.Invoke(value);
-            Debug.Log($"Firing event {eventName} with string value {value}");
+            //Debug.Log($"Firing event {eventName} with string value {value}");
         }
         FireEvent(eventName);
     }

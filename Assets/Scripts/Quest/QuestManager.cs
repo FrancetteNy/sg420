@@ -32,14 +32,31 @@ public class QuestManager : MonoBehaviour
             MessageSystem.StartListening(quest.Quest.EventThatStartsQuest, action);
         }
     }
+    private void OnDestroy()
+    {
+        foreach (QuestWithObjectiveIndex quest in _lockedQuests)
+        {
+            MessageSystem.StopListening(quest.Quest.EventThatStartsQuest, _startQuestActions[quest]);
+        }
+    }
     private void StartQuest(QuestWithObjectiveIndex quest)
     {
-        _lockedQuests.Remove(quest);
+        if (!_lockedQuests.Remove(quest))
+        {
+            return;
+        }
         if (_startQuestActions.TryGetValue(quest, out var action)){
             MessageSystem.StopListening(quest.Quest.EventThatStartsQuest, action);
         }
-        
-        _startQuestActions.Remove(quest);
+        else
+        {
+            return;
+        }
+
+        if (!_startQuestActions.Remove(quest))
+        {
+            return;
+        }
         if (!_gameState.ActiveQuestsList.List.Contains(quest))
         {
             _gameState.ActiveQuestsList.List.Add(quest);

@@ -63,19 +63,19 @@ public class PlantManager : MonoBehaviour
         if (plantData.Soil.StoredWater < PlantManagerConstants.MinWater)
         {
             plantData.Quality -= PlantManagerConstants.QualityPunishmentUnderWatering;
-            Debug.Log($"Not enough water {plant}. Current {plantData.Soil.StoredWater}");
+            //Debug.Log($"Not enough water {plant}. Current {plantData.Soil.StoredWater}");
         }
         else if (plantData.Soil.StoredWater > PlantManagerConstants.MaxWater)
         {
             plantData.Quality -= PlantManagerConstants.QualityPunishmentOverWatering;
-            Debug.Log($"Too much water {plant}. Current: {plantData.Soil.StoredWater}");
+            //Debug.Log($"Too much water {plant}. Current: {plantData.Soil.StoredWater}");
         }
         else
         {
-            Debug.Log($"Enougth water {plant}. Current: {plantData.Soil.StoredWater}");
+            //Debug.Log($"Enougth water {plant}. Current: {plantData.Soil.StoredWater}");
             if (plantData.Age.Stage == Age.GrowthStage.FLOWERING && plantData.Age.AgeNumber >= PlantManagerConstants.MaxFloweringAge)
             {
-                Debug.Log($"Plant too old to grow {plant}");
+                //Debug.Log($"Plant too old to grow {plant}");
             }
             else
             {
@@ -85,18 +85,18 @@ public class PlantManager : MonoBehaviour
         if (plantData.Soil.StoredNutrients < PlantManagerConstants.MinNutrients)
         {
             plantData.Quality -= PlantManagerConstants.QualityPunishmentNotEnoughNutrients;
-            Debug.Log($"Not enough Nutrients {plant}");
+            //Debug.Log($"Not enough Nutrients {plant}");
         }
         else if (plantData.Soil.StoredNutrients > PlantManagerConstants.MaxNutrients)
         {
             plantData.Quality -= PlantManagerConstants.QualityPunishmentTooMuchNutrients;
-            Debug.Log($"Too much Nutrients {plant}");
+            //Debug.Log($"Too much Nutrients {plant}");
         }
         else
         {
             if (plantData.Age.Stage == Age.GrowthStage.FLOWERING && plantData.Age.AgeNumber >= PlantManagerConstants.MaxFloweringAge)
             {
-                Debug.Log($"Plant too old to grow {plant}");
+                //Debug.Log($"Plant too old to grow {plant}");
             }
             else
             {

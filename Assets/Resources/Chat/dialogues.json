@@ -281,7 +281,6 @@
                 ],
                 "Requirements": {},
                 "Unlocks": [
-                  "QuestUnlocked:ErsteSamen",
                   "MechanicUnlocked:Shop"
                 ]
               },
@@ -295,7 +294,9 @@
                 "Unlocks": []
               }
             ],
-            "Unlocks": []
+            "Unlocks": [
+              "QuestUnlocked:ErsteSamen"
+            ]
           },
           {
             "ID": 1,
@@ -305,7 +306,6 @@
             ],
             "Answers": [],
             "Unlocks": [
-              "QuestUnlocked:ErsteSamen",
               "MechanicUnlocked:Shop"
             ]
           },
